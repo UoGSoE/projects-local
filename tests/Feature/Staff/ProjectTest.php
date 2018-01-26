@@ -7,6 +7,8 @@ use App\Course;
 use App\Project;
 use App\Programme;
 use Tests\TestCase;
+use App\Mail\AcceptedOntoProject;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -215,6 +217,7 @@ class ProjectTest extends TestCase
     /** @test */
     public function staff_can_accept_first_choice_students_for_undergrad_projects()
     {
+        Mail::fake();
         // given we have a member of staff with an undergrad project and a student has applied as their 1st choice
         $staff = create(User::class, ['is_staff' => true]);
         $student = create(User::class, ['is_staff' => false]);
@@ -272,6 +275,7 @@ class ProjectTest extends TestCase
     /** @test */
     public function when_staff_accept_a_student_the_students_other_project_choices_are_removed()
     {
+        Mail::fake();
         $staff = create(User::class, ['is_staff' => true]);
         $student = create(User::class, ['is_staff' => false]);
         $project1 = create(Project::class, ['staff_id' => $staff->id, 'category' => 'undergrad']);
@@ -288,5 +292,23 @@ class ProjectTest extends TestCase
         $this->assertTrue($project1->students()->first()->isAccepted());
         $this->assertEquals(1, $student->projects()->count());
         $this->assertEquals($project1->id, $student->projects()->first()->id);
+    }
+
+    /** @test */
+    public function when_staff_accept_a_student_the_student_gets_an_email_sent_to_them()
+    {
+        Mail::fake();
+        $staff = create(User::class, ['is_staff' => true]);
+        $student = create(User::class, ['is_staff' => false]);
+        $project = create(Project::class, ['staff_id' => $staff->id, 'category' => 'undergrad']);
+        $student->projects()->sync([$project->id => ['choice' => 1]]);
+
+        $response = $this->actingAs($staff)->post(route('project.accept_students', $project->id), [
+            'students' => [$student->id],
+        ]);
+
+        Mail::assertQueued(AcceptedOntoProject::class, function ($mail) use ($project, $student) {
+            return $mail->hasTo($student->email);
+        });
     }
 }
