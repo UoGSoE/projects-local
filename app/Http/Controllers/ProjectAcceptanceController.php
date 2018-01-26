@@ -17,7 +17,7 @@ class ProjectAcceptanceController extends Controller
         $project = Project::findOrFail($id);
         $students = User::students()->findMany($request->students);
         $students->each(function ($student) use ($project) {
-            $student->projects()->sync([$project->id => ['is_accepted' => true]]);
+            $project->accept($student);
         });
 
         return redirect(route('project.show', $project->id))->with('success', 'Students Accepted');

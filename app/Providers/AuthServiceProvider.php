@@ -26,6 +26,24 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::define('accept-students', function ($user, $project) {
+            if ($user->isAdmin()) {
+                return true;
+            }
+            if ($project->category == 'undergrad') {
+                return true;
+            }
+            return false;
+        });
+
+        Gate::define('accept-onto-project', function ($user, $student, $project) {
+            if ($user->isAdmin()) {
+                return true;
+            }
+            if ($student->isFirstChoice($project)) {
+                return true;
+            }
+            return false;
+        });
     }
 }

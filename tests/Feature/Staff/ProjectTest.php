@@ -215,20 +215,58 @@ class ProjectTest extends TestCase
     /** @test */
     public function staff_can_accept_first_choice_students_for_undergrad_projects()
     {
-        $this->withoutExceptionHandling();
+        // given we have a member of staff with an undergrad project and a student has applied as their 1st choice
         $staff = create(User::class, ['is_staff' => true]);
         $student = create(User::class, ['is_staff' => false]);
         $project = create(Project::class, ['staff_id' => $staff->id, 'category' => 'undergrad']);
         $student->projects()->sync([$project->id => ['choice' => 1]]);
         $this->assertFalse($project->students()->first()->isAccepted());
 
+        // when we view the project
+        $response = $this->actingAs($staff)->get(route('project.show', $project->id));
+
+        // we should see the html form markup for the student choice tickbox
+        $response->assertSuccessful();
+        $response->assertSee("students[{$student->id}]");
+
+        // and when we submit the form
         $response = $this->actingAs($staff)->post(route('project.accept_students', $project->id), [
             'students' => [$student->id],
         ]);
 
+        // the student should be accepted
         $response->assertRedirect(route('project.show', $project->id));
         $response->assertSessionHas('success');
         $this->assertTrue($project->students()->first()->isAccepted());
+    }
+
+    /** @test */
+    public function staff_dont_get_the_option_to_accept_non_first_choice_students_for_undergrad_projects()
+    {
+        $staff = create(User::class, ['is_staff' => true]);
+        $student = create(User::class, ['is_staff' => false]);
+        $project = create(Project::class, ['staff_id' => $staff->id, 'category' => 'undergrad']);
+        $student->projects()->sync([$project->id => ['choice' => 2]]);
+        $this->assertFalse($project->students()->first()->isAccepted());
+
+        $response = $this->actingAs($staff)->get(route('project.show', $project->id));
+
+        $response->assertSuccessful();
+        $response->assertDontSee("students[{$student->id}]");
+    }
+
+    /** @test */
+    public function staff_dont_get_the_option_to_accept_students_for_postgrad_projects()
+    {
+        $staff = create(User::class, ['is_staff' => true]);
+        $student = create(User::class, ['is_staff' => false]);
+        $project = create(Project::class, ['staff_id' => $staff->id, 'category' => 'postgrad']);
+        $student->projects()->sync([$project->id => ['choice' => 1]]);
+
+        $response = $this->actingAs($staff)->get(route('project.show', $project->id));
+
+        $response->assertSuccessful();
+        $response->assertDontSee("students[{$student->id}]");
     }
 
     /** @test */

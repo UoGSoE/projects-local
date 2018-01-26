@@ -20,6 +20,11 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    protected $casts = [
+        'is_staff' => 'boolean',
+        'is_admin' => 'boolean',
+    ];
+
     public function projects()
     {
         if ($this->is_staff) {
@@ -41,5 +46,18 @@ class User extends Authenticatable
     public function isAccepted()
     {
         return $this->projects()->wherePivot('is_accepted', '=', true)->count() > 0;
+    }
+
+    public function isAdmin()
+    {
+        return $this->is_admin;
+    }
+
+    public function isFirstChoice(Project $project)
+    {
+        if ($this->projects()->where('project_id', '=', $project->id)->wherePivot('choice', '=', 1)->first()) {
+            return true;
+        }
+        return false;
     }
 }

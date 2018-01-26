@@ -20,6 +20,12 @@ class Project extends Model
 
     public function students()
     {
-        return $this->belongsToMany(User::class, 'project_students', 'id', 'student_id');
+        return $this->belongsToMany(User::class, 'project_students', 'id', 'student_id')
+                    ->withPivot('is_accepted', 'choice');
+    }
+
+    public function accept(User $student)
+    {
+        $student->projects()->sync([$this->id => ['is_accepted' => true]]);
     }
 }
