@@ -6,6 +6,8 @@ use App\User;
 use App\Course;
 use App\Project;
 use Tests\TestCase;
+use App\Mail\ChoiceConfirmation;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -14,21 +16,21 @@ class ProjectTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function a_student_only_sees_projects_for_the_course_they_are_on()
+    public function a_student_only_sees_projects_for_the_course_they_are_on_when_visiting_the_homepage()
     {
         // given we have a student
         $student = create(User::class, ['is_staff' => false]);
         // and two courses
         $course1 = create(Course::class);
         $course2 = create(Course::class);
-        // and the student is only on course1
-        $course1->students()->sync([$student->id]);
         // and we have a project assigned to course1
         $project1 = create(Project::class);
         $project1->courses()->sync([$course1->id]);
         // and another project assigned to course2
         $project2 = create(Project::class);
         $project2->courses()->sync([$course2->id]);
+        // but the student is on course1
+        $course1->students()->sync([$student->id]);
 
         // when the student goes to the homepage
         $response = $this->actingAs($student)->get(route('home'));
@@ -72,6 +74,7 @@ class ProjectTest extends TestCase
     /** @test */
     public function a_student_can_apply_for_the_required_number_of_projects()
     {
+        Mail::fake();
         // given we have a student on a course
         $student = create(User::class, ['is_staff' => false]);
         $course = create(Course::class);
@@ -81,7 +84,7 @@ class ProjectTest extends TestCase
         $project2 = create(Project::class);
         $project3 = create(Project::class);
         $course->projects()->sync([$project1->id, $project2->id, $project3->id]);
-        // and given that the maximum they can apply for is 2
+        // and given that the required number to apply for is 2
         config(['projects.required_projects' => 2]);
 
         // then if they apply for 2
@@ -126,5 +129,41 @@ class ProjectTest extends TestCase
         $response->assertStatus(302);
         $response->assertSessionHas('errors');
         $this->assertCount(0, $student->projects);
+    }
+
+    /** @test */
+    public function a_student_gets_a_confirmation_email_with_the_projects_they_have_chosen_when_then_apply()
+    {
+        Mail::fake();
+        // given we have a student on a course
+        $student = create(User::class, ['is_staff' => false]);
+        $course = create(Course::class);
+        $course->students()->sync([$student->id]);
+        // and given we have three projects
+        $project1 = create(Project::class);
+        $project2 = create(Project::class);
+        $project3 = create(Project::class);
+        $course->projects()->sync([$project1->id, $project2->id, $project3->id]);
+        // and given that the maximum they can apply for is 2
+        config(['projects.required_projects' => 2]);
+
+        // then if they apply for 2
+        $response = $this->actingAs($student)->post(route('projects.choose'), [
+            'choices' => [
+                [1 => $project3->id],
+                [2 => $project1->id],
+            ]
+        ]);
+
+        // then they get the thank you page and the choices are stored
+        $response->assertStatus(302);
+        $response->assertRedirect(route('thank_you'));
+        $response->assertSessionMissing('errors');
+        $this->assertCount(2, $student->projects);
+
+        // and they are sent a confirmation email
+        Mail::assertQueued(ChoiceConfirmation::class, function ($mail) use ($student, $project1, $project2, $project3) {
+            return $mail->hasTo($student->email) && $mail->student->is($student);
+        });
     }
 }
