@@ -26,3 +26,5 @@ Route::post('/project', 'ProjectController@store')->name('project.store');
 Route::post('/project/{id}', 'ProjectController@update')->name('project.update');
 Route::delete('/project/{id}', 'ProjectController@destroy')->name('project.delete');
 Route::post('/project/{id}/accept-students', 'ProjectAcceptanceController@store')->name('project.accept_students');
+Route::post('/choices', 'ChoiceController@store')->name('projects.choose');
+Route::get('/thank-you', 'ChoiceController@thankYou')->name('thank_you');

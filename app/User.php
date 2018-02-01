@@ -33,6 +33,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Project::class, 'project_students', 'student_id');
     }
 
+    public function courses()
+    {
+        return $this->belongsToMany(Course::class, 'course_students', 'student_id', 'course_id');
+    }
+
     public function scopeStudents($query)
     {
         return $query->where('is_staff', '=', false);
@@ -51,6 +56,16 @@ class User extends Authenticatable
     public function isAdmin()
     {
         return $this->is_admin;
+    }
+
+    public function isStaff()
+    {
+        return $this->is_staff;
+    }
+
+    public function isStudent()
+    {
+        return ! $this->isStaff();
     }
 
     public function isFirstChoice(Project $project)
