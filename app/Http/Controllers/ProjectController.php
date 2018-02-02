@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Project;
 use Illuminate\Http\Request;
 
@@ -25,9 +26,14 @@ class ProjectController extends Controller
             'max_students' => 'required|integer',
             'courses' => 'required|array|min:1',
             'programmes' => 'required|array|min:1',
+            'staff_id' => 'nullable|integer',
         ]);
 
-        $project = $request->user()->projects()->create(collect($data)->except(['courses', 'programmes'])->toArray());
+        $user = $request->user();
+        if ($user->isAdmin() and $request->filled('staff_id')) {
+            $user = User::findOrFail($request->staff_id);
+        }
+        $project = $user->projects()->create(collect($data)->except(['courses', 'programmes'])->toArray());
         $project->programmes()->sync($request->programmes);
         $project->courses()->sync($request->courses);
 
@@ -44,11 +50,16 @@ class ProjectController extends Controller
             'max_students' => 'required|integer',
             'courses' => 'required|array|min:1',
             'programmes' => 'required|array|min:1',
+            'staff_id' => 'nullable|integer',
         ]);
 
         $project = Project::findOrFail($id);
         $this->authorize('update', $project);
 
+        $user = $request->user();
+        if ($user->isAdmin() and $request->filled('staff_id')) {
+            $user = User::findOrFail($request->staff_id);
+        }
         $project->update(collect($data)->except(['courses', 'programmes'])->toArray());
         $project->programmes()->sync($request->programmes);
         $project->courses()->sync($request->courses);
@@ -63,6 +74,6 @@ class ProjectController extends Controller
 
         $project->delete();
 
-        return redirect(route('home'))->with('success', 'Project Deleted');
+        return redirect()->route('home')->with('success', 'Project Deleted');
     }
 }
