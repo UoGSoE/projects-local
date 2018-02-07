@@ -247,7 +247,19 @@ class ProjectTest extends TestCase
     /** @test */
     public function an_admin_can_clear_all_students()
     {
+        $admin = create(User::class, ['is_admin' => true]);
+        $student1 = create(User::class, ['is_staff' => false]);
+        $student2 = create(User::class, ['is_staff' => false]);
+        $staff = create(User::class, ['is_staff' => true]);
 
+        $response = $this->actingAs($admin)->delete(route('students.remove_all'));
+
+        $response->assertStatus(302);
+        $response->assertSessionMissing('errors');
+        $this->assertDatabaseMissing('users', ['id' => $student1->id]);
+        $this->assertDatabaseMissing('users', ['id' => $student2->id]);
+        $this->assertDatabaseHas('users', ['id' => $admin->id]);
+        $this->assertDatabaseHas('users', ['id' => $staff->id]);
     }
 
     /** @test */
@@ -257,14 +269,22 @@ class ProjectTest extends TestCase
     }
 
     /** @test */
-    public function an_admin_can_impersonate_a_student()
+    public function an_admin_can_impersonate_another_user()
     {
+        $admin = create(User::class, ['is_admin' => true]);
+        $user = create(User::class);
 
-    }
+        login($admin);
+        $this->assertEquals(auth()->id(), $admin->id);
 
-    /** @test */
-    public function an_admin_can_impersonate_a_member_of_staff()
-    {
+        $response = $this->post(route('impersonate.start', $user->id));
 
+        $this->assertEquals(auth()->id(), $user->id);
+        $response->assertSessionHas('original_id', $admin->id);
+
+        $response = $this->delete(route('impersonate.stop'));
+
+        $this->assertEquals(auth()->id(), $admin->id);
+        $response->assertSessionMissing('original_id');
     }
 }
