@@ -160,13 +160,35 @@ class ProjectTest extends TestCase
     /** @test */
     public function an_admin_can_accept_any_student_on_a_given_project()
     {
+        Mail::fake();
+        // given we have a an undergrad project and a student has applied as their 2nd choice
+        $admin = create(User::class, ['is_admin' => true]);
+        $student = create(User::class, ['is_staff' => false]);
+        $project = create(Project::class, ['category' => 'undergrad']);
+        $student->projects()->sync([$project->id => ['choice' => 2]]);
+        $this->assertFalse($project->students()->first()->isAccepted());
 
+        // when we view the project
+        $response = $this->actingAs($admin)->get(route('project.show', $project->id));
+
+        // we should see the html form markup for the student choice tickbox (where-as regular staff wouldn't)
+        $response->assertSuccessful();
+        $response->assertSee("students[{$student->id}]");
+
+        // and when we submit the form
+        $response = $this->actingAs($admin)->post(route('project.accept_students', $project->id), [
+            'students' => [$student->id],
+        ]);
+
+        // the student should be accepted
+        $response->assertRedirect(route('project.show', $project->id));
+        $response->assertSessionHas('success');
+        $this->assertTrue($project->students()->first()->isAccepted());
     }
 
     /** @test */
     public function an_admin_can_bulk_accept_students_onto_projects()
     {
-        $this->withoutExceptionHandling();
         Mail::fake();
         // given we have an admin
         $admin = create(User::class, ['is_admin' => true]);
@@ -221,7 +243,6 @@ class ProjectTest extends TestCase
     /** @test */
     public function an_admin_can_clear_all_students_postgrad_or_undergrad_students()
     {
-        $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_admin' => true]);
         $undergrad = create(User::class, ['is_staff' => false]);
         $postgrad = create(User::class, ['is_staff' => false]);
