@@ -7,6 +7,8 @@ use App\Course;
 use App\Project;
 use App\Programme;
 use Tests\TestCase;
+use App\Mail\AcceptedOntoProject;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -164,19 +166,82 @@ class ProjectTest extends TestCase
     /** @test */
     public function an_admin_can_bulk_accept_students_onto_projects()
     {
+        $this->withoutExceptionHandling();
+        Mail::fake();
+        // given we have an admin
+        $admin = create(User::class, ['is_admin' => true]);
+        // and some projects
+        $project1 = create(Project::class);
+        $project2 = create(Project::class);
+        // and some students
+        $student1 = create(User::class, ['is_staff' => false]);
+        $student2 = create(User::class, ['is_staff' => false]);
+        $student3 = create(User::class, ['is_staff' => false]);
+        // and the students have chosen projects
+        $student1->projects()->sync([$project1->id => ['choice' => 1]]);
+        $student2->projects()->sync([$project2->id => ['choice' => 2]]);
+        $student3->projects()->sync([$project2->id => ['choice' => 2]]);
+        $this->assertEquals(2, $project2->students()->count());
 
+        // when the admin does a bulk accept post
+        $response = $this->actingAs($admin)->post(route('project.bulk_accept'), [
+            'students' => [
+                [$student1->id => $project1->id],
+                [$student2->id => $project2->id],
+            ],
+        ]);
+
+        // we should see the correct students have now been accepted
+        $response->assertStatus(302);
+        $response->assertSessionMissing('errors');
+        $this->assertEquals(1, $project1->students()->count());
+        $this->assertEquals(2, $project2->students()->count());
+        $this->assertTrue($student1->isAccepted());
+        $this->assertTrue($student2->isAccepted());
+        $this->assertFalse($student3->isAccepted());
+        // and they have been sent acceptance emails
+        Mail::assertQueued(AcceptedOntoProject::class, 2);
     }
 
     /** @test */
     public function an_admin_can_clear_all_students_from_a_given_course()
     {
+        $admin = create(User::class, ['is_admin' => true]);
+        $course = create(Course::class);
+        $students = create(User::class, ['is_staff' => false], 3);
+        $course->students()->sync($students->pluck('id')->toArray());
 
+        $response = $this->actingAs($admin)->delete(route('course.remove_students', $course->id));
+
+        $response->assertStatus(302);
+        $response->assertSessionMissing('errors');
+        $this->assertCount(0, $course->students);
     }
 
     /** @test */
     public function an_admin_can_clear_all_students_postgrad_or_undergrad_students()
     {
+        $this->withoutExceptionHandling();
+        $admin = create(User::class, ['is_admin' => true]);
+        $undergrad = create(User::class, ['is_staff' => false]);
+        $postgrad = create(User::class, ['is_staff' => false]);
+        $ugradProject = create(Project::class, ['category' => 'undergrad']);
+        $pgradProject = create(Project::class, ['category' => 'postgrad']);
+        $undergrad->projects()->sync([$ugradProject->id => ['choice' => 1]]);
+        $postgrad->projects()->sync([$pgradProject->id => ['choice' => 1]]);
 
+        $response = $this->actingAs($admin)->delete(route('students.remove_undergrads'));
+
+        $response->assertStatus(302);
+        $response->assertSessionMissing('errors');
+        $this->assertDatabaseMissing('users', ['id' => $undergrad->id]);
+        $this->assertDatabaseHas('users', ['id' => $postgrad->id]);
+
+        $response = $this->actingAs($admin)->delete(route('students.remove_postgrads'));
+
+        $response->assertStatus(302);
+        $response->assertSessionMissing('errors');
+        $this->assertDatabaseMissing('users', ['id' => $postgrad->id]);
     }
 
     /** @test */
