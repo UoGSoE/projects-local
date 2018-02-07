@@ -269,7 +269,7 @@ class ProjectTest extends TestCase
     }
 
     /** @test */
-    public function an_admin_can_impersonate_another_user()
+    public function an_admin_can_impersonate_another_user_then_become_themselves_again()
     {
         $admin = create(User::class, ['is_admin' => true]);
         $user = create(User::class);
