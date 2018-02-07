@@ -45,7 +45,6 @@ Route::group(['middleware' => 'admin', 'prefix' => '/admin'], function () {
     Route::delete('/course/{id}/remove-students', 'CourseMemberController@destroy')->name('course.remove_students');
 
     Route::post('/impersonate/{id}', 'ImpersonationController@store')->name('impersonate.start');
-    Route::delete('/impersonate', 'ImpersonationController@destroy')->name('impersonate.stop');
 
     Route::delete('/students/remove-undergrads', 'BulkRemovalController@undergrads')->name('students.remove_undergrads');
     Route::delete('/students/remove-postgrads', 'BulkRemovalController@postgrads')->name('students.remove_postgrads');
@@ -53,3 +52,5 @@ Route::group(['middleware' => 'admin', 'prefix' => '/admin'], function () {
 
     Route::get('/export/projects-excel', 'ExportController@projects')->name('export.projects.excel');
 });
+
+Route::delete('/impersonate', 'ImpersonationController@destroy')->name('impersonate.stop');
