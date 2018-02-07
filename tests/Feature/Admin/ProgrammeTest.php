@@ -104,4 +104,9 @@ class ProgrammeTest extends TestCase
         $this->assertDatabaseMissing('programmes', ['id' => $programme1->id]);
         $this->assertDatabaseHas('programmes', ['id' => $programme2->id]);
     }
+
+    // programmes can have a category (undergrad|postgrad)
+    // 
+    // students haveOne Course, Course hasMany Student
+    // 
 }
