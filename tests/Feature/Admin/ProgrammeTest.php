@@ -40,7 +40,6 @@ class ProgrammeTest extends TestCase
     /** @test */
     public function admins_can_create_a_new_programme()
     {
-        $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_admin' => true]);
 
         $response = $this->actingAs($admin)->post(route('admin.programme.store'), [
@@ -57,7 +56,6 @@ class ProgrammeTest extends TestCase
     /** @test */
     public function admins_can_update_an_existing_programme()
     {
-        $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_admin' => true]);
         $programme = create(Programme::class);
 
@@ -75,7 +73,6 @@ class ProgrammeTest extends TestCase
     /** @test */
     public function admins_can_delete_an_existing_programme()
     {
-        $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_admin' => true]);
         $programme1 = create(Programme::class);
         $programme2 = create(Programme::class);
@@ -89,5 +86,4 @@ class ProgrammeTest extends TestCase
         $this->assertDatabaseMissing('programmes', ['id' => $programme1->id]);
         $this->assertDatabaseHas('programmes', ['id' => $programme2->id]);
     }
-
 }
