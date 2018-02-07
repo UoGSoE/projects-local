@@ -39,6 +39,8 @@ Route::delete('/students/remove-undergrads', 'BulkRemovalController@undergrads')
 Route::delete('/students/remove-postgrads', 'BulkRemovalController@postgrads')->name('students.remove_postgrads');
 Route::delete('/students/remove-all', 'BulkRemovalController@all')->name('students.remove_all');
 
+Route::get('/export/projects-excel', 'ExportController@projects')->name('export.projects.excel');
+
 Route::group(['middleware' => 'admin', 'prefix' => '/admin'], function () {
     Route::get('/projects', 'Admin\ProjectController@index')->name('admin.project.index');
 });
