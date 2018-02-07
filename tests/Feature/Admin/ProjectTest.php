@@ -203,7 +203,6 @@ class ProjectTest extends TestCase
         $student1->projects()->sync([$project1->id => ['choice' => 1]]);
         $student2->projects()->sync([$project2->id => ['choice' => 2]]);
         $student3->projects()->sync([$project2->id => ['choice' => 2]]);
-        $this->assertEquals(2, $project2->students()->count());
 
         // when the admin does a bulk accept post
         $response = $this->actingAs($admin)->post(route('project.bulk_accept'), [
@@ -213,14 +212,14 @@ class ProjectTest extends TestCase
             ],
         ]);
 
-        // we should see the correct students have now been accepted
+        // we should see the correct students have now been accepted onto the correct projeects
         $response->assertStatus(302);
         $response->assertSessionMissing('errors');
-        $this->assertEquals(1, $project1->students()->count());
-        $this->assertEquals(2, $project2->students()->count());
         $this->assertTrue($student1->isAccepted());
         $this->assertTrue($student2->isAccepted());
         $this->assertFalse($student3->isAccepted());
+        $this->assertEquals($project1->id, $student1->projects()->first()->id);
+        $this->assertEquals($project2->id, $student2->projects()->first()->id);
         // and they have been sent acceptance emails
         Mail::assertQueued(AcceptedOntoProject::class, 2);
     }
@@ -241,7 +240,7 @@ class ProjectTest extends TestCase
     }
 
     /** @test */
-    public function an_admin_can_clear_all_students_postgrad_or_undergrad_students()
+    public function an_admin_can_clear_all_postgrad_or_undergrad_students()
     {
         $admin = create(User::class, ['is_admin' => true]);
         $undergrad = create(User::class, ['is_staff' => false]);
