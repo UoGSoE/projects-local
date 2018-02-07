@@ -71,6 +71,24 @@ class ProgrammeTest extends TestCase
     }
 
     /** @test */
+    public function updating_a_programme_but_keeping_the_same_title_doesnt_trigger_a_unique_validation_error()
+    {
+        $admin = create(User::class, ['is_admin' => true]);
+        $programme = create(Programme::class);
+
+        $response = $this->actingAs($admin)->post(route('admin.programme.update', $programme->id), [
+            'title' => $programme->title,
+        ]);
+
+        $response->assertStatus(302);
+        $response->assertRedirect(route('admin.programme.index'));
+        $response->assertSessionHas('success');
+        $this->assertCount(1, Programme::all());
+        $this->assertEquals($programme->title, $programme->fresh()->title);
+    }
+
+
+    /** @test */
     public function admins_can_delete_an_existing_programme()
     {
         $admin = create(User::class, ['is_admin' => true]);
