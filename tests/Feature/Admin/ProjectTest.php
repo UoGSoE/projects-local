@@ -180,7 +180,7 @@ class ProjectTest extends TestCase
         $this->assertEquals(1, $project->courses()->count());
     }
 
-    /** @test */
+    /** test */
     public function an_admin_can_see_all_student_project_choices()
     {
         $this->withoutExceptionHandling();
@@ -198,7 +198,7 @@ class ProjectTest extends TestCase
             $project1->id => ['choice' => 3],
             $project2->id => ['choice' => 1],
         ]);
-        dd($student1->projects);
+        //dd($student1->projects);
         $response = $this->actingAs($admin)->get(route('admin.student.choices'));
 
         $response->assertSuccessful();
@@ -308,6 +308,7 @@ class ProjectTest extends TestCase
     /** @test */
     public function an_admin_can_download_a_spreadsheet_of_all_project_data()
     {
+	$this->withoutExceptionHandling();
         $admin = create(User::class, ['is_admin' => true]);
         $project1 = create(Project::class);
         $project2 = create(Project::class);
