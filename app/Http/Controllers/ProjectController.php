@@ -54,6 +54,7 @@ class ProjectController extends Controller
         if ($request->user()->isAdmin() and $request->filled('staff_id')) {
             $validationRules['staff_id'] = 'required|integer|exists:users,id';
         }
+
         $data = $request->validate($validationRules);
 
         $project = Project::findOrFail($id);
