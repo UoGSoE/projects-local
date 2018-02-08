@@ -24,28 +24,28 @@
                     {{ $student->full_name }}
                 </td>
                 <td>
-                    @if ($student->projects->where('pivot_choice', 1)->isNotEmpty())
-                        {{ $student->projects->where('pivot_choice', 1)->first()->title }}
+                    @if ($student->projects->where('pivot.choice', 1)->isNotEmpty())
+                        {{ $student->projects->where('pivot.choice', 1)->first()->title }}
                     @endif
                 </td>
                 <td>
-                    @if ($student->projects->where('pivot_choice', 2)->isNotEmpty())
-                        {{ $student->projects->where('pivot_choice', 2)->first()->title }}
+                    @if ($student->projects->where('pivot.choice', 2)->isNotEmpty())
+                        {{ $student->projects->where('pivot.choice', 2)->first()->title }}
                     @endif
                 </td>
                 <td>
-                    @if ($student->projects->where('pivot_choice', 3)->isNotEmpty())
-                        {{ $student->projects->where('pivot_choice', 3)->first()->title }}
+                    @if ($student->projects->where('pivot.choice', 3)->isNotEmpty())
+                        {{ $student->projects->where('pivot.choice', 3)->first()->title }}
                     @endif
                 </td>
                 <td>
-                    @if ($student->projects->where('pivot_choice', 4)->isNotEmpty())
-                        {{ $student->projects->where('pivot_choice', 4)->first()->title }}
+                    @if ($student->projects->where('pivot.choice', 4)->isNotEmpty())
+                        {{ $student->projects->where('pivot.choice', 4)->first()->title }}
                     @endif
                 </td>
                 <td>
-                    @if ($student->projects->where('pivot_choice', 5)->isNotEmpty())
-                        {{ $student->projects->where('pivot_choice', 5)->first()->title }}
+                    @if ($student->projects->where('pivot.choice', 5)->isNotEmpty())
+                        {{ $student->projects->where('pivot.choice', 5)->first()->title }}
                     @endif
                 </td>
             </tr>
