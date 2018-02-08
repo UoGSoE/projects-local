@@ -28,7 +28,7 @@ Route::delete('/project/{id}', 'ProjectController@destroy')->name('project.delet
 Route::post('/project/{id}/accept-students', 'ProjectAcceptanceController@store')->name('project.accept_students');
 Route::post('/choices', 'ChoiceController@store')->name('projects.choose');
 Route::get('/thank-you', 'ChoiceController@thankYou')->name('thank_you');
-
 Route::group(['middleware' => 'admin', 'prefix' => '/admin'], function () {
     Route::get('/projects', 'Admin\ProjectController@index')->name('admin.project.index');
+    Route::get('/choices', 'Admin\ChoiceController@index')->name('admin.student.choices');
 });

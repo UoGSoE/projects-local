@@ -30,7 +30,7 @@ class User extends Authenticatable
         if ($this->is_staff) {
             return $this->hasMany(Project::class, 'staff_id');
         }
-        return $this->belongsToMany(Project::class, 'project_students', 'student_id');
+        return $this->belongsToMany(Project::class, 'project_students', 'student_id')->withPivot(['choice', 'is_accepted']);
     }
 
     public function courses()
