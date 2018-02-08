@@ -134,6 +134,7 @@ class ProjectTest extends TestCase
     /** @test */
     public function a_student_gets_a_confirmation_email_with_the_projects_they_have_chosen_when_then_apply()
     {
+$this->withoutExceptionHandling();
         Mail::fake();
         // given we have a student on a course
         $student = create(User::class, ['is_staff' => false]);
