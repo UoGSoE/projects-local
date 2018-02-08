@@ -7,6 +7,8 @@ use App\Course;
 use App\Project;
 use App\Programme;
 use Tests\TestCase;
+use App\Mail\AcceptedOntoProject;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -61,6 +63,35 @@ class ProjectTest extends TestCase
         // we should see the html form markup for the student choice tickbox
         $response->assertSuccessful();
         $response->assertSee("students[{$student->id}]");
+    }
+
+    /** @test */
+    public function an_admin_can_accept_any_student_on_a_given_project()
+    {
+        Mail::fake();
+        // given we have a an undergrad project and a student has applied as their 2nd choice
+        $admin = create(User::class, ['is_admin' => true]);
+        $student = create(User::class, ['is_staff' => false]);
+        $project = create(Project::class, ['category' => 'undergrad']);
+        $student->projects()->sync([$project->id => ['choice' => 2]]);
+        $this->assertFalse($project->students()->first()->isAccepted());
+
+        // when we view the project
+        $response = $this->actingAs($admin)->get(route('project.show', $project->id));
+
+        // we should see the html form markup for the student choice tickbox (where-as regular staff wouldn't)
+        $response->assertSuccessful();
+        $response->assertSee("students[{$student->id}]");
+
+        // and when we submit the form
+        $response = $this->actingAs($admin)->post(route('project.accept_students', $project->id), [
+            'students' => [$student->id],
+        ]);
+
+        // the student should be accepted
+        $response->assertRedirect(route('project.show', $project->id));
+        $response->assertSessionHas('success');
+        $this->assertTrue($project->students()->first()->isAccepted());
     }
 
     /** @test */
@@ -179,50 +210,136 @@ class ProjectTest extends TestCase
     }
 
     /** @test */
-    public function an_admin_can_accept_any_student_on_a_given_project()
-    {
-
-    }
-
-    /** @test */
     public function an_admin_can_bulk_accept_students_onto_projects()
     {
+        Mail::fake();
+        // given we have an admin
+        $admin = create(User::class, ['is_admin' => true]);
+        // and some projects
+        $project1 = create(Project::class);
+        $project2 = create(Project::class);
+        // and some students
+        $student1 = create(User::class, ['is_staff' => false]);
+        $student2 = create(User::class, ['is_staff' => false]);
+        $student3 = create(User::class, ['is_staff' => false]);
+        // and the students have chosen projects
+        $student1->projects()->sync([$project1->id => ['choice' => 1]]);
+        $student2->projects()->sync([$project2->id => ['choice' => 2]]);
+        $student3->projects()->sync([$project2->id => ['choice' => 2]]);
 
+        // when the admin does a bulk accept post
+        $response = $this->actingAs($admin)->post(route('project.bulk_accept'), [
+            'students' => [
+                [$student1->id => $project1->id],
+                [$student2->id => $project2->id],
+            ],
+        ]);
+
+        // we should see the correct students have now been accepted onto the correct projeects
+        $response->assertStatus(302);
+        $response->assertSessionMissing('errors');
+        $this->assertTrue($student1->isAccepted());
+        $this->assertTrue($student2->isAccepted());
+        $this->assertFalse($student3->isAccepted());
+        $this->assertEquals($project1->id, $student1->projects()->first()->id);
+        $this->assertEquals($project2->id, $student2->projects()->first()->id);
+        // and they have been sent acceptance emails
+        Mail::assertQueued(AcceptedOntoProject::class, 2);
     }
 
     /** @test */
     public function an_admin_can_clear_all_students_from_a_given_course()
     {
+        $admin = create(User::class, ['is_admin' => true]);
+        $course = create(Course::class);
+        $students = create(User::class, ['is_staff' => false], 3);
+        $course->students()->sync($students->pluck('id')->toArray());
 
+        $response = $this->actingAs($admin)->delete(route('course.remove_students', $course->id));
+
+        $response->assertStatus(302);
+        $response->assertSessionMissing('errors');
+        $this->assertCount(0, $course->students);
     }
 
     /** @test */
-    public function an_admin_can_clear_all_students_postgrad_or_undergrad_students()
+    public function an_admin_can_clear_all_postgrad_or_undergrad_students()
     {
+        $admin = create(User::class, ['is_admin' => true]);
+        $undergrad = create(User::class, ['is_staff' => false]);
+        $postgrad = create(User::class, ['is_staff' => false]);
+        $ugradProject = create(Project::class, ['category' => 'undergrad']);
+        $pgradProject = create(Project::class, ['category' => 'postgrad']);
+        $undergrad->projects()->sync([$ugradProject->id => ['choice' => 1]]);
+        $postgrad->projects()->sync([$pgradProject->id => ['choice' => 1]]);
 
+        $response = $this->actingAs($admin)->delete(route('students.remove_undergrads'));
+
+        $response->assertStatus(302);
+        $response->assertSessionMissing('errors');
+        $this->assertDatabaseMissing('users', ['id' => $undergrad->id]);
+        $this->assertDatabaseHas('users', ['id' => $postgrad->id]);
+
+        $response = $this->actingAs($admin)->delete(route('students.remove_postgrads'));
+
+        $response->assertStatus(302);
+        $response->assertSessionMissing('errors');
+        $this->assertDatabaseMissing('users', ['id' => $postgrad->id]);
     }
 
     /** @test */
     public function an_admin_can_clear_all_students()
     {
+        $admin = create(User::class, ['is_admin' => true]);
+        $student1 = create(User::class, ['is_staff' => false]);
+        $student2 = create(User::class, ['is_staff' => false]);
+        $staff = create(User::class, ['is_staff' => true]);
 
+        $response = $this->actingAs($admin)->delete(route('students.remove_all'));
+
+        $response->assertStatus(302);
+        $response->assertSessionMissing('errors');
+        $this->assertDatabaseMissing('users', ['id' => $student1->id]);
+        $this->assertDatabaseMissing('users', ['id' => $student2->id]);
+        $this->assertDatabaseHas('users', ['id' => $admin->id]);
+        $this->assertDatabaseHas('users', ['id' => $staff->id]);
     }
 
     /** @test */
-    public function an_admin_can_download_a_csv_of_all_project_data()
+    public function an_admin_can_download_a_spreadsheet_of_all_project_data()
     {
+        $admin = create(User::class, ['is_admin' => true]);
+        $project1 = create(Project::class);
+        $project2 = create(Project::class);
+        $student1 = create(User::class, ['is_staff' => false]);
+        $student2 = create(User::class, ['is_staff' => false]);
+        $project1->students()->sync([$student1->id => ['choice' => 1]]);
+        $project2->students()->sync([$student2->id => ['choice' => 2]]);
 
+        $response = $this->actingAs($admin)->get(route('export.projects.excel'));
+
+        $response->assertSuccessful();
+        $this->assertEquals('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', $response->headers->get('content-type'));
+        $this->assertEquals('attachment; filename="uog_project_data.xlsx"', $response->headers->get('content-disposition'));
     }
 
     /** @test */
-    public function an_admin_can_impersonate_a_student()
+    public function an_admin_can_impersonate_another_user_then_become_themselves_again()
     {
+        $admin = create(User::class, ['is_admin' => true]);
+        $user = create(User::class);
 
-    }
+        login($admin);
+        $this->assertEquals(auth()->id(), $admin->id);
 
-    /** @test */
-    public function an_admin_can_impersonate_a_member_of_staff()
-    {
+        $response = $this->post(route('impersonate.start', $user->id));
 
+        $this->assertEquals(auth()->id(), $user->id);
+        $response->assertSessionHas('original_id', $admin->id);
+
+        $response = $this->delete(route('impersonate.stop'));
+
+        $this->assertEquals(auth()->id(), $admin->id);
+        $response->assertSessionMissing('original_id');
     }
 }

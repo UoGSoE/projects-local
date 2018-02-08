@@ -22,7 +22,7 @@ class Project extends Model
 
     public function students()
     {
-        return $this->belongsToMany(User::class, 'project_students', 'id', 'student_id')
+        return $this->belongsToMany(User::class, 'project_students', 'project_id', 'student_id')
                     ->withPivot('is_accepted', 'choice');
     }
 
@@ -31,9 +31,24 @@ class Project extends Model
         return $this->belongsTo(User::class, 'staff_id');
     }
 
+    public function scopeUndergrad($query)
+    {
+        return $query->where('category', '=', 'undergrad');
+    }
+
+    public function scopePostgrad($query)
+    {
+        return $query->where('category', '=', 'postgrad');
+    }
+
     public function accept(User $student)
     {
         $student->projects()->sync([$this->id => ['is_accepted' => true]]);
         Mail::to($student)->queue(new AcceptedOntoProject($this));
+    }
+
+    public function deleteStudents()
+    {
+        $this->students->each->delete();
     }
 }
