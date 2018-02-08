@@ -150,6 +150,43 @@ class ProjectTest extends TestCase
     }
 
     /** @test */
+    public function staff_cant_allocate_projects_to_other_users()
+    {
+        $this->withoutExceptionHandling();
+        $staff = create(User::class, ['is_staff' => true]);
+        $otherStaff = create(User::class, ['is_staff' => true]);
+        $project = create(Project::class, ['staff_id' => $staff->id]);
+        $programme1 = create(Programme::class);
+        $programme2 = create(Programme::class);
+        $course = create(Course::class);
+
+        $response = $this->actingAs($staff)->post(route('project.update', $project->id), [
+            'category' => 'undergrad',
+            'title' => 'My new project',
+            'pre_req' => 'Some mad skillz',
+            'description' => 'Doing something',
+            'max_students' => 2,
+            'courses' => [$course->id],
+            'programmes' => [$programme1->id, $programme2->id],
+            'staff_id' => $otherStaff->id,
+        ]);
+
+        $response->assertStatus(302);
+        $response->assertRedirect(route('project.show', $project->id));
+        $response->assertSessionHas('success');
+        $project = $project->fresh();
+        $this->assertEquals($staff->id, $project->staff_id);
+        $this->assertEquals('undergrad', $project->category);
+        $this->assertEquals('My new project', $project->title);
+        $this->assertEquals('Some mad skillz', $project->pre_req);
+        $this->assertEquals('Doing something', $project->description);
+        $this->assertEquals(2, $project->max_students);
+        $this->assertEquals($staff->id, $project->staff_id);
+        $this->assertEquals(2, $project->programmes()->count());
+        $this->assertEquals(1, $project->courses()->count());
+    }
+
+    /** @test */
     public function staff_can_delete_their_own_projects()
     {
         $staff = create(User::class, ['is_staff' => true]);

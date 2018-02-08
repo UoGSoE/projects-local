@@ -42,7 +42,7 @@ class ProjectController extends Controller
 
     public function update($id, Request $request)
     {
-        $data = $request->validate([
+        $validationRules = [
             'title' => 'required',
             'category' => 'required',
             'pre_req' => 'nullable',
@@ -50,16 +50,15 @@ class ProjectController extends Controller
             'max_students' => 'required|integer',
             'courses' => 'required|array|min:1',
             'programmes' => 'required|array|min:1',
-            'staff_id' => 'nullable|integer',
-        ]);
+        ];
+        if ($request->user()->isAdmin() and $request->filled('staff_id')) {
+            $validationRules['staff_id'] = 'required|integer|exists:users,id';
+        }
+        $data = $request->validate($validationRules);
 
         $project = Project::findOrFail($id);
         $this->authorize('update', $project);
 
-        $user = $request->user();
-        if ($user->isAdmin() and $request->filled('staff_id')) {
-            $user = User::findOrFail($request->staff_id);
-        }
         $project->update(collect($data)->except(['courses', 'programmes'])->toArray());
         $project->programmes()->sync($request->programmes);
         $project->courses()->sync($request->courses);
