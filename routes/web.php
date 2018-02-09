@@ -36,6 +36,10 @@ Route::group(['middleware' => 'admin', 'prefix' => '/admin'], function () {
     Route::get('/course', 'CourseController@index')->name('admin.course.index');
     Route::get('/course/{course}', 'CourseController@show')->name('admin.course.show');
     Route::post('/course', 'CourseController@store')->name('admin.course.store');
+    Route::post('/course/{course}', 'CourseController@update')->name('admin.course.update');
+    Route::delete('/course/{course}', 'CourseController@destroy')->name('admin.course.destroy');
+
+    Route::post('/course/{course}/enrollment', 'Admin\EnrollmentController@store')->name('admin.course.enroll');
 
     Route::get('/programme', 'ProgrammeController@index')->name('admin.programme.index');
     Route::post('/programme', 'ProgrammeController@store')->name('admin.programme.store');

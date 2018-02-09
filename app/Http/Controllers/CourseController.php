@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Course;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class CourseController extends Controller
 {
@@ -78,7 +79,14 @@ class CourseController extends Controller
      */
     public function update(Request $request, Course $course)
     {
-        //
+        $data = $request->validate([
+            'title' => 'required',
+            'code' => ['required', Rule::unique('courses')->ignore($course->id)],
+        ]);
+
+        $course->update($data);
+
+        return redirect()->route('admin.course.index')->with('success', 'Course Updated');
     }
 
     /**
@@ -89,6 +97,8 @@ class CourseController extends Controller
      */
     public function destroy(Course $course)
     {
-        //
+        $course->delete();
+
+        return redirect()->route('admin.course.index')->with('success', 'Course Deleted');
     }
 }

@@ -81,4 +81,54 @@ class CourseTest extends TestCase
         $this->assertEquals('A COURSE', $existingCourse->fresh()->title);
         $this->assertEquals('ENG9999', $existingCourse->fresh()->code);
     }
+
+    /** @test */
+    public function admins_can_update_an_existing_course()
+    {
+        $admin = create(User::class, ['is_admin' => true]);
+        $existingCourse = create(Course::class);
+
+        $response = $this->actingAs($admin)->post(route('admin.course.update', $existingCourse->id), [
+            'title' => "A COURSE",
+            'code' => "ENG9999",
+        ]);
+
+        $response->assertStatus(302);
+        $response->assertSessionMissing('errors');
+        $this->assertEquals('A COURSE', $existingCourse->fresh()->title);
+        $this->assertEquals('ENG9999', $existingCourse->fresh()->code);
+    }
+
+    /** @test */
+    public function a_title_and_a_unique_code_are_required_when_updating_a_course()
+    {
+        $admin = create(User::class, ['is_admin' => true]);
+        $course = create(Course::class);
+        $otherCourse = create(Course::class, [
+            'title' => 'A COURSE',
+            'code' => 'ENG9999'
+        ]);
+
+        $response = $this->actingAs($admin)->post(route('admin.course.update', $course->id), [
+            'title' => "",
+            'code' => $otherCourse->code,
+        ]);
+
+        $response->assertStatus(302);
+        $response->assertSessionHasErrors('title');
+        $response->assertSessionHasErrors('code');
+    }
+
+    /** @test */
+    public function an_admin_can_delete_a_course()
+    {
+        $admin = create(User::class, ['is_admin' => true]);
+        $course = create(Course::class);
+
+        $response = $this->actingAs($admin)->delete(route('admin.course.destroy', $course->id));
+
+        $response->assertStatus(302);
+        $response->assertSessionHas('success');
+        $this->assertDatabaseMissing('courses', ['id' => $course->id]);
+    }
 }
