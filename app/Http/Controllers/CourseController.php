@@ -35,7 +35,14 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'title' => 'required',
+            'code' => 'required|unique:courses',
+        ]);
+
+        Course::create($data);
+
+        return redirect()->route('admin.course.index')->with('success', 'Course Created');
     }
 
     /**

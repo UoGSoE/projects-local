@@ -43,4 +43,42 @@ class CourseTest extends TestCase
         $response->assertSee($student1->full_name);
         $response->assertSee($student3->full_name);
     }
+
+    /** @test */
+    public function admins_can_create_a_new_course()
+    {
+        $admin = create(User::class, ['is_admin' => true]);
+
+        $response = $this->actingAs($admin)->post(route('admin.course.store'), [
+            'title' => "A COURSE",
+            'code' => "ENG9999",
+        ]);
+
+        $response->assertStatus(302);
+        $response->assertSessionMissing('errors');
+        $course = Course::first();
+        $this->assertEquals('A COURSE', $course->title);
+        $this->assertEquals('ENG9999', $course->code);
+    }
+
+    /** @test */
+    public function a_title_and_a_unique_code_are_required_to_create_a_new_course()
+    {
+        $admin = create(User::class, ['is_admin' => true]);
+        $existingCourse = create(Course::class, [
+            'title' => 'A COURSE',
+            'code' => 'ENG9999'
+        ]);
+
+        $response = $this->actingAs($admin)->post(route('admin.course.store'), [
+            'title' => "",
+            'code' => $existingCourse->code,
+        ]);
+
+        $response->assertStatus(302);
+        $response->assertSessionHasErrors('title');
+        $response->assertSessionHasErrors('code');
+        $this->assertEquals('A COURSE', $existingCourse->fresh()->title);
+        $this->assertEquals('ENG9999', $existingCourse->fresh()->code);
+    }
 }

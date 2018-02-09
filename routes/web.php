@@ -32,8 +32,10 @@ Route::get('/thank-you', 'ChoiceController@thankYou')->name('thank_you');
 Route::group(['middleware' => 'admin', 'prefix' => '/admin'], function () {
     Route::get('/projects', 'Admin\ProjectController@index')->name('admin.project.index');
     Route::get('/choices', 'Admin\ChoiceController@index')->name('admin.student.choices');
-    
+
+    Route::get('/course', 'CourseController@index')->name('admin.course.index');
     Route::get('/course/{course}', 'CourseController@show')->name('admin.course.show');
+    Route::post('/course', 'CourseController@store')->name('admin.course.store');
 
     Route::get('/programme', 'ProgrammeController@index')->name('admin.programme.index');
     Route::post('/programme', 'ProgrammeController@store')->name('admin.programme.store');
