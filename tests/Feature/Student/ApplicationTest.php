@@ -30,7 +30,7 @@ class ApplicationTest extends TestCase
         $project2 = create(Project::class);
         $project2->courses()->sync([$course2->id]);
         // but the student is on course1
-        $course1->students()->sync([$student->id]);
+        $course1->students()->save($student);
 
         // when the student goes to the homepage
         $response = $this->actingAs($student)->get(route('home'));
@@ -47,7 +47,7 @@ class ApplicationTest extends TestCase
         // given we have a student on a course
         $student = create(User::class, ['is_staff' => false]);
         $course = create(Course::class);
-        $course->students()->sync([$student->id]);
+        $course->students()->save($student);
         // and given we have three projects
         $project1 = create(Project::class);
         $project2 = create(Project::class);
@@ -78,7 +78,7 @@ class ApplicationTest extends TestCase
         // given we have a student on a course
         $student = create(User::class, ['is_staff' => false]);
         $course = create(Course::class);
-        $course->students()->sync([$student->id]);
+        $course->students()->save($student);
         // and given we have three projects
         $project1 = create(Project::class);
         $project2 = create(Project::class);
@@ -108,7 +108,7 @@ class ApplicationTest extends TestCase
         // given we have a student on a course
         $student = create(User::class, ['is_staff' => false]);
         $course = create(Course::class);
-        $course->students()->sync([$student->id]);
+        $course->students()->save($student);
         // and given we have three projects
         $project1 = create(Project::class);
         $project2 = create(Project::class);
@@ -134,12 +134,12 @@ class ApplicationTest extends TestCase
     /** @test */
     public function a_student_gets_a_confirmation_email_with_the_projects_they_have_chosen_when_then_apply()
     {
-$this->withoutExceptionHandling();
+        $this->withoutExceptionHandling();
         Mail::fake();
         // given we have a student on a course
         $student = create(User::class, ['is_staff' => false]);
         $course = create(Course::class);
-        $course->students()->sync([$student->id]);
+        $course->students()->save($student);
         // and given we have three projects
         $project1 = create(Project::class);
         $project2 = create(Project::class);

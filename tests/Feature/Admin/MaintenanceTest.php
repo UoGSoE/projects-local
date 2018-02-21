@@ -19,7 +19,7 @@ class MaintenanceTest extends TestCase
         $admin = create(User::class, ['is_admin' => true]);
         $course = create(Course::class);
         $students = create(User::class, ['is_staff' => false], 3);
-        $course->students()->sync($students->pluck('id')->toArray());
+        $course->students()->saveMany($students);
 
         $response = $this->actingAs($admin)->delete(route('course.remove_students', $course->id));
 

@@ -10,11 +10,16 @@ class Course extends Model
 
     public function students()
     {
-        return $this->belongsToMany(User::class, 'course_students', 'course_id', 'student_id');
+        return $this->hasMany(User::class);
     }
 
     public function projects()
     {
         return $this->belongsToMany(Project::class, 'project_courses');
+    }
+
+    public function removeAllStudents()
+    {
+        $this->students->each->update(['course_id' => null]);
     }
 }

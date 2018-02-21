@@ -22,6 +22,8 @@ class CreateUsersTable extends Migration
             $table->string('forenames');
             $table->boolean('is_staff')->default(false);
             $table->boolean('is_admin')->default(false);
+            $table->unsignedInteger('course_id')->nullable();
+            $table->foreign('course_id')->references('id')->on('courses');
             $table->rememberToken();
             $table->timestamps();
         });

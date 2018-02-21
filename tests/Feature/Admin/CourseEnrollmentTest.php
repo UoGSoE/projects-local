@@ -8,6 +8,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 class CourseEnrollmentTest extends TestCase
 {
@@ -25,7 +26,7 @@ class CourseEnrollmentTest extends TestCase
 
         // and we upload a test spreadsheet with two students details
         $response = $this->actingAs($admin)->post(route('admin.course.enroll', $course->id), [
-            'sheet' => new UploadedFile($filename, 'course_students.xlsx', filesize($filename), UPLOAD_ERR_OK, true),
+            'sheet' => new UploadedFile($filename, 'course_students.xlsx', 'application/octet-stream', filesize($filename), UPLOAD_ERR_OK, true),
         ]);
 
         // the course should have two students attached

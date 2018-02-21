@@ -9,7 +9,7 @@ class CourseMemberController extends Controller
 {
     public function destroy($id)
     {
-        Course::findOrFail($id)->students()->detach();
+        Course::findOrFail($id)->removeAllStudents();
 
         return redirect()->back()->with('success', 'All students removed');
     }

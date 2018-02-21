@@ -33,7 +33,7 @@ class CourseTest extends TestCase
         $student1 = create(User::class, ['is_staff' => false]);
         $student2 = create(User::class, ['is_staff' => false]);
         $student3 = create(User::class, ['is_staff' => false]);
-        $course->students()->sync([$student1->id, $student3->id]);
+        $course->students()->saveMany([$student1, $student3]);
 
         $response = $this->actingAs($admin)->get(route('admin.course.show', $course->id));
 
