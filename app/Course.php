@@ -20,6 +20,6 @@ class Course extends Model
 
     public function removeAllStudents()
     {
-        $this->students->each->update(['course_id' => null]);
+        $this->students->each->delete();
     }
 }
