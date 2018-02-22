@@ -4,6 +4,11 @@
 
 <h3 class="title is-3">
     Edit project
+    <form method="POST" action="{{ route('project.delete', $project->id) }}" class="is-pulled-right">
+        @csrf
+        @method('DELETE')
+        <button class="button is-danger" @click.prevent="showConfirmation = true">Delete Project</button>
+    </form>
 </h3>
 
 <form method="POST" action="{{ route('project.update', $project->id) }}">
@@ -22,4 +27,9 @@
     </div>
 
 </form>
+
+<confirmation-dialog :show="showConfirmation" @cancel="showConfirmation = false" @confirm="deleteProject({{ $project->id }})">
+    Do you really want to delete this project?
+</confirmation-dialog>
+
 @endsection

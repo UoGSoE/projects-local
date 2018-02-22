@@ -15,8 +15,23 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
+Vue.component('confirmation-dialog', require('./components/ConfirmationDialog.vue'));
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+
+    data: {
+        showConfirmation: false,
+    },
+
+    methods: {
+        deleteProject: function (projectId) {
+            console.log(projectId);
+            this.showConfirmation = false;
+            axios.delete('/project/' + projectId)
+                .then(function (response) {
+                    window.location = '/';
+                });
+        }
+    }
 });

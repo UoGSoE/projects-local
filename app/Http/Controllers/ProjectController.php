@@ -91,12 +91,16 @@ class ProjectController extends Controller
         return redirect(route('project.show', $project->id))->with('success', 'Project Updated');
     }
 
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
         $project = Project::findOrFail($id);
         $this->authorize('delete', $project);
 
         $project->delete();
+
+        if ($request->wantsJson()) {
+            return response()->json(['status' => 'deleted']);
+        }
 
         return redirect()->route('home')->with('success', 'Project Deleted');
     }

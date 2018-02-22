@@ -17,8 +17,8 @@ class CreateProjectProgrammesTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('project_id');
             $table->unsignedInteger('programme_id');
-            $table->foreign('project_id')->references('id')->on('projects');
-            $table->foreign('programme_id')->references('id')->on('programmes');
+            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
+            $table->foreign('programme_id')->references('id')->on('programmes')->onDelete('cascade');
             $table->timestamps();
         });
     }

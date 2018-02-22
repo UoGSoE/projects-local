@@ -17,8 +17,8 @@ class CreateProjectCoursesTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('project_id');
             $table->unsignedInteger('course_id');
-            $table->foreign('project_id')->references('id')->on('projects');
-            $table->foreign('course_id')->references('id')->on('courses');
+            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
+            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
             $table->timestamps();
         });
     }
