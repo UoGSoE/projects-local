@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Project;
 use Illuminate\Http\Request;
+use App\Programme;
+use App\Course;
 
 class ProjectController extends Controller
 {
@@ -16,6 +18,18 @@ class ProjectController extends Controller
         return view('project.show', ['project' => $project]);
     }
 
+    public function create(Request $request)
+    {
+        $request->validate([
+            'type' => 'required|in:undergrad,postgrad',
+        ]);
+
+        return view('project.create', [
+            'project' => new Project(['category' => $request->type, 'max_students' => 1]),
+            'programmes' => Programme::where('category', '=', $request->type)->orderBy('title')->get(),
+            'courses' => Course::where('category', '=', $request->type)->orderBy('title')->get(),
+        ]);
+    }
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -38,6 +52,16 @@ class ProjectController extends Controller
         $project->courses()->sync($request->courses);
 
         return redirect(route('project.show', $project->id));
+    }
+
+    public function edit($id)
+    {
+        $project = Project::findOrFail($id);
+        return view('project.edit', [
+            'project' => $project,
+            'programmes' => Programme::where('category', '=', $project->category)->orderBy('title')->get(),
+            'courses' => Course::where('category', '=', $project->category)->orderBy('title')->get(),
+        ]);
     }
 
     public function update($id, Request $request)

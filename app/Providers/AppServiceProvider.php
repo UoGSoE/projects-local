@@ -16,7 +16,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
-        DB::statement('PRAGMA foreign_keys=on');
+        if ($this->app->environment('testing')) {
+            DB::statement(DB::raw('PRAGMA foreign_keys=1'));
+        }
     }
 
     /**

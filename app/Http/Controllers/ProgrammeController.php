@@ -15,15 +15,30 @@ class ProgrammeController extends Controller
         ]);
     }
 
+    public function create()
+    {
+        return view('admin.programme.create', [
+            'programme' => new Programme,
+        ]);
+    }
+
     public function store(Request $request)
     {
         $data = $request->validate([
             'title' => 'required|unique:programmes',
+            'category' => 'required|in:undergrad,postgrad',
         ]);
 
         $programme = Programme::create($data);
 
         return redirect()->route('admin.programme.index')->with('success', 'Programme created');
+    }
+
+    public function edit($id)
+    {
+        return view('admin.programme.edit', [
+            'programme' => Programme::findOrFail($id),
+        ]);
     }
 
     public function update($id, Request $request)
@@ -33,6 +48,7 @@ class ProgrammeController extends Controller
                 'required',
                 Rule::unique('programmes')->ignore($id),
             ],
+            'category' => 'required|in:undergrad,postgrad',
         ]);
 
         Programme::findOrFail($id)->update($data);

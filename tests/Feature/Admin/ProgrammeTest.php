@@ -38,12 +38,24 @@ class ProgrammeTest extends TestCase
     }
 
     /** @test */
+    public function admins_can_see_the_page_to_create_a_new_programme()
+    {
+        $admin = create(User::class, ['is_admin' => true]);
+
+        $response = $this->actingAs($admin)->get(route('admin.programme.create'));
+
+        $response->assertSuccessful();
+        $response->assertSee("Create new programme");
+    }
+
+    /** @test */
     public function admins_can_create_a_new_programme()
     {
         $admin = create(User::class, ['is_admin' => true]);
 
         $response = $this->actingAs($admin)->post(route('admin.programme.store'), [
             'title' => "NEW PROGRAMME",
+            'category' => 'undergrad',
         ]);
 
         $response->assertStatus(302);
@@ -54,6 +66,18 @@ class ProgrammeTest extends TestCase
     }
 
     /** @test */
+    public function admins_can_see_the_page_to_edit_a_new_programme()
+    {
+        $admin = create(User::class, ['is_admin' => true]);
+        $programme = create(Programme::class);
+
+        $response = $this->actingAs($admin)->get(route('admin.programme.edit', $programme->id));
+
+        $response->assertSuccessful();
+        $response->assertSee("Edit programme");
+    }
+
+    /** @test */
     public function admins_can_update_an_existing_programme()
     {
         $admin = create(User::class, ['is_admin' => true]);
@@ -61,6 +85,7 @@ class ProgrammeTest extends TestCase
 
         $response = $this->actingAs($admin)->post(route('admin.programme.update', $programme->id), [
             'title' => "UPDATED PROGRAMME",
+            'category' => 'undergrad',
         ]);
 
         $response->assertStatus(302);
@@ -78,6 +103,7 @@ class ProgrammeTest extends TestCase
 
         $response = $this->actingAs($admin)->post(route('admin.programme.update', $programme->id), [
             'title' => $programme->title,
+            'category' => 'undergrad',
         ]);
 
         $response->assertStatus(302);
@@ -106,7 +132,5 @@ class ProgrammeTest extends TestCase
     }
 
     // programmes can have a category (undergrad|postgrad)
-    // 
-    // students haveOne Course, Course hasMany Student
-    // 
+    //
 }

@@ -4,15 +4,32 @@
 
 <h3 class="title is-3">
 	Programmes
+	<a href="{{ route('admin.programme.create') }}" class="button" title="Add new programme">
+		+
+	</a>
 </h3>
-<ul>
-	@foreach ($programmes as $programme)
-		<li>
-			<a href="">
-				{{ $programme->title }}
-			</a>
-		</li>
-	@endforeach
-</ul>
+
+<table class="table is-striped">
+	<thead>
+		<tr>
+			<th>Title</th>
+			<th>Type</th>
+			<th>No. Projects</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach ($programmes as $programme)
+			<tr>
+				<td>
+					<a href="{{ route('admin.programme.edit', $programme->id) }}">
+						{{ $programme->title }}
+					</a>
+				</td>
+				<td>{{ ucfirst($programme->category) }}</td>
+				<td>{{ $programme->projects()->count() }}</td>
+			</tr>
+		@endforeach
+	</tbody>
+</table>
 
 @endsection

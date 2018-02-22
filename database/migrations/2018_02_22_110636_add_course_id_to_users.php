@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCoursesTable extends Migration
+class AddCourseIdToUsers extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreateCoursesTable extends Migration
      */
     public function up()
     {
-        Schema::create('courses', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('code');
-            $table->string('title');
-            $table->string('category');
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+            $table->unsignedInteger('course_id')->nullable();
+            $table->foreign('course_id')->references('id')->on('courses');
         });
     }
 
@@ -29,6 +26,8 @@ class CreateCoursesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('courses');
+        Schema::table('users', function (Blueprint $table) {
+            //
+        });
     }
 }

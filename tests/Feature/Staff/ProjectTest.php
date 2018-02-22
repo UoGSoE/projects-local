@@ -17,6 +17,51 @@ class ProjectTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
+    public function staff_can_see_the_page_to_create_a_new_undergrad_project()
+    {
+        $staff = create(User::class, ['is_staff' => true]);
+        $programme1 = create(Programme::class);
+        $programme2 = create(Programme::class);
+        $course = create(Course::class);
+
+        $response = $this->actingAs($staff)->get(route('project.create', ['type' => 'undergrad']));
+
+        $response->assertSuccessful();
+        $response->assertSee('undergrad');
+        $response->assertSee('Create new undergrad project');
+    }
+
+    /** @test */
+    public function only_courses_and_programmes_of_the_correct_type_show_up_on_the_project_form()
+    {
+        $staff = create(User::class, ['is_staff' => true]);
+        $programme1 = create(Programme::class, ['category' => 'undergrad']);
+        $programme2 = create(Programme::class, ['category' => 'postgrad']);
+        $course1 = create(Course::class, ['category' => 'undergrad']);
+        $course2 = create(Course::class, ['category' => 'postgrad']);
+
+        $response = $this->actingAs($staff)->get(route('project.create', ['type' => 'undergrad']));
+
+        $response->assertSuccessful();
+        $response->assertSee('undergrad');
+        $response->assertSee('Create new undergrad project');
+        $response->assertSee($programme1->title);
+        $response->assertDontSee($programme2->title);
+        $response->assertSee($course1->title);
+        $response->assertDontSee($course2->title);
+
+        $response = $this->actingAs($staff)->get(route('project.create', ['type' => 'postgrad']));
+
+        $response->assertSuccessful();
+        $response->assertSee('postgrad');
+        $response->assertSee('Create new postgrad project');
+        $response->assertDontSee($programme1->title);
+        $response->assertSee($programme2->title);
+        $response->assertDontSee($course1->title);
+        $response->assertSee($course2->title);
+    }
+
+    /** @test */
     public function staff_can_create_a_new_undergrad_project()
     {
         $staff = create(User::class, ['is_staff' => true]);
@@ -68,6 +113,20 @@ class ProjectTest extends TestCase
         $response->assertStatus(302);
         $response->assertSessionHasErrors(['category', 'title', 'description', 'max_students', 'courses', 'programmes']);
         $this->assertCount(0, Project::all());
+    }
+
+    /** @test */
+    public function staff_can_see_the_page_to_edit_a_project()
+    {
+        $this->withoutExceptionHandling();
+
+        $staff = create(User::class, ['is_staff' => true]);
+        $project = create(Project::class, ['staff_id' => $staff->id]);
+
+        $response = $this->actingAs($staff)->get(route('project.edit', $project->id));
+
+        $response->assertSuccessful();
+        $response->assertSee('Edit project');
     }
 
     /** @test */

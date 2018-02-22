@@ -75,4 +75,21 @@ class User extends Authenticatable
         }
         return false;
     }
+
+    public function toggleAdmin()
+    {
+        $this->is_admin = ! $this->is_admin;
+        $this->save();
+    }
+
+    public function getType()
+    {
+        if ($this->isAdmin()) {
+            return 'Admin';
+        }
+        if ($this->isStaff()) {
+            return 'Staff';
+        }
+        return 'Student';
+    }
 }

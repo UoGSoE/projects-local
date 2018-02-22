@@ -45,6 +45,32 @@ class CourseTest extends TestCase
     }
 
     /** @test */
+    public function admins_can_see_a_list_of_all_courses()
+    {
+        $this->withoutExceptionHandling();
+        $admin = create(User::class, ['is_admin' => true]);
+        $course1 = create(Course::class);
+        $course2 = create(Course::class);
+
+        $response = $this->actingAs($admin)->get(route('admin.course.index'));
+
+        $response->assertSuccessful();
+        $response->assertSee($course1->title);
+        $response->assertSee($course2->title);
+    }
+
+    /** @test */
+    public function admins_can_see_the_page_to_create_a_new_course()
+    {
+        $admin = create(User::class, ['is_admin' => true]);
+
+        $response = $this->actingAs($admin)->get(route('admin.course.create'));
+
+        $response->assertSuccessful();
+        $response->assertSee('Create new course');
+    }
+
+    /** @test */
     public function admins_can_create_a_new_course()
     {
         $admin = create(User::class, ['is_admin' => true]);
@@ -52,6 +78,7 @@ class CourseTest extends TestCase
         $response = $this->actingAs($admin)->post(route('admin.course.store'), [
             'title' => "A COURSE",
             'code' => "ENG9999",
+            'category' => 'undergrad',
         ]);
 
         $response->assertStatus(302);
@@ -67,12 +94,14 @@ class CourseTest extends TestCase
         $admin = create(User::class, ['is_admin' => true]);
         $existingCourse = create(Course::class, [
             'title' => 'A COURSE',
-            'code' => 'ENG9999'
+            'code' => 'ENG9999',
+            'category' => 'undergrad',
         ]);
 
         $response = $this->actingAs($admin)->post(route('admin.course.store'), [
             'title' => "",
             'code' => $existingCourse->code,
+            'category' => 'undergrad',
         ]);
 
         $response->assertStatus(302);
@@ -91,6 +120,7 @@ class CourseTest extends TestCase
         $response = $this->actingAs($admin)->post(route('admin.course.update', $existingCourse->id), [
             'title' => "A COURSE",
             'code' => "ENG9999",
+            'category' => 'undergrad',
         ]);
 
         $response->assertStatus(302);
@@ -106,12 +136,14 @@ class CourseTest extends TestCase
         $course = create(Course::class);
         $otherCourse = create(Course::class, [
             'title' => 'A COURSE',
-            'code' => 'ENG9999'
+            'code' => 'ENG9999',
+            'category' => 'undergrad',
         ]);
 
         $response = $this->actingAs($admin)->post(route('admin.course.update', $course->id), [
             'title' => "",
             'code' => $otherCourse->code,
+            'category' => 'undergrad',
         ]);
 
         $response->assertStatus(302);

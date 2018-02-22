@@ -15,7 +15,9 @@ class CourseController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.course.index', [
+            'courses' => Course::orderBy('title')->get(),
+        ]);
     }
 
     /**
@@ -25,7 +27,9 @@ class CourseController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.course.create', [
+            'course' => new Course,
+        ]);
     }
 
     /**
@@ -39,6 +43,7 @@ class CourseController extends Controller
         $data = $request->validate([
             'title' => 'required',
             'code' => 'required|unique:courses',
+            'category' => 'required|in:undergrad,postgrad',
         ]);
 
         Course::create($data);
@@ -67,7 +72,9 @@ class CourseController extends Controller
      */
     public function edit(Course $course)
     {
-        //
+        return view('admin.course.edit', [
+            'course' => $course,
+        ]);
     }
 
     /**
@@ -82,6 +89,7 @@ class CourseController extends Controller
         $data = $request->validate([
             'title' => 'required',
             'code' => ['required', Rule::unique('courses')->ignore($course->id)],
+            'category' => 'required|in:undergrad,postgrad',
         ]);
 
         $course->update($data);
