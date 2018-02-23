@@ -50,8 +50,18 @@
                                 <span class="button" :class="{ 'is-info': (choices.first == {{ $project->id }}) }" @click="choose('first', {{ $project->id }})">
                                     1st
                                 </span>
-                                <span class="button" :class="{ 'is-info': (choices.second == {{ $project->id }}) }" @click="choose('second', {{ $project->id }})">2nd</span>
-                                <span class="button" :class="{ 'is-info': (choices.third == {{ $project->id }}) }" @click="choose('third', {{ $project->id }})">3rd</span>
+                                <span class="button" :class="{ 'is-info': (choices.second == {{ $project->id }}) }" @click="choose('second', {{ $project->id }})">
+                                    2nd
+                                </span>
+                                <span class="button" :class="{ 'is-info': (choices.third == {{ $project->id }}) }" @click="choose('third', {{ $project->id }})">
+                                    3rd
+                                </span>
+                                <span class="button" :class="{ 'is-info': (choices.fourth == {{ $project->id }}) }" @click="choose('fourth', {{ $project->id }})">
+                                    4th
+                                </span>
+                                <span class="button" :class="{ 'is-info': (choices.fifth == {{ $project->id }}) }" @click="choose('fifth', {{ $project->id }})">
+                                    5th
+                                </span>
                             </div>
                         </div>
                         <div class="level-item">
