@@ -163,4 +163,23 @@ class CourseTest extends TestCase
         $response->assertSessionHas('success');
         $this->assertDatabaseMissing('courses', ['id' => $course->id]);
     }
+
+    /** @test */
+    public function deleting_a_course_removes_all_students_who_were_on_it()
+    {
+        $admin = create(User::class, ['is_admin' => true]);
+        $course1 = create(Course::class);
+        $course2 = create(Course::class);
+        $student1 = create(User::class, ['course_id' => $course1->id]);
+        $student2 = create(User::class, ['course_id' => $course2->id]);
+
+        $response = $this->actingAs($admin)->delete(route('admin.course.destroy', $course2->id));
+
+        $response->assertStatus(302);
+        $response->assertSessionHas('success');
+        $this->assertDatabaseMissing('courses', ['id' => $course2->id]);
+        $this->assertDatabaseMissing('users', ['id' => $student2->id]);
+        $this->assertDatabaseHas('users', ['id' => $student1->id]);
+    }
+
 }

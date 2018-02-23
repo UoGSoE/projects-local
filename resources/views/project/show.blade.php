@@ -23,6 +23,10 @@
             <td>{{ $project->pre_req }}</td>
         </tr>
         <tr>
+            <th>Active?</th>
+            <td>{{ $project->isActive() ? 'Yes' : 'No' }}</td>
+        </tr>
+        <tr>
             <th>Owner</th>
             <td>{{ $project->owner->full_name }}</td>
         </tr>

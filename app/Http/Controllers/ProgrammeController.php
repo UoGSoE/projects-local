@@ -56,9 +56,15 @@ class ProgrammeController extends Controller
         return redirect()->route('admin.programme.index')->with('success', 'Programme updated');
     }
 
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
         Programme::findOrFail($id)->delete();
+
+        session()->flash('success', 'Programme deleted');
+
+        if ($request->wantsJson()) {
+            return response()->json(['status' => 'deleted']);
+        }
 
         return redirect()->route('admin.programme.index')->with('success', 'Programme deleted');
     }

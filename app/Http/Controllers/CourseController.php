@@ -103,10 +103,15 @@ class CourseController extends Controller
      * @param  \App\Course  $course
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Course $course)
+    public function destroy(Course $course, Request $request)
     {
+        $course->students->each->delete();
         $course->delete();
 
+        session()->flash('success', 'Course deleted');
+        if ($request->wantsJson()) {
+            return response()->json(['status' => 'deleted']);
+        }
         return redirect()->route('admin.course.index')->with('success', 'Course Deleted');
     }
 }

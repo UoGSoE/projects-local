@@ -24,7 +24,11 @@
             <tr>
                 <td>
                     <a href="{{ route('project.show', $project->id) }}">
-                        {{ $project->title }}
+                        @if ($project->isInactive())
+                            <strike title="Inactive">{{ $project->title }}</strike>
+                        @else
+                            {{ $project->title }}
+                        @endif
                     </a>
                 </td>
                 <td>

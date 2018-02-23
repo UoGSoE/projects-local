@@ -4,6 +4,7 @@
 
 <h3 class="title is-3">
     Edit programme
+    <button class="button is-danger is-outlined is-pulled-right" @click.prevent="showConfirmation = true">Delete Programme</button>
 </h3>
 
 <form method="POST" action="{{ route('admin.programme.update', $programme->id) }}">
@@ -20,4 +21,9 @@
     </div>
 
 </form>
+
+<confirmation-dialog :show="showConfirmation" @cancel="showConfirmation = false" @confirm="deleteProgramme({{ $programme->id }})">
+    Do you really want to delete this programme?
+</confirmation-dialog>
+
 @endsection

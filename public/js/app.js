@@ -98,7 +98,15 @@ var app = new Vue({
     el: '#app',
 
     data: {
-        showConfirmation: false
+        showConfirmation: false,
+        openProjects: [],
+        choices: {
+            first: null,
+            second: null,
+            third: null,
+            fourth: null,
+            fifth: null
+        }
     },
 
     methods: {
@@ -108,6 +116,68 @@ var app = new Vue({
             axios.delete('/project/' + projectId).then(function (response) {
                 window.location = '/';
             });
+        },
+
+        deleteCourse: function deleteCourse(courseId) {
+            console.log(courseId);
+            this.showConfirmation = false;
+            axios.delete('/admin/course/' + courseId).then(function (response) {
+                window.location = '/admin/course';
+            });
+        },
+
+        deleteProgramme: function deleteProgramme(programmeId) {
+            console.log(programmeId);
+            this.showConfirmation = false;
+            axios.delete('/admin/programme/' + programmeId).then(function (response) {
+                window.location = '/admin/programme';
+            });
+        },
+
+        isExpanded: function isExpanded(projectId) {
+            if (this.openProjects.indexOf(projectId) != -1) {
+                return true;
+            }
+            return false;
+        },
+
+        expandProject: function expandProject(projectId) {
+            if (this.isExpanded(projectId)) {
+                var index = this.openProjects.indexOf(projectId);
+                this.openProjects.splice(index, 1);
+                return;
+            }
+            this.openProjects.push(projectId);
+        },
+
+        isChosen: function isChosen(projectId) {
+            if (this.choices.first == projectId) {
+                return true;
+            }
+            if (this.choices.second == projectId) {
+                return true;
+            }
+            if (this.choices.third == projectId) {
+                return true;
+            }
+            if (this.choices.fourth == projectId) {
+                return true;
+            }
+            if (this.choices.fifth == projectId) {
+                return true;
+            }
+        },
+
+        choose: function choose(choice, projectId) {
+            var _this = this;
+
+            var keys = ['first', 'second', 'third', 'fourth', 'fifth'];
+            keys.forEach(function (key) {
+                if (_this.choices[key] == projectId) {
+                    _this.choices[key] = null;
+                }
+            });
+            this.choices[choice] = projectId;
         }
     }
 });

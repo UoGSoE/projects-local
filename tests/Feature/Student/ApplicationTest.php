@@ -42,6 +42,30 @@ class ApplicationTest extends TestCase
     }
 
     /** @test */
+    public function projects_which_are_marked_as_inactive_do_not_show_up_on_the_list()
+    {
+        // given we have a student and a course
+        $student = create(User::class, ['is_staff' => false]);
+        $course1 = create(Course::class);
+        // and an active project for that course
+        $activeProject = create(Project::class);
+        $activeProject->courses()->sync([$course1->id]);
+        // and an inactive one
+        $inactiveProject = create(Project::class, ['is_active' => false]);
+        $inactiveProject->courses()->sync([$course1->id]);
+        // and the student is on that course
+        $course1->students()->save($student);
+
+        // when the student goes to the homepage
+        $response = $this->actingAs($student)->get(route('home'));
+
+        // they should only see the active project
+        $response->assertSuccessful();
+        $response->data('projects')->assertContains($activeProject);
+        $response->data('projects')->assertNotContains($inactiveProject);
+    }
+
+    /** @test */
     public function a_student_cant_apply_for_a_more_than_the_required_number_of_projects()
     {
         // given we have a student on a course

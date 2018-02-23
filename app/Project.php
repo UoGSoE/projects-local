@@ -45,6 +45,11 @@ class Project extends Model
         return $query->where('category', '=', 'postgrad');
     }
 
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', '=', true);
+    }
+
     public function isInactive()
     {
         return ! $this->is_active;

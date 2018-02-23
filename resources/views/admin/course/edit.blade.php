@@ -7,6 +7,7 @@
 
         <h3 class="title is-3">
             Edit course
+            <button class="button is-danger is-outlined is-pulled-right" @click.prevent="showConfirmation = true">Delete Course</button>
         </h3>
 
         <form method="POST" action="{{ route('admin.course.update', $course->id) }}">
@@ -40,4 +41,9 @@
         </ul>
     </div>
 </div>
+
+<confirmation-dialog :show="showConfirmation" @cancel="showConfirmation = false" @confirm="deleteCourse({{ $course->id }})">
+    Do you really want to delete this course? This will also remove all the students on it.
+</confirmation-dialog>
+
 @endsection

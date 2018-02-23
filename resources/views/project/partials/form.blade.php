@@ -70,6 +70,25 @@
         </div>
     </div>
 
+    @if (auth()->user()->isAdmin())
+        <div class="field">
+            <div class="control">
+                <label class="label">
+                    Project Owner
+                </label>
+                <div class="select">
+                    <select name="staff_id">
+                        @foreach ($staff as $user)
+                            <option value="{{ $user->id }}" @if ($project->staff_id == old('staff_id', $project->staff_id)) selected @endif>
+                                {{ $user->full_name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+        </div>
+    @endif
+
     <div class="field">
         <div class="control">
             <label class="label">Maximum Number of Students</label>

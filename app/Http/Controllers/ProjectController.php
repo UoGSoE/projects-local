@@ -28,6 +28,7 @@ class ProjectController extends Controller
             'project' => new Project(['category' => $request->type, 'max_students' => 1, 'is_active' => true]),
             'programmes' => Programme::where('category', '=', $request->type)->orderBy('title')->get(),
             'courses' => Course::where('category', '=', $request->type)->orderBy('title')->get(),
+            'staff' => User::staff()->orderBy('surname')->get(),
         ]);
     }
     public function store(Request $request)
@@ -62,6 +63,7 @@ class ProjectController extends Controller
             'project' => $project,
             'programmes' => Programme::where('category', '=', $project->category)->orderBy('title')->get(),
             'courses' => Course::where('category', '=', $project->category)->orderBy('title')->get(),
+            'staff' => User::staff()->orderBy('surname')->get(),
         ]);
     }
 

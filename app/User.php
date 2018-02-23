@@ -38,9 +38,27 @@ class User extends Authenticatable
         return $this->belongsTo(Course::class);
     }
 
+    public function scopeStaff($query)
+    {
+        return $query->where('is_staff', '=', true);
+    }
+
     public function scopeStudents($query)
     {
         return $query->where('is_staff', '=', false);
+    }
+
+    public function applicableProjects()
+    {
+        if (! $this->course_id) {
+            return collect([]);
+        }
+        return $this->course->projects()->active()->get();
+    }
+
+    public function isntOnACourse()
+    {
+        return $this->course_id == null;
     }
 
     public function getFullNameAttribute()
