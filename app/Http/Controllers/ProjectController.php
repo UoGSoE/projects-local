@@ -25,7 +25,7 @@ class ProjectController extends Controller
         ]);
 
         return view('project.create', [
-            'project' => new Project(['category' => $request->type, 'max_students' => 1]),
+            'project' => new Project(['category' => $request->type, 'max_students' => 1, 'is_active' => true]),
             'programmes' => Programme::where('category', '=', $request->type)->orderBy('title')->get(),
             'courses' => Course::where('category', '=', $request->type)->orderBy('title')->get(),
         ]);
@@ -41,6 +41,7 @@ class ProjectController extends Controller
             'courses' => 'required|array|min:1',
             'programmes' => 'required|array|min:1',
             'staff_id' => 'nullable|integer',
+            'is_active' => 'boolean',
         ]);
 
         $user = $request->user();
@@ -74,6 +75,7 @@ class ProjectController extends Controller
             'max_students' => 'required|integer',
             'courses' => 'required|array|min:1',
             'programmes' => 'required|array|min:1',
+            'is_active' => 'boolean',
         ];
         if ($request->user()->isAdmin() and $request->filled('staff_id')) {
             $validationRules['staff_id'] = 'required|integer|exists:users,id';

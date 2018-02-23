@@ -26,7 +26,7 @@
 					</a>
 				</td>
 				<td>{{ ucfirst($programme->category) }}</td>
-				<td>{{ $programme->projects()->count() }}</td>
+				<td>{{ $programme->projects_count }}</td>
 			</tr>
 		@endforeach
 	</tbody>

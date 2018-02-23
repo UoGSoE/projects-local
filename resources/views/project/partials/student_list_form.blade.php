@@ -10,5 +10,7 @@
             </label>
         </li>
     @endforeach
-    <button type="submit" name="accept">Accept Students</button>
+    @if ($project->students->count() > 0)
+        <button type="submit" name="accept">Accept Students</button>
+    @endif
 </form>

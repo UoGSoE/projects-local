@@ -10,6 +10,13 @@ use App\User;
 
 class EnrollmentController extends Controller
 {
+    public function create(Course $course)
+    {
+        return view('admin.course.enrollment', [
+            'course' => $course,
+        ]);
+    }
+
     public function store(Course $course, Request $request)
     {
         $request->validate([
@@ -38,6 +45,6 @@ class EnrollmentController extends Controller
             $user->save();
         });
 
-        return redirect()->back()->with('success', 'Imported Students');
+        return redirect()->route('admin.course.edit', $course->id)->with('success', 'Imported Students');
     }
 }

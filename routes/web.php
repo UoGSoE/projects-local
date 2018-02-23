@@ -45,6 +45,7 @@ Route::group(['middleware' => 'admin', 'prefix' => '/admin'], function () {
     Route::post('/course/{course}', 'CourseController@update')->name('admin.course.update');
     Route::delete('/course/{course}', 'CourseController@destroy')->name('admin.course.destroy');
 
+    Route::get('/course/{course}/enroll', 'Admin\EnrollmentController@create')->name('admin.course.enrollment');
     Route::post('/course/{course}/enrollment', 'Admin\EnrollmentController@store')->name('admin.course.enroll');
 
     Route::get('/programme', 'ProgrammeController@index')->name('admin.programme.index');
@@ -60,6 +61,7 @@ Route::group(['middleware' => 'admin', 'prefix' => '/admin'], function () {
     Route::post('/impersonate/{id}', 'ImpersonationController@store')->name('impersonate.start');
 
     Route::get('/users', 'Admin\UserController@index')->name('admin.users');
+    Route::get('/users/{user}', 'Admin\UserController@show')->name('admin.user.show');
 
     Route::post('/user/{user}/toggle-admin', 'Admin\UserController@toggleAdmin')->name('admin.users.toggle_admin');
 

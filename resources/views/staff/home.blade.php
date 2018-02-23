@@ -20,7 +20,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (auth()->user()->projects()->orderBy('title')->get() as $project)
+        @foreach (auth()->user()->projects()->withCount('students')->orderBy('title')->get() as $project)
             <tr>
                 <td>
                     <a href="{{ route('project.show', $project->id) }}">
@@ -31,7 +31,7 @@
                     {{ ucfirst($project->category) }}
                 </td>
                 <td>
-                    {{ $project->students()->count() }}
+                    {{ $project->students_count }}
                 </td>
             </tr>
         @endforeach

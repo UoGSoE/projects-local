@@ -2,6 +2,8 @@
 
 use Illuminate\Database\Seeder;
 use App\User;
+use App\Course;
+use App\Programme;
 
 class TestDataSeeder extends Seeder
 {
@@ -18,5 +20,7 @@ class TestDataSeeder extends Seeder
             'is_staff' => true,
             'is_admin' => true,
         ]);
+        $courses = create(Course::class, [], 3);
+        $programmes = create(Programme::class, [], 6);
     }
 }

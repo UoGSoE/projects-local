@@ -164,6 +164,34 @@ class ProjectTest extends TestCase
     }
 
     /** @test */
+    public function staff_can_make_their_project_unavailable()
+    {
+        $this->withoutExceptionHandling();
+        $staff = create(User::class, ['is_staff' => true]);
+        $project = create(Project::class, ['staff_id' => $staff->id]);
+        $programme1 = create(Programme::class);
+        $programme2 = create(Programme::class);
+        $course = create(Course::class);
+        $this->assertFalse($project->isInactive());
+
+        $response = $this->actingAs($staff)->post(route('project.update', $project->id), [
+            'is_active' => false,
+            'category' => 'undergrad',
+            'title' => 'My new project',
+            'pre_req' => 'Some mad skillz',
+            'description' => 'Doing something',
+            'max_students' => 2,
+            'courses' => [$course->id],
+            'programmes' => [$programme1->id, $programme2->id],
+        ]);
+
+        $response->assertStatus(302);
+        $response->assertRedirect(route('project.show', $project->id));
+        $response->assertSessionHas('success');
+        $this->assertTrue($project->fresh()->isInactive());
+    }
+
+    /** @test */
     public function valid_data_is_required_to_update_a_project()
     {
         $staff = create(User::class, ['is_staff' => true]);

@@ -16,6 +16,7 @@
 			<th>Title</th>
 			<th>Type</th>
 			<th>No. Projects</th>
+			<th>No. Students</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -28,7 +29,8 @@
                 </td>
 				<td>{{ $course->title }}</td>
 				<td>{{ ucfirst($course->category) }}</td>
-				<td>{{ $course->projects()->count() }}</td>
+				<td>{{ $course->projects_count }}</td>
+				<td>{{ $course->students_count }}</td>
 			</tr>
 		@endforeach
 	</tbody>

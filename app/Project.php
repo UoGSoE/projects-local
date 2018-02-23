@@ -10,6 +10,10 @@ class Project extends Model
 {
     protected $guarded = [];
 
+    protected $casts = [
+        'is_active' => 'boolean',
+    ];
+
     public function programmes()
     {
         return $this->belongsToMany(Programme::class, 'project_programmes');
@@ -39,6 +43,16 @@ class Project extends Model
     public function scopePostgrad($query)
     {
         return $query->where('category', '=', 'postgrad');
+    }
+
+    public function isInactive()
+    {
+        return ! $this->is_active;
+    }
+
+    public function isActive()
+    {
+        return ! $this->isInactive();
     }
 
     public function accept(User $student)

@@ -11,7 +11,7 @@ class ProgrammeController extends Controller
     public function index()
     {
         return view('admin.programme.index', [
-            'programmes' => Programme::orderBy('title')->get(),
+            'programmes' => Programme::orderBy('title')->withCount('projects')->get(),
         ]);
     }
 

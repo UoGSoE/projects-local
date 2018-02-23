@@ -11,7 +11,11 @@ class ProjectController extends Controller
     public function index()
     {
         return view('admin.project.index', [
-            'projects' => Project::orderBy('title')->get(),
+            'projects' => Project::orderBy('title')->withCount([
+                'students', 'students as accepted_students_count' => function ($query) {
+                    return $query->where('is_accepted', '=', true);
+                }
+            ])->get(),
         ]);
     }
 }

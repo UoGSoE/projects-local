@@ -14,7 +14,7 @@
   <div class="navbar-menu" id="navMenu">
     @auth
       <div class="navbar-start">
-
+        @if (auth()->user()->isAdmin())
         <div class="navbar-item has-dropdown is-hoverable">
             <a class="navbar-link">Admin</a>
             <div class="navbar-dropdown">
@@ -32,15 +32,17 @@
               </a>
             </div>
         </div>
-
+        @endif
       </div>
       <div class="navbar-end">
 
-          @if (session('original_user_id'))
+          @if (session('original_id'))
             <form method="POST" action="{{ route('impersonate.stop') }}" class="navbar-item">
               {{ csrf_field() }}
               {{ method_field('DELETE') }}
-              <button class="button">Stop Impersonating</button>
+              <button class="button">
+                Stop Impersonating
+              </button>
             </form>
           @endif
         <div class="navbar-item has-dropdown is-hoverable">

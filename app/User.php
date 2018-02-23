@@ -92,4 +92,9 @@ class User extends Authenticatable
         }
         return 'Student';
     }
+
+    public function getMatricAttribute()
+    {
+        return substr($this->username, 0, 7);
+    }
 }

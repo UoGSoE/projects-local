@@ -56,4 +56,16 @@ class UserAdminTest extends TestCase
         $response->assertJson(['status' => 'ok']);
         $this->assertFalse($user->fresh()->isAdmin());
     }
+
+    /** @test */
+    public function admins_can_view_an_individual_user()
+    {
+        $admin = create(User::class, ['is_admin' => true]);
+        $user = create(User::class);
+
+        $response = $this->actingAs($admin)->get(route('admin.user.show', $user->id));
+
+        $response->assertSuccessful();
+        $response->assertSee($user->full_name);
+    }
 }

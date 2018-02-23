@@ -11,6 +11,7 @@ $factory->define(App\Project::class, function (Faker $faker) {
         'max_students' => $faker->numberBetween(1, 5),
         'staff_id' => function () {
             return factory(App\User::class)->create(['is_staff' => true])->id;
-        }
+        },
+        'is_active' => true,
     ];
 });

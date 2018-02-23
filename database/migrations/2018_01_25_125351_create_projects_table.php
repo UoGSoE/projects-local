@@ -22,6 +22,7 @@ class CreateProjectsTable extends Migration
             $table->text('pre_req')->nullable();
             $table->text('description');
             $table->integer('max_students');
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

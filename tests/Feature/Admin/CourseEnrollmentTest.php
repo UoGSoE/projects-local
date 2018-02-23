@@ -15,6 +15,18 @@ class CourseEnrollmentTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
+    public function an_admin_can_see_the_page_to_import_students_to_a_course()
+    {
+        $admin = create(User::class, ['is_admin' => true]);
+        $course = create(Course::class);
+
+        $response = $this->actingAs($admin)->get(route('admin.course.enrollment', $course->id));
+
+        $response->assertSuccessful();
+        $response->assertSee($course->title);
+    }
+
+    /** @test */
     public function an_admin_can_import_a_spreadsheet_of_students_who_are_on_a_course()
     {
         // given we have an admin and a course

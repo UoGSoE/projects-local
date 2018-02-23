@@ -15,6 +15,13 @@ class UserController extends Controller
         ]);
     }
 
+    public function show(User $user)
+    {
+        return view('admin.user.show', [
+            'user' => $user,
+        ]);
+    }
+
     public function toggleAdmin(User $user)
     {
         $user->toggleAdmin();

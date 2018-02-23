@@ -2,9 +2,15 @@
 
 @section('content')
 
-<h3 class="title is-3">
-    All Users
-</h3>
+<nav class="level">
+  <div class="level-left">
+    <div class="level-item">
+        <h3 class="title is-3">
+            All Users
+        </h3>
+    </div>
+  </div>
+</nav>
 
 <table class="table is-striped is-fullwidth">
     <thead>

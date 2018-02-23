@@ -76,3 +76,13 @@
             <input class="input" name="max_students" type="number" value="{{ old('max_students', $project->max_students) }}" min="0" step="1" required>
         </div>
     </div>
+
+    <div class="field">
+        <div class="control">
+            <label>
+                <input type="hidden" name="is_active" value="0">
+                <input class="checkbox" name="is_active" type="checkbox" value="1" @if (old('is_active', $project->is_active)) checked @endif>
+                Project is active?
+            </label>
+        </div>
+    </div>
