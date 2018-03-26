@@ -1,7 +1,7 @@
 <form method="POST" action="{{ route('project.accept_students', $project->id) }}">
     {{ csrf_field() }}
     <span class="display: flex;">
-    @foreach (App\User::all() as $student)
+    @foreach ($project->students as $student)
         <li style="display:flex;margin-bottom: 1em;">
             <label style="flex-shrink: 1; margin-right: 1em;">
                 @can('accept-onto-project', [$student, $project])

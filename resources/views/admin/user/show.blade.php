@@ -27,6 +27,22 @@
         <th>Type</th>
         <td>{{ $user->getType() }}</td>
     </tr>
+    @if ($user->profile)
+        <tr>
+            <th>Profile</th>
+            <td>{!! $user->getFormattedProfile() !!}</td>
+        </tr>
+    @endif
+    @if ($user->course)
+        <tr>
+            <th>Course</th>
+            <td>
+                <a href="{{ route('admin.course.show', $user->course->id) }}">
+                    {{ $user->course->code }} {{ $user->course->title }}
+                </a>
+            </td>
+        </tr>
+    @endif
 </table>
 
 @if ($user->isStaff())

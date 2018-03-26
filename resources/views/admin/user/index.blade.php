@@ -15,6 +15,7 @@
 <table class="table is-striped is-fullwidth">
     <thead>
         <tr>
+            <th>Username</th>
             <th>Surname</th>
             <th>Forenames</th>
             <th>Type</th>
@@ -24,6 +25,11 @@
     <tbody>
         @foreach ($users as $user)
             <tr>
+                <td>
+                    <a href="{{ route('admin.user.show', $user->id) }}">
+                        {{ $user->username }}
+                    </a>
+                </td>
                 <td>
                     {{ $user->surname }}
                 </td>

@@ -22,7 +22,7 @@
 <ul>
 @foreach ($course->students as $student)
 	<li>
-		<a href="">
+		<a href="{{ route('admin.user.show', $student->id) }}">
 			{{ $student->full_name }} ({{ $student->matric }})
 		</a>
 	</li>
