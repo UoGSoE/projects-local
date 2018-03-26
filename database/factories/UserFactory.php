@@ -25,3 +25,11 @@ $factory->define(App\User::class, function (Faker $faker) {
         'remember_token' => str_random(10),
     ];
 });
+
+$factory->state(App\User::class, 'student', function ($faker) {
+    return [
+        'is_staff' => false,
+        'username' => $faker->numberBetween(1000000, 9999999) . $faker->randomLetter,
+        'profile' => $faker->text(300),
+    ];
+});

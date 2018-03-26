@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 use App\User;
 use App\Course;
 use App\Programme;
+use App\Project;
 
 class TestDataSeeder extends Seeder
 {
@@ -22,5 +23,9 @@ class TestDataSeeder extends Seeder
         ]);
         $courses = create(Course::class, [], 3);
         $programmes = create(Programme::class, [], 6);
+
+        $projects = factory(Project::class, 10)->create();
+
+        $students = factory(User::class, 20)->states('student')->create();
     }
 }

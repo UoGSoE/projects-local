@@ -23,6 +23,7 @@ const app = new Vue({
     data: {
         showConfirmation: false,
         openProjects: [],
+        selectedStudent: null,
         choices: {
             first: null,
             second: null,

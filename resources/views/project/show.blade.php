@@ -61,10 +61,29 @@
     </tbody>
 </table>
 
-@can('accept-students', $project)
-    @include('project.partials.student_list_form')
-@else
-    @include('project.partials.student_list')
-@endcan
+<div class="columns">
+    <div class="column">
+        @can('accept-students', $project)
+            @include('project.partials.student_list_form')
+        @else
+            @include('project.partials.student_list')
+        @endcan
+    </div>
+    <div class="column">
+        <div id="student_profile_box" v-if="selectedStudent">
+            <article class="media">
+              <div class="media-content">
+                <div class="content">
+                  <p>
+                    <strong>@{{ selectedStudent.full_name}}</strong> <small>@{{ selectedStudent.email }}</small>
+                    <br>
+                    <span v-html="selectedStudent.profile"></span>
+                  </p>
+                </div>
+              </div>
+            </article>
+        </div>
+    </div>
+</div>
 
 @endsection

@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('forenames');
             $table->boolean('is_staff')->default(false);
             $table->boolean('is_admin')->default(false);
+            $table->text('profile')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
