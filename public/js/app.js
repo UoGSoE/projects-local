@@ -988,6 +988,7 @@ window.Vue = __webpack_require__(31);
  */
 
 Vue.component('confirmation-dialog', __webpack_require__(34));
+Vue.component('project-list', __webpack_require__(43));
 
 var app = new Vue({
     el: '#app',
@@ -995,34 +996,7 @@ var app = new Vue({
     data: {
         showConfirmation: false,
         openProjects: [],
-        selectedStudent: null,
-        requiredChoices: window.config.required_choices,
-        submitButtonText: 'Submit my choices',
-        submissionError: false,
-        choices: {
-            first: null,
-            second: null,
-            third: null,
-            fourth: null,
-            fifth: null
-        }
-    },
-
-    computed: {
-        anyProjectsChosen: function anyProjectsChosen() {
-            return this.choices.first || this.choices.second || this.choices.third || this.choices.fourth || this.choices.fifth;
-        },
-        numberChosen: function numberChosen() {
-            var total = 0;
-            for (var key in this.choices) {
-                if (this.choices.hasOwnProperty(key)) {
-                    if (this.choices[key] != null) {
-                        total++;
-                    }
-                }
-            }
-            return total;
-        }
+        selectedStudent: null
     },
 
     methods: {
@@ -1047,72 +1021,6 @@ var app = new Vue({
             this.showConfirmation = false;
             axios.delete('/admin/programme/' + programmeId).then(function (response) {
                 window.location = '/admin/programme';
-            });
-        },
-
-        isExpanded: function isExpanded(projectId) {
-            if (this.openProjects.indexOf(projectId) != -1) {
-                return true;
-            }
-            return false;
-        },
-
-        expandProject: function expandProject(projectId) {
-            if (this.isExpanded(projectId)) {
-                var index = this.openProjects.indexOf(projectId);
-                this.openProjects.splice(index, 1);
-                return;
-            }
-            this.openProjects.push(projectId);
-        },
-
-        isChosen: function isChosen(projectId) {
-            if (this.choices.first == projectId) {
-                return true;
-            }
-            if (this.choices.second == projectId) {
-                return true;
-            }
-            if (this.choices.third == projectId) {
-                return true;
-            }
-            if (this.choices.fourth == projectId) {
-                return true;
-            }
-            if (this.choices.fifth == projectId) {
-                return true;
-            }
-        },
-
-        choose: function choose(choice, projectId) {
-            var _this = this;
-
-            var keys = ['first', 'second', 'third', 'fourth', 'fifth'];
-            keys.forEach(function (key) {
-                if (_this.choices[key] == projectId) {
-                    _this.choices[key] = null;
-                }
-            });
-            this.choices[choice] = projectId;
-        },
-
-        submitChoices: function submitChoices() {
-            var _this2 = this;
-
-            var choices = {
-                "1": this.choices.first,
-                "2": this.choices.second,
-                "3": this.choices.third,
-                "4": this.choices.fourth,
-                "5": this.choices.fifth
-            };
-            console.log(choices);
-            axios.post('/choices', { choices: choices }).then(function (response) {
-                window.location = '/thank-you';
-            }).catch(function (error) {
-                _this2.submitButtonText = 'Error submitting choices - sorry';
-                _this2.submissionError = true;
-                console.log(error);
             });
         }
     }
@@ -13448,6 +13356,554 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 39 */,
+/* 40 */,
+/* 41 */,
+/* 42 */,
+/* 43 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(35)
+/* script */
+var __vue_script__ = __webpack_require__(44)
+/* template */
+var __vue_template__ = __webpack_require__(45)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/ProjectList.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7551a920", Component.options)
+  } else {
+    hotAPI.reload("data-v-7551a920", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 44 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['projects', 'programmes'],
+
+    data: function data() {
+        return {
+            showConfirmation: false,
+            openProjects: [],
+            selectedStudent: null,
+            requiredChoices: window.config.required_choices,
+            submitButtonText: 'Submit my choices',
+            submissionError: false,
+            choices: {
+                first: null,
+                second: null,
+                third: null,
+                fourth: null,
+                fifth: null
+            }
+        };
+    },
+
+
+    computed: {
+        anyProjectsChosen: function anyProjectsChosen() {
+            return this.choices.first || this.choices.second || this.choices.third || this.choices.fourth || this.choices.fifth;
+        },
+        numberChosen: function numberChosen() {
+            var total = 0;
+            for (var key in this.choices) {
+                if (this.choices.hasOwnProperty(key)) {
+                    if (this.choices[key] != null) {
+                        total++;
+                    }
+                }
+            }
+            return total;
+        }
+    },
+
+    methods: {
+        isExpanded: function isExpanded(projectId) {
+            if (this.openProjects.indexOf(projectId) != -1) {
+                return true;
+            }
+            return false;
+        },
+
+        expandProject: function expandProject(projectId) {
+            if (this.isExpanded(projectId)) {
+                var index = this.openProjects.indexOf(projectId);
+                this.openProjects.splice(index, 1);
+                return;
+            }
+            this.openProjects.push(projectId);
+        },
+
+        isChosen: function isChosen(projectId) {
+            if (this.choices.first == projectId) {
+                return true;
+            }
+            if (this.choices.second == projectId) {
+                return true;
+            }
+            if (this.choices.third == projectId) {
+                return true;
+            }
+            if (this.choices.fourth == projectId) {
+                return true;
+            }
+            if (this.choices.fifth == projectId) {
+                return true;
+            }
+        },
+
+        choose: function choose(choice, projectId) {
+            var _this = this;
+
+            var keys = ['first', 'second', 'third', 'fourth', 'fifth'];
+            keys.forEach(function (key) {
+                if (_this.choices[key] == projectId) {
+                    _this.choices[key] = null;
+                }
+            });
+            this.choices[choice] = projectId;
+        },
+
+        submitChoices: function submitChoices() {
+            var _this2 = this;
+
+            var choices = {
+                "1": this.choices.first,
+                "2": this.choices.second,
+                "3": this.choices.third,
+                "4": this.choices.fourth,
+                "5": this.choices.fifth
+            };
+            console.log(choices);
+            axios.post('/choices', { choices: choices }).then(function (response) {
+                window.location = '/thank-you';
+            }).catch(function (error) {
+                _this2.submitButtonText = 'Error submitting choices - sorry';
+                _this2.submissionError = true;
+                console.log(error);
+            });
+        }
+    }
+});
+
+/***/ }),
+/* 45 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _vm._l(_vm.projects, function(project) {
+        return _c("div", { staticClass: "box" }, [
+          _c("h4", { staticClass: "title is-4" }, [
+            _c(
+              "button",
+              {
+                staticClass: "button",
+                class: { "is-info": _vm.isChosen(project.id) },
+                attrs: { title: "Show full description" },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    _vm.expandProject(project.id)
+                  }
+                }
+              },
+              [
+                _vm.isExpanded(project.id)
+                  ? _c("span", { staticClass: "icon" }, [
+                      _vm._v("\n                    -\n                ")
+                    ])
+                  : _c("span", { staticClass: "icon" }, [
+                      _vm._v("\n                    +\n                ")
+                    ])
+              ]
+            ),
+            _vm._v("\n            " + _vm._s(project.title) + "\n        ")
+          ]),
+          _vm._v(" "),
+          _c("p", { staticClass: "subtitle has-text-grey-light" }, [
+            _vm._v(
+              "\n            Run by " +
+                _vm._s(project.owner.full_name) +
+                "\n        "
+            )
+          ]),
+          _vm._v(" "),
+          _vm.isExpanded(project.id)
+            ? _c("div", [
+                _c("h5", { staticClass: "title is-5 has-text-grey" }, [
+                  _vm._v("Description")
+                ]),
+                _vm._v(" "),
+                _c("p", [
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(project.description) +
+                      "\n            "
+                  )
+                ]),
+                _vm._v(" "),
+                project.pre_req
+                  ? _c("span", [
+                      _c("br"),
+                      _vm._v(" "),
+                      _c("h5", { staticClass: "title is-5 has-text-grey" }, [
+                        _vm._v("Prerequisite Skills")
+                      ]),
+                      _vm._v(" "),
+                      _c("p", [
+                        _vm._v(
+                          "\n                    " +
+                            _vm._s(project.pre_req) +
+                            "\n                "
+                        )
+                      ])
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("hr"),
+                _vm._v(" "),
+                _c("div", { staticClass: "level" }, [
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "level-left has-text-weight-semibold has-text-grey"
+                    },
+                    [
+                      _c("div", { staticClass: "level-item" }, [
+                        _vm._v(
+                          "\n                        Make this project my\n                    "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "level-item" }, [
+                        _c("div", { staticClass: "buttons has-addons" }, [
+                          _c(
+                            "span",
+                            {
+                              staticClass: "button",
+                              class: {
+                                "is-info": _vm.choices.first == project.id
+                              },
+                              on: {
+                                click: function($event) {
+                                  _vm.choose("first", project.id)
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                                1st\n                            "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "span",
+                            {
+                              staticClass: "button",
+                              class: {
+                                "is-info": _vm.choices.second == project.id
+                              },
+                              on: {
+                                click: function($event) {
+                                  _vm.choose("second", project.id)
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                                2nd\n                            "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "span",
+                            {
+                              staticClass: "button",
+                              class: {
+                                "is-info": _vm.choices.third == project.id
+                              },
+                              on: {
+                                click: function($event) {
+                                  _vm.choose("third", project.id)
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                                3rd\n                            "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "span",
+                            {
+                              staticClass: "button",
+                              class: {
+                                "is-info": _vm.choices.fourth == project.id
+                              },
+                              on: {
+                                click: function($event) {
+                                  _vm.choose("fourth", project.id)
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                                4th\n                            "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "span",
+                            {
+                              staticClass: "button",
+                              class: {
+                                "is-info": _vm.choices.fifth == project.id
+                              },
+                              on: {
+                                click: function($event) {
+                                  _vm.choose("fifth", project.id)
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                                5th\n                            "
+                              )
+                            ]
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "level-item" }, [
+                        _vm._v(
+                          "\n                        preference\n                    "
+                        )
+                      ])
+                    ]
+                  )
+                ])
+              ])
+            : _vm._e()
+        ])
+      }),
+      _vm._v(" "),
+      _c("transition", { attrs: { name: "fade" } }, [
+        _vm.anyProjectsChosen
+          ? _c("div", { attrs: { id: "infobox" } }, [
+              _c(
+                "article",
+                {
+                  staticClass: "message",
+                  class: {
+                    "is-success": _vm.numberChosen == _vm.requiredChoices
+                  }
+                },
+                [
+                  _vm.numberChosen < _vm.requiredChoices
+                    ? _c(
+                        "div",
+                        {
+                          key: _vm.numberChosen < _vm.requiredChoices,
+                          staticClass: "message-body"
+                        },
+                        [
+                          _vm._v(
+                            "\n            You have chosen " +
+                              _vm._s(_vm.numberChosen) +
+                              " " +
+                              _vm._s(
+                                _vm.numberChosen > 1 ? "projects" : "project"
+                              ) +
+                              ". You need to choose " +
+                              _vm._s(_vm.requiredChoices - _vm.numberChosen) +
+                              " more.\n          "
+                          )
+                        ]
+                      )
+                    : _c(
+                        "div",
+                        {
+                          key: _vm.numberChosen < _vm.requiredChoices,
+                          staticClass: "message-body"
+                        },
+                        [
+                          _vm._v(
+                            "\n            You have chosen all " +
+                              _vm._s(_vm.requiredChoices) +
+                              " projects - you can now submit your choices."
+                          ),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c("p", [_vm._v(" ")]),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "button is-info",
+                              class: { "is-danger": _vm.submissionError },
+                              attrs: { disabled: _vm.submissionError },
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  _vm.submitChoices($event)
+                                }
+                              }
+                            },
+                            [_vm._v(_vm._s(_vm.submitButtonText))]
+                          )
+                        ]
+                      )
+                ]
+              )
+            ])
+          : _vm._e()
+      ]),
+      _vm._v(" "),
+      _c("p", [_vm._v(" ")])
+    ],
+    2
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-7551a920", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);
