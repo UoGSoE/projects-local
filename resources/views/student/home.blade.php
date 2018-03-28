@@ -12,7 +12,7 @@
 @if (Auth::user()->isntOnACourse())
     You do not seem to be registered on any project courses.  Please email the Engineering Teaching Office.
 @else
-    <project-list :projects='@json(Auth::user()->applicableProjects())' :programmes='@json($programmes)'></project-list>
+    <project-list :projects='@json($projects)' :programmes='@json($programmes)'></project-list>
 @endif
 
 @endsection

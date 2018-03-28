@@ -13496,6 +13496,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['projects', 'programmes'],
@@ -13508,6 +13519,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             requiredChoices: window.config.required_choices,
             submitButtonText: 'Submit my choices',
             submissionError: false,
+            selectedProgramme: null,
             choices: {
                 first: null,
                 second: null,
@@ -13533,6 +13545,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
             }
             return total;
+        },
+        availableProjects: function availableProjects() {
+            var _this = this;
+
+            if (!this.selectedProgramme) {
+                return this.projects;
+            }
+            return this.projects.filter(function (project) {
+                return project.programmes.find(function (programme) {
+                    if (programme.title == _this.selectedProgramme) {
+                        return true;
+                    }
+                });
+            });
         }
     },
 
@@ -13572,19 +13598,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
 
         choose: function choose(choice, projectId) {
-            var _this = this;
+            var _this2 = this;
 
             var keys = ['first', 'second', 'third', 'fourth', 'fifth'];
             keys.forEach(function (key) {
-                if (_this.choices[key] == projectId) {
-                    _this.choices[key] = null;
+                if (_this2.choices[key] == projectId) {
+                    _this2.choices[key] = null;
                 }
             });
             this.choices[choice] = projectId;
         },
 
         submitChoices: function submitChoices() {
-            var _this2 = this;
+            var _this3 = this;
 
             var choices = {
                 "1": this.choices.first,
@@ -13597,8 +13623,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axios.post('/choices', { choices: choices }).then(function (response) {
                 window.location = '/thank-you';
             }).catch(function (error) {
-                _this2.submitButtonText = 'Error submitting choices - sorry';
-                _this2.submissionError = true;
+                _this3.submitButtonText = 'Error submitting choices - sorry';
+                _this3.submissionError = true;
                 console.log(error);
             });
         }
@@ -13616,8 +13642,57 @@ var render = function() {
   return _c(
     "div",
     [
-      _vm._l(_vm.projects, function(project) {
-        return _c("div", { staticClass: "box" }, [
+      _c("div", { staticClass: "field" }, [
+        _c("div", { staticClass: "control" }, [
+          _c("div", { staticClass: "select" }, [
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.selectedProgramme,
+                    expression: "selectedProgramme"
+                  }
+                ],
+                on: {
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.selectedProgramme = $event.target.multiple
+                      ? $$selectedVal
+                      : $$selectedVal[0]
+                  }
+                }
+              },
+              [
+                _c("option", { domProps: { value: null } }, [
+                  _vm._v("For any degree programme")
+                ]),
+                _vm._v(" "),
+                _vm._l(_vm.programmes, function(programme) {
+                  return _c(
+                    "option",
+                    { domProps: { value: programme.title } },
+                    [_vm._v(_vm._s(programme.title))]
+                  )
+                })
+              ],
+              2
+            )
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _vm._l(_vm.availableProjects, function(project) {
+        return _c("div", { key: project.id, staticClass: "box" }, [
           _c("h4", { staticClass: "title is-4" }, [
             _c(
               "button",

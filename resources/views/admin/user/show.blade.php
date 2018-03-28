@@ -47,8 +47,39 @@
 
 @if ($user->isStaff())
     <h4 class="title is-4">Projects</h4>
+    <ul>
+        @foreach ($user->projects as $project)
+            <li>
+                <a href="{{ route('project.show', $project->id) }}">
+                    {{ $project->title }}
+                </a>
+            </li>
+        @endforeach
+    </ul>
 @else
     <h4 class="title is-4">Project Choices</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Choice</th>
+                <th>Accepted?</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($user->projects as $project)
+            <tr>
+                <td>
+                    <a href="{{ route('project.show', $project->id) }}">
+                        {{ $project->title }}
+                    </a>
+                </td>
+                <td>{{ $project->pivot->choice }}</td>
+                <td>{{ $project->pivot->is_accepted ? 'Yes' : 'No' }}</td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
 @endif
 
 @endsection

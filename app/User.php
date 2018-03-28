@@ -57,7 +57,7 @@ class User extends Authenticatable
         if (! $this->course_id) {
             return collect([]);
         }
-        return $this->course->projects()->with('owner')->active()->get();
+        return $this->course->projects()->with('owner', 'programmes')->active()->get();
     }
 
     public function applicableProgrammes()
@@ -65,8 +65,7 @@ class User extends Authenticatable
         if (! $this->course_id) {
             return collect([]);
         }
-        $courseType = $this->course->category;
-        return Programme::where('category', '=', $courseType)->orderBy('title')->get();
+        return Programme::where('category', '=', $this->course->category)->orderBy('title')->get();
     }
 
     public function isntOnACourse()

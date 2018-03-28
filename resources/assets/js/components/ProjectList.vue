@@ -1,6 +1,17 @@
 <template>
     <div>
-        <div class="box" v-for="project in projects">
+        <div class="field">
+            <div class="control">
+                <div class="select">
+                  <select v-model="selectedProgramme">
+                    <option v-bind:value="null">For any degree programme</option>
+                    <option v-for="programme in programmes" v-bind:value="programme.title">{{ programme.title }}</option>
+                  </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="box" v-for="project in availableProjects" :key="project.id">
             <h4 class="title is-4">
                 <button class="button" :class="{ 'is-info': isChosen(project.id) }" @click.prevent="expandProject(project.id)" title="Show full description">
                     <span v-if="isExpanded(project.id)" class="icon">
@@ -92,6 +103,7 @@
                 requiredChoices: window.config.required_choices,
                 submitButtonText: 'Submit my choices',
                 submissionError: false,
+                selectedProgramme: null,
                 choices: {
                     first: null,
                     second: null,
@@ -116,6 +128,18 @@
                     }
                 }
                 return total;
+            },
+            availableProjects() {
+                if (! this.selectedProgramme) {
+                    return this.projects;
+                }
+                return this.projects.filter(project => {
+                    return project.programmes.find(programme => {
+                        if (programme.title == this.selectedProgramme) {
+                            return true;
+                        }
+                    })
+                });
             }
         },
 
