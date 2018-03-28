@@ -27,6 +27,7 @@ class HomeController extends Controller
         if (Auth::user()->isStudent()) {
             return view('student.home', [
                 'projects' => Auth::user()->applicableProjects(),
+                'programmes' => Auth::user()->applicableProgrammes(),
             ]);
         }
 

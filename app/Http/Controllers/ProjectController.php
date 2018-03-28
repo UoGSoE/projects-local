@@ -12,7 +12,7 @@ class ProjectController extends Controller
 {
     public function show($id)
     {
-        $project = Project::findOrFail($id);
+        $project = Project::with('owner', 'programmes', 'courses', 'students')->findOrFail($id);
         $this->authorize('view', $project);
 
         return view('project.show', ['project' => $project]);

@@ -28,7 +28,15 @@
         </tr>
         <tr>
             <th>Owner</th>
-            <td>{{ $project->owner->full_name }}</td>
+            <td>
+                @if (Auth::user()->isAdmin())
+                    <a href="{{ route('admin.user.show', $project->owner->id) }}">
+                        {{ $project->owner->full_name }}
+                    </a>
+                @else
+                    {{ $project->owner->full_name }}
+                @endif
+            </td>
         </tr>
         <tr>
             <th>Type</th>
@@ -91,7 +99,7 @@
               <div class="media-content">
                 <div class="content">
                   <p>
-                    <strong>@{{ selectedStudent.full_name}}</strong> <small>@{{ selectedStudent.email }}</small>
+                    Profile for <strong>@{{ selectedStudent.full_name}}</strong> <small>@{{ selectedStudent.email }}</small>
                     <br>
                     <span v-html="selectedStudent.profile"></span>
                   </p>
