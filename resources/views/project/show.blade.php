@@ -43,7 +43,15 @@
             <td>
                 <ul class="is-inline">
                 @foreach ($project->courses as $course)
-                    <li>{{ $course->code }} {{ $course->title }}</li>
+                    <li>
+                        @if (Auth::user()->isAdmin())
+                            <a href="{{ route('admin.course.show', $course->id) }}">
+                                {{ $course->code }} {{ $course->title }}
+                            </a>
+                        @else
+                            {{ $course->code }} {{ $course->title }}
+                        @endif
+                    </li>
                 @endforeach
                 </ul>
             </td>
@@ -53,7 +61,15 @@
             <td>
                 <ul class="is-inline">
                 @foreach ($project->programmes as $programme)
-                    <li>{{ $programme->title }}</li>
+                    <li>
+                        @if (Auth::user()->isAdmin())
+                            <a href="{{ route('admin.programme.edit', $programme->id) }}">
+                                {{ $programme->title }}
+                            </a>
+                        @else
+                            {{ $programme->title }}
+                        @endif
+                    </li>
                 @endforeach
                 </ul>
             </td>

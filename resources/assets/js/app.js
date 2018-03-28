@@ -24,12 +24,30 @@ const app = new Vue({
         showConfirmation: false,
         openProjects: [],
         selectedStudent: null,
+        requiredChoices: window.config.required_choices,
         choices: {
             first: null,
             second: null,
             third: null,
             fourth: null,
             fifth: null
+        }
+    },
+
+    computed: {
+        anyProjectsChosen() {
+            return this.choices.first || this.choices.second || this.choices.third || this.choices.fourth || this.choices.fifth;
+        },
+        numberChosen() {
+            var total = 0;
+            for (var key in this.choices) {
+                if (this.choices.hasOwnProperty(key)) {
+                    if (this.choices[key] != null) {
+                        total++;
+                    }
+                }
+            }
+            return total;
         }
     },
 
@@ -103,6 +121,24 @@ const app = new Vue({
                 }
             });
             this.choices[choice] = projectId;
+        },
+
+        submitChoices() {
+            var choices = {
+                "1": this.choices.first,
+                "2": this.choices.second,
+                "3": this.choices.third,
+                "4": this.choices.fourth,
+                "5": this.choices.fifth,
+            };
+            console.log(choices);
+            axios.post('/choices', {choices: choices})
+                 .then(response => {
+                    window.location = '/thank-you';
+                 })
+                 .catch(error => {
+                    console.log(error);
+                 });
         }
     }
 });

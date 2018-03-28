@@ -12,6 +12,11 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <script>
+        window.config = {
+            'required_choices': @json(config('projects.required_choices'))
+        }
+    </script>
 </head>
 <body>
     @include('layouts.navbar')

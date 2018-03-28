@@ -25,7 +25,7 @@
 		@foreach ($courses as $course)
 			<tr>
                 <td>
-                    <a href="{{ route('admin.course.edit', $course->id) }}">
+                    <a href="{{ route('admin.course.show', $course->id) }}">
                         {{ $course->code }}
                     </a>
                 </td>

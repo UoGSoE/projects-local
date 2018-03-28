@@ -24,7 +24,16 @@ class TestDataSeeder extends Seeder
         $courses = create(Course::class, [], 3);
         $programmes = create(Programme::class, [], 6);
 
-        $projects = factory(Project::class, 10)->create();
+        $courses->each(function ($course) {
+            factory(Project::class, 15)->create()->each(function ($project) use ($course) {
+                $course->projects()->save($project);
+            });
+        });
+        $programmes->each(function ($programme) {
+            Project::all()->each(function ($project) use ($programme) {
+                $programme->projects()->save($project);
+            });
+        });
 
         $students = factory(User::class, 20)->states('student')->create();
     }

@@ -8,6 +8,9 @@
 <p class="subtitle">
     Some blurb about choosing things
 </p>
+
+@include('student.partials.choice_info_message')
+
 @if (Auth::user()->isntOnACourse())
     You do not seem to be registered on any project courses.  Please email the Engineering Teaching Office.
 @else
@@ -72,5 +75,8 @@
             </div>
         </div>
     @endforeach
+
+    @include('student.partials.choice_info_message')
+
 @endif
 @endsection
