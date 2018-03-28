@@ -1,7 +1,7 @@
 <div v-if="anyProjectsChosen">
     <article class="message" :class="{'is-success': numberChosen == requiredChoices}">
       <div class="message-body" v-if="numberChosen < requiredChoices">
-        You have chosen @{{ numberChosen }} projects. You need to choose @{{ requiredChoices - numberChosen }} more.
+        You have chosen @{{ numberChosen }} @{{ numberChosen > 1 ? 'projects' : 'project' }}. You need to choose @{{ requiredChoices - numberChosen }} more.
       </div>
       <div class="message-body" v-else>
         You have chosen @{{ requiredChoices }} projects - you can now submit your choices.<br />

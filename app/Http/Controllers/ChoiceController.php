@@ -31,6 +31,6 @@ class ChoiceController extends Controller
 
     public function thankYou()
     {
-        return 'Thank you';
+        return view('student.thankyou');
     }
 }
