@@ -13,4 +13,6 @@
     If you have any further questions please email the <a href="mailto:">teaching office</a>.
 </p>
 
+<p>&nbsp;</p>
+
 @endsection

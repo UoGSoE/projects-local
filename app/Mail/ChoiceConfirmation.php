@@ -31,6 +31,7 @@ class ChoiceConfirmation extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.choice_confirmation');
+        return $this->subject('Engineering Project Choices')
+                    ->markdown('emails.choice_confirmation');
     }
 }

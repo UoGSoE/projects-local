@@ -997,6 +997,8 @@ var app = new Vue({
         openProjects: [],
         selectedStudent: null,
         requiredChoices: window.config.required_choices,
+        submitButtonText: 'Submit my choices',
+        submissionError: false,
         choices: {
             first: null,
             second: null,
@@ -1095,6 +1097,8 @@ var app = new Vue({
         },
 
         submitChoices: function submitChoices() {
+            var _this2 = this;
+
             var choices = {
                 "1": this.choices.first,
                 "2": this.choices.second,
@@ -1106,6 +1110,8 @@ var app = new Vue({
             axios.post('/choices', { choices: choices }).then(function (response) {
                 window.location = '/thank-you';
             }).catch(function (error) {
+                _this2.submitButtonText = 'Error submitting choices - sorry';
+                _this2.submissionError = true;
                 console.log(error);
             });
         }

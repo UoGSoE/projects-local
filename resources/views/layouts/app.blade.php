@@ -22,8 +22,17 @@
     @include('layouts.navbar')
     <section id="app" class="section">
         <div class="container">
+
+            <noscript>
+                This website requires javascript to function. Please turn it on.
+            </noscript>
+
             @include('layouts.errors')
+
             @yield('content')
+
+            @include('layouts.footer')
+
         </div>
     </section>
 

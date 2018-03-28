@@ -25,6 +25,8 @@ const app = new Vue({
         openProjects: [],
         selectedStudent: null,
         requiredChoices: window.config.required_choices,
+        submitButtonText: 'Submit my choices',
+        submissionError: false,
         choices: {
             first: null,
             second: null,
@@ -137,6 +139,8 @@ const app = new Vue({
                     window.location = '/thank-you';
                  })
                  .catch(error => {
+                    this.submitButtonText = 'Error submitting choices - sorry';
+                    this.submissionError = true;
                     console.log(error);
                  });
         }
