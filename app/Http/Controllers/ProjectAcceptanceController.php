@@ -15,8 +15,12 @@ class ProjectAcceptanceController extends Controller
         ]);
 
         $project = Project::findOrFail($id);
+
+        $this->authorize('accept-students', $project);
+
         $students = User::students()->findMany($request->students);
         $students->each(function ($student) use ($project) {
+            $this->authorize('accept-onto-project', [$student, $project]);
             $project->accept($student);
         });
 

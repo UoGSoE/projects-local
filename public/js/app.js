@@ -14159,8 +14159,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (this.user.isAdmin) {
                 return true;
             }
-            // staff cannot choose anything for undergrad projects
-            if (this.project.category == 'undergrad') {
+            // staff cannot choose anything for postgrad projects
+            if (this.project.category == 'postgrad') {
                 return false;
             }
             // if the student is already accepted, staff cannot change it

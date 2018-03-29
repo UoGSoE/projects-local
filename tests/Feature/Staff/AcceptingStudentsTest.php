@@ -29,9 +29,9 @@ class AcceptingStudentsTest extends TestCase
         // when we view the project
         $response = $this->actingAs($staff)->get(route('project.show', $project->id));
 
-        // we should see the html form markup for the student choice tickbox
+        // it should view ok with the right data
         $response->assertSuccessful();
-        $response->assertSee("students[{$student->id}]");
+        $this->assertTrue($response->data('project')->is($project));
 
         // and when we submit the form
         $response = $this->actingAs($staff)->post(route('project.accept_students', $project->id), [
@@ -45,7 +45,7 @@ class AcceptingStudentsTest extends TestCase
     }
 
     /** @test */
-    public function staff_dont_get_the_option_to_accept_non_first_choice_students_for_undergrad_projects()
+    public function staff_cant_accept_non_first_choice_students_for_undergrad_projects()
     {
         $staff = create(User::class, ['is_staff' => true]);
         $student = create(User::class, ['is_staff' => false]);
@@ -53,14 +53,17 @@ class AcceptingStudentsTest extends TestCase
         $student->projects()->sync([$project->id => ['choice' => 2]]);
         $this->assertFalse($project->students()->first()->isAccepted());
 
-        $response = $this->actingAs($staff)->get(route('project.show', $project->id));
+        $response = $this->actingAs($staff)->post(route('project.accept_students', $project->id), [
+            'students' => [$student->id],
+        ]);
 
-        $response->assertSuccessful();
-        $response->assertDontSee("students[{$student->id}]");
+        $response->assertStatus(403);
+        $response->assertSessionMissing('success');
+        $this->assertFalse($project->students()->first()->isAccepted());
     }
 
     /** @test */
-    public function staff_dont_get_the_option_to_accept_students_for_postgrad_projects()
+    public function staff_cant_accept_students_for_postgrad_projects()
     {
         $staff = create(User::class, ['is_staff' => true]);
         $student = create(User::class, ['is_staff' => false]);
@@ -69,8 +72,13 @@ class AcceptingStudentsTest extends TestCase
 
         $response = $this->actingAs($staff)->get(route('project.show', $project->id));
 
-        $response->assertSuccessful();
-        $response->assertDontSee("students[{$student->id}]");
+        $response = $this->actingAs($staff)->post(route('project.accept_students', $project->id), [
+            'students' => [$student->id],
+        ]);
+
+        $response->assertStatus(403);
+        $response->assertSessionMissing('success');
+        $this->assertFalse($project->students()->first()->isAccepted());
     }
 
     /** @test */

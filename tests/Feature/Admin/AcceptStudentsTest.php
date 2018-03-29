@@ -27,9 +27,8 @@ class AcceptStudentsTest extends TestCase
         // when we view the project
         $response = $this->actingAs($admin)->get(route('project.show', $project->id));
 
-        // we should see the html form markup for the student choice tickbox
+        // ... it should work ;-)
         $response->assertSuccessful();
-        $response->assertSee("students[{$student->id}]");
     }
 
     /** @test */
@@ -46,9 +45,9 @@ class AcceptStudentsTest extends TestCase
         // when we view the project
         $response = $this->actingAs($admin)->get(route('project.show', $project->id));
 
-        // we should see the html form markup for the student choice tickbox (where-as regular staff wouldn't)
+        // we get the page view and the right project
         $response->assertSuccessful();
-        $response->assertSee("students[{$student->id}]");
+        $this->assertTrue($response->data('project')->is($project));
 
         // and when we submit the form
         $response = $this->actingAs($admin)->post(route('project.accept_students', $project->id), [
