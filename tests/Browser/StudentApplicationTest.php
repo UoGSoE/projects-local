@@ -5,6 +5,7 @@ namespace Tests\Browser;
 use App\User;
 use App\Course;
 use App\Project;
+use App\Programme;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -33,7 +34,12 @@ class StudentApplicationTest extends DuskTestCase
             $project9 = create(Project::class);
             $project10 = create(Project::class);
 
+            $programme1 = create(Programme::class);
+            $programme2 = create(Programme::class);
+
             $course->projects()->sync([$project1->id, $project2->id, $project3->id, $project4->id,  $project5->id, $project6->id, $project7->id, $project8->id, $project9->id, $project10->id]);
+            $programme1->projects()->sync([$project1->id, $project2->id]);
+            $programme2->projects()->sync([$project3->id, $project4->id]);
 
             config(['projects.required_choices' => 5]);
             $browser->loginAs($student)
@@ -41,6 +47,12 @@ class StudentApplicationTest extends DuskTestCase
                     ->assertSee('Available Projects')
                     ->assertDontSee('you can now submit your choices')
                     ->assertDontSee('1 project')
+                    ->assertSee($project1->title)
+                    ->select('programmes', $programme2->title)
+                    ->pause(100)
+                    ->assertDontSee($project1->title)
+                    ->select('programmes', -1)
+                    ->pause(300)
                     ->assertSee($project1->title)
                     ->click("#expand-{$project1->id}")
                     ->click("#project-{$project1->id}-first")

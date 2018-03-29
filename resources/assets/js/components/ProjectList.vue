@@ -3,8 +3,8 @@
         <div class="field">
             <div class="control">
                 <div class="select">
-                  <select v-model="selectedProgramme">
-                    <option v-bind:value="null">For any degree programme</option>
+                  <select v-model="selectedProgramme" name="programmes">
+                    <option v-bind:value="-1">For any degree programme</option>
                     <option v-for="programme in programmes" v-bind:value="programme.title">{{ programme.title }}</option>
                   </select>
                 </div>
@@ -103,7 +103,7 @@
                 requiredChoices: window.config.required_choices,
                 submitButtonText: 'Submit my choices',
                 submissionError: false,
-                selectedProgramme: null,
+                selectedProgramme: -1,
                 choices: {
                     first: null,
                     second: null,
@@ -130,7 +130,7 @@
                 return total;
             },
             availableProjects() {
-                if (! this.selectedProgramme) {
+                if (this.selectedProgramme == -1) {
                     return this.projects;
                 }
                 return this.projects.filter(project => {

@@ -13520,7 +13520,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             requiredChoices: window.config.required_choices,
             submitButtonText: 'Submit my choices',
             submissionError: false,
-            selectedProgramme: null,
+            selectedProgramme: -1,
             choices: {
                 first: null,
                 second: null,
@@ -13550,7 +13550,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         availableProjects: function availableProjects() {
             var _this = this;
 
-            if (!this.selectedProgramme) {
+            if (this.selectedProgramme == -1) {
                 return this.projects;
             }
             return this.projects.filter(function (project) {
@@ -13657,6 +13657,7 @@ var render = function() {
                     expression: "selectedProgramme"
                   }
                 ],
+                attrs: { name: "programmes" },
                 on: {
                   change: function($event) {
                     var $$selectedVal = Array.prototype.filter
@@ -13674,7 +13675,7 @@ var render = function() {
                 }
               },
               [
-                _c("option", { domProps: { value: null } }, [
+                _c("option", { domProps: { value: -1 } }, [
                   _vm._v("For any degree programme")
                 ]),
                 _vm._v(" "),
