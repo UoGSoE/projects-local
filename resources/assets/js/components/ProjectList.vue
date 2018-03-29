@@ -13,7 +13,7 @@
 
         <div class="box" v-for="project in availableProjects" :key="project.id">
             <h4 class="title is-4">
-                <button class="button" :class="{ 'is-info': isChosen(project.id) }" @click.prevent="expandProject(project.id)" title="Show full description">
+                <button class="button" :class="{ 'is-info': isChosen(project.id) }" @click.prevent="expandProject(project.id)" :id='"expand-" + project.id' title="Show full description">
                     <span v-if="isExpanded(project.id)" class="icon">
                         -
                     </span>
@@ -46,19 +46,19 @@
                         </div>
                         <div class="level-item">
                             <div class="buttons has-addons">
-                                <span class="button" :class="{ 'is-info': (choices.first == project.id) }" @click="choose('first', project.id)">
+                                <span class="button" :class="{ 'is-info': (choices.first == project.id) }" @click="choose('first', project.id)" :id='"project-" + project.id + "-first"'>
                                     1st
                                 </span>
-                                <span class="button" :class="{ 'is-info': (choices.second == project.id) }" @click="choose('second', project.id)">
+                                <span class="button" :class="{ 'is-info': (choices.second == project.id) }" @click="choose('second', project.id)" :id='"project-" + project.id + "-second"'>
                                     2nd
                                 </span>
-                                <span class="button" :class="{ 'is-info': (choices.third == project.id) }" @click="choose('third', project.id)">
+                                <span class="button" :class="{ 'is-info': (choices.third == project.id) }" @click="choose('third', project.id)" :id='"project-" + project.id + "-third"'>
                                     3rd
                                 </span>
-                                <span class="button" :class="{ 'is-info': (choices.fourth == project.id) }" @click="choose('fourth', project.id)">
+                                <span class="button" :class="{ 'is-info': (choices.fourth == project.id) }" @click="choose('fourth', project.id)" :id='"project-" + project.id + "-fourth"'>
                                     4th
                                 </span>
-                                <span class="button" :class="{ 'is-info': (choices.fifth == project.id) }" @click="choose('fifth', project.id)">
+                                <span class="button" :class="{ 'is-info': (choices.fifth == project.id) }" @click="choose('fifth', project.id)" :id='"project-" + project.id + "-fifth"'>
                                     5th
                                 </span>
                             </div>

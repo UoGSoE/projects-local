@@ -13700,7 +13700,10 @@ var render = function() {
               {
                 staticClass: "button",
                 class: { "is-info": _vm.isChosen(project.id) },
-                attrs: { title: "Show full description" },
+                attrs: {
+                  id: "expand-" + project.id,
+                  title: "Show full description"
+                },
                 on: {
                   click: function($event) {
                     $event.preventDefault()
@@ -13786,6 +13789,7 @@ var render = function() {
                               class: {
                                 "is-info": _vm.choices.first == project.id
                               },
+                              attrs: { id: "project-" + project.id + "-first" },
                               on: {
                                 click: function($event) {
                                   _vm.choose("first", project.id)
@@ -13805,6 +13809,9 @@ var render = function() {
                               staticClass: "button",
                               class: {
                                 "is-info": _vm.choices.second == project.id
+                              },
+                              attrs: {
+                                id: "project-" + project.id + "-second"
                               },
                               on: {
                                 click: function($event) {
@@ -13826,6 +13833,7 @@ var render = function() {
                               class: {
                                 "is-info": _vm.choices.third == project.id
                               },
+                              attrs: { id: "project-" + project.id + "-third" },
                               on: {
                                 click: function($event) {
                                   _vm.choose("third", project.id)
@@ -13845,6 +13853,9 @@ var render = function() {
                               staticClass: "button",
                               class: {
                                 "is-info": _vm.choices.fourth == project.id
+                              },
+                              attrs: {
+                                id: "project-" + project.id + "-fourth"
                               },
                               on: {
                                 click: function($event) {
@@ -13866,6 +13877,7 @@ var render = function() {
                               class: {
                                 "is-info": _vm.choices.fifth == project.id
                               },
+                              attrs: { id: "project-" + project.id + "-fifth" },
                               on: {
                                 click: function($event) {
                                   _vm.choose("fifth", project.id)
