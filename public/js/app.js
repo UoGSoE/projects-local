@@ -14098,6 +14098,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['students', 'project'],
@@ -14109,20 +14110,46 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (student.is_accepted) {
                 console.log(student.id);
                 _this.acceptedStudents.push(student.id);
+                _this.initiallyAccepted.push(student.id);
             }
         });
     },
     data: function data() {
         return {
             acceptedStudents: [],
+            initiallyAccepted: [],
             user: window.user
         };
     },
 
 
     computed: {
-        haveAcceptedStudents: function haveAcceptedStudents() {
-            return this.acceptedStudents.length > 0;
+        changesHaveBeenMade: function changesHaveBeenMade() {
+            var _this2 = this;
+
+            // if the dynamic 'acceptedStudents' array is different length to the initial one, then yes
+            if (this.initiallyAccepted.length != this.acceptedStudents.length) {
+                return true;
+            }
+
+            // if there's anything in the dynamic acceptedStudents array that doesn't exist in the initial one, then yes
+            var changed = false;
+            this.acceptedStudents.forEach(function (studentId) {
+                if (_this2.initiallyAccepted.indexOf(studentId) == -1) {
+                    changed = true;
+                }
+            });
+            if (changed) {
+                return true;
+            }
+
+            // if there's anything in the initial list that isn't in the dynamic one, then yes
+            this.initiallyAccepted.forEach(function (studentId) {
+                if (_this2.acceptedStudents.indexOf(studentId) == -1) {
+                    changed = true;
+                }
+            });
+            return changed;
         }
     },
 
@@ -14169,6 +14196,8 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
+    _c("h4", { staticClass: "title is-4" }, [_vm._v("Student Applications")]),
+    _vm._v(" "),
     _c("form", { attrs: { method: "POST", action: "" } }, [
       _c("table", { staticClass: "table" }, [
         _vm._m(0),
@@ -14215,7 +14244,7 @@ var render = function() {
                         },
                         on: {
                           click: function($event) {
-                            _vm.selectedStudent = student
+                            _vm.$emit("showprofile", student)
                           }
                         }
                       },
@@ -14315,7 +14344,7 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
-      _vm.haveAcceptedStudents
+      _vm.changesHaveBeenMade
         ? _c(
             "button",
             {
@@ -14328,7 +14357,7 @@ var render = function() {
                 }
               }
             },
-            [_vm._v("\n            Accept Students\n        ")]
+            [_vm._v("\n            Save Changes\n        ")]
           )
         : _vm._e()
     ])

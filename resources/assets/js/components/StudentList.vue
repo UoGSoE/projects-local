@@ -1,5 +1,6 @@
 <template>
     <div>
+        <h4 class="title is-4">Student Applications</h4>
         <form method="POST" action="">
             <table class="table">
                 <thead>
@@ -22,7 +23,7 @@
                             </span>
                             <span
                                 v-if="student.profile"
-                                @click='selectedStudent = student'
+                                @click='$emit("showprofile", student)'
                                 role="button"
                                 style="cursor: pointer;"
                                 title="Show students profile"
@@ -51,12 +52,12 @@
                 </tbody>
             </table>
             <button
-                v-if="haveAcceptedStudents"
+                v-if="changesHaveBeenMade"
                 class="button"
                 name="accept"
                 @click.prevent="submit"
             >
-                Accept Students
+                Save Changes
             </button>
         </form>
     </div>
@@ -71,6 +72,7 @@
                 if (student.is_accepted) {
                     console.log(student.id);
                     this.acceptedStudents.push(student.id);
+                    this.initiallyAccepted.push(student.id);
                 }
             });
         },
@@ -78,13 +80,36 @@
         data() {
             return {
                 acceptedStudents: [],
+                initiallyAccepted: [],
                 user: window.user,
             };
         },
 
         computed: {
-            haveAcceptedStudents() {
-                return this.acceptedStudents.length > 0;
+            changesHaveBeenMade() {
+                // if the dynamic 'acceptedStudents' array is different length to the initial one, then yes
+                if (this.initiallyAccepted.length != this.acceptedStudents.length) {
+                    return true;
+                }
+
+                // if there's anything in the dynamic acceptedStudents array that doesn't exist in the initial one, then yes
+                var changed = false;
+                this.acceptedStudents.forEach(studentId => {
+                    if (this.initiallyAccepted.indexOf(studentId) == -1) {
+                        changed = true;
+                    }
+                });
+                if (changed) {
+                    return true;
+                }
+
+                // if there's anything in the initial list that isn't in the dynamic one, then yes
+                this.initiallyAccepted.forEach(studentId => {
+                    if (this.acceptedStudents.indexOf(studentId) == -1) {
+                        changed = true;
+                    }
+                });
+                return changed;
             }
         },
 
