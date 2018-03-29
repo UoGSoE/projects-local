@@ -6,6 +6,9 @@
     {{ ucfirst($category) }} Student Project Choices
 </h3>
 
+<form method="POST" action="{{ route('project.bulk_accept') }}">
+    @csrf
+
 <table class="table is-fullwidth is-striped is-hoverable">
     <thead>
         <tr>
@@ -25,7 +28,7 @@
                         {{ $student->full_name }}
                     </a>
                 </td>
-                @foreach (range(1, 5) as $choice)
+                @foreach (range(1, config('projects.required_choices')) as $choice)
                     <td>
                         @if ($student->projects->where('pivot.choice', $choice)->isNotEmpty())
                             @if ($student->projects->where('pivot.choice', $choice)->first()->pivot->is_accepted)
@@ -42,4 +45,9 @@
     </tbody>
 </table>
 
+<div class="field">
+    <div class="control"><button class="button">Save</button></div>
+</div>
+
+</form>
 @endsection

@@ -130,8 +130,8 @@ class AcceptStudentsTest extends TestCase
         // when the admin does a bulk accept post
         $response = $this->actingAs($admin)->post(route('project.bulk_accept'), [
             'students' => [
-                [$student1->id => $project1->id],
-                [$student2->id => $project2->id],
+                $student1->id => $project1->id,
+                $student2->id => $project2->id,
             ],
         ]);
 

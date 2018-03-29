@@ -14,9 +14,9 @@ class BulkAcceptanceController extends Controller
             'students' => 'required|array',
         ]);
 
-        collect($request->students)->each(function ($options) {
-            $student = User::findOrFail(key($options));
-            $project = Project::findOrFail($options[$student->id]);
+        collect($request->students)->each(function ($projectId, $studentId) {
+            $student = User::findOrFail($studentId);
+            $project = Project::findOrFail($projectId);
             $project->accept($student);
         });
 
