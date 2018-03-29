@@ -15,7 +15,8 @@
     <script>
         window.config = {
             'required_choices': @json(config('projects.required_choices'))
-        }
+        };
+        window.user = @json(Auth::user());
     </script>
 </head>
 <body>

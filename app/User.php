@@ -83,6 +83,11 @@ class User extends Authenticatable
         return $this->projects()->wherePivot('is_accepted', '=', true)->count() > 0;
     }
 
+    public function isAcceptedOn($project)
+    {
+        return $this->projects()->findOrFail($project->id)->pivot->is_accepted;
+    }
+
     public function isAdmin()
     {
         return $this->is_admin;
@@ -138,10 +143,12 @@ class User extends Authenticatable
     public function toArray()
     {
         return [
+            'id' => $this->id,
             'username' => $this->username,
             'full_name' => $this->full_name,
             'profile' => $this->getFormattedProfile(),
             'email' => $this->email,
+            'isAdmin' => $this->isAdmin(),
         ];
     }
 }

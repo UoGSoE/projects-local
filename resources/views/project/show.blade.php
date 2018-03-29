@@ -87,6 +87,7 @@
 
 <div class="columns">
     <div class="column">
+        <student-list :project='@json($project)' :students='{{ $project->studentsAsJson() }}'></student-list>
         @can('accept-students', $project)
             @include('project.partials.student_list_form')
         @else

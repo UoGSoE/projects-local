@@ -30,6 +30,16 @@ class Project extends Model
                     ->withPivot('is_accepted', 'choice');
     }
 
+    public function studentsAsJson()
+    {
+        return $this->students->map(function ($student) {
+            $base = $student->toArray();
+            $base['choice'] = $student->pivot->choice;
+            $base['is_accepted'] = $student->pivot->is_accepted;
+            return $base;
+        })->toJson();
+    }
+
     public function owner()
     {
         return $this->belongsTo(User::class, 'staff_id');
@@ -62,6 +72,10 @@ class Project extends Model
 
     public function accept(User $student)
     {
+        if ($student->isAcceptedOn($this)) {
+            return;
+        }
+
         $student->projects()->sync([$this->id => ['is_accepted' => true]]);
         Mail::to($student)->queue(new AcceptedOntoProject($this));
     }

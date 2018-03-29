@@ -17,6 +17,7 @@ window.Vue = require('vue');
 
 Vue.component('confirmation-dialog', require('./components/ConfirmationDialog.vue'));
 Vue.component('project-list', require('./components/ProjectList.vue'));
+Vue.component('student-list', require('./components/StudentList.vue'));
 
 const app = new Vue({
     el: '#app',

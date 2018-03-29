@@ -34,7 +34,7 @@
                         <label>
                             @can('accept-onto-project', [$student, $project])
                                 <input type="checkbox" name="students[{{ $student->id }}]" value="{{ $student->id }}" @if ($student->pivot->is_accepted) checked @endif>
-                            @elsecan
+                            @else
                                 {{ $student->pivot->is_accepted ? 'Yes' : 'No' }}
                             @endcan
                         </label>

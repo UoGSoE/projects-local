@@ -989,6 +989,7 @@ window.Vue = __webpack_require__(31);
 
 Vue.component('confirmation-dialog', __webpack_require__(34));
 Vue.component('project-list', __webpack_require__(43));
+Vue.component('student-list', __webpack_require__(46));
 
 var app = new Vue({
     el: '#app',
@@ -13977,6 +13978,384 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-7551a920", module.exports)
+  }
+}
+
+/***/ }),
+/* 46 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(35)
+/* script */
+var __vue_script__ = __webpack_require__(47)
+/* template */
+var __vue_template__ = __webpack_require__(48)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/StudentList.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7eb52092", Component.options)
+  } else {
+    hotAPI.reload("data-v-7eb52092", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 47 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['students', 'project'],
+
+    mounted: function mounted() {
+        var _this = this;
+
+        this.students.forEach(function (student) {
+            if (student.is_accepted) {
+                console.log(student.id);
+                _this.acceptedStudents.push(student.id);
+            }
+        });
+    },
+    data: function data() {
+        return {
+            acceptedStudents: [],
+            user: window.user
+        };
+    },
+
+
+    computed: {
+        haveAcceptedStudents: function haveAcceptedStudents() {
+            return this.acceptedStudents.length > 0;
+        }
+    },
+
+    methods: {
+        canAcceptStudent: function canAcceptStudent(student) {
+            // admins can do anything
+            if (this.user.isAdmin) {
+                return true;
+            }
+            // staff cannot choose anything for undergrad projects
+            if (this.project.category == 'undergrad') {
+                return false;
+            }
+            // if the student is already accepted, staff cannot change it
+            if (student.is_accepted) {
+                return false;
+            }
+            // can only accept students who have made this project their first choice
+            if (student.choice != 1) {
+                return false;
+            }
+            // ~~ end of byzantine rules ~~
+            return true;
+        },
+        submit: function submit() {
+            axios.post('/project/' + this.project.id + '/accept-students', {
+                'students': this.acceptedStudents
+            }).then(function (response) {
+                console.log('Woo');
+            }).catch(function (error) {
+                console.log('Boo');
+            });
+        }
+    }
+
+});
+
+/***/ }),
+/* 48 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("form", { attrs: { method: "POST", action: "" } }, [
+      _c("table", { staticClass: "table" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "tbody",
+          _vm._l(_vm.students, function(student) {
+            return _c("tr", [
+              _c("td", [
+                _vm.user.isAdmin
+                  ? _c("span", [
+                      _c(
+                        "a",
+                        {
+                          attrs: {
+                            href: "route('admin.user.show', student.id)"
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                                " +
+                              _vm._s(student.full_name) +
+                              "\n                            "
+                          )
+                        ]
+                      )
+                    ])
+                  : _c("span", [
+                      _vm._v(
+                        "\n                            " +
+                          _vm._s(student.full_name) +
+                          "\n                        "
+                      )
+                    ]),
+                _vm._v(" "),
+                student.profile
+                  ? _c(
+                      "span",
+                      {
+                        staticStyle: { cursor: "pointer" },
+                        attrs: {
+                          role: "button",
+                          title: "Show students profile"
+                        },
+                        on: {
+                          click: function($event) {
+                            _vm.selectedStudent = student
+                          }
+                        }
+                      },
+                      [
+                        _c(
+                          "span",
+                          {
+                            staticClass: "icon",
+                            staticStyle: { width: "1em" }
+                          },
+                          [
+                            _c(
+                              "svg",
+                              {
+                                attrs: {
+                                  xmlns: "http://www.w3.org/2000/svg",
+                                  viewBox: "0 0 20 20"
+                                }
+                              },
+                              [
+                                _c("path", {
+                                  attrs: {
+                                    d:
+                                      "M5 5a5 5 0 0 1 10 0v2A5 5 0 0 1 5 7V5zM0 16.68A19.9 19.9 0 0 1 10 14c3.64 0 7.06.97 10 2.68V20H0v-3.32z"
+                                  }
+                                })
+                              ]
+                            )
+                          ]
+                        )
+                      ]
+                    )
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c("td", [
+                _vm._v(
+                  "\n                        " +
+                    _vm._s(student.choice) +
+                    "\n                    "
+                )
+              ]),
+              _vm._v(" "),
+              _c("td", [
+                _vm.canAcceptStudent(student)
+                  ? _c("label", [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.acceptedStudents,
+                            expression: "acceptedStudents"
+                          }
+                        ],
+                        attrs: { type: "checkbox" },
+                        domProps: {
+                          value: student.id,
+                          checked: Array.isArray(_vm.acceptedStudents)
+                            ? _vm._i(_vm.acceptedStudents, student.id) > -1
+                            : _vm.acceptedStudents
+                        },
+                        on: {
+                          change: function($event) {
+                            var $$a = _vm.acceptedStudents,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = student.id,
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 &&
+                                  (_vm.acceptedStudents = $$a.concat([$$v]))
+                              } else {
+                                $$i > -1 &&
+                                  (_vm.acceptedStudents = $$a
+                                    .slice(0, $$i)
+                                    .concat($$a.slice($$i + 1)))
+                              }
+                            } else {
+                              _vm.acceptedStudents = $$c
+                            }
+                          }
+                        }
+                      })
+                    ])
+                  : _c("label", [
+                      _vm._v(
+                        "\n                            " +
+                          _vm._s(student.is_accepted ? "Yes" : "No") +
+                          "\n                        "
+                      )
+                    ])
+              ])
+            ])
+          })
+        )
+      ]),
+      _vm._v(" "),
+      _vm.haveAcceptedStudents
+        ? _c(
+            "button",
+            {
+              staticClass: "button",
+              attrs: { name: "accept" },
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  _vm.submit($event)
+                }
+              }
+            },
+            [_vm._v("\n            Accept Students\n        ")]
+          )
+        : _vm._e()
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Student")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Choice")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Accepted?")])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-7eb52092", module.exports)
   }
 }
 
