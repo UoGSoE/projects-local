@@ -76,8 +76,7 @@ class StudentApplicationTest extends DuskTestCase
 
             $project1 = create(Project::class);
 
-            $student->projects()->sync([$project1->id => ['choice' => 1]]);
-            $project1->accept($student);
+            $student->projects()->sync([$project1->id => ['choice' => 1, 'is_accepted' => 1]]);
 
             $course->projects()->sync([$project1->id]);
 
