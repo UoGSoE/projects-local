@@ -30,6 +30,14 @@
               <a class="navbar-item" href="{{ route('admin.users') }}">
                 Users
               </a>
+              <hr class="navbar-divider" />
+              <a class="navbar-item" href="{{ route('admin.student.choices', 'undergrad') }}">
+                Undergrad Bulk Accept
+              </a>
+              <a class="navbar-item" href="{{ route('admin.student.choices', 'postgrad') }}">
+                Postgrad Bulk Accept
+              </a>
+
             </div>
         </div>
         @endif

@@ -10,6 +10,9 @@ class ChoiceController extends Controller
 {
     public function store(Request $request)
     {
+        if ($request->user()->isAccepted()) {
+            return redirect('/');
+        }
         $request->validate([
             'choices' => 'required|array|size:' . config('projects.required_choices'),
         ]);

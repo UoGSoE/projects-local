@@ -40,7 +40,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['middleware' => 'admin', 'prefix' => '/admin'], function () {
         Route::get('/projects', 'Admin\ProjectController@index')->name('admin.project.index');
-        Route::get('/choices', 'Admin\ChoiceController@index')->name('admin.student.choices');
+        Route::get('/choices/{category}', 'Admin\ChoiceController@index')->name('admin.student.choices');
 
         Route::get('/course', 'CourseController@index')->name('admin.course.index');
         Route::get('/course/create', 'CourseController@create')->name('admin.course.create');

@@ -3,10 +3,10 @@
 @section('content')
 
 <h3 class="title is-3">
-    Student Project Choices
+    {{ ucfirst($category) }} Student Project Choices
 </h3>
 
-<table class="table is-fullwidth is-striped">
+<table class="table is-fullwidth is-striped is-hoverable">
     <thead>
         <tr>
             <th>Student</th>
@@ -21,33 +21,22 @@
         @foreach ($students as $student)
             <tr>
                 <td>
-                    {{ $student->full_name }}
+                    <a href="{{ route('admin.user.show', $student->id) }}">
+                        {{ $student->full_name }}
+                    </a>
                 </td>
-                <td>
-                    @if ($student->projects->where('pivot.choice', 1)->isNotEmpty())
-                        {{ $student->projects->where('pivot.choice', 1)->first()->title }}
-                    @endif
-                </td>
-                <td>
-                    @if ($student->projects->where('pivot.choice', 2)->isNotEmpty())
-                        {{ $student->projects->where('pivot.choice', 2)->first()->title }}
-                    @endif
-                </td>
-                <td>
-                    @if ($student->projects->where('pivot.choice', 3)->isNotEmpty())
-                        {{ $student->projects->where('pivot.choice', 3)->first()->title }}
-                    @endif
-                </td>
-                <td>
-                    @if ($student->projects->where('pivot.choice', 4)->isNotEmpty())
-                        {{ $student->projects->where('pivot.choice', 4)->first()->title }}
-                    @endif
-                </td>
-                <td>
-                    @if ($student->projects->where('pivot.choice', 5)->isNotEmpty())
-                        {{ $student->projects->where('pivot.choice', 5)->first()->title }}
-                    @endif
-                </td>
+                @foreach (range(1, 5) as $choice)
+                    <td>
+                        @if ($student->projects->where('pivot.choice', $choice)->isNotEmpty())
+                            @if ($student->projects->where('pivot.choice', $choice)->first()->pivot->is_accepted)
+                                &#10003;
+                            @else
+                                <input type="radio" name="students[{{ $student->id}}]" value="{{ $student->projects->where('pivot.choice', $choice)->first()->id }}">
+                            @endif
+                            {{ $student->projects->where('pivot.choice', $choice)->first()->title }}
+                        @endif
+                    </td>
+                @endforeach
             </tr>
         @endforeach
     </tbody>

@@ -61,6 +61,55 @@ class AcceptStudentsTest extends TestCase
     }
 
     /** @test */
+    public function admins_can_see_the_bulk_acceptance_pages()
+    {
+        // given we have an admin
+        $admin = create(User::class, ['is_admin' => true]);
+        // and some projects
+        $ugProject1 = create(Project::class, ['category' => 'undergrad']);
+        $ugProject2 = create(Project::class, ['category' => 'undergrad']);
+        $pgProject1 = create(Project::class, ['category' => 'postgrad']);
+        $pgProject2 = create(Project::class, ['category' => 'postgrad']);
+        // and some students
+        $student1 = create(User::class, ['is_staff' => false]);
+        $student2 = create(User::class, ['is_staff' => false]);
+        $student3 = create(User::class, ['is_staff' => false]);
+        $student4 = create(User::class, ['is_staff' => false]);
+        // and the students have chosen projects
+        $student1->projects()->sync([$ugProject1->id => ['choice' => 1]]);
+        $student2->projects()->sync([$ugProject2->id => ['choice' => 2]]);
+        $student3->projects()->sync([$pgProject1->id => ['choice' => 2]]);
+        $student4->projects()->sync([$pgProject2->id => ['choice' => 1]]);
+
+        // when we view the undergrad bulk acceptance page
+        $response = $this->actingAs($admin)->get(route('admin.student.choices', 'undergrad'));
+
+        // we should only see the undergrad projects & students
+        $response->assertSuccessful();
+        $response->assertSee($ugProject1->title);
+        $response->assertSee($ugProject2->title);
+        $response->assertDontSee($pgProject1->title);
+        $response->assertDontSee($pgProject2->title);
+        $response->assertSee($student1->full_name);
+        $response->assertSee($student2->full_name);
+        $response->assertDontSee($student3->full_name);
+
+        // when we view the postgrad bulk acceptance page
+        $response = $this->actingAs($admin)->get(route('admin.student.choices', 'postgrad'));
+
+        // we should only see the postgrad projects & students
+        $response->assertSuccessful();
+        $response->assertDontSee($ugProject1->title);
+        $response->assertDontSee($ugProject2->title);
+        $response->assertSee($pgProject1->title);
+        $response->assertSee($pgProject2->title);
+        $response->assertDontSee($student1->full_name);
+        $response->assertDontSee($student2->full_name);
+        $response->assertSee($student3->full_name);
+        $response->assertSee($student4->full_name);
+    }
+
+    /** @test */
     public function an_admin_can_bulk_accept_students_onto_projects()
     {
         Mail::fake();

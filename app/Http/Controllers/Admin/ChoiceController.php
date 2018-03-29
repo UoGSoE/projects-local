@@ -8,10 +8,19 @@ use App\Http\Controllers\Controller;
 
 class ChoiceController extends Controller
 {
-    public function index()
+    public function index($category)
     {
         return view('admin.student.choices', [
-            'students' => User::students()->with('projects')->orderBy('surname')->get(),
+            'category' => $category,
+            'students' => User::students()
+                                ->whereHas('projects', function ($query) use ($category) {
+                                    $query->where('category', '=', $category);
+                                })
+                                ->with(['projects' => function ($query) use ($category) {
+                                    $query->where('category', '=', $category);
+                                }])
+                                ->orderBy('surname')
+                                ->get(),
         ]);
     }
 }

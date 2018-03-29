@@ -37,6 +37,16 @@ class User extends Authenticatable
         return $this->belongsToMany(Project::class, 'project_students', 'student_id')->withPivot(['choice', 'is_accepted']);
     }
 
+    public function undergradProjects()
+    {
+        return $this->projects()->where('category', '=', 'undergrad');
+    }
+
+    public function postgradProjects()
+    {
+        return $this->projects()->where('category', '=', 'undergrad');
+    }
+
     public function course()
     {
         return $this->belongsTo(Course::class);

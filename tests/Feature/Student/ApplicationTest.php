@@ -192,4 +192,45 @@ class ApplicationTest extends TestCase
             return $mail->hasTo($student->email) && $mail->student->is($student);
         });
     }
+
+    /** @test */
+    public function students_cant_submit_new_choices_if_they_have_already_been_accepted()
+    {
+        Mail::fake();
+        $this->withoutExceptionHandling();
+        // given we have a student on a course
+        $student = create(User::class, ['is_staff' => false]);
+        $course = create(Course::class);
+        $course->students()->save($student);
+        // and given we have three projects
+        $project1 = create(Project::class);
+        $project2 = create(Project::class);
+        $project3 = create(Project::class);
+        $course->projects()->sync([$project1->id, $project2->id, $project3->id]);
+        // and given the student has been accepted onto a project
+        $student->projects()->sync([$project1->id => ['choice' => 1]]);
+        $project1->accept($student);
+        $this->assertEquals(1, $student->fresh()->projects->count());
+        // and given that the required number to apply for is 2
+        config(['projects.required_choices' => 2]);
+
+        // if they visit their homepage
+        $response = $this->actingAs($student)->get('/');
+
+        // they see the warning
+        $response->assertSuccessful();
+        $response->assertSee('You cannot choose new projects');
+
+        // then if somehow they apply for 2 despite the form not being there
+        $response = $this->actingAs($student)->post(route('projects.choose'), [
+            'choices' => [
+                1 => $project3->id,
+                2 => $project1->id,
+            ]
+        ]);
+
+        // then they get redirected and no new choices are saved
+        $response->assertRedirect('/');
+        $this->assertEquals(1, $student->fresh()->projects->count());
+    }
 }
