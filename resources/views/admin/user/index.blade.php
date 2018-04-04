@@ -29,6 +29,7 @@
                     <a href="{{ route('admin.user.show', $user->id) }}">
                         {{ $user->username }}
                     </a>
+                    <admin-toggle :user='@json($user)'></admin-toggle>
                 </td>
                 <td>
                     {{ $user->surname }}

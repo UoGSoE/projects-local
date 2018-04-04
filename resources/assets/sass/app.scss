@@ -1,4 +1,7 @@
 
+$body-background: whitesmoke;
+@import './node_modules/bulma/bulma.sass';
+
 // Fonts
 
 // Variables
@@ -20,5 +23,8 @@
   opacity: 0;
 }
 
-$body-background: whitesmoke;
-@import './node_modules/bulma/bulma.sass';
+body {
+    height: 100vh !important;
+    min-height: 100vh !important;
+}
+
