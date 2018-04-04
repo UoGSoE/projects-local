@@ -14113,6 +14113,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['students', 'project'],
@@ -14127,6 +14129,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this.initiallyAccepted.push(student.id);
             }
         });
+        console.log(this.acceptedStudents);
+        console.log(this.initiallyAccepted);
     },
     data: function data() {
         return {
@@ -14170,7 +14174,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         canAcceptStudent: function canAcceptStudent(student) {
             // admins can do anything
-            if (this.user.isAdmin) {
+            if (!!+this.user.isAdmin) {
                 return true;
             }
             // staff cannot choose anything for postgrad projects
@@ -14178,7 +14182,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return false;
             }
             // if the student is already accepted, staff cannot change it
-            if (student.is_accepted) {
+            if (!!+student.is_accepted) {
                 return false;
             }
             // can only accept students who have made this project their first choice
@@ -14302,7 +14306,7 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
-              _c("td", [
+              _c("td", { attrs: { id: "status-" + student.id } }, [
                 _vm.canAcceptStudent(student)
                   ? _c("label", [
                       _c("input", {
@@ -14314,7 +14318,11 @@ var render = function() {
                             expression: "acceptedStudents"
                           }
                         ],
-                        attrs: { type: "checkbox" },
+                        attrs: {
+                          id: "accept-" + student.id,
+                          name: "accept-" + student.id,
+                          type: "checkbox"
+                        },
                         domProps: {
                           value: student.id,
                           checked: Array.isArray(_vm.acceptedStudents)
@@ -14461,6 +14469,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['user'],
@@ -14468,10 +14478,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             id: this.user.id,
-            isAdmin: this.user.isAdmin
+            isAdmin: this.user.isAdmin,
+            errorMessage: ''
         };
     },
 
+
+    computed: {
+        getIconClass: function getIconClass() {
+            if (this.errorMessage) {
+                return 'has-text-danger';
+            }
+            return this.isAdmin ? 'has-text-success' : 'has-text-grey-light';
+        },
+        getIconTitle: function getIconTitle() {
+            return this.errorMessage ? this.errorMessage : 'Admin?';
+        }
+    },
 
     methods: {
         toggleAdmin: function toggleAdmin() {
@@ -14479,8 +14502,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             axios.post('/admin/user/' + this.id + '/toggle-admin').then(function (response) {
                 _this.isAdmin = !_this.isAdmin;
+                _this.errorMessage = '';
             }).catch(function (error) {
-                console.log(error);
+                _this.errorMessage = error.response.data.message ? error.response.data.message : error.message;
             });
         }
     }
@@ -14495,45 +14519,37 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("input", {
-      directives: [
-        {
-          name: "model",
-          rawName: "v-model",
-          value: _vm.isAdmin,
-          expression: "isAdmin"
-        }
-      ],
-      staticClass: "checkbox",
-      attrs: { type: "checkbox" },
-      domProps: {
-        checked: Array.isArray(_vm.isAdmin)
-          ? _vm._i(_vm.isAdmin, null) > -1
-          : _vm.isAdmin
+    _c(
+      "span",
+      {
+        staticClass: "icon",
+        class: _vm.getIconClass,
+        staticStyle: { cursor: "pointer", "margin-right": "1em" },
+        attrs: {
+          role: "button",
+          title: _vm.getIconTitle,
+          id: "admintoggle-" + _vm.id
+        },
+        on: { click: _vm.toggleAdmin }
       },
-      on: {
-        change: [
-          function($event) {
-            var $$a = _vm.isAdmin,
-              $$el = $event.target,
-              $$c = $$el.checked ? true : false
-            if (Array.isArray($$a)) {
-              var $$v = null,
-                $$i = _vm._i($$a, $$v)
-              if ($$el.checked) {
-                $$i < 0 && (_vm.isAdmin = $$a.concat([$$v]))
-              } else {
-                $$i > -1 &&
-                  (_vm.isAdmin = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
-              }
-            } else {
-              _vm.isAdmin = $$c
-            }
+      [
+        _c(
+          "svg",
+          {
+            staticStyle: { fill: "currentColor" },
+            attrs: { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 20 20" }
           },
-          _vm.toggleAdmin
-        ]
-      }
-    })
+          [
+            _c("path", {
+              attrs: {
+                d:
+                  "M5 5a5 5 0 0 1 10 0v2A5 5 0 0 1 5 7V5zM0 16.68A19.9 19.9 0 0 1 10 14c3.64 0 7.06.97 10 2.68V20H0v-3.32z"
+              }
+            })
+          ]
+        )
+      ]
+    )
   ])
 }
 var staticRenderFns = []

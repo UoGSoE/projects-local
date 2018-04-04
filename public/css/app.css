@@ -11528,6 +11528,13 @@ label.panel-block:hover {
   opacity: 0;
 }
 
+/* svg elements in chrome *must* have a w&h defined :-/ */
+
+svg {
+  height: 100%;
+  width: 100%;
+}
+
 body {
   height: 100vh !important;
   min-height: 100vh !important;

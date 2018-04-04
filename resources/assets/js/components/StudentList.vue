@@ -36,9 +36,11 @@
                         <td>
                             {{ student.choice }}
                         </td>
-                        <td>
+                        <td :id="'status-' + student.id">
                             <label v-if="canAcceptStudent(student)">
                                 <input
+                                    :id="'accept-' + student.id"
+                                    :name="'accept-' + student.id"
                                     type="checkbox"
                                     v-model="acceptedStudents"
                                     :value="student.id"
@@ -75,6 +77,8 @@
                     this.initiallyAccepted.push(student.id);
                 }
             });
+            console.log(this.acceptedStudents);
+            console.log(this.initiallyAccepted);
         },
 
         data() {
@@ -116,7 +120,7 @@
         methods: {
             canAcceptStudent(student) {
                 // admins can do anything
-                if (this.user.isAdmin) {
+                if (!! +this.user.isAdmin) {
                     return true;
                 }
                 // staff cannot choose anything for postgrad projects
@@ -124,7 +128,7 @@
                     return false;
                 }
                 // if the student is already accepted, staff cannot change it
-                if (student.is_accepted) {
+                if (!! +student.is_accepted) {
                     return false;
                 }
                 // can only accept students who have made this project their first choice

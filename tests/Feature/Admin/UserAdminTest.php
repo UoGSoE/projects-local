@@ -58,6 +58,17 @@ class UserAdminTest extends TestCase
     }
 
     /** @test */
+    public function admins_cant_take_away_admin_rights_from_themselves()
+    {
+        $admin = create(User::class, ['is_admin' => true]);
+
+        $response = $this->actingAs($admin)->post(route('admin.users.toggle_admin', $admin->id));
+
+        $response->assertStatus(422);
+        $this->assertTrue($admin->fresh()->isAdmin());
+    }
+
+    /** @test */
     public function admins_can_view_an_individual_user()
     {
         $admin = create(User::class, ['is_admin' => true]);

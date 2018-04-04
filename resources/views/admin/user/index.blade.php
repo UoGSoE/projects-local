@@ -15,7 +15,7 @@
 <table class="table is-striped is-fullwidth">
     <thead>
         <tr>
-            <th>Username</th>
+            <th>User</th>
             <th>Surname</th>
             <th>Forenames</th>
             <th>Type</th>
@@ -25,11 +25,11 @@
     <tbody>
         @foreach ($users as $user)
             <tr>
-                <td>
+                <td class="is-flex">
+                    <admin-toggle :user='@json($user)'></admin-toggle>
                     <a href="{{ route('admin.user.show', $user->id) }}">
                         {{ $user->username }}
                     </a>
-                    <admin-toggle :user='@json($user)'></admin-toggle>
                 </td>
                 <td>
                     {{ $user->surname }}

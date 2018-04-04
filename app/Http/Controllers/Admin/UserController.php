@@ -24,6 +24,9 @@ class UserController extends Controller
 
     public function toggleAdmin(User $user)
     {
+        if (\Auth::user()->id == $user->id) {
+            return response()->json(['message' => 'Cannot change your own status'], 422);
+        }
         $user->toggleAdmin();
         return response()->json(['status' => 'ok']);
     }

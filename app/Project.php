@@ -34,8 +34,8 @@ class Project extends Model
     {
         return $this->students->map(function ($student) {
             $base = $student->toArray();
-            $base['choice'] = $student->pivot->choice;
-            $base['is_accepted'] = $student->pivot->is_accepted;
+            $base['choice'] = intval($student->pivot->choice);
+            $base['is_accepted'] = (boolean) $student->pivot->is_accepted;
             return $base;
         })->toJson();
     }
