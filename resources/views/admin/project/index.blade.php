@@ -3,7 +3,7 @@
 @section('content')
 
 <h3 class="title is-3">
-    All Projects
+    All {{ ucfirst($category) }} Projects
 </h3>
 
 <table class="table is-striped is-fullwidth">

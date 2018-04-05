@@ -18,9 +18,16 @@
         <div class="navbar-item has-dropdown is-hoverable">
             <a class="navbar-link">Admin</a>
             <div class="navbar-dropdown">
-              <a class="navbar-item" href="{{ route('admin.project.index') }}">
-                Projects
+
+              <a class="navbar-item" href="{{ route('admin.project.index', 'undergrad') }}">
+                Undergrad Projects
               </a>
+              <a class="navbar-item" href="{{ route('admin.project.index', 'postgrad') }}">
+                Postgrad Projects
+              </a>
+
+              <hr class="navbar-divider" />
+
               <a class="navbar-item" href="{{ route('admin.course.index') }}">
                 Courses
               </a>
@@ -30,7 +37,9 @@
               <a class="navbar-item" href="{{ route('admin.users') }}">
                 Users
               </a>
+
               <hr class="navbar-divider" />
+
               <a class="navbar-item" href="{{ route('admin.student.choices', 'undergrad') }}">
                 Undergrad Bulk Accept
               </a>

@@ -39,7 +39,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('/impersonate', 'ImpersonationController@destroy')->name('impersonate.stop');
 
     Route::group(['middleware' => 'admin', 'prefix' => '/admin'], function () {
-        Route::get('/projects', 'Admin\ProjectController@index')->name('admin.project.index');
+        Route::get('/projects/{category}', 'Admin\ProjectController@index')->name('admin.project.index');
         Route::get('/choices/{category}', 'Admin\ChoiceController@index')->name('admin.student.choices');
 
         Route::get('/course', 'CourseController@index')->name('admin.course.index');
