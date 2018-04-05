@@ -7,7 +7,7 @@
     <form method="POST" action="{{ route('project.delete', $project->id) }}" class="is-pulled-right">
         @csrf
         @method('DELETE')
-        <button class="button is-danger" @click.prevent="showConfirmation = true">Delete Project</button>
+        <button class="button is-text is-outlined has-text-danger has-text-weight-bold" @click.prevent="showConfirmation = true">Delete Project</button>
     </form>
 </h3>
 

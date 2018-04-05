@@ -7,7 +7,7 @@
 
         <h3 class="title is-3">
             Edit course
-            <button class="button is-danger is-outlined is-pulled-right" @click.prevent="showConfirmation = true">Delete Course</button>
+            <button class="button is-text has-text-danger has-text-weight-bold is-pulled-right" @click.prevent="showConfirmation = true">Delete Course</button>
         </h3>
 
         <form method="POST" action="{{ route('admin.course.update', $course->id) }}">

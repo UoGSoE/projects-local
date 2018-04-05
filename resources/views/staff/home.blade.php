@@ -4,11 +4,11 @@
 
 <h3 class="title is-3">
     Your Projects
-    <a href="{{ route('project.create', ['type' => 'undergrad']) }}" class="button is-info is-outlined">
-        + Undergrad Project
+    <a href="{{ route('project.create', ['type' => 'undergrad']) }}" class="button is-outlined">
+        + Undergrad
     </a>
-    <a href="{{ route('project.create', ['type' => 'postgrad']) }}" class="button is-success is-outlined">
-        + Postgrad Project
+    <a href="{{ route('project.create', ['type' => 'postgrad']) }}" class="button is-outlined">
+        + Postgrad
     </a>
 </h3>
 <table class="table is-striped is-fullwidth">

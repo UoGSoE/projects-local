@@ -4,7 +4,7 @@
 
 <h3 class="title is-3">
     Edit programme
-    <button class="button is-danger is-outlined is-pulled-right" @click.prevent="showConfirmation = true">Delete Programme</button>
+    <button class="button is-text is-pulled-right has-text-danger has-text-weight-semibold" @click.prevent="showConfirmation = true">Delete Programme</button>
 </h3>
 
 <form method="POST" action="{{ route('admin.programme.update', $programme->id) }}">
