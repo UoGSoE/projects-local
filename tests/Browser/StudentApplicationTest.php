@@ -20,22 +20,22 @@ class StudentApplicationTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $student = create(User::class, ['is_staff' => false]);
 
-            $course = create(Course::class);
+            $course = create(Course::class, ['category' => 'undergrad']);
             $course->students()->save($student);
 
-            $project1 = create(Project::class);
-            $project2 = create(Project::class);
-            $project3 = create(Project::class);
-            $project4 = create(Project::class);
-            $project5 = create(Project::class);
-            $project6 = create(Project::class);
-            $project7 = create(Project::class);
-            $project8 = create(Project::class);
-            $project9 = create(Project::class);
-            $project10 = create(Project::class);
+            $project1 = create(Project::class, ['category' => 'undergrad']);
+            $project2 = create(Project::class, ['category' => 'undergrad']);
+            $project3 = create(Project::class, ['category' => 'undergrad']);
+            $project4 = create(Project::class, ['category' => 'undergrad']);
+            $project5 = create(Project::class, ['category' => 'undergrad']);
+            $project6 = create(Project::class, ['category' => 'undergrad']);
+            $project7 = create(Project::class, ['category' => 'undergrad']);
+            $project8 = create(Project::class, ['category' => 'undergrad']);
+            $project9 = create(Project::class, ['category' => 'undergrad']);
+            $project10 = create(Project::class, ['category' => 'undergrad']);
 
-            $programme1 = create(Programme::class);
-            $programme2 = create(Programme::class);
+            $programme1 = create(Programme::class, ['category' => 'undergrad']);
+            $programme2 = create(Programme::class, ['category' => 'undergrad']);
 
             $course->projects()->sync([$project1->id, $project2->id, $project3->id, $project4->id,  $project5->id, $project6->id, $project7->id, $project8->id, $project9->id, $project10->id]);
             $programme1->projects()->sync([$project1->id, $project2->id]);
@@ -49,7 +49,7 @@ class StudentApplicationTest extends DuskTestCase
                     ->assertDontSee('1 project')
                     ->assertSee($project1->title)
                     ->select('programmes', $programme2->title)
-                    ->pause(100)
+                    ->pause(300)
                     ->assertDontSee($project1->title)
                     ->select('programmes', -1)
                     ->pause(300)
