@@ -1,6 +1,10 @@
 <template>
     <div>
-        <h4 class="title is-4">Student Applications</h4>
+        <div v-if="students.length <= 0">
+            <h5 class="title is-5 has-text-grey-light"><em>No Students Have Applied Yet</em></h5>
+        </div>
+        <div v-else>
+        <h3 class="title is-3">Student Applications</h3>
         <form method="POST" action="">
             <table class="table">
                 <thead>
@@ -62,6 +66,7 @@
                 Save Changes
             </button>
         </form>
+        </div>
     </div>
 </template>
 

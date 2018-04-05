@@ -5,10 +5,10 @@
 <div class="columns">
     <div class="column">
         <h3 class="title is-3">
-            Details of project <em>{{ $project->title }}</em>
             <a href="{{ route('project.edit', $project->id) }}" class="button">
                 Edit
             </a>
+            Details of project <em>{{ $project->title }}</em>
         </h3>
         <table class="table">
             <tbody>
