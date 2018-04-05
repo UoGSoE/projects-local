@@ -1,7 +1,11 @@
 <template>
     <div>
         <div v-if="students.length <= 0">
-            <h5 class="title is-5 has-text-grey-light"><em>No Students Have Applied Yet</em></h5>
+            <article class="message">
+                <div class="message-body">
+                    No students have applied yet
+                </div>
+            </article>
         </div>
         <div v-else>
         <h3 class="title is-3">Student Applications</h3>
@@ -18,7 +22,7 @@
                     <tr v-for="student in students">
                         <td>
                             <span v-if="user.isAdmin">
-                                <a href="route('admin.user.show', student.id)">
+                                <a :href="'/admin/users/' + student.id">
                                     {{ student.full_name }}
                                 </a>
                             </span>

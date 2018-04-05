@@ -17498,6 +17498,15 @@ var app = new Vue({
             axios.delete('/admin/programme/' + programmeId).then(function (response) {
                 window.location = '/admin/programme';
             });
+        },
+
+        deleteCourseStudents: function deleteCourseStudents(courseId) {
+            console.log(courseId);
+
+            this.showConfirmation = false;
+            axios.delete('/admin/course/' + courseId + '/remove-students').then(function (response) {
+                window.location = '/admin/course/' + courseId;
+            });
         }
     }
 });
@@ -30475,6 +30484,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['students', 'project'],
@@ -30594,11 +30607,7 @@ var render = function() {
                         ? _c("span", [
                             _c(
                               "a",
-                              {
-                                attrs: {
-                                  href: "route('admin.user.show', student.id)"
-                                }
-                              },
+                              { attrs: { href: "/admin/users/" + student.id } },
                               [
                                 _vm._v(
                                   "\n                                " +
@@ -30759,8 +30768,10 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("h5", { staticClass: "title is-5 has-text-grey-light" }, [
-      _c("em", [_vm._v("No Students Have Applied Yet")])
+    return _c("article", { staticClass: "message" }, [
+      _c("div", { staticClass: "message-body" }, [
+        _vm._v("\n                No students have applied yet\n            ")
+      ])
     ])
   },
   function() {

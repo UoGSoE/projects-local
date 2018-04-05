@@ -11,6 +11,12 @@ class CourseMemberController extends Controller
     {
         Course::findOrFail($id)->removeAllStudents();
 
+        if (request()->wantsJson()) {
+            return response()->json([
+                'message' => 'Students Removed'
+            ]);
+        }
+
         return redirect()->back()->with('success', 'All students removed');
     }
 }

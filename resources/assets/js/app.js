@@ -59,5 +59,15 @@ const app = new Vue({
                     window.location = '/admin/programme';
                 });
         },
+
+        deleteCourseStudents: function (courseId) {
+            console.log(courseId);
+
+            this.showConfirmation = false;
+            axios.delete('/admin/course/' + courseId + '/remove-students')
+                .then(function (response) {
+                    window.location = '/admin/course/' + courseId;
+                });
+        }
     }
 });

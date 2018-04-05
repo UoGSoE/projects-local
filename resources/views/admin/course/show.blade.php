@@ -28,6 +28,8 @@
 		<h4 class="title is-4">
 			Students
             <a href="{{ route('admin.course.enrollment', $course->id) }}" class="button">Upload student list</a>
+                <button class="button is-text is-pulled-right has-text-danger has-text-weight-semibold" @click.prevent="showConfirmation = true">Remove All Students</button>
+
 		</h4>
 		<ul>
 		@foreach ($course->students as $student)
@@ -54,5 +56,10 @@
 		</ul>
 	</div>
 </div>
+
+<confirmation-dialog :show="showConfirmation" @cancel="showConfirmation = false" @confirm="deleteCourseStudents({{ $course->id }})">
+    Do you really want to remove all students on this course from the system?
+</confirmation-dialog>
+
 
 @endsection
