@@ -6,35 +6,23 @@
     All {{ ucfirst($category) }} Projects
 </h3>
 
-<table class="table is-striped is-fullwidth">
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Owner</th>
-            <th>Type</th>
-            <th>Students Applied</th>
-            <th>Accepted</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($projects as $project)
-            <tr>
-                <td>
-                    <a href="{{ route('project.show', $project->id) }}">
-                        {{ $project->title }}
-                    </a>
-                </td>
-                <td>
-                    <a href="{{ route('admin.user.show', $project->staff_id) }}">
-                        {{ $project->owner->full_name }}
-                    </a>
-                </td>
-                <td>{{ ucfirst($project->category) }}</td>
-                <td>{{ $project->students_count }}</td>
-                <td>{{ $project->accepted_students_count }}</td>
-            </tr>
-        @endforeach
-    </tbody>
-</table>
+<table-component
+    :data='@json($projects)'
+    sort-by="title"
+    sort-order="asc"
+    table-class="table is-fullwidth is-striped is-hover"
+    :show-caption="false"
+    filter-input-class="input"
+    >
+    <table-column show="title" label="Title">
+        <template slot-scope="row">
+            <a :href="`/project/${row.id}`">@{{ row.title }}</a>
+        </template>
+    </table-column>
+    <table-column show="owner.full_name" label="Owner"></table-column>
+    <table-column show="category" label="Category"></table-column>
+    <table-column show="students_count" label="Students Applied"></table-column>
+    <table-column show="accepted_students_count" label="Accepted"></table-column>
+</table-component>
 
 @endsection

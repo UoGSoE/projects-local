@@ -12,42 +12,32 @@
   </div>
 </nav>
 
-<table class="table is-striped is-fullwidth">
-    <thead>
-        <tr>
-            <th>User</th>
-            <th>Surname</th>
-            <th>Forenames</th>
-            <th>Type</th>
-            <th>Email</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($users as $user)
-            <tr>
-                <td class="is-flex">
-                    <admin-toggle :user='@json($user)'></admin-toggle>
-                    <a href="{{ route('admin.user.show', $user->id) }}">
-                        {{ $user->username }}
-                    </a>
-                </td>
-                <td>
-                    {{ $user->surname }}
-                </td>
-                <td>
-                    {{ $user->forenames }}
-                </td>
-                <td>
-                    {{ $user->getType() }}
-                </td>
-                <td>
-                    <a href="mailto:{{ $user->email }}">
-                        {{ $user->email }}
-                    </a>
-                </td>
-            </tr>
-        @endforeach
-    </tbody>
-</table>
+<table-component
+    :data='@json($users)'
+    sort-by="surname"
+    sort-order="asc"
+    table-class="table is-fullwidth is-striped is-hover"
+    :show-caption="false"
+    filter-input-class="input"
+    >
+    <table-column label="Admin?" :sortable="false" :filterable="false">
+        <template slot-scope="row">
+            <admin-toggle :user='row'></admin-toggle>
+        </template>
+    </table-column>
+    <table-column show="username" label="User">
+        <template slot-scope="row">
+            <a :href="`/admin/users/${row.id}`">@{{ row.username }}</a>
+        </template>
+    </table-column>
+    <table-column show="surname" label="Surname"></table-column>
+    <table-column show="forenames" label="Forename"></table-column>
+    <table-column show="type" label="Type"></table-column>
+    <table-column show="email" label="Email">
+        <template slot-scope="row">
+            <a :href="`mailto:${row.email}`">@{{ row.email }}</a>
+        </template>
+    </table-column>
+</table-component>
 
 @endsection

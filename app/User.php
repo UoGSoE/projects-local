@@ -159,6 +159,9 @@ class User extends Authenticatable
             'profile' => $this->getFormattedProfile(),
             'email' => $this->email,
             'isAdmin' => $this->isAdmin(),
+            'surname' => $this->surname,
+            'forenames' => $this->forenames,
+            'type' => $this->getType(),
         ];
     }
 }

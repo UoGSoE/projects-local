@@ -19,6 +19,9 @@ Vue.component('confirmation-dialog', require('./components/ConfirmationDialog.vu
 Vue.component('project-list', require('./components/ProjectList.vue'));
 Vue.component('student-list', require('./components/StudentList.vue'));
 Vue.component('admin-toggle', require('./components/AdminToggle.vue'));
+import { TableComponent, TableColumn } from 'vue-table-component';
+Vue.component('table-component', TableComponent);
+Vue.component('table-column', TableColumn);
 
 const app = new Vue({
     el: '#app',
