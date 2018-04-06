@@ -44,7 +44,7 @@ class EnrollmentController extends Controller
             return $user->id;
         });
 
-        return redirect()->route('admin.course.edit', $course->id)->with('success', "Imported {$students->count()} Students");
+        return redirect()->route('admin.course.show', $course->id)->with('success', "Imported {$students->count()} Students");
     }
 
     protected function firstColumnIsAMatric($row)
