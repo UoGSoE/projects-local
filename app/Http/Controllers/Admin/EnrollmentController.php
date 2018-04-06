@@ -25,12 +25,10 @@ class EnrollmentController extends Controller
 
         $data = (new ExcelSheet)->trimmedImport($request->file('sheet')->path());
 
-        $course->removeAllStudents();
-
-        collect($data)->filter(function ($row) {
-            return preg_match('/^[0-9]{7}$/', $row[0]) === 1;
-        })->each(function ($row) use ($course) {
-            $username = $row[0] . strtolower(substr($row[1], 0, 1));
+        $students = collect($data)->filter(function ($row) {
+            return $this->firstColumnIsAMatric($row);
+        })->map(function ($row) use ($course) {
+            $username = $this->joinMatricAndFirstInitial($row);
             $user = User::where('username', '=', $username)->first();
             if (! $user) {
                 $user = new User([
@@ -43,8 +41,19 @@ class EnrollmentController extends Controller
             $user->email = $row[3];
             $user->course_id = $course->id;
             $user->save();
+            return $user->id;
         });
 
-        return redirect()->route('admin.course.edit', $course->id)->with('success', 'Imported Students');
+        return redirect()->route('admin.course.edit', $course->id)->with('success', "Imported {$students->count()} Students");
+    }
+
+    protected function firstColumnIsAMatric($row)
+    {
+        return preg_match('/^[0-9]{7}$/', $row[0]) === 1;
+    }
+
+    protected function joinMatricAndFirstInitial($row)
+    {
+        return $row[0] . strtolower(substr($row[1], 0, 1));
     }
 }
