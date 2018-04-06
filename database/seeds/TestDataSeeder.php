@@ -23,20 +23,29 @@ class TestDataSeeder extends Seeder
         ]);
 
         $ugradCourses = factory(Course::class, 3)->create(['category' => 'undergrad']);
-        $pgradCourses = factory(Course::class, 3)->create(['category' => 'postgrad']);
-        $ugradProgrammes = factory(Programme::class, 3)->create(['category' => 'undergrad']);
-        $pgradProgrammes = factory(Programme::class, 3)->create(['category' => 'postgrad']);
-        $ugradProjects = factory(Project::class, 15)->create(['category' => 'undergrad']);
-        $pgradProjects = factory(Project::class, 15)->create(['category' => 'postgrad']);
-        $ugradProjects->each(function ($project) {
-            $project->courses()->sync([$ugradCourses->shuffle()->first()->id]);
-            $project->programmes()->sync([$ugradProgrammes->shuffle()->slice(4)->pluck(id)->all()]);
-        });
-        $pgradProjects->each(function ($project) {
-            $project->courses()->sync([$pgradCourses->shuffle()->first()->id]);
-            $project->programmes()->sync([$pgradProgrammes->shuffle()->slice(4)->pluck(id)->all()]);
+        $ugradCourses->each(function ($course) {
+            $course->students()->saveMany(factory(User::class, 20)->states('student')->create());
         });
 
-        $students = factory(User::class, 20)->states('student')->create();
+        $pgradCourses = factory(Course::class, 3)->create(['category' => 'postgrad']);
+        $pgradCourses->each(function ($course) {
+            $course->students()->saveMany(factory(User::class, 20)->states('student')->create());
+        });
+
+        $ugradProgrammes = factory(Programme::class, 10)->create(['category' => 'undergrad']);
+        $pgradProgrammes = factory(Programme::class, 10)->create(['category' => 'postgrad']);
+
+        $ugradProjects = factory(Project::class, 65)->create(['category' => 'undergrad']);
+        $pgradProjects = factory(Project::class, 65)->create(['category' => 'postgrad']);
+
+        $ugradProjects->each(function ($project) use ($ugradCourses, $ugradProgrammes) {
+            $project->courses()->sync([$ugradCourses->shuffle()->first()->id]);
+            $project->programmes()->sync($ugradProgrammes->shuffle()->take(4)->pluck('id')->toArray());
+        });
+
+        $pgradProjects->each(function ($project) use ($pgradCourses, $pgradProgrammes) {
+            $project->courses()->sync([$pgradCourses->shuffle()->first()->id]);
+            $project->programmes()->sync($pgradProgrammes->shuffle()->take(4)->pluck('id')->toArray());
+        });
     }
 }

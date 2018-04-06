@@ -22,7 +22,7 @@
                     <tr v-for="student in students">
                         <td>
                             <span v-if="user.isAdmin">
-                                <a :href="'/admin/users/' + student.id">
+                                <a :href="'/admin/user/' + student.id">
                                     {{ student.full_name }}
                                 </a>
                             </span>

@@ -30607,7 +30607,7 @@ var render = function() {
                         ? _c("span", [
                             _c(
                               "a",
-                              { attrs: { href: "/admin/users/" + student.id } },
+                              { attrs: { href: "/admin/user/" + student.id } },
                               [
                                 _vm._v(
                                   "\n                                " +
