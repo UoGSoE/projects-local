@@ -78,6 +78,16 @@ const app = new Vue({
                 .then(function (response) {
                     window.location = '/admin/users/' + category;
                 });
+        },
+
+        deleteUser: function (userId) {
+            console.log(userId);
+
+            this.showConfirmation = false;
+            axios.delete('/admin/user/' + userId)
+                .then(function (response) {
+                    window.location = '/';
+                });
         }
     }
 });

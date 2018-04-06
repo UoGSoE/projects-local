@@ -23,6 +23,16 @@ class UserController extends Controller
         ]);
     }
 
+    public function destroy(User $user)
+    {
+        $user->delete();
+
+        if (request()->wantsJson()) {
+            return response()->json(['message' => 'Deleted']);
+        }
+        return redirect('/')->with('success', 'User deleted');
+    }
+
     public function toggleAdmin(User $user)
     {
         if (\Auth::user()->id == $user->id) {

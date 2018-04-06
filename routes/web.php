@@ -67,6 +67,7 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('/users/{category}', 'Admin\UserController@index')->name('admin.users');
         Route::get('/user/{user}', 'Admin\UserController@show')->name('admin.user.show');
+        Route::delete('/user/{user}', 'Admin\UserController@destroy')->name('admin.user.delete');
 
         Route::post('/user/{user}/toggle-admin', 'Admin\UserController@toggleAdmin')->name('admin.users.toggle_admin');
 

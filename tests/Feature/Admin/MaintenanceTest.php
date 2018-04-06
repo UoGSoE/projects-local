@@ -61,6 +61,27 @@ class MaintenanceTest extends TestCase
     }
 
     /** @test */
+    public function an_admin_can_delete_specific_staff_or_student()
+    {
+        $admin = create(User::class, ['is_admin' => true]);
+        $student = create(User::class, ['is_staff' => false]);
+        $staff = create(User::class, ['is_staff' => true]);
+
+        $response = $this->actingAs($admin)->delete(route('admin.user.delete', $staff->id));
+
+        $response->assertStatus(302);
+        $response->assertSessionMissing('errors');
+        $this->assertDatabaseMissing('users', ['id' => $staff->id]);
+        $this->assertDatabaseHas('users', ['id' => $student->id]);
+
+        $response = $this->actingAs($admin)->delete(route('admin.user.delete', $student->id));
+
+        $response->assertStatus(302);
+        $response->assertSessionMissing('errors');
+        $this->assertDatabaseMissing('users', ['id' => $student->id]);
+    }
+
+    /** @test */
     public function an_admin_can_clear_all_students()
     {
         $admin = create(User::class, ['is_admin' => true]);
@@ -76,5 +97,35 @@ class MaintenanceTest extends TestCase
         $this->assertDatabaseMissing('users', ['id' => $student2->id]);
         $this->assertDatabaseHas('users', ['id' => $admin->id]);
         $this->assertDatabaseHas('users', ['id' => $staff->id]);
+    }
+
+    /** @test */
+    public function regular_users_cant_delete_anything()
+    {
+        $user = create(User::class);
+        $admin = create(User::class, ['is_admin' => true]);
+        $course = create(Course::class);
+        $student = create(User::class, ['is_staff' => false]);
+        $staff = create(User::class, ['is_staff' => true]);
+
+        $response = $this->actingAs($user)->delete(route('course.remove_students', $course->id));
+        $response->assertStatus(302);
+        $response->assertRedirect('/');
+
+        $response = $this->actingAs($user)->delete(route('students.remove_undergrads'));
+        $response->assertStatus(302);
+        $response->assertRedirect('/');
+
+        $response = $this->actingAs($user)->delete(route('students.remove_postgrads'));
+        $response->assertStatus(302);
+        $response->assertRedirect('/');
+
+        $response = $this->actingAs($user)->delete(route('admin.user.delete', $staff->id));
+        $response->assertStatus(302);
+        $response->assertRedirect('/');
+
+        $response = $this->actingAs($user)->delete(route('students.remove_all'));
+        $response->assertStatus(302);
+        $response->assertRedirect('/');
     }
 }

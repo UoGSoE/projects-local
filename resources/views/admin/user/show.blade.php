@@ -2,13 +2,20 @@
 
 @section('content')
 
-<h3 class="title is-3">
-    Details for <em>{{ $user->full_name }}</em>
-    <form method="POST" action="{{ route('impersonate.start', $user->id) }}" class="is-pulled-right">
-        @csrf
-        <button class="button">Impersonate</button>
-    </form>
-</h3>
+<nav class="level">
+    <div class="level-left">
+        <h3 class="title is-3 level-item">
+            <p class="">Details for <em>{{ $user->full_name }}</em>&nbsp;</p>
+            <form method="POST" action="{{ route('impersonate.start', $user->id) }}" class="">
+                @csrf
+                <button class="button">Impersonate</button>
+            </form>
+        </h3>
+    </div>
+    <div class="level-right">
+        <button class="button is-text is-pulled-right has-text-danger has-text-weight-semibold level-item" @click.prevent="showConfirmation = true">Delete User</button>
+    </div>
+</nav>
 
 <table class="table">
     <tr>
@@ -81,5 +88,9 @@
         </tbody>
     </table>
 @endif
+
+<confirmation-dialog :show="showConfirmation" @cancel="showConfirmation = false" @confirm="deleteUser({{ $user->id }})">
+    Do you really want to delete this user?
+</confirmation-dialog>
 
 @endsection
