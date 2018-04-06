@@ -18,6 +18,16 @@ class Course extends Model
         return $this->belongsToMany(Project::class, 'project_courses');
     }
 
+    public function scopeUndergrad($query)
+    {
+        return $query->where('category', '=', 'undergrad');
+    }
+
+    public function scopePostgrad($query)
+    {
+        return $query->where('category', '=', 'postgrad');
+    }
+
     public function removeAllStudents()
     {
         $this->students->each->delete();

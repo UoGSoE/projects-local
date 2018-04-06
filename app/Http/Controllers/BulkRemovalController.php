@@ -3,22 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use App\Project;
+use App\Course;
 use Illuminate\Http\Request;
 
 class BulkRemovalController extends Controller
 {
     public function undergrads()
     {
-        Project::undergrad()->get()->each->deleteStudents();
+        Course::undergrad()->get()->each->removeAllStudents();
 
+        if (request()->wantsJson()) {
+            return response()->json(['message' => 'removed']);
+        }
         return redirect()->back()->with('success', 'Undergrads removed');
     }
 
     public function postgrads()
     {
-        Project::postgrad()->get()->each->deleteStudents();
+        Course::postgrad()->get()->each->removeAllStudents();
 
+        if (request()->wantsJson()) {
+            return response()->json(['message' => 'removed']);
+        }
         return redirect()->back()->with('success', 'Postgrads removed');
     }
 
@@ -26,6 +32,9 @@ class BulkRemovalController extends Controller
     {
         User::students()->get()->each->delete();
 
+        if (request()->wantsJson()) {
+            return response()->json(['message' => 'removed']);
+        }
         return redirect()->back()->with('success', 'All students removed');
     }
 }

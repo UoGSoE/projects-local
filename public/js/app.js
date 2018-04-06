@@ -17507,6 +17507,15 @@ var app = new Vue({
             axios.delete('/admin/course/' + courseId + '/remove-students').then(function (response) {
                 window.location = '/admin/course/' + courseId;
             });
+        },
+
+        deleteStudents: function deleteStudents(category) {
+            console.log(category);
+
+            this.showConfirmation = false;
+            axios.delete('/admin/students/remove/' + category).then(function (response) {
+                window.location = '/admin/users/' + category;
+            });
         }
     }
 });

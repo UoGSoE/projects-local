@@ -68,6 +68,16 @@ const app = new Vue({
                 .then(function (response) {
                     window.location = '/admin/course/' + courseId;
                 });
+        },
+
+        deleteStudents: function (category) {
+            console.log(category);
+
+            this.showConfirmation = false;
+            axios.delete('/admin/students/remove/' + category)
+                .then(function (response) {
+                    window.location = '/admin/users/' + category;
+                });
         }
     }
 });

@@ -10,6 +10,13 @@
         </h3>
     </div>
   </div>
+  <div class="level-right">
+    <div class="level-item">
+            @if ($category !== 'staff')
+                <button class="button is-text is-pulled-right has-text-danger has-text-weight-semibold" @click.prevent="showConfirmation = true">Remove all {{ $category }} students</button>
+            @endif
+    </div>
+   </div>
 </nav>
 
 <table-component
@@ -39,5 +46,9 @@
         </template>
     </table-column>
 </table-component>
+
+<confirmation-dialog :show="showConfirmation" @cancel="showConfirmation = false" @confirm="deleteStudents('{{ $category }}')">
+    Do you really want to remove all {{ $category }} students from the system?
+</confirmation-dialog>
 
 @endsection

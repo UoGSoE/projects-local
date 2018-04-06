@@ -31,13 +31,20 @@ class MaintenanceTest extends TestCase
     /** @test */
     public function an_admin_can_clear_all_postgrad_or_undergrad_students()
     {
+        $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_admin' => true]);
         $undergrad = create(User::class, ['is_staff' => false]);
         $postgrad = create(User::class, ['is_staff' => false]);
+        $ugradCourse = create(Course::class, ['category' => 'undergrad']);
+        $pgradCourse = create(Course::class, ['category' => 'postgrad']);
         $ugradProject = create(Project::class, ['category' => 'undergrad']);
         $pgradProject = create(Project::class, ['category' => 'postgrad']);
         $undergrad->projects()->sync([$ugradProject->id => ['choice' => 1]]);
         $postgrad->projects()->sync([$pgradProject->id => ['choice' => 1]]);
+        $undergrad->course()->associate($ugradCourse);
+        $undergrad->save();
+        $postgrad->course()->associate($pgradCourse);
+        $postgrad->save();
 
         $response = $this->actingAs($admin)->delete(route('students.remove_undergrads'));
 
