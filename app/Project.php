@@ -14,6 +14,10 @@ class Project extends Model
         'is_active' => 'boolean',
     ];
 
+    protected $appends = [
+        'course_codes',
+    ];
+
     public function programmes()
     {
         return $this->belongsToMany(Programme::class, 'project_programmes');
@@ -58,6 +62,11 @@ class Project extends Model
     public function scopeActive($query)
     {
         return $query->where('is_active', '=', true);
+    }
+
+    public function getCourseCodesAttribute()
+    {
+        return $this->courses->implode('code', ' ');
     }
 
     public function isInactive()

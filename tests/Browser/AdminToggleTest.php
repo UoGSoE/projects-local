@@ -20,14 +20,14 @@ class AdminToggleTest extends DuskTestCase
             $this->assertFalse($user->fresh()->isAdmin());
 
             $browser->loginAs($admin)
-                    ->visit(route('admin.users'))
+                    ->visit(route('admin.users', 'staff'))
                     ->assertSee($user->username)
                     ->click("span#admintoggle-{$user->id}.icon.has-text-grey-light")
                     ->assertSourceHas('has-text-success')
                     ->pause(100);
             $this->assertTrue($user->fresh()->isAdmin());
 
-            $browser->visit(route('admin.users'))
+            $browser->visit(route('admin.users', 'staff'))
                     ->assertSee($user->username)
                     ->assertSourceHas('has-text-success')
                     ->click("span#admintoggle-{$user->id}.icon.has-text-success")
@@ -44,7 +44,7 @@ class AdminToggleTest extends DuskTestCase
             $this->assertTrue($admin->fresh()->isAdmin());
 
             $browser->loginAs($admin)
-                    ->visit(route('admin.users'))
+                    ->visit(route('admin.users', 'staff'))
                     ->assertSee($admin->username)
                     ->assertSourceMissing('has-text-danger')
                     ->click("span#admintoggle-{$admin->id}.icon.has-text-success")

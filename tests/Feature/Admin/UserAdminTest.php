@@ -12,25 +12,25 @@ class UserAdminTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function regular_users_cant_see_the_user_admin_page()
+    public function regular_users_cant_see_the_user_admin_pages()
     {
         $user = create(User::class);
 
-        $response = $this->actingAs($user)->get(route('admin.users'));
+        $response = $this->actingAs($user)->get(route('admin.users', 'staff'));
 
         $response->assertStatus(302);
         $response->assertRedirect('/');
     }
 
     /** @test */
-    public function admins_can_see_a_list_of_all_users()
+    public function admins_can_see_a_list_of_all_staff()
     {
         $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_admin' => true]);
-        $user1 = create(User::class);
-        $user2 = create(User::class);
+        $user1 = create(User::class, ['is_staff' => true]);
+        $user2 = create(User::class, ['is_staff' => true]);
 
-        $response = $this->actingAs($admin)->get(route('admin.users'));
+        $response = $this->actingAs($admin)->get(route('admin.users', 'staff'));
 
         $response->assertSuccessful();
         $response->assertSee($user1->surname);

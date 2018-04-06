@@ -11528,6 +11528,10 @@ label.panel-block:hover {
   opacity: 0;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 /* svg elements in chrome *must* have a w&h defined :-/ */
 
 svg {

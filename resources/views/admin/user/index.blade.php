@@ -6,7 +6,7 @@
   <div class="level-left">
     <div class="level-item">
         <h3 class="title is-3">
-            All Users
+            {{ ucfirst(str_plural($category)) }}
         </h3>
     </div>
   </div>

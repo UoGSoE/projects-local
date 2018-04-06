@@ -62,6 +62,17 @@ class User extends Authenticatable
         return $query->where('is_staff', '=', false);
     }
 
+    public function scopeOfType($query, $type)
+    {
+        if ($type === 'staff') {
+            return $this->scopeStaff($query);
+        }
+
+        return $this->scopeStudents($query)->whereHas('course', function ($query) use ($type) {
+            $query->where('category', '=', $type);
+        });
+    }
+
     public function applicableProjects()
     {
         if (! $this->course_id) {

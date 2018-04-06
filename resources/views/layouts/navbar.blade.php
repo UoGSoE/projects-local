@@ -34,8 +34,17 @@
               <a class="navbar-item" href="{{ route('admin.programme.index') }}">
                 Programmes
               </a>
-              <a class="navbar-item" href="{{ route('admin.users') }}">
-                Users
+
+              <hr class="navbar-divider" />
+
+              <a class="navbar-item" href="{{ route('admin.users', 'staff') }}">
+                Staff
+              </a>
+              <a class="navbar-item" href="{{ route('admin.users', 'undergrad') }}">
+                Undergrads
+              </a>
+              <a class="navbar-item" href="{{ route('admin.users', 'postgrad') }}">
+                Postgrads
               </a>
 
               <hr class="navbar-divider" />

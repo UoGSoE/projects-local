@@ -65,8 +65,8 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::post('/impersonate/{id}', 'ImpersonationController@store')->name('impersonate.start');
 
-        Route::get('/users', 'Admin\UserController@index')->name('admin.users');
-        Route::get('/users/{user}', 'Admin\UserController@show')->name('admin.user.show');
+        Route::get('/users/{category}', 'Admin\UserController@index')->name('admin.users');
+        Route::get('/user/{user}', 'Admin\UserController@show')->name('admin.user.show');
 
         Route::post('/user/{user}/toggle-admin', 'Admin\UserController@toggleAdmin')->name('admin.users.toggle_admin');
 

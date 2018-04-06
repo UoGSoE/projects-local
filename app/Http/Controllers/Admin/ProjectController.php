@@ -15,6 +15,7 @@ class ProjectController extends Controller
             'projects' => Project::where('category', '=', $category)
                                 ->orderBy('title')
                                 ->with('owner')
+                                ->with('courses')
                                 ->withCount([
                                     'students',
                                     'students as accepted_students_count' => function ($query) {

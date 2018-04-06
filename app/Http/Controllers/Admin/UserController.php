@@ -8,10 +8,11 @@ use App\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index($category = 'staff')
     {
         return view('admin.user.index', [
-            'users' => User::orderBy('surname')->get(),
+            'category' => $category,
+            'users' => User::ofType($category)->orderBy('surname')->get(),
         ]);
     }
 

@@ -21,18 +21,20 @@ class TestDataSeeder extends Seeder
             'is_staff' => true,
             'is_admin' => true,
         ]);
-        $courses = create(Course::class, [], 3);
-        $programmes = create(Programme::class, [], 6);
 
-        $courses->each(function ($course) {
-            factory(Project::class, 15)->create()->each(function ($project) use ($course) {
-                $course->projects()->save($project);
-            });
+        $ugradCourses = factory(Course::class, 3)->create(['category' => 'undergrad']);
+        $pgradCourses = factory(Course::class, 3)->create(['category' => 'postgrad']);
+        $ugradProgrammes = factory(Programme::class, 3)->create(['category' => 'undergrad']);
+        $pgradProgrammes = factory(Programme::class, 3)->create(['category' => 'postgrad']);
+        $ugradProjects = factory(Project::class, 15)->create(['category' => 'undergrad']);
+        $pgradProjects = factory(Project::class, 15)->create(['category' => 'postgrad']);
+        $ugradProjects->each(function ($project) {
+            $project->courses()->sync([$ugradCourses->shuffle()->first()->id]);
+            $project->programmes()->sync([$ugradProgrammes->shuffle()->slice(4)->pluck(id)->all()]);
         });
-        $programmes->each(function ($programme) {
-            Project::all()->each(function ($project) use ($programme) {
-                $programme->projects()->save($project);
-            });
+        $pgradProjects->each(function ($project) {
+            $project->courses()->sync([$pgradCourses->shuffle()->first()->id]);
+            $project->programmes()->sync([$pgradProgrammes->shuffle()->slice(4)->pluck(id)->all()]);
         });
 
         $students = factory(User::class, 20)->states('student')->create();
