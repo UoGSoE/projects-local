@@ -2,9 +2,12 @@
 
 namespace App\Providers;
 
+use App\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Contracts\Hashing\Hasher as HasherContract;
 use App\Policies\ProjectPolicy;
+use App\Providers\LdapLocalUserProvider;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -26,6 +29,10 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
+
+        \Auth::provider('ldapeloquent', function ($app, array $config) {
+            return new LdapLocalUserProvider($app['hash'], $config['model']);
+        });
 
         Gate::define('accept-students', function ($user, $project) {
             if ($user->isAdmin()) {
