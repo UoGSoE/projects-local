@@ -138,6 +138,12 @@ class User extends Authenticatable
         $this->save();
     }
 
+    public function makeAdmin()
+    {
+        $this->is_admin = true;
+        $this->save();
+    }
+
     public function getType()
     {
         if ($this->isAdmin()) {
