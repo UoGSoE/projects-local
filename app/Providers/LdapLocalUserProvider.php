@@ -10,6 +10,8 @@ use Illuminate\Contracts\Auth\Authenticatable as UserContract;
 
 class LdapLocalUserProvider extends \Illuminate\Auth\EloquentUserProvider
 {
+    protected $ldapUser;
+
     public function retrieveByCredentials(array $credentials)
     {
         $user = parent::retrieveByCredentials($credentials);
@@ -17,17 +19,17 @@ class LdapLocalUserProvider extends \Illuminate\Auth\EloquentUserProvider
             return $user;
         }
 
-        $ldapUser = \Ldap::findUser($credentials['username']);
-        if (!$ldapUser) {
+        $this->ldapUser = \Ldap::findUser($credentials['username']);
+        if (!$this->ldapUser) {
             return null;
         }
         $user = new User;
         $user->password = bcrypt(str_random(64));
-        $user->username = $ldapUser->username;
-        $user->email = $ldapUser->email;
-        $user->surname = $ldapUser->surname;
-        $user->forenames = $ldapUser->forenames;
-        if ($this->looksLikeMatric($ldapUser->username)) {
+        $user->username = $this->ldapUser->username;
+        $user->email = $this->ldapUser->email;
+        $user->surname = $this->ldapUser->surname;
+        $user->forenames = $this->ldapUser->forenames;
+        if ($this->looksLikeMatric($this->ldapUser->username)) {
             $user->is_staff = false;
         } else {
             $user->is_staff = true;
@@ -47,22 +49,24 @@ class LdapLocalUserProvider extends \Illuminate\Auth\EloquentUserProvider
             return true;
         }
 
-        if (\Ldap::authenticate($credentials['username'], $password)) {
-            $ldapUser = \Ldap::findUser($credentials['username']);
-            $localUser = $this->retrieveByCredentials($credentials);
-            if (! $localUser) {
-                $localUser = new self;
-                $localUser->password = bcrypt(str_random(64));
-            }
-            $localUser->username = $ldapUser->username;
-            $localUser->email = $ldapUser->email;
-            $localUser->surname = $ldapUser->surname;
-            $localUser->forenames = $ldapUser->forenames;
-            $localUser->save();
-            return true;
+        if (! \Ldap::authenticate($credentials['username'], $password)) {
+            return false;
         }
 
-        return false;
+        if (! $this->ldapUser) {
+            $this->ldapUser = \Ldap::findUser($credentials['username']);
+        }
+        $localUser = $this->retrieveByCredentials($credentials);
+        if (! $localUser) {
+            throw new \Exception('Could not find local user matching username');
+        }
+        $localUser->username = $this->ldapUser->username;
+        $localUser->email = $this->ldapUser->email;
+        $localUser->surname = $this->ldapUser->surname;
+        $localUser->forenames = $this->ldapUser->forenames;
+        $localUser->save();
+
+        return true;
     }
 
     protected function looksLikeMatric($username)
