@@ -18,6 +18,8 @@
         };
         window.user = @json(Auth::user());
     </script>
+
+    @routes
 </head>
 <body>
     @include('layouts.navbar')

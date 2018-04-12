@@ -34,7 +34,7 @@
     </table-column>
     <table-column show="username" label="User">
         <template slot-scope="row">
-            <a :href="`/admin/user/${row.id}`">@{{ row.username }}</a>
+            <a :href="showUserUrl(row.id)">@{{ row.username }}</a>
         </template>
     </table-column>
     <table-column show="surname" label="Surname"></table-column>
@@ -52,3 +52,7 @@
 </confirmation-dialog>
 
 @endsection
+
+@push('scripts')
+
+@endpush

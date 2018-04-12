@@ -16,7 +16,7 @@ class AdminToggleTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $admin = create(User::class, ['is_admin' => true]);
-            $user = create(User::class, ['is_admin' => false]);
+            $user = create(User::class, ['is_admin' => false, 'is_staff' => true]);
             $this->assertFalse($user->fresh()->isAdmin());
 
             $browser->loginAs($admin)
@@ -40,7 +40,7 @@ class AdminToggleTest extends DuskTestCase
     public function an_admin_cannot_disable_their_own_admin_status()
     {
         $this->browse(function (Browser $browser) {
-            $admin = create(User::class, ['is_admin' => true]);
+            $admin = create(User::class, ['is_admin' => true, 'is_staff' => true]);
             $this->assertTrue($admin->fresh()->isAdmin());
 
             $browser->loginAs($admin)

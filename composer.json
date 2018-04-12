@@ -12,6 +12,7 @@
         "laravel/tinker": "~1.0",
         "ohffs/simple-laravel-ldap": "dev-master",
         "ohffs/simple-spout": "dev-master",
+        "tightenco/ziggy": "^0.6.3",
         "uogsoe/ldap-laravel": "^1.0"
     },
     "require-dev": {

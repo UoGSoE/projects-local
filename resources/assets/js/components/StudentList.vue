@@ -149,7 +149,7 @@
             },
 
             submit() {
-                axios.post('/project/' + this.project.id + '/accept-students', {
+                axios.post(route('project.accept_students', this.project.id), {
                     'students': this.acceptedStudents
                 }).then(response => {
                     console.log('Woo');

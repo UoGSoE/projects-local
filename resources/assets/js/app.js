@@ -23,6 +23,10 @@ import { TableComponent, TableColumn } from 'vue-table-component';
 Vue.component('table-component', TableComponent);
 Vue.component('table-column', TableColumn);
 
+function getShowUserUrl(userId) {
+    return route('admin.user.show', userId);
+}
+
 const app = new Vue({
     el: '#app',
 
@@ -33,30 +37,38 @@ const app = new Vue({
     },
 
     methods: {
+        showUserUrl: function (userId) {
+            return route('admin.user.show', userId);
+        },
+
+        getProjectUrl: function (projectId) {
+            return route('project.show', projectId);
+        },
+
         deleteProject: function (projectId) {
             console.log(projectId);
             this.showConfirmation = false;
-            axios.delete('/project/' + projectId)
+            axios.delete(route('project.delete', projectId))
                 .then(function (response) {
-                    window.location = '/';
+                    window.location = route('home');
                 });
         },
 
         deleteCourse: function (courseId) {
             console.log(courseId);
             this.showConfirmation = false;
-            axios.delete('/admin/course/' + courseId)
+            axios.delete(route('admin.course.destroy', courseId))
                 .then(function (response) {
-                    window.location = '/admin/course';
+                    window.location = route('admin.course.index');
                 });
         },
 
         deleteProgramme: function (programmeId) {
             console.log(programmeId);
             this.showConfirmation = false;
-            axios.delete('/admin/programme/' + programmeId)
+            axios.delete(route('admin.programme.destroy', programmeId))
                 .then(function (response) {
-                    window.location = '/admin/programme';
+                    window.location = route('admin.programme.index');
                 });
         },
 
@@ -64,9 +76,9 @@ const app = new Vue({
             console.log(courseId);
 
             this.showConfirmation = false;
-            axios.delete('/admin/course/' + courseId + '/remove-students')
+            axios.delete(route('course.remove_students', courseId))
                 .then(function (response) {
-                    window.location = '/admin/course/' + courseId;
+                    window.location = route('admin.course.show', courseId);
                 });
         },
 
@@ -74,9 +86,9 @@ const app = new Vue({
             console.log(category);
 
             this.showConfirmation = false;
-            axios.delete('/admin/students/remove/' + category)
+            axios.delete(route('students.remove_' + category))
                 .then(function (response) {
-                    window.location = '/admin/users/' + category;
+                    window.location = route('admin.users', category);
                 });
         },
 
@@ -84,9 +96,9 @@ const app = new Vue({
             console.log(userId);
 
             this.showConfirmation = false;
-            axios.delete('/admin/user/' + userId)
+            axios.delete(route('admin.user.delete', userId))
                 .then(function (response) {
-                    window.location = '/';
+                    window.location = route('home');
                 });
         }
     }

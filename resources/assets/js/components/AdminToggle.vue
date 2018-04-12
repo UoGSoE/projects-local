@@ -32,7 +32,7 @@
 
         methods: {
             toggleAdmin() {
-                axios.post('/admin/user/' + this.id + '/toggle-admin')
+                axios.post(route('admin.users.toggle_admin', this.id))
                      .then(response => {
                         this.isAdmin = ! this.isAdmin;
                         this.errorMessage = '';

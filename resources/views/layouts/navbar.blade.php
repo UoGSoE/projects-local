@@ -1,7 +1,7 @@
 
 <nav class="navbar is-info" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
-    <a class="navbar-item" href="/">
+    <a class="navbar-item" href="{{ url('/') }}">
       School of Engineering Projects
     </a>
     <button class="button is-primary navbar-burger" data-target="navMenu">
@@ -80,7 +80,7 @@
               My Profile
             </a>
             <hr class="navbar-divider" />
-            <form method="POST" action="/logout" class="navbar-item">
+            <form method="POST" action="{{ url('/logout') }}" class="navbar-item">
               {{ csrf_field() }}
               <a href="#" onclick="this.parentNode.submit()">Log Out</a>
             </form>

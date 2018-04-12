@@ -17,7 +17,7 @@
     >
     <table-column show="title" label="Title">
         <template slot-scope="row">
-            <a :href="`/project/${row.id}`">@{{ row.title }}</a>
+            <a :href="getProjectUrl(row.id)">@{{ row.title }}</a>
         </template>
     </table-column>
     <table-column show="owner.full_name" label="Owner"></table-column>

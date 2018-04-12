@@ -197,7 +197,7 @@
                     "5": this.choices.fifth,
                 };
                 console.log(choices);
-                axios.post('/choices', {choices: choices})
+                axios.post(route('projects.choose'), {choices: choices})
                      .then(response => {
                         window.location = '/thank-you';
                      })
