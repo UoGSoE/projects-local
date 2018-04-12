@@ -4,7 +4,7 @@
 <div class="columns">
     <div class="column is-one-third"></div>
     <div class="column is-one-third">
-        <form method="POST" action="/login">
+        <form method="POST" action="{{ url('/login') }}">
             @csrf
             <div class="field">
                 <div class="control">
