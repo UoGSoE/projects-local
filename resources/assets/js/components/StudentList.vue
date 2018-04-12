@@ -22,7 +22,7 @@
                     <tr v-for="student in students">
                         <td>
                             <span v-if="user.isAdmin">
-                                <a :href="'/admin/user/' + student.id">
+                                <a :href="showUserUrl(student.id)">
                                     {{ student.full_name }}
                                 </a>
                             </span>
@@ -81,13 +81,10 @@
         mounted() {
             this.students.forEach(student => {
                 if (student.is_accepted) {
-                    console.log(student.id);
                     this.acceptedStudents.push(student.id);
                     this.initiallyAccepted.push(student.id);
                 }
             });
-            console.log(this.acceptedStudents);
-            console.log(this.initiallyAccepted);
         },
 
         data() {
@@ -127,6 +124,10 @@
         },
 
         methods: {
+            showUserUrl: function (userId) {
+                return route('admin.user.show', userId);
+            },
+
             canAcceptStudent(student) {
                 // admins can do anything
                 if (!! +this.user.isAdmin) {

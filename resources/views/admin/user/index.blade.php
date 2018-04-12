@@ -52,7 +52,3 @@
 </confirmation-dialog>
 
 @endsection
-
-@push('scripts')
-
-@endpush

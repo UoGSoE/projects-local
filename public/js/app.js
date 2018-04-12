@@ -30537,13 +30537,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         this.students.forEach(function (student) {
             if (student.is_accepted) {
-                console.log(student.id);
                 _this.acceptedStudents.push(student.id);
                 _this.initiallyAccepted.push(student.id);
             }
         });
-        console.log(this.acceptedStudents);
-        console.log(this.initiallyAccepted);
     },
     data: function data() {
         return {
@@ -30585,6 +30582,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
+        showUserUrl: function showUserUrl(userId) {
+            return route('admin.user.show', userId);
+        },
+
         canAcceptStudent: function canAcceptStudent(student) {
             // admins can do anything
             if (!!+this.user.isAdmin) {
@@ -30647,7 +30648,7 @@ var render = function() {
                         ? _c("span", [
                             _c(
                               "a",
-                              { attrs: { href: "/admin/user/" + student.id } },
+                              { attrs: { href: _vm.showUserUrl(student.id) } },
                               [
                                 _vm._v(
                                   "\n                                " +
