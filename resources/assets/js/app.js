@@ -45,6 +45,10 @@ const app = new Vue({
             return route('project.show', projectId);
         },
 
+        editProgrammeUrl: function (programmeId) {
+            return route('admin.programme.edit', programmeId);
+        },
+
         deleteProject: function (projectId) {
             console.log(projectId);
             this.showConfirmation = false;

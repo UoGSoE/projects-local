@@ -126,6 +126,10 @@ var app = new Vue({
             return route('project.show', projectId);
         },
 
+        editProgrammeUrl: function editProgrammeUrl(programmeId) {
+            return route('admin.programme.edit', programmeId);
+        },
+
         deleteProject: function deleteProject(projectId) {
             console.log(projectId);
             this.showConfirmation = false;
