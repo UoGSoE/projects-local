@@ -199,7 +199,7 @@
                 console.log(choices);
                 axios.post(route('projects.choose'), {choices: choices})
                      .then(response => {
-                        window.location = '/thank-you';
+                        window.location = route('thank_you');
                      })
                      .catch(error => {
                         this.submitButtonText = 'Error submitting choices - sorry';

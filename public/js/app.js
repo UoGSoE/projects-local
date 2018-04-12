@@ -30027,7 +30027,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             };
             console.log(choices);
             axios.post(route('projects.choose'), { choices: choices }).then(function (response) {
-                window.location = '/thank-you';
+                window.location = route('thank_you');
             }).catch(function (error) {
                 _this3.submitButtonText = 'Error submitting choices - sorry';
                 _this3.submissionError = true;
