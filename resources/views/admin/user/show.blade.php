@@ -90,7 +90,7 @@
 @endif
 
 <confirmation-dialog :show="showConfirmation" @cancel="showConfirmation = false" @confirm="deleteUser({{ $user->id }})">
-    Do you really want to delete this user?
+    Do you really want to delete this user?  This will also delete all of their projects.
 </confirmation-dialog>
 
 @endsection

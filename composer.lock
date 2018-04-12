@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "50e93f01eabb20ed0096cfaf84a644f7",
+    "content-hash": "40d1c6660cab34c42c53429d77ed1167",
     "packages": [
         {
             "name": "box/spout",
@@ -2327,6 +2327,52 @@
             "description": "CssToInlineStyles is a class that enables you to convert HTML-pages/files into HTML-pages/files with inline styles. This is very useful when you're sending emails.",
             "homepage": "https://github.com/tijsverkoyen/CssToInlineStyles",
             "time": "2017-11-27T11:13:29+00:00"
+        },
+        {
+            "name": "uogsoe/ldap-laravel",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/UoGSoE/LaravelLdap.git",
+                "reference": "54d3e046c1c0013df2191acdda7cd4fec7ade627"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/UoGSoE/LaravelLdap/zipball/54d3e046c1c0013df2191acdda7cd4fec7ade627",
+                "reference": "54d3e046c1c0013df2191acdda7cd4fec7ade627",
+                "shasum": ""
+            },
+            "require": {
+                "ohffs/simple-laravel-ldap": "dev-master"
+            },
+            "require-dev": {
+                "orchestra/testbench": "~3.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "UoGSoE\\LaravelLdap\\LaravelLdapServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "UoGSoE\\LaravelLdap\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Billy",
+                    "email": "william.allan@glasgow.ac.uk"
+                }
+            ],
+            "description": "Adds a custom auth provider for our LDAP service",
+            "time": "2018-04-12T07:56:51+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
