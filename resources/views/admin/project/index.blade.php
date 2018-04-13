@@ -4,6 +4,9 @@
 
 <h3 class="title is-3">
     All {{ ucfirst($category) }} Projects
+    <a href="{{ route('export.projects.excel', ['category' => $category]) }}" class="button is-pulled-right">
+        Export
+    </a>
 </h3>
 
 <table-component
