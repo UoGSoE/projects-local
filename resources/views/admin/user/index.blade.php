@@ -8,6 +8,8 @@
         <h3 class="title is-3">
             {{ ucfirst(str_plural($category)) }}
         </h3>
+        &nbsp;
+        <new-user></new-user>
     </div>
   </div>
   <div class="level-right">

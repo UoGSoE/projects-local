@@ -100,13 +100,10 @@ Vue.component('confirmation-dialog', __webpack_require__(164));
 Vue.component('project-list', __webpack_require__(167));
 Vue.component('student-list', __webpack_require__(170));
 Vue.component('admin-toggle', __webpack_require__(173));
+Vue.component('new-user', __webpack_require__(179));
 
 Vue.component('table-component', __WEBPACK_IMPORTED_MODULE_0_vue_table_component__["TableComponent"]);
 Vue.component('table-column', __WEBPACK_IMPORTED_MODULE_0_vue_table_component__["TableColumn"]);
-
-function getShowUserUrl(userId) {
-    return route('admin.user.show', userId);
-}
 
 var app = new Vue({
     el: '#app',
@@ -36397,6 +36394,335 @@ webpackContext.keys = function webpackContextKeys() {
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
 webpackContext.id = 178;
+
+/***/ }),
+/* 179 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(9)
+/* script */
+var __vue_script__ = __webpack_require__(180)
+/* template */
+var __vue_template__ = __webpack_require__(181)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/NewUser.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7c4c9824", Component.options)
+  } else {
+    hotAPI.reload("data-v-7c4c9824", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 180 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: [],
+
+    mounted: function mounted() {},
+    data: function data() {
+        return {
+            mode: 'button',
+            errorMessage: '',
+            username: '',
+            user: null,
+            searching: false,
+            saving: false
+        };
+    },
+
+
+    computed: {
+        mainButtonClassList: function mainButtonClassList() {
+            if (this.searching) {
+                return 'is-info is-loading';
+            }
+            if (!this.user) {
+                return 'is-info';
+            }
+            return '';
+        }
+    },
+
+    methods: {
+        findUser: function findUser() {
+            var _this = this;
+
+            console.log(this.username);
+            this.searching = true;
+            axios.post(route('api.user.find', { guid: this.username })).then(function (response) {
+                _this.user = response.data.data.user;
+                _this.searching = false;
+                _this.errorMessage = '';
+            }).catch(function (error) {
+                _this.searching = false;
+                if (error.response.data.message) {
+                    _this.errorMessage = error.response.data.message;
+                } else if (error.response.statusText) {
+                    _this.errorMessage = error.response.statusText;
+                } else {
+                    _this.errorMessage = error.message;
+                }
+            });
+        },
+        saveUser: function saveUser() {
+            var _this2 = this;
+
+            this.saving = true;
+            axios.post(route('api.user.store', { guid: this.username })).then(function (response) {
+                _this2.user = null;
+                console.log(response);
+                _this2.saving = false;
+                location.reload();
+            }).catch(function (error) {
+                _this2.saving = false;
+                _this2.user = null;
+                if (error.response.data.message) {
+                    _this2.errorMessage = error.response.data.message;
+                } else if (error.response.statusText) {
+                    _this2.errorMessage = error.response.statusText;
+                } else {
+                    _this2.errorMessage = error.message;
+                }
+            });
+        }
+    }
+});
+
+/***/ }),
+/* 181 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "div",
+      {
+        staticStyle: { position: "absolute", top: "0px" },
+        on: {
+          click: function($event) {
+            _vm.mode = "input"
+          }
+        }
+      },
+      [
+        _c("transition", { attrs: { name: "fadeWidth", mode: "out-in" } }, [
+          _vm.mode === "button"
+            ? _c("span", { key: "button", staticClass: "button" }, [
+                _vm._v("+ New User")
+              ])
+            : _c("span", { key: "input" }, [
+                _c("div", { staticClass: "field has-addons" }, [
+                  _c("div", { staticClass: "control" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.username,
+                          expression: "username"
+                        }
+                      ],
+                      staticClass: "input",
+                      attrs: {
+                        type: "text",
+                        placeholder: "Enter a GUID...",
+                        autofocus: "autofocus"
+                      },
+                      domProps: { value: _vm.username },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.username = $event.target.value
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "control" }, [
+                    _c(
+                      "a",
+                      {
+                        staticClass: "button",
+                        class: _vm.mainButtonClassList,
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            _vm.findUser($event)
+                          }
+                        }
+                      },
+                      [_vm._v("\n                  Search\n                ")]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.errorMessage,
+                          expression: "errorMessage"
+                        }
+                      ],
+                      staticClass: "control"
+                    },
+                    [
+                      _c(
+                        "a",
+                        {
+                          staticClass: "button is-danger",
+                          attrs: { disabled: "" }
+                        },
+                        [
+                          _vm._v(
+                            "\n                  " +
+                              _vm._s(_vm.errorMessage) +
+                              "\n                "
+                          )
+                        ]
+                      )
+                    ]
+                  )
+                ])
+              ])
+        ]),
+        _vm._v(" "),
+        _vm.user
+          ? _c(
+              "div",
+              {
+                staticClass: "box",
+                staticStyle: { position: "relative !important", "z-index": "5" }
+              },
+              [
+                _c("dl", [
+                  _c("dt", { staticClass: "has-text-weight-semibold" }, [
+                    _vm._v("Email")
+                  ]),
+                  _vm._v(" "),
+                  _c("dd", [_vm._v(_vm._s(_vm.user.email))]),
+                  _vm._v(" "),
+                  _c("dt", { staticClass: "has-text-weight-semibold" }, [
+                    _vm._v("Surname")
+                  ]),
+                  _vm._v(" "),
+                  _c("dd", [_vm._v(_vm._s(_vm.user.surname))]),
+                  _vm._v(" "),
+                  _c("dt", { staticClass: "has-text-weight-semibold" }, [
+                    _vm._v("Forenames")
+                  ]),
+                  _vm._v(" "),
+                  _c("dd", [_vm._v(_vm._s(_vm.user.forenames))]),
+                  _vm._v(" "),
+                  _c("hr"),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "button is-info",
+                      class: { "is-loading": _vm.saving },
+                      on: { click: _vm.saveUser }
+                    },
+                    [_vm._v("Add User")]
+                  )
+                ])
+              ]
+            )
+          : _vm._e()
+      ],
+      1
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-7c4c9824", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

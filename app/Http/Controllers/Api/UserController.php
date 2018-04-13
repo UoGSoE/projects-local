@@ -1,0 +1,86 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use App\User;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+
+class UserController extends Controller
+{
+    public function show(Request $request)
+    {
+        $request->validate([
+            'guid' => 'required',
+        ]);
+
+        $existingUser = User::where('username', '=', $request->guid)->first();
+        if ($existingUser) {
+            return response()->json([
+                'data' => [],
+                'message' => 'Already Exists',
+            ], 422);
+        }
+
+        $ldapUser = \Ldap::findUser($request->guid);
+
+        if (! $ldapUser) {
+            return response()->json([
+                'data' => [],
+                'message' => 'Not Found'
+            ], 404);
+        }
+
+        return response()->json([
+            'data' => [
+                'user' => $ldapUser->toArray(),
+            ]
+        ]);
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'guid' => 'required',
+        ]);
+
+        $existingUser = User::where('username', '=', $request->guid)->first();
+        if ($existingUser) {
+            return response()->json([
+                'data' => [],
+                'message' => 'Duplicate',
+            ], 422);
+        }
+
+        $ldapUser = \Ldap::findUser($request->guid);
+
+        if (! $ldapUser) {
+            return response()->json([
+                'data' => [],
+                'message' => 'Not Found'
+            ], 404);
+        }
+
+        $user = User::create([
+            'username' => $ldapUser->username,
+            'email' => $ldapUser->email,
+            'surname' => $ldapUser->surname,
+            'forenames' => $ldapUser->forenames,
+            'is_staff' => !$this->looksLikeMatric($ldapUser->username),
+            'password' => bcrypt(str_random(64)),
+        ]);
+
+        return response()->json([
+            'data' => $user->toArray(),
+            'message' => 'Saved'
+        ]);
+    }
+
+    protected function looksLikeMatric($username)
+    {
+        if (preg_match('/^[0-9]/', $username) === 1) {
+            return true;
+        }
+        return false;
+    }
+}
