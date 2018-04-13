@@ -76,6 +76,14 @@
             <article class="message" :class="{'is-success': numberChosen == requiredChoices}">
               <div class="message-body" v-if="numberChosen < requiredChoices" :key="numberChosen < requiredChoices">
                 You have chosen {{ numberChosen }} {{ numberChosen > 1 ? 'projects' : 'project' }}. You need to choose {{ requiredChoices - numberChosen }} more.
+                <hr />
+                <ul>
+                    <li>1: {{ getChoice('first') }}</li>
+                    <li>2: {{ getChoice('second') }}</li>
+                    <li>3: {{ getChoice('third') }}</li>
+                    <li>4: {{ getChoice('fourth') }}</li>
+                    <li>5: {{ getChoice('fifth') }}</li>
+                </ul>
               </div>
               <div class="message-body" v-else :key="numberChosen < requiredChoices">
                 You have chosen all {{ requiredChoices }} projects - you can now submit your choices.<br />
@@ -144,6 +152,18 @@
         },
 
         methods: {
+            getChoice: function (choice) {
+                return this.findProject(this.choices[choice]);
+            },
+
+            findProject: function(projectId) {
+                var project = this.projects.find(project => project.id === projectId);
+                if (! project) {
+                    return '';
+                }
+                return project.title;
+            },
+
             isExpanded: function (projectId) {
                 if (this.openProjects.indexOf(projectId) != -1) {
                     return true;

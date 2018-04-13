@@ -29914,6 +29914,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['projects', 'programmes'],
@@ -29970,6 +29978,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
+        getChoice: function getChoice(choice) {
+            return this.findProject(this.choices[choice]);
+        },
+
+        findProject: function findProject(projectId) {
+            var project = this.projects.find(function (project) {
+                return project.id === projectId;
+            });
+            if (!project) {
+                return '';
+            }
+            return project.title;
+        },
+
         isExpanded: function isExpanded(projectId) {
             if (this.openProjects.indexOf(projectId) != -1) {
                 return true;
@@ -30342,8 +30364,31 @@ var render = function() {
                               ) +
                               ". You need to choose " +
                               _vm._s(_vm.requiredChoices - _vm.numberChosen) +
-                              " more.\n          "
-                          )
+                              " more.\n            "
+                          ),
+                          _c("hr"),
+                          _vm._v(" "),
+                          _c("ul", [
+                            _c("li", [
+                              _vm._v("1: " + _vm._s(_vm.getChoice("first")))
+                            ]),
+                            _vm._v(" "),
+                            _c("li", [
+                              _vm._v("2: " + _vm._s(_vm.getChoice("second")))
+                            ]),
+                            _vm._v(" "),
+                            _c("li", [
+                              _vm._v("3: " + _vm._s(_vm.getChoice("third")))
+                            ]),
+                            _vm._v(" "),
+                            _c("li", [
+                              _vm._v("4: " + _vm._s(_vm.getChoice("fourth")))
+                            ]),
+                            _vm._v(" "),
+                            _c("li", [
+                              _vm._v("5: " + _vm._s(_vm.getChoice("fifth")))
+                            ])
+                          ])
                         ]
                       )
                     : _c(
