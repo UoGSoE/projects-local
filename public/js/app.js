@@ -30925,7 +30925,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this = this;
 
             axios.post(route('admin.users.toggle_admin', this.id)).then(function (response) {
-                _this.isAdmin = !_this.isAdmin;
                 _this.errorMessage = '';
                 location.reload();
             }).catch(function (error) {
