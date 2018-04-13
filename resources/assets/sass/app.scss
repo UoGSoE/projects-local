@@ -16,6 +16,23 @@ $body-background: whitesmoke;
     z-index: 9;
 }
 
+.fadeWidth-enter-active,
+.fadeWidth-leave-active {
+  transition: all 0.2s;
+  max-width: 314px;
+}
+.fadeWidth-enter,
+.fadeWidth-leave-to
+{
+  transition: all 0.1s;
+  opacity: 0;
+  max-width: 0px;
+}
+
+
+
+
+
 .fade-enter-active, .fade-leave-active {
   transition: opacity .5s;
 }

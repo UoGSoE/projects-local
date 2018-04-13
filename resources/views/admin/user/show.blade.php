@@ -6,6 +6,9 @@
     <div class="level-left">
         <h3 class="title is-3 level-item">
             <p class="">Details for <em>{{ $user->full_name }}</em>&nbsp;</p>
+            @if ($user->isStaff() and (Auth::user()->id != $user->id))
+                <admin-toggle :user='@json($user)'></admin-toggle>
+            @endif
             <form method="POST" action="{{ route('impersonate.start', $user->id) }}" class="">
                 @csrf
                 <button class="button">Impersonate</button>
@@ -32,7 +35,9 @@
     </tr>
     <tr>
         <th>Type</th>
-        <td>{{ $user->getType() }}</td>
+        <td>
+            {{ $user->getType() }}
+        </td>
     </tr>
     @if ($user->profile)
         <tr>

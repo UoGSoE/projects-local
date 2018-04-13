@@ -39,6 +39,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('/impersonate', 'ImpersonationController@destroy')->name('impersonate.stop');
 
     Route::group(['middleware' => 'admin', 'prefix' => '/admin'], function () {
+
+        Route::post('/api/user/find', 'Api\UserController@show')->name('api.user.find');
+        Route::post('/api/user', 'Api\UserController@store')->name('api.user.store');
+
         Route::get('/projects/{category}', 'Admin\ProjectController@index')->name('admin.project.index');
         Route::get('/choices/{category}', 'Admin\ChoiceController@index')->name('admin.student.choices');
 

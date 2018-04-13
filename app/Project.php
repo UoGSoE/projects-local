@@ -16,6 +16,7 @@ class Project extends Model
 
     protected $appends = [
         'course_codes',
+        'owner_name',
     ];
 
     public function programmes()
@@ -47,6 +48,11 @@ class Project extends Model
     public function owner()
     {
         return $this->belongsTo(User::class, 'staff_id');
+    }
+
+    public function getOwnerNameAttribute()
+    {
+        return $this->owner->full_name;
     }
 
     public function scopeUndergrad($query)

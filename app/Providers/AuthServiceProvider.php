@@ -29,6 +29,10 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
+        \Horizon::auth(function ($request) {
+            return $request->user()->isAdmin();
+        });
+
         Gate::define('accept-students', function ($user, $project) {
             if ($user->isAdmin()) {
                 return true;

@@ -78,4 +78,48 @@ class AcceptingStudentsTest extends DuskTestCase
                     ->assertDontSee('Save Changes');
         });
     }
+
+    /** @test */
+    public function admins_can_accept_anyone_on_any_project()
+    {
+        $this->browse(function (Browser $browser) {
+            $admin = create(User::class, ['is_admin' => true, 'is_staff' => true]);
+            $project = create(Project::class, ['category' => 'postgrad']);
+            $student1 = create(User::class, ['is_staff' => false]);
+            $student2 = create(User::class, ['is_staff' => false]);
+            $student3 = create(User::class, ['is_staff' => false]);
+            $student1->projects()->sync([$project->id => ['choice' => 1, 'is_accepted' => false]]);
+            $student2->projects()->sync([$project->id => ['choice' => 2, 'is_accepted' => false]]);
+
+            $browser->loginAs($admin)
+                    ->visit(route('project.show', $project->id))
+                    // check the basics
+                    ->assertSee($project->title)
+                    ->clickLink($student1->full_name)
+                    ->assertUrlIs(route('admin.user.show', $student1->id))
+                    ->visit(route('project.show', $project->id))
+                    ->assertSee($student1->full_name)
+                    ->assertSee($student2->full_name)
+                    ->assertDontSee($student3->full_name)
+                    // check we have the correct html form elements
+                    ->assertSourceHas("accept-" . $student1->id)
+                    ->assertSourceHas("accept-" . $student2->id)
+                    // check making changes then undoing them effects the save button
+                    ->assertDontSee('Save Changes')
+                    ->check("accept-{$student1->id}")
+                    ->assertSee('Save Changes')
+                    ->uncheck("accept-{$student1->id}")
+                    ->assertDontSee('Save Changes')
+                    ->check("accept-{$student2->id}")
+                    // commiting the changes updates things
+                    ->press('Save Changes')
+                    ->pause(200)
+                    ->visit(route('project.show', $project->id))
+                    ->assertSourceHas("accept-" . $student1->id)
+                    ->assertSourceHas("accept-" . $student2->id)
+                    ;
+            $this->assertTrue($student2->isAccepted());
+            $this->assertFalse($student1->isAccepted());
+        });
+    }
 }
