@@ -30915,14 +30915,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
     computed: {
-        getIconClass: function getIconClass() {
-            if (this.errorMessage) {
-                return 'has-text-danger';
-            }
-            return this.isAdmin ? 'has-text-success' : 'has-text-grey-light';
-        },
-        getIconTitle: function getIconTitle() {
-            return this.errorMessage ? this.errorMessage : 'Admin?';
+        buttonText: function buttonText() {
+            return this.isAdmin ? 'Remove Admin Rights' : 'Give Admin Rights';
         }
     },
 
@@ -30933,6 +30927,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axios.post(route('admin.users.toggle_admin', this.id)).then(function (response) {
                 _this.isAdmin = !_this.isAdmin;
                 _this.errorMessage = '';
+                location.reload();
             }).catch(function (error) {
                 _this.errorMessage = error.response.data.message ? error.response.data.message : error.message;
             });
@@ -30952,33 +30947,12 @@ var render = function() {
     _c(
       "span",
       {
-        staticClass: "icon",
-        class: _vm.getIconClass,
+        staticClass: "button",
         staticStyle: { cursor: "pointer", "margin-right": "1em" },
-        attrs: {
-          role: "button",
-          title: _vm.getIconTitle,
-          id: "admintoggle-" + _vm.id
-        },
+        attrs: { role: "button", id: "admintoggle-" + _vm.id },
         on: { click: _vm.toggleAdmin }
       },
-      [
-        _c(
-          "svg",
-          {
-            staticStyle: { fill: "currentColor" },
-            attrs: { xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 20 20" }
-          },
-          [
-            _c("path", {
-              attrs: {
-                d:
-                  "M5 5a5 5 0 0 1 10 0v2A5 5 0 0 1 5 7V5zM0 16.68A19.9 19.9 0 0 1 10 14c3.64 0 7.06.97 10 2.68V20H0v-3.32z"
-              }
-            })
-          ]
-        )
-      ]
+      [_vm._v("\n        " + _vm._s(_vm.buttonText) + "\n    ")]
     )
   ])
 }

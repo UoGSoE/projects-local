@@ -29,11 +29,6 @@
     :show-caption="false"
     filter-input-class="input"
     >
-    <table-column label="Admin?" :sortable="false" :filterable="false">
-        <template slot-scope="row">
-            <admin-toggle :user='row'></admin-toggle>
-        </template>
-    </table-column>
     <table-column show="username" label="User">
         <template slot-scope="row">
             <a :href="showUserUrl(row.id)">@{{ row.username }}</a>
