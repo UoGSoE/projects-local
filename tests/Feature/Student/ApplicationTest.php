@@ -77,7 +77,7 @@ class ApplicationTest extends TestCase
         $project3 = create(Project::class);
         $course->projects()->sync([$project1->id, $project2->id, $project3->id]);
         // and given that the required number of project choices is 2
-        config(['projects.required_projects' => 2]);
+        config(['projects.required_choices' => 2]);
 
         // then if they apply for 3
         $response = $this->actingAs($student)->post(route('projects.choose'), [
@@ -108,7 +108,7 @@ class ApplicationTest extends TestCase
         $project3 = create(Project::class);
         $course->projects()->sync([$project1->id, $project2->id, $project3->id]);
         // and given that the required number to apply for is 2
-        config(['projects.required_projects' => 2]);
+        config(['projects.required_choices' => 2]);
 
         // then if they apply for 2
         $response = $this->actingAs($student)->post(route('projects.choose'), [
@@ -138,7 +138,7 @@ class ApplicationTest extends TestCase
         $project3 = create(Project::class);
         $course->projects()->sync([$project1->id, $project2->id, $project3->id]);
         // and given that the required number of project choices is 3
-        config(['projects.required_projects' => 3]);
+        config(['projects.required_choices' => 3]);
 
         // then if they apply for 2
         $response = $this->actingAs($student)->post(route('projects.choose'), [
@@ -169,7 +169,7 @@ class ApplicationTest extends TestCase
         $project3 = create(Project::class);
         $course->projects()->sync([$project1->id, $project2->id, $project3->id]);
         // and given that the maximum they can apply for is 2
-        config(['projects.required_projects' => 2]);
+        config(['projects.required_choices' => 2]);
 
         // then if they apply for 2
         $response = $this->actingAs($student)->post(route('projects.choose'), [
