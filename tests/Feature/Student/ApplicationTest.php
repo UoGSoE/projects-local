@@ -44,16 +44,17 @@ class ApplicationTest extends TestCase
     /** @test */
     public function projects_which_are_marked_as_inactive_do_not_show_up_on_the_list()
     {
-        // given we have a student on a course
-        $course1 = create(Course::class);
+        // given we have a student and a course
         $student = create(User::class, ['is_staff' => false]);
-        $course1->students()->save($student);
+        $course1 = create(Course::class);
         // and an active project for that course
         $activeProject = create(Project::class);
         $activeProject->courses()->sync([$course1->id]);
         // and an inactive one
         $inactiveProject = create(Project::class, ['is_active' => false]);
         $inactiveProject->courses()->sync([$course1->id]);
+        // and the student is on that course
+        $course1->students()->save($student);
 
         // when the student goes to the homepage
         $response = $this->actingAs($student)->get(route('home'));
@@ -98,6 +99,7 @@ class ApplicationTest extends TestCase
     public function a_student_can_apply_for_the_required_number_of_projects()
     {
         Mail::fake();
+        $this->withoutExceptionHandling();
         // given we have a student on a course
         $student = create(User::class, ['is_staff' => false]);
         $course = create(Course::class);
@@ -113,8 +115,8 @@ class ApplicationTest extends TestCase
         // then if they apply for 2
         $response = $this->actingAs($student)->post(route('projects.choose'), [
             'choices' => [
-                [1 => $project3->id],
-                [2 => $project1->id],
+                1 => $project3->id,
+                2 => $project1->id,
             ]
         ]);
 
@@ -143,8 +145,8 @@ class ApplicationTest extends TestCase
         // then if they apply for 2
         $response = $this->actingAs($student)->post(route('projects.choose'), [
             'choices' => [
-                [1 => $project3->id],
-                [2 => $project1->id],
+                1 => $project3->id,
+                2 => $project1->id,
             ]
         ]);
 
@@ -174,8 +176,8 @@ class ApplicationTest extends TestCase
         // then if they apply for 2
         $response = $this->actingAs($student)->post(route('projects.choose'), [
             'choices' => [
-                [1 => $project3->id],
-                [2 => $project1->id],
+                1 => $project3->id,
+                2 => $project1->id,
             ]
         ]);
 
@@ -189,5 +191,46 @@ class ApplicationTest extends TestCase
         Mail::assertQueued(ChoiceConfirmation::class, function ($mail) use ($student, $project1, $project2, $project3) {
             return $mail->hasTo($student->email) && $mail->student->is($student);
         });
+    }
+
+    /** @test */
+    public function students_cant_submit_new_choices_if_they_have_already_been_accepted()
+    {
+        Mail::fake();
+        $this->withoutExceptionHandling();
+        // given we have a student on a course
+        $student = create(User::class, ['is_staff' => false]);
+        $course = create(Course::class);
+        $course->students()->save($student);
+        // and given we have three projects
+        $project1 = create(Project::class);
+        $project2 = create(Project::class);
+        $project3 = create(Project::class);
+        $course->projects()->sync([$project1->id, $project2->id, $project3->id]);
+        // and given the student has been accepted onto a project
+        $student->projects()->sync([$project1->id => ['choice' => 1]]);
+        $project1->accept($student);
+        $this->assertEquals(1, $student->fresh()->projects->count());
+        // and given that the required number to apply for is 2
+        config(['projects.required_choices' => 2]);
+
+        // if they visit their homepage
+        $response = $this->actingAs($student)->get('/');
+
+        // they see the warning
+        $response->assertSuccessful();
+        $response->assertSee('You cannot choose new projects');
+
+        // then if somehow they apply for 2 despite the form not being there
+        $response = $this->actingAs($student)->post(route('projects.choose'), [
+            'choices' => [
+                1 => $project3->id,
+                2 => $project1->id,
+            ]
+        ]);
+
+        // then they get redirected and no new choices are saved
+        $response->assertRedirect('/');
+        $this->assertEquals(1, $student->fresh()->projects->count());
     }
 }
