@@ -1,24 +1,26 @@
 <template>
     <div>
-        <div @click="mode = 'input'" style="position:absolute; top: 0px;">
+        <div @click.prevent="showInput" style="position:absolute; top: 0px;">
             <transition name="fadeWidth" mode="out-in">
             <span v-if="mode === 'button'" key="button" class="button">+ New User</span>
             <span v-else key="input">
-                <div class="field has-addons">
-                  <div class="control">
-                    <input class="input" type="text" v-model="username" placeholder="Enter a GUID..." autofocus="autofocus">
-                  </div>
-                  <div class="control">
-                    <a class="button" :class="mainButtonClassList" @click.prevent="findUser">
-                      Search
-                    </a>
-                  </div>
-                  <div v-show="errorMessage" class="control">
-                    <a class="button is-danger" disabled>
-                      {{ errorMessage }}
-                    </a>
-                  </div>
-                </div>
+                <form>
+                    <div class="field has-addons">
+                        <div class="control">
+                            <input class="input" type="text" v-model="username" placeholder="Enter a GUID..." ref="search" autofocus>
+                        </div>
+                        <div class="control">
+                            <button class="button" :class="mainButtonClassList" @click.prevent="findUser">
+                            Search
+                            </button>
+                        </div>
+                        <div v-show="errorMessage" class="control">
+                            <a class="button is-danger" disabled>
+                            {{ errorMessage }}
+                            </a>
+                        </div>
+                    </div>
+                </form>
             </span>
             </transition>
             <div v-if="user" class="box" style="position: relative !important; z-index: 5;">
@@ -68,6 +70,11 @@
         },
 
         methods: {
+            showInput() {
+                this.mode = 'input';
+                this.$nextTick(this.$refs.search.focus());
+            },
+
             findUser() {
                 console.log(this.username);
                 this.searching = true;

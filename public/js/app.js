@@ -36505,6 +36505,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: [],
@@ -36535,6 +36537,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
+        showInput: function showInput() {
+            this.mode = 'input';
+            this.$nextTick(this.$refs.search.focus());
+        },
         findUser: function findUser() {
             var _this = this;
 
@@ -36594,7 +36600,8 @@ var render = function() {
         staticStyle: { position: "absolute", top: "0px" },
         on: {
           click: function($event) {
-            _vm.mode = "input"
+            $event.preventDefault()
+            _vm.showInput($event)
           }
         }
       },
@@ -36605,82 +36612,89 @@ var render = function() {
                 _vm._v("+ New User")
               ])
             : _c("span", { key: "input" }, [
-                _c("div", { staticClass: "field has-addons" }, [
-                  _c("div", { staticClass: "control" }, [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.username,
-                          expression: "username"
-                        }
-                      ],
-                      staticClass: "input",
-                      attrs: {
-                        type: "text",
-                        placeholder: "Enter a GUID...",
-                        autofocus: "autofocus"
-                      },
-                      domProps: { value: _vm.username },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
+                _c("form", [
+                  _c("div", { staticClass: "field has-addons" }, [
+                    _c("div", { staticClass: "control" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.username,
+                            expression: "username"
                           }
-                          _vm.username = $event.target.value
-                        }
-                      }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "control" }, [
-                    _c(
-                      "a",
-                      {
-                        staticClass: "button",
-                        class: _vm.mainButtonClassList,
+                        ],
+                        ref: "search",
+                        staticClass: "input",
+                        attrs: {
+                          type: "text",
+                          placeholder: "Enter a GUID...",
+                          autofocus: ""
+                        },
+                        domProps: { value: _vm.username },
                         on: {
-                          click: function($event) {
-                            $event.preventDefault()
-                            _vm.findUser($event)
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.username = $event.target.value
                           }
                         }
-                      },
-                      [_vm._v("\n                  Search\n                ")]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    {
-                      directives: [
-                        {
-                          name: "show",
-                          rawName: "v-show",
-                          value: _vm.errorMessage,
-                          expression: "errorMessage"
-                        }
-                      ],
-                      staticClass: "control"
-                    },
-                    [
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "control" }, [
                       _c(
-                        "a",
+                        "button",
                         {
-                          staticClass: "button is-danger",
-                          attrs: { disabled: "" }
+                          staticClass: "button",
+                          class: _vm.mainButtonClassList,
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              _vm.findUser($event)
+                            }
+                          }
                         },
                         [
                           _vm._v(
-                            "\n                  " +
-                              _vm._s(_vm.errorMessage) +
-                              "\n                "
+                            "\n                        Search\n                        "
                           )
                         ]
                       )
-                    ]
-                  )
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.errorMessage,
+                            expression: "errorMessage"
+                          }
+                        ],
+                        staticClass: "control"
+                      },
+                      [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "button is-danger",
+                            attrs: { disabled: "" }
+                          },
+                          [
+                            _vm._v(
+                              "\n                        " +
+                                _vm._s(_vm.errorMessage) +
+                                "\n                        "
+                            )
+                          ]
+                        )
+                      ]
+                    )
+                  ])
                 ])
               ])
         ]),
