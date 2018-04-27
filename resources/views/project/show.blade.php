@@ -29,6 +29,14 @@
                     <td>{{ $project->isActive() ? 'Yes' : 'No' }}</td>
                 </tr>
                 <tr>
+                    <th>Placement?</th>
+                    <td>{{ $project->isPlacement() ? 'Yes' : 'No' }}</td>
+                </tr>
+                <tr>
+                    <th>Confidential?</th>
+                    <td>{{ $project->isConfidential() ? 'Yes' : 'No' }}</td>
+                </tr>
+                <tr>
                     <th>Owner</th>
                     <td>
                         @if (Auth::user()->isAdmin())

@@ -77,6 +77,8 @@ class ProjectTest extends TestCase
             'max_students' => 2,
             'courses' => [$course->id],
             'programmes' => [$programme1->id, $programme2->id],
+            'is_confidential' => true,
+            'is_placement' => true,
         ]);
 
         $response->assertStatus(302);
@@ -88,6 +90,8 @@ class ProjectTest extends TestCase
         $this->assertEquals('Doing something', $project->description);
         $this->assertEquals(2, $project->max_students);
         $this->assertEquals($staff->id, $project->staff_id);
+        $this->assertTrue($project->is_confidential);
+        $this->assertTrue($project->is_placement);
         $this->assertEquals(2, $project->programmes()->count());
         $this->assertEquals(1, $project->courses()->count());
     }
@@ -147,6 +151,8 @@ class ProjectTest extends TestCase
             'max_students' => 2,
             'courses' => [$course->id],
             'programmes' => [$programme1->id, $programme2->id],
+            'is_confidential' => true,
+            'is_placement' => true,
         ]);
 
         $response->assertStatus(302);
@@ -157,6 +163,8 @@ class ProjectTest extends TestCase
         $this->assertEquals('My new project', $project->title);
         $this->assertEquals('Some mad skillz', $project->pre_req);
         $this->assertEquals('Doing something', $project->description);
+        $this->assertTrue($project->is_confidential);
+        $this->assertTrue($project->is_placement);
         $this->assertEquals(2, $project->max_students);
         $this->assertEquals($staff->id, $project->staff_id);
         $this->assertEquals(2, $project->programmes()->count());

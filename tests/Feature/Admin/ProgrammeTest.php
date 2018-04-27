@@ -3,6 +3,7 @@
 namespace Tests\Feature\Admin;
 
 use App\User;
+use App\Project;
 use App\Programme;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -29,12 +30,18 @@ class ProgrammeTest extends TestCase
         $admin = create(User::class, ['is_admin' => true]);
         $programme1 = create(Programme::class);
         $programme2 = create(Programme::class);
+        $project1 = create(Project::class);
+        $project2 = create(Project::class);
+        $project1->programmes()->sync([$programme1->id]);
+        $project2->programmes()->sync([$programme2->id]);
 
         $response = $this->actingAs($admin)->get(route('admin.programme.index'));
 
         $response->assertSuccessful();
         $response->assertSee($programme1->title);
         $response->assertSee($programme2->title);
+        $response->assertSee($project1->max_students);
+        $response->assertSee($project2->max_students);
     }
 
     /** @test */

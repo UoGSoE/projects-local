@@ -101,7 +101,26 @@
             <label>
                 <input type="hidden" name="is_active" value="0">
                 <input class="checkbox" name="is_active" type="checkbox" value="1" @if (old('is_active', $project->is_active)) checked @endif>
-                Project is active?
+                Active?
+            </label>
+        </div>
+    </div>
+
+    <div class="field">
+        <div class="control">
+            <label>
+                <input type="hidden" name="is_placement" value="0">
+                <input class="checkbox" name="is_placement" type="checkbox" value="1" @if (old('is_placement', $project->is_placement)) checked @endif>
+                A placement?
+            </label>
+        </div>
+    </div>
+    <div class="field">
+        <div class="control">
+            <label>
+                <input type="hidden" name="is_confidential" value="0">
+                <input class="checkbox" name="is_confidential" type="checkbox" value="1" @if (old('is_confidential', $project->is_confidential)) checked @endif>
+                Confidential?
             </label>
         </div>
     </div>

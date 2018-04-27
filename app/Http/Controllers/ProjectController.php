@@ -43,6 +43,8 @@ class ProjectController extends Controller
             'programmes' => 'required|array|min:1',
             'staff_id' => 'nullable|integer',
             'is_active' => 'boolean',
+            'is_placement' => 'boolean',
+            'is_confidential' => 'boolean',
         ]);
 
         $user = $request->user();
@@ -78,6 +80,8 @@ class ProjectController extends Controller
             'courses' => 'required|array|min:1',
             'programmes' => 'required|array|min:1',
             'is_active' => 'boolean',
+            'is_placement' => 'boolean',
+            'is_confidential' => 'boolean',
         ];
         if ($request->user()->isAdmin() and $request->filled('staff_id')) {
             $validationRules['staff_id'] = 'required|integer|exists:users,id';
