@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Course;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -28,7 +29,7 @@ class CourseController extends Controller
     public function create()
     {
         return view('admin.course.create', [
-            'course' => new Course,
+            'course' => new Course(['application_deadline' => now()->addMonths(3)]),
         ]);
     }
 
@@ -44,7 +45,9 @@ class CourseController extends Controller
             'title' => 'required',
             'code' => 'required|unique:courses',
             'category' => 'required|in:undergrad,postgrad',
+            'application_deadline' => 'required|date_format:d/m/Y',
         ]);
+        $data['application_deadline'] = Carbon::createFromFormat('d/m/Y', $data['application_deadline'])->hour(23)->minute(59);
 
         Course::create($data);
 
@@ -90,7 +93,9 @@ class CourseController extends Controller
             'title' => 'required',
             'code' => ['required', Rule::unique('courses')->ignore($course->id)],
             'category' => 'required|in:undergrad,postgrad',
+            'application_deadline' => 'required|date_format:d/m/Y',
         ]);
+        $data['application_deadline'] = Carbon::createFromFormat('d/m/Y', $data['application_deadline'])->hour(23)->minute(59);
 
         $course->update($data);
 
