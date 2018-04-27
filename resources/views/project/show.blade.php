@@ -5,11 +5,15 @@
 <div class="columns">
     <div class="column">
         <h3 class="title is-3">
-            <a href="{{ route('project.edit', $project->id) }}" class="button">
-                Edit
-            </a>
             Details of project <em>{{ $project->title }}</em>
         </h3>
+        <a href="{{ route('project.edit', $project->id) }}" class="button">
+            Edit
+        </a>
+        <a href="{{ route('project.copy', $project->id) }}" class="button">
+            Make {{ $project->isUndergrad() ? 'a postgrad' : 'an undergrad' }} copy
+        </a>
+        <hr />
         <table class="table">
             <tbody>
                 <tr>

@@ -97,6 +97,16 @@ class Project extends Model
         return $this->is_placement;
     }
 
+    public function isUndergrad()
+    {
+        return $this->category === 'undergrad';
+    }
+
+    public function isPostgrad()
+    {
+        return $this->category === 'postgrad';
+    }
+
     public function accept(User $student)
     {
         if ($student->isAcceptedOn($this)) {
