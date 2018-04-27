@@ -76,6 +76,19 @@ class UserController extends Controller
         ]);
     }
 
+    public function update($id, Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+        ]);
+
+        User::findOrFail($id)->update(['email' => $request->email]);
+
+        return response()->json([
+            'message' => 'Updated',
+        ]);
+    }
+
     protected function looksLikeMatric($username)
     {
         if (preg_match('/^[0-9]/', $username) === 1) {

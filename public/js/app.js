@@ -105,6 +105,7 @@ Vue.component('project-list', __webpack_require__(167));
 Vue.component('student-list', __webpack_require__(170));
 Vue.component('admin-toggle', __webpack_require__(173));
 Vue.component('new-user', __webpack_require__(179));
+Vue.component('email-edit', __webpack_require__(185));
 
 Vue.component('table-component', __WEBPACK_IMPORTED_MODULE_0_vue_table_component__["TableComponent"]);
 Vue.component('table-column', __WEBPACK_IMPORTED_MODULE_0_vue_table_component__["TableColumn"]);
@@ -38611,6 +38612,261 @@ exports.push([module.i, "@charset \"UTF-8\";\n\n/*!\n * Pikaday\n * Copyright ©
 
 // exports
 
+
+/***/ }),
+/* 185 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(9)
+/* script */
+var __vue_script__ = __webpack_require__(186)
+/* template */
+var __vue_template__ = __webpack_require__(187)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/EmailEdit.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-36646c9f", Component.options)
+  } else {
+    hotAPI.reload("data-v-36646c9f", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 186 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['user'],
+
+    mounted: function mounted() {},
+    data: function data() {
+        return {
+            mode: 'button',
+            errorMessage: '',
+            email: this.user.email,
+            saving: false
+        };
+    },
+
+
+    computed: {
+        mainButtonClassList: function mainButtonClassList() {
+            if (this.searching) {
+                return 'is-info is-loading';
+            }
+            if (!this.user) {
+                return 'is-info';
+            }
+            return '';
+        }
+    },
+
+    methods: {
+        showInput: function showInput() {
+            this.mode = 'input';
+        },
+        updateEmail: function updateEmail() {
+            var _this = this;
+
+            this.saving = true;
+            axios.post(route('api.user.update', this.user.id), { 'email': this.email }).then(function (response) {
+                _this.saving = false;
+                location.reload();
+            }).catch(function (error) {
+                _this.saving = false;
+                if (error.response.data.message) {
+                    _this.errorMessage = error.response.data.message;
+                } else if (error.response.statusText) {
+                    _this.errorMessage = error.response.statusText;
+                } else {
+                    _this.errorMessage = error.message;
+                }
+            });
+        }
+    }
+});
+
+/***/ }),
+/* 187 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "div",
+      {
+        on: {
+          click: function($event) {
+            $event.preventDefault()
+            _vm.showInput($event)
+          }
+        }
+      },
+      [
+        _c("transition", { attrs: { name: "fadeWidth", mode: "out-in" } }, [
+          _vm.mode === "button"
+            ? _c("span", { key: "button", staticClass: "button is-small" }, [
+                _vm._v("Change")
+              ])
+            : _c("span", { key: "input" }, [
+                _c("form", [
+                  _c("div", { staticClass: "field has-addons" }, [
+                    _c("div", { staticClass: "control" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.email,
+                            expression: "email"
+                          }
+                        ],
+                        staticClass: "input",
+                        attrs: { type: "text" },
+                        domProps: { value: _vm.email },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.email = $event.target.value
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "control" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "button",
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              _vm.updateEmail($event)
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                            Save\n                        "
+                          )
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.errorMessage,
+                            expression: "errorMessage"
+                          }
+                        ],
+                        staticClass: "control"
+                      },
+                      [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "button is-danger",
+                            attrs: { disabled: "" }
+                          },
+                          [
+                            _vm._v(
+                              "\n                        " +
+                                _vm._s(_vm.errorMessage) +
+                                "\n                        "
+                            )
+                          ]
+                        )
+                      ]
+                    )
+                  ])
+                ])
+              ])
+        ])
+      ],
+      1
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-36646c9f", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

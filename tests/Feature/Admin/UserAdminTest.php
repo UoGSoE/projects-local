@@ -79,4 +79,18 @@ class UserAdminTest extends TestCase
         $response->assertSuccessful();
         $response->assertSee($user->full_name);
     }
+
+    /** @test */
+    public function admins_can_edit_a_users_email_address()
+    {
+        $admin = create(User::class, ['is_admin' => true]);
+        $user = create(User::class);
+
+        $response = $this->actingAs($admin)->postJson(route('api.user.update', $user->id), [
+            'email' => 'fred@example.com',
+        ]);
+
+        $response->assertSuccessful();
+        $this->assertEquals('fred@example.com', $user->fresh()->email);
+    }
 }
