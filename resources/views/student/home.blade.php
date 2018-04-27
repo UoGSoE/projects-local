@@ -10,10 +10,20 @@
 </p>
 
 @if (Auth::user()->isntOnACourse())
-    You do not seem to be registered on any project courses.  Please email the Engineering Teaching Office.
+    <div class="notification is-info">
+        You do not seem to be registered on any project courses.  Please email the Engineering Teaching Office.
+    </div>
 @elseif (Auth::user()->isAccepted())
     <div class="notification is-info">
         You cannot choose new projects as you have already been accepted onto the project <em>{{ Auth::user()->projects()->first()->title }}</em>.
+    </div>
+@elseif (Auth::user()->isTooLate())
+    <div class="notification is-info">
+        You cannot choose any projects as the application deadline has passed.
+    </div>
+@elseif (! Auth::user()->email)
+    <div class="notification is-info">
+        You cannot choose any projects as your email address is invalid.  Please email the Engineering Teaching Office.
     </div>
 @else
     <project-list :projects='@json($projects)' :programmes='@json($programmes)'></project-list>

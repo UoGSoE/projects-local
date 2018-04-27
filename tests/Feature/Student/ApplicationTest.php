@@ -233,4 +233,52 @@ class ApplicationTest extends TestCase
         $response->assertRedirect('/');
         $this->assertEquals(1, $student->fresh()->projects->count());
     }
+
+    /** @test */
+    public function students_cant_submit_choices_if_the_course_deadline_has_passed()
+    {
+        Mail::fake();
+        $this->withoutExceptionHandling();
+        // given we have a student on a course
+        $student = create(User::class, ['is_staff' => false]);
+        $course = create(Course::class, ['application_deadline' => now()->subDays(1)]);
+        $course->students()->save($student);
+        // and given we have three projects
+        $project1 = create(Project::class);
+        $project2 = create(Project::class);
+        $project3 = create(Project::class);
+        $course->projects()->sync([$project1->id, $project2->id, $project3->id]);
+
+        // if they visit their homepage
+        $response = $this->actingAs($student)->get('/');
+
+        // they see the warning
+        $response->assertSuccessful();
+        $response->assertSee('deadline has passed');
+        $response->assertDontSee($project1->title);
+    }
+
+    /** @test */
+    public function students_cant_submit_choices_if_they_dont_have_an_email_address()
+    {
+        Mail::fake();
+        $this->withoutExceptionHandling();
+        // given we have a student on a course
+        $student = create(User::class, ['is_staff' => false, 'email' => '']);
+        $course = create(Course::class);
+        $course->students()->save($student);
+        // and given we have three projects
+        $project1 = create(Project::class);
+        $project2 = create(Project::class);
+        $project3 = create(Project::class);
+        $course->projects()->sync([$project1->id, $project2->id, $project3->id]);
+
+        // if they visit their homepage
+        $response = $this->actingAs($student)->get('/');
+
+        // they see the warning
+        $response->assertSuccessful();
+        $response->assertSee('email address');
+        $response->assertDontSee($project1->title);
+    }
 }
