@@ -13,5 +13,7 @@ $factory->define(App\Project::class, function (Faker $faker) {
             return factory(App\User::class)->create(['is_staff' => true])->id;
         },
         'is_active' => true,
+        'is_confidential' => false,
+        'is_placement' => false,
     ];
 });

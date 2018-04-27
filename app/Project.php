@@ -12,6 +12,8 @@ class Project extends Model
 
     protected $casts = [
         'is_active' => 'boolean',
+        'is_placement' => 'boolean',
+        'is_confidential' => 'boolean',
     ];
 
     protected $appends = [
@@ -83,6 +85,26 @@ class Project extends Model
     public function isActive()
     {
         return ! $this->isInactive();
+    }
+
+    public function isConfidential()
+    {
+        return $this->is_confidential;
+    }
+
+    public function isPlacement()
+    {
+        return $this->is_placement;
+    }
+
+    public function isUndergrad()
+    {
+        return $this->category === 'undergrad';
+    }
+
+    public function isPostgrad()
+    {
+        return $this->category === 'postgrad';
     }
 
     public function accept(User $student)

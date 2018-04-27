@@ -26,6 +26,8 @@
     </table-column>
     <table-column show="category" label="Category"></table-column>
     <table-column show="projects_count" label="No. Projects"></table-column>
+    <table-column show="places_count" label="No. Places"></table-column>
+    <table-column show="accepted_count" label="No. Accepted"></table-column>
 </table-component>
 
 @endsection

@@ -8,6 +8,10 @@ class Course extends Model
 {
     protected $guarded = [];
 
+    protected $casts = [
+        'application_deadline' => 'datetime',
+    ];
+
     public function students()
     {
         return $this->hasMany(User::class);

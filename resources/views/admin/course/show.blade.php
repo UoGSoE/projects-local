@@ -21,6 +21,10 @@
 		<th>Type</th>
 		<td>{{ ucfirst($course->category) }}</td>
 	</tr>
+	<tr>
+		<th>Deadline</th>
+		<td>{{ $course->application_deadline->format('d/m/Y') }}</td>
+	</tr>
 </table>
 
 <div class="columns">

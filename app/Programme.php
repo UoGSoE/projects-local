@@ -13,4 +13,18 @@ class Programme extends Model
     {
         return $this->belongsToMany(Project::class, 'project_programmes');
     }
+
+    public function getPlacesCountAttribute()
+    {
+        return $this->projects->sum('max_students');
+    }
+
+    public function getAcceptedCountAttribute()
+    {
+        return $this->projects->sum(function ($project) {
+            return $project->students->sum(function ($student) {
+                return intval($student->pivot->is_accepted);
+            });
+        });
+    }
 }

@@ -23,6 +23,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/project/create', 'ProjectController@create')->name('project.create');
     Route::get('/project/{id}', 'ProjectController@show')->name('project.show');
+    Route::get('/project/{id}/copy', 'ProjectCopyController@create')->name('project.copy');
     Route::get('/project/{id}/edit', 'ProjectController@edit')->name('project.edit');
 
     Route::post('/project', 'ProjectController@store')->name('project.store');
@@ -42,6 +43,7 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::post('/api/user/find', 'Api\UserController@show')->name('api.user.find');
         Route::post('/api/user', 'Api\UserController@store')->name('api.user.store');
+        Route::post('/api/user/{id}', 'Api\UserController@update')->name('api.user.update');
 
         Route::get('/projects/{category}', 'Admin\ProjectController@index')->name('admin.project.index');
         Route::get('/choices/{category}', 'Admin\ChoiceController@index')->name('admin.student.choices');

@@ -17,6 +17,7 @@
             <th>Code</th>
 			<th>Title</th>
 			<th>Type</th>
+			<th>Deadline</th>
 			<th>No. Projects</th>
 			<th>No. Students</th>
 		</tr>
@@ -31,6 +32,7 @@
                 </td>
 				<td>{{ $course->title }}</td>
 				<td>{{ ucfirst($course->category) }}</td>
+				<td>{{ $course->application_deadline->format('d/m/Y') }}</td>
 				<td>{{ $course->projects_count }}</td>
 				<td>{{ $course->students_count }}</td>
 			</tr>

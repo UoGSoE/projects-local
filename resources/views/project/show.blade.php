@@ -5,11 +5,15 @@
 <div class="columns">
     <div class="column">
         <h3 class="title is-3">
-            <a href="{{ route('project.edit', $project->id) }}" class="button">
-                Edit
-            </a>
             Details of project <em>{{ $project->title }}</em>
         </h3>
+        <a href="{{ route('project.edit', $project->id) }}" class="button">
+            Edit
+        </a>
+        <a href="{{ route('project.copy', $project->id) }}" class="button">
+            Make {{ $project->isUndergrad() ? 'a postgrad' : 'an undergrad' }} copy
+        </a>
+        <hr />
         <table class="table">
             <tbody>
                 <tr>
@@ -27,6 +31,14 @@
                 <tr>
                     <th>Active?</th>
                     <td>{{ $project->isActive() ? 'Yes' : 'No' }}</td>
+                </tr>
+                <tr>
+                    <th>Placement?</th>
+                    <td>{{ $project->isPlacement() ? 'Yes' : 'No' }}</td>
+                </tr>
+                <tr>
+                    <th>Confidential?</th>
+                    <td>{{ $project->isConfidential() ? 'Yes' : 'No' }}</td>
                 </tr>
                 <tr>
                     <th>Owner</th>

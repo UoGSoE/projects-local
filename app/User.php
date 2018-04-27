@@ -73,6 +73,11 @@ class User extends Authenticatable
         });
     }
 
+    public function isTooLate()
+    {
+        return $this->course->application_deadline->lt(now());
+    }
+
     public function applicableProjects()
     {
         if (! $this->course_id) {

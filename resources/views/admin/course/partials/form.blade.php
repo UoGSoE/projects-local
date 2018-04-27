@@ -23,3 +23,10 @@
             </div>
         </div>
     </div>
+
+    <div class="field">
+        <div class="control">
+            <label class="label">Application Deadline</label>
+            <input class="input" name="application_deadline" type="text" value="{{ old('application_deadline', $course->application_deadline->format('d/m/Y')) }}" required v-pikaday>
+        </div>
+    </div>
