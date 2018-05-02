@@ -10,9 +10,12 @@ class UserController extends Controller
 {
     public function index($category = 'staff')
     {
+        $users = User::ofType($category)->with('staffProjects')->orderBy('surname')->get()->map(function ($user) {
+            return $user->forAdminIndex();
+        });
         return view('admin.user.index', [
             'category' => $category,
-            'users' => User::ofType($category)->orderBy('surname')->get(),
+            'users' => $users,
         ]);
     }
 

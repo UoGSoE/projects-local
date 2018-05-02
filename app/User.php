@@ -37,6 +37,15 @@ class User extends Authenticatable
         return $this->belongsToMany(Project::class, 'project_students', 'student_id')->withPivot(['choice', 'is_accepted']);
     }
 
+    /**
+     * @todo this is here to make eager-loading work on the admin controller @index method
+     * really needs to refactor the code everywhere to use different staff/student projects relations
+     */
+    public function staffProjects()
+    {
+        return $this->hasMany(Project::class, 'staff_id');
+    }
+
     public function undergradProjects()
     {
         return $this->projects()->where('category', '=', 'undergrad');
@@ -75,7 +84,18 @@ class User extends Authenticatable
 
     public function isTooLate()
     {
+        if ($this->isImpersonating()) {
+            return false;
+        }
         return $this->course->application_deadline->lt(now());
+    }
+
+    public function isImpersonating()
+    {
+        if (session('original_id')) {
+            return true;
+        }
+        return false;
     }
 
     public function applicableProjects()
@@ -172,6 +192,34 @@ class User extends Authenticatable
         return $parsedown->text($this->profile);
     }
 
+    public function getUgradActiveAttribute()
+    {
+        return $this->staffProjects->filter(function ($project) {
+            return $project->isUndergrad() && $project->isActive();
+        })->count();
+    }
+
+    public function getUgradInactiveAttribute()
+    {
+        return $this->staffProjects->filter(function ($project) {
+            return $project->isUndergrad() && $project->isInactive();
+        })->count();
+    }
+
+    public function getPgradActiveAttribute()
+    {
+        return $this->staffProjects->filter(function ($project) {
+            return $project->isPostgrad() && $project->isActive();
+        })->count();
+    }
+
+    public function getPgradInactiveAttribute()
+    {
+        return $this->staffProjects->filter(function ($project) {
+            return $project->isPostgrad() && $project->isInactive();
+        })->count();
+    }
+
     public function toArray()
     {
         return [
@@ -185,5 +233,15 @@ class User extends Authenticatable
             'forenames' => $this->forenames,
             'type' => $this->getType(),
         ];
+    }
+
+    public function forAdminIndex()
+    {
+        $user = $this->toArray();
+        $user['ugrad_active'] = $this->ugrad_active;
+        $user['ugrad_inactive'] = $this->ugrad_inactive;
+        $user['pgrad_active'] = $this->pgrad_active;
+        $user['pgrad_inactive'] = $this->pgrad_inactive;
+        return $user;
     }
 }

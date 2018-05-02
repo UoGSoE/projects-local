@@ -21,10 +21,20 @@
     <table-column show="title" label="Title">
         <template slot-scope="row">
             <a :href="getProjectUrl(row.id)">@{{ row.title }}</a>
+            <span v-if="row.is_confidential" class="icon is-small" title="Confidential">
+                <i>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M4 8V6a6 6 0 1 1 12 0v2h1a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-8c0-1.1.9-2 2-2h1zm5 6.73V17h2v-2.27a2 2 0 1 0-2 0zM7 6v2h6V6a3 3 0 0 0-6 0z"/></svg>
+                </i>
+            </span>
+            <span v-if="row.is_placement" class="icon is-small" title="Placement">
+                <i>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M10 20S3 10.87 3 7a7 7 0 1 1 14 0c0 3.87-7 13-7 13zm0-11a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></svg>
+                </i>
+            </span>
         </template>
     </table-column>
     <table-column show="owner.full_name" label="Owner"></table-column>
-    <table-column show="category" label="Category"></table-column>
+    <table-column show="max_students" label="Max Students"></table-column>
     <table-column show="students_count" label="Students Applied"></table-column>
     <table-column show="accepted_students_count" label="Accepted"></table-column>
     <table-column show="" :hidden="true" filter-on="course_codes"></table-column>

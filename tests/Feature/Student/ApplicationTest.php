@@ -252,10 +252,10 @@ class ApplicationTest extends TestCase
         // if they visit their homepage
         $response = $this->actingAs($student)->get('/');
 
-        // they see the warning
+        // they see the warning as well as the projects
         $response->assertSuccessful();
         $response->assertSee('deadline has passed');
-        $response->assertDontSee($project1->title);
+        $response->assertSee($project1->title);
     }
 
     /** @test */
