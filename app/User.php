@@ -172,6 +172,34 @@ class User extends Authenticatable
         return $parsedown->text($this->profile);
     }
 
+    public function getUgradActiveAttribute()
+    {
+        return $this->projects->filter(function ($project) {
+            return $project->isUndergrad() && $project->isActive();
+        })->count();
+    }
+
+    public function getUgradInactiveAttribute()
+    {
+        return $this->projects->filter(function ($project) {
+            return $project->isUndergrad() && $project->isInactive();
+        })->count();
+    }
+
+    public function getPgradActiveAttribute()
+    {
+        return $this->projects->filter(function ($project) {
+            return $project->isPostgrad() && $project->isActive();
+        })->count();
+    }
+
+    public function getPgradInactiveAttribute()
+    {
+        return $this->projects->filter(function ($project) {
+            return $project->isPostgrad() && $project->isInactive();
+        })->count();
+    }
+
     public function toArray()
     {
         return [
@@ -185,5 +213,15 @@ class User extends Authenticatable
             'forenames' => $this->forenames,
             'type' => $this->getType(),
         ];
+    }
+
+    public function forAdminIndex()
+    {
+        $user = $this->toArray();
+        $user['ugrad_active'] = $this->ugrad_active;
+        $user['ugrad_inactive'] = $this->ugrad_inactive;
+        $user['pgrad_active'] = $this->pgrad_active;
+        $user['pgrad_inactive'] = $this->pgrad_inactive;
+        return $user;
     }
 }

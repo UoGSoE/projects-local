@@ -16,10 +16,10 @@ class Project extends Model
         'is_confidential' => 'boolean',
     ];
 
-    protected $appends = [
-        'course_codes',
-        'owner_name',
-    ];
+    // protected $appends = [
+    //     'course_codes',
+    //     'owner_name',
+    // ];
 
     public function programmes()
     {
@@ -70,6 +70,11 @@ class Project extends Model
     public function scopeActive($query)
     {
         return $query->where('is_active', '=', true);
+    }
+
+    public function scopeInactive($query)
+    {
+        return $query->where('is_active', '=', false);
     }
 
     public function getCourseCodesAttribute()
