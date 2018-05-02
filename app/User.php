@@ -37,6 +37,15 @@ class User extends Authenticatable
         return $this->belongsToMany(Project::class, 'project_students', 'student_id')->withPivot(['choice', 'is_accepted']);
     }
 
+    /**
+     * @todo this is here to make eager-loading work on the admin controller @index method
+     * really needs to refactor the code everywhere to use different staff/student projects relations
+     */
+    public function staffProjects()
+    {
+        return $this->hasMany(Project::class, 'staff_id');
+    }
+
     public function undergradProjects()
     {
         return $this->projects()->where('category', '=', 'undergrad');
@@ -185,28 +194,28 @@ class User extends Authenticatable
 
     public function getUgradActiveAttribute()
     {
-        return $this->projects->filter(function ($project) {
+        return $this->staffProjects->filter(function ($project) {
             return $project->isUndergrad() && $project->isActive();
         })->count();
     }
 
     public function getUgradInactiveAttribute()
     {
-        return $this->projects->filter(function ($project) {
+        return $this->staffProjects->filter(function ($project) {
             return $project->isUndergrad() && $project->isInactive();
         })->count();
     }
 
     public function getPgradActiveAttribute()
     {
-        return $this->projects->filter(function ($project) {
+        return $this->staffProjects->filter(function ($project) {
             return $project->isPostgrad() && $project->isActive();
         })->count();
     }
 
     public function getPgradInactiveAttribute()
     {
-        return $this->projects->filter(function ($project) {
+        return $this->staffProjects->filter(function ($project) {
             return $project->isPostgrad() && $project->isInactive();
         })->count();
     }
