@@ -17,16 +17,17 @@
     <div class="notification is-info">
         You cannot choose new projects as you have already been accepted onto the project <em>{{ Auth::user()->projects()->first()->title }}</em>.
     </div>
-@elseif (Auth::user()->isTooLate())
-    <div class="notification is-info">
-        You cannot choose any projects as the application deadline has passed.
-    </div>
 @elseif (! Auth::user()->email)
     <div class="notification is-info">
         You cannot choose any projects as your email address is invalid.  Please email the Engineering Teaching Office.
     </div>
 @else
-    <project-list :projects='@json($projects)' :programmes='@json($programmes)'></project-list>
+    @if (Auth::user()->isTooLate())
+        <div class="notification is-info">
+            You cannot choose any projects as the application deadline has passed.
+        </div>
+    @endif
+    <project-list :projects='@json($projects)' :programmes='@json($programmes)' :toolate='@json(Auth::user()->isTooLate())'></project-list>
 @endif
 
 @endsection

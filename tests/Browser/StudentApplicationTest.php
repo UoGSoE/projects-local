@@ -101,4 +101,60 @@ class StudentApplicationTest extends DuskTestCase
                     ->assertSee('you have already been accepted onto the project');
         });
     }
+
+    /** @test */
+    public function a_student_cant_apply_for_projects_if_the_deadline_has_passed()
+    {
+        $this->browse(function (Browser $browser) {
+            $student = create(User::class, ['is_staff' => false]);
+
+            $course = create(Course::class, ['application_deadline' => now()->subWeeks(2)]);
+            $course->students()->save($student);
+
+            $project1 = create(Project::class);
+
+            $course->projects()->sync([$project1->id]);
+
+            config(['projects.required_choices' => 1]);
+
+            $browser->loginAs($student)
+                ->visit('/')
+                ->assertSee('Available Projects')
+                ->assertSee('the application deadline has passed')
+                ->click("#expand-{$project1->id}")
+                ->click("#project-{$project1->id}-first")
+                ->pause(300)
+                ->assertSourceMissing('.message-body')
+                ->assertDontSee('1 project');
+        });
+    }
+
+    /** @test */
+    public function an_admin_can_impersonate_a_student_and_apply_for_projects_even_if_the_deadline_has_passed()
+    {
+        $this->browse(function (Browser $browser) {
+            $admin = create(User::class, ['is_staff' => true, 'is_admin' => true]);
+            $student = create(User::class, ['is_staff' => false]);
+
+            $course = create(Course::class, ['application_deadline' => now()->subWeeks(2)]);
+            $course->students()->save($student);
+
+            $project1 = create(Project::class);
+            config(['projects.required_choices' => 1]);
+
+            $course->projects()->sync([$project1->id]);
+
+
+            $browser->loginAs($admin)
+                ->visit(route('admin.user.show', $student->id))
+                ->press('Impersonate')
+                ->pause(300)
+                ->assertSee('Available Projects')
+                ->click("#expand-{$project1->id}")
+                ->click("#project-{$project1->id}-first")
+                ->waitFor('.message-body')
+                ->assertSee('1 project');
+        });
+    }
+
 }

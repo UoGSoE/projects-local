@@ -75,7 +75,18 @@ class User extends Authenticatable
 
     public function isTooLate()
     {
+        if ($this->isImpersonating()) {
+            return false;
+        }
         return $this->course->application_deadline->lt(now());
+    }
+
+    public function isImpersonating()
+    {
+        if (session('original_id')) {
+            return true;
+        }
+        return false;
     }
 
     public function applicableProjects()

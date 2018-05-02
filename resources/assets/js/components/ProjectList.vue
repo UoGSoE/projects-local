@@ -101,7 +101,7 @@
 
 <script>
     export default {
-        props: ['projects', 'programmes'],
+        props: ['projects', 'programmes', 'toolate'],
 
         data() {
             return {
@@ -199,6 +199,9 @@
             },
 
             choose: function (choice, projectId) {
+                if (this.toolate) {
+                    return;
+                }
                 let keys = ['first', 'second', 'third', 'fourth', 'fifth'];
                 keys.forEach(key => {
                     if (this.choices[key] == projectId) {
@@ -209,6 +212,9 @@
             },
 
             submitChoices() {
+                if (this.toolate) {
+                    return;
+                }
                 var choices = {
                     "1": this.choices.first,
                     "2": this.choices.second,

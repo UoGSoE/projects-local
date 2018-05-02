@@ -30485,7 +30485,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['projects', 'programmes'],
+    props: ['projects', 'programmes', 'toolate'],
 
     data: function data() {
         return {
@@ -30590,6 +30590,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         choose: function choose(choice, projectId) {
             var _this2 = this;
 
+            if (this.toolate) {
+                return;
+            }
             var keys = ['first', 'second', 'third', 'fourth', 'fifth'];
             keys.forEach(function (key) {
                 if (_this2.choices[key] == projectId) {
@@ -30602,6 +30605,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         submitChoices: function submitChoices() {
             var _this3 = this;
 
+            if (this.toolate) {
+                return;
+            }
             var choices = {
                 "1": this.choices.first,
                 "2": this.choices.second,
