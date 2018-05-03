@@ -13,6 +13,9 @@
                 @csrf
                 <button class="button">Impersonate</button>
             </form>
+            <a href="{{ route('gdpr.export.user', $user->id) }}" class="button">
+                GDPR Export
+            </a>
         </h3>
     </div>
     <div class="level-right">

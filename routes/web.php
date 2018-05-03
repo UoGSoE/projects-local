@@ -82,5 +82,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::delete('/students/remove-all', 'BulkRemovalController@all')->name('students.remove_all');
 
         Route::get('/export/projects-excel', 'ExportController@projects')->name('export.projects.excel');
+
+        Route::get('/gdpr/user/{user}', 'Gdpr\UserExportController@show')->name('gdpr.export.user');
     });
 });
