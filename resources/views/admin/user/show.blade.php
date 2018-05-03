@@ -4,19 +4,27 @@
 
 <nav class="level">
     <div class="level-left">
-        <h3 class="title is-3 level-item">
-            <p class="">Details for <em>{{ $user->full_name }}</em>&nbsp;</p>
-            @if ($user->isStaff() and (Auth::user()->id != $user->id))
-                <admin-toggle :user='@json($user)'></admin-toggle>
-            @endif
-            <form method="POST" action="{{ route('impersonate.start', $user->id) }}" class="">
+        <span class="level-item">
+            <h3 class="title is-3">
+                Details for <em>{{ $user->full_name }}</em>
+            </h3>
+        </span>
+        <span class="level-item">
+            <a href="{{ route('gdpr.export.user', $user->id) }}" class="button">
+                <span>GDPR Export</span>
+            </a>
+        </span>
+        <span class="level-item">
+            <form method="POST" action="{{ route('impersonate.start', $user->id) }}">
                 @csrf
                 <button class="button">Impersonate</button>
             </form>
-            <a href="{{ route('gdpr.export.user', $user->id) }}" class="button">
-                GDPR Export
-            </a>
-        </h3>
+        </span>
+        <span class="level-item">
+            @if ($user->isStaff() and (Auth::user()->id != $user->id))
+                <admin-toggle :user='@json($user)'></admin-toggle>
+            @endif
+        </span>
     </div>
     <div class="level-right">
         <button class="button is-text is-pulled-right has-text-danger has-text-weight-semibold level-item" @click.prevent="showConfirmation = true">Delete User</button>
