@@ -15,6 +15,7 @@ class ExportTest extends TestCase
     /** @test */
     public function an_admin_can_download_a_spreadsheet_of_all_project_data()
     {
+        $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_admin' => true]);
         $project1 = create(Project::class);
         $project2 = create(Project::class);

@@ -106,6 +106,7 @@ Vue.component('student-list', __webpack_require__(170));
 Vue.component('admin-toggle', __webpack_require__(173));
 Vue.component('new-user', __webpack_require__(179));
 Vue.component('email-edit', __webpack_require__(185));
+Vue.component('manual-student-allocator', __webpack_require__(188));
 
 Vue.component('table-component', __WEBPACK_IMPORTED_MODULE_0_vue_table_component__["TableComponent"]);
 Vue.component('table-column', __WEBPACK_IMPORTED_MODULE_0_vue_table_component__["TableColumn"]);
@@ -31143,7 +31144,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['students', 'project'],
+    props: ['students', 'project', 'studentList'],
 
     mounted: function mounted() {
         var _this = this;
@@ -31159,7 +31160,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             acceptedStudents: [],
             initiallyAccepted: [],
-            user: window.user
+            user: window.user,
+            manual_student_id: null
         };
     },
 
@@ -38871,6 +38873,178 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-36646c9f", module.exports)
+  }
+}
+
+/***/ }),
+/* 188 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(9)
+/* script */
+var __vue_script__ = __webpack_require__(189)
+/* template */
+var __vue_template__ = __webpack_require__(190)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/ManualStudentAllocator.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-6f1db5ed", Component.options)
+  } else {
+    hotAPI.reload("data-v-6f1db5ed", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 189 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['students', 'project'],
+
+    mounted: function mounted() {},
+    data: function data() {
+        return {
+            student_id: null
+        };
+    },
+
+
+    computed: {},
+
+    methods: {
+        submit: function submit() {
+            axios.post(route('admin.project.add_student', this.project.id), {
+                'student_id': this.student_id
+            }).then(function (response) {
+                console.log('Woo');
+                location.reload();
+            }).catch(function (error) {
+                console.log('Boo');
+            });
+        }
+    }
+});
+
+/***/ }),
+/* 190 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("label", { staticClass: "label" }, [
+      _vm._v("Manually Allocate a Student")
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "field has-addons" }, [
+      _c("div", { staticClass: "control" }, [
+        _c("div", { staticClass: "select" }, [
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.student_id,
+                  expression: "student_id"
+                }
+              ],
+              attrs: { name: "student_id" },
+              on: {
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.student_id = $event.target.multiple
+                    ? $$selectedVal
+                    : $$selectedVal[0]
+                }
+              }
+            },
+            _vm._l(_vm.students, function(student) {
+              return _c("option", { domProps: { value: student.id } }, [
+                _vm._v(
+                  _vm._s(student.full_name) + " " + _vm._s(student.username)
+                )
+              ])
+            })
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "control" }, [
+        _c("button", { staticClass: "button", on: { click: _vm.submit } }, [
+          _vm._v("Allocate & Accept")
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-6f1db5ed", module.exports)
   }
 }
 

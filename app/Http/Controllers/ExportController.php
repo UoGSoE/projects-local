@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use App\Project;
 use Illuminate\Http\Request;
 use Ohffs\SimpleSpout\ExcelSheet;
+use App\Exports\ProjectListExporter;
 
 class ExportController extends Controller
 {
     public function projects()
     {
-        $filename = (new ExcelSheet)->generate($this->getProjects());
+        $filename = (new ProjectListExporter($this->getProjects()))->create();
 
         return response()->download($filename, $this->getDownloadName())->deleteFileAfterSend(true);
     }
@@ -23,7 +24,7 @@ class ExportController extends Controller
             $query = Project::query();
         }
 
-        return $this->projectsToArray($query->orderBy('title')->get());
+        return $query->orderBy('title')->get();
     }
 
     protected function getDownloadName()
@@ -35,20 +36,4 @@ class ExportController extends Controller
         return 'uog_project_data.xlsx';
     }
 
-    protected function projectsToArray($projects)
-    {
-        return $projects->map(function ($project, $key) {
-            return [
-                'id' => $project->id,
-                'title' => $project->title,
-                'owner_name' => $project->owner_name,
-                'course_codes' => $project->course_codes,
-                'category' => $project->category,
-                'max_students' => $project->max_students,
-                'is_active' => (boolean) $project->is_active,
-                'description' => $project->description,
-                'pre_req' => $project->pre_req,
-            ];
-        })->toArray();
-    }
 }

@@ -61,6 +61,31 @@ class AcceptStudentsTest extends TestCase
     }
 
     /** @test */
+    public function an_admin_can_manuall_add_and_accept_any_student_on_a_given_project()
+    {
+        $this->withoutExceptionHandling();
+        Mail::fake();
+        // given we have a an undergrad project and a student
+        $admin = create(User::class, ['is_admin' => true]);
+        $student = create(User::class, ['is_staff' => false]);
+        $project = create(Project::class, ['category' => 'undergrad']);
+
+        // and when we submit the form with that student
+        $response = $this->actingAs($admin)->post(route('admin.project.add_student', $project->id), [
+            'student_id' => $student->id,
+        ]);
+
+        // the student should be on that project and accepted
+        $response->assertSuccessful();
+        $response->assertSessionHas('success');
+        $this->assertTrue($project->students()->first()->is($student));
+        $this->assertTrue($project->students()->first()->isAccepted());
+        Mail::assertQueued(AcceptedOntoProject::class, function ($mail) use ($project, $student) {
+            return $mail->hasTo($student->email);
+        });
+    }
+
+    /** @test */
     public function admins_can_see_the_bulk_acceptance_pages()
     {
         // given we have an admin
