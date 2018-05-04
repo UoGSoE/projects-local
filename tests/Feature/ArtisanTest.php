@@ -35,16 +35,16 @@ class ArtisanTest extends TestCase
         $course = create(Course::class);
         $project = create(Project::class);
         $staff = create(User::class, ['is_staff' => true]);
-        $legitStudent1 = create(User::class, ['is_staff' => false, 'course_id' => $course->id]);
-        $legitStudent2 = create(User::class, ['is_staff' => false]);
-        $project->students()->sync([$legitStudent2->id => ['choice' => 1]]);
+        $studentOnACourse = create(User::class, ['is_staff' => false, 'course_id' => $course->id]);
+        $studentOnAProject = create(User::class, ['is_staff' => false]);
+        $project->students()->sync([$studentOnAProject->id => ['choice' => 1]]);
         $pointlessStudent = create(User::class, ['is_staff' => false]);
 
         \Artisan::call('projects:deleteunusedstudents');
 
         $this->assertDatabaseHas('users', ['id' => $staff->id]);
-        $this->assertDatabaseHas('users', ['id' => $legitStudent1->id]);
-        $this->assertDatabaseHas('users', ['id' => $legitStudent2->id]);
+        $this->assertDatabaseHas('users', ['id' => $studentOnACourse->id]);
+        $this->assertDatabaseHas('users', ['id' => $studentOnAProject->id]);
         $this->assertDatabaseMissing('users', ['id' => $pointlessStudent->id]);
     }
 }
