@@ -52,6 +52,20 @@
                         @endif
                     </td>
                 </tr>
+                @if ($project->hasSecondSupervisor())
+                    <tr>
+                        <th>Second Supervisor</th>
+                        <td>
+                            @if (Auth::user()->isAdmin())
+                                <a href="{{ route('admin.user.show', $project->secondSupervisor->id) }}">
+                                    {{ $project->secondSupervisor->full_name }}
+                                </a>
+                            @else
+                                {{ $project->secondSupervisor->full_name }}
+                            @endif
+                        </td>
+                    </tr>
+                @endif
                 <tr>
                     <th>Type</th>
                     <td>{{ ucfirst($project->category) }}</td>

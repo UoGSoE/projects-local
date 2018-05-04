@@ -37,6 +37,7 @@
         </template>
     </table-column>
     <table-column show="owner.full_name" label="Owner"></table-column>
+    <table-column show="second_supervisor.full_name" label="2nd"></table-column>
     <table-column show="max_students" label="Max Students"></table-column>
     <table-column show="students_count" label="Students Applied"></table-column>
     <table-column show="accepted_students_count" label="Accepted"></table-column>
