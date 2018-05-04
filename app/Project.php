@@ -52,6 +52,11 @@ class Project extends Model
         return $this->belongsTo(User::class, 'staff_id');
     }
 
+    public function secondSupervisor()
+    {
+        return $this->belongsTo(User::class, 'second_supervisor_id');
+    }
+
     public function getOwnerNameAttribute()
     {
         return $this->owner->full_name;

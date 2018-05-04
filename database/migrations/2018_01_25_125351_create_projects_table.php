@@ -19,6 +19,8 @@ class CreateProjectsTable extends Migration
             $table->string('category');
             $table->unsignedInteger('staff_id');
             $table->foreign('staff_id')->references('id')->on('users');
+            $table->unsignedInteger('second_supervisor_id')->nullable();
+            $table->foreign('second_supervisor_id')->references('id')->on('users');
             $table->text('pre_req')->nullable();
             $table->text('description');
             $table->integer('max_students');

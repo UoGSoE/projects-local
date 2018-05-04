@@ -31,6 +31,13 @@
             </noscript>
 
             @include('layouts.errors')
+            @if (session('success'))
+                <article class="message is-success">
+                    <div class="message-body">
+                        {{ session('success') }}
+                    </div>
+                </article>
+            @endif
 
             @yield('content')
 
@@ -41,5 +48,6 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    @stack('scripts')
 </body>
 </html>

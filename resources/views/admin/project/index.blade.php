@@ -7,6 +7,9 @@
     <a href="{{ route('export.projects.excel', ['category' => $category]) }}" class="button is-pulled-right">
         Export
     </a>
+    <a href="{{ route('admin.import.second_supervisors.show') }}" class="button is-pulled-right">
+        Import 2nd Supervisors
+    </a>
 </h3>
 
 <table-component
