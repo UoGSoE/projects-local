@@ -31250,172 +31250,178 @@ var render = function() {
             _vm._v("Student Applications")
           ]),
           _vm._v(" "),
-          _c("form", { attrs: { method: "POST", action: "" } }, [
-            _c("table", { staticClass: "table" }, [
-              _vm._m(1),
-              _vm._v(" "),
-              _c(
-                "tbody",
-                _vm._l(_vm.students, function(student) {
-                  return _c("tr", [
-                    _c("td", [
-                      _vm.user.isAdmin
-                        ? _c("span", [
-                            _c(
-                              "a",
-                              { attrs: { href: _vm.showUserUrl(student.id) } },
-                              [
-                                _vm._v(
-                                  "\n                                " +
-                                    _vm._s(student.full_name) +
-                                    "\n                            "
-                                )
-                              ]
-                            )
-                          ])
-                        : _c("span", [
-                            _vm._v(
-                              "\n                            " +
-                                _vm._s(student.full_name) +
-                                "\n                        "
-                            )
-                          ]),
-                      _vm._v(" "),
-                      student.profile
-                        ? _c(
-                            "span",
-                            {
-                              staticStyle: { cursor: "pointer" },
-                              attrs: {
-                                role: "button",
-                                title: "Show students profile"
-                              },
-                              on: {
-                                click: function($event) {
-                                  _vm.$emit("showprofile", student)
-                                }
-                              }
-                            },
-                            [
+          _c(
+            "form",
+            { attrs: { method: "POST", action: "", id: "student-list-form" } },
+            [
+              _c("table", { staticClass: "table" }, [
+                _vm._m(1),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(_vm.students, function(student) {
+                    return _c("tr", [
+                      _c("td", [
+                        _vm.user.isAdmin
+                          ? _c("span", [
                               _c(
-                                "span",
+                                "a",
                                 {
-                                  staticClass: "icon",
-                                  staticStyle: { width: "1em" }
+                                  attrs: { href: _vm.showUserUrl(student.id) }
                                 },
                                 [
-                                  _c(
-                                    "svg",
-                                    {
-                                      attrs: {
-                                        xmlns: "http://www.w3.org/2000/svg",
-                                        viewBox: "0 0 20 20"
-                                      }
-                                    },
-                                    [
-                                      _c("path", {
-                                        attrs: {
-                                          d:
-                                            "M5 5a5 5 0 0 1 10 0v2A5 5 0 0 1 5 7V5zM0 16.68A19.9 19.9 0 0 1 10 14c3.64 0 7.06.97 10 2.68V20H0v-3.32z"
-                                        }
-                                      })
-                                    ]
+                                  _vm._v(
+                                    "\n                                " +
+                                      _vm._s(student.full_name) +
+                                      "\n                            "
                                   )
                                 ]
                               )
-                            ]
-                          )
-                        : _vm._e()
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _vm._v(
-                        "\n                        " +
-                          _vm._s(student.choice) +
-                          "\n                    "
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("td", { attrs: { id: "status-" + student.id } }, [
-                      _vm.canAcceptStudent(student)
-                        ? _c("label", [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.acceptedStudents,
-                                  expression: "acceptedStudents"
-                                }
-                              ],
-                              attrs: {
-                                id: "accept-" + student.id,
-                                name: "accept-" + student.id,
-                                type: "checkbox"
-                              },
-                              domProps: {
-                                value: student.id,
-                                checked: Array.isArray(_vm.acceptedStudents)
-                                  ? _vm._i(_vm.acceptedStudents, student.id) >
-                                    -1
-                                  : _vm.acceptedStudents
-                              },
-                              on: {
-                                change: function($event) {
-                                  var $$a = _vm.acceptedStudents,
-                                    $$el = $event.target,
-                                    $$c = $$el.checked ? true : false
-                                  if (Array.isArray($$a)) {
-                                    var $$v = student.id,
-                                      $$i = _vm._i($$a, $$v)
-                                    if ($$el.checked) {
-                                      $$i < 0 &&
-                                        (_vm.acceptedStudents = $$a.concat([
-                                          $$v
-                                        ]))
-                                    } else {
-                                      $$i > -1 &&
-                                        (_vm.acceptedStudents = $$a
-                                          .slice(0, $$i)
-                                          .concat($$a.slice($$i + 1)))
-                                    }
-                                  } else {
-                                    _vm.acceptedStudents = $$c
+                            ])
+                          : _c("span", [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(student.full_name) +
+                                  "\n                        "
+                              )
+                            ]),
+                        _vm._v(" "),
+                        student.profile
+                          ? _c(
+                              "span",
+                              {
+                                staticStyle: { cursor: "pointer" },
+                                attrs: {
+                                  role: "button",
+                                  title: "Show students profile"
+                                },
+                                on: {
+                                  click: function($event) {
+                                    _vm.$emit("showprofile", student)
                                   }
                                 }
-                              }
-                            })
-                          ])
-                        : _c("label", [
-                            _vm._v(
-                              "\n                            " +
-                                _vm._s(student.is_accepted ? "Yes" : "No") +
-                                "\n                        "
+                              },
+                              [
+                                _c(
+                                  "span",
+                                  {
+                                    staticClass: "icon",
+                                    staticStyle: { width: "1em" }
+                                  },
+                                  [
+                                    _c(
+                                      "svg",
+                                      {
+                                        attrs: {
+                                          xmlns: "http://www.w3.org/2000/svg",
+                                          viewBox: "0 0 20 20"
+                                        }
+                                      },
+                                      [
+                                        _c("path", {
+                                          attrs: {
+                                            d:
+                                              "M5 5a5 5 0 0 1 10 0v2A5 5 0 0 1 5 7V5zM0 16.68A19.9 19.9 0 0 1 10 14c3.64 0 7.06.97 10 2.68V20H0v-3.32z"
+                                          }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                )
+                              ]
                             )
-                          ])
+                          : _vm._e()
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(student.choice) +
+                            "\n                    "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { attrs: { id: "status-" + student.id } }, [
+                        _vm.canAcceptStudent(student)
+                          ? _c("label", [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.acceptedStudents,
+                                    expression: "acceptedStudents"
+                                  }
+                                ],
+                                attrs: {
+                                  id: "accept-" + student.id,
+                                  name: "accept-" + student.id,
+                                  type: "checkbox"
+                                },
+                                domProps: {
+                                  value: student.id,
+                                  checked: Array.isArray(_vm.acceptedStudents)
+                                    ? _vm._i(_vm.acceptedStudents, student.id) >
+                                      -1
+                                    : _vm.acceptedStudents
+                                },
+                                on: {
+                                  change: function($event) {
+                                    var $$a = _vm.acceptedStudents,
+                                      $$el = $event.target,
+                                      $$c = $$el.checked ? true : false
+                                    if (Array.isArray($$a)) {
+                                      var $$v = student.id,
+                                        $$i = _vm._i($$a, $$v)
+                                      if ($$el.checked) {
+                                        $$i < 0 &&
+                                          (_vm.acceptedStudents = $$a.concat([
+                                            $$v
+                                          ]))
+                                      } else {
+                                        $$i > -1 &&
+                                          (_vm.acceptedStudents = $$a
+                                            .slice(0, $$i)
+                                            .concat($$a.slice($$i + 1)))
+                                      }
+                                    } else {
+                                      _vm.acceptedStudents = $$c
+                                    }
+                                  }
+                                }
+                              })
+                            ])
+                          : _c("label", [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(student.is_accepted ? "Yes" : "No") +
+                                  "\n                        "
+                              )
+                            ])
+                      ])
                     ])
-                  ])
-                })
-              )
-            ]),
-            _vm._v(" "),
-            _vm.changesHaveBeenMade
-              ? _c(
-                  "button",
-                  {
-                    staticClass: "button",
-                    attrs: { name: "accept" },
-                    on: {
-                      click: function($event) {
-                        $event.preventDefault()
-                        _vm.submit($event)
-                      }
-                    }
-                  },
-                  [_vm._v("\n            Save Changes\n        ")]
+                  })
                 )
-              : _vm._e()
-          ])
+              ]),
+              _vm._v(" "),
+              _vm.changesHaveBeenMade
+                ? _c(
+                    "button",
+                    {
+                      staticClass: "button",
+                      attrs: { name: "accept" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          _vm.submit($event)
+                        }
+                      }
+                    },
+                    [_vm._v("\n            Save Changes\n        ")]
+                  )
+                : _vm._e()
+            ]
+          )
         ])
   ])
 }

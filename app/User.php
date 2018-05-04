@@ -79,6 +79,8 @@ class User extends Authenticatable
 
         return $this->scopeStudents($query)->whereHas('course', function ($query) use ($type) {
             $query->where('category', '=', $type);
+        })->orWhereHas('projects', function ($query) use ($type) {
+            $query->where('category', '=', $type);
         });
     }
 

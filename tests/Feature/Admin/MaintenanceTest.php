@@ -33,31 +33,46 @@ class MaintenanceTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_admin' => true]);
+        // we have an undergrad, postgrad and 'mystery' student
         $undergrad = create(User::class, ['is_staff' => false]);
         $postgrad = create(User::class, ['is_staff' => false]);
+        $mysteryGrad = create(User::class, ['is_staff' => false]);
+        // and we have an undergrad & postgrad course & project
         $ugradCourse = create(Course::class, ['category' => 'undergrad']);
         $pgradCourse = create(Course::class, ['category' => 'postgrad']);
         $ugradProject = create(Project::class, ['category' => 'undergrad']);
         $pgradProject = create(Project::class, ['category' => 'postgrad']);
+        // the undergrad student is on the undergrad project
         $undergrad->projects()->sync([$ugradProject->id => ['choice' => 1]]);
+        // the postgrad and mystery student are on the postgrad project
         $postgrad->projects()->sync([$pgradProject->id => ['choice' => 1]]);
+        $mysteryGrad->projects()->sync([$pgradProject->id => ['choice' => 1]]);
+        // the undergrad student is on an undergrad course
         $undergrad->course()->associate($ugradCourse);
         $undergrad->save();
+        // the postgrad student is on a postgrad course
         $postgrad->course()->associate($pgradCourse);
         $postgrad->save();
+        // (the mystery student is _not_ on a course - for instance been manually added by admins)
 
+        // when we make the call to remove all undergrads
         $response = $this->actingAs($admin)->delete(route('students.remove_undergrads'));
 
+        // the undergrad student should be gone but the postgrad & mystery student should remain
         $response->assertStatus(302);
         $response->assertSessionMissing('errors');
         $this->assertDatabaseMissing('users', ['id' => $undergrad->id]);
         $this->assertDatabaseHas('users', ['id' => $postgrad->id]);
+        $this->assertDatabaseHas('users', ['id' => $mysteryGrad->id]);
 
+        // when we call to remove all postgrads
         $response = $this->actingAs($admin)->delete(route('students.remove_postgrads'));
 
+        // the postgrad & mystery students should be gone too
         $response->assertStatus(302);
         $response->assertSessionMissing('errors');
         $this->assertDatabaseMissing('users', ['id' => $postgrad->id]);
+        $this->assertDatabaseMissing('users', ['id' => $mysteryGrad->id]);
     }
 
     /** @test */
