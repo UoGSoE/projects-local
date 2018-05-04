@@ -76,7 +76,7 @@
 
 <script>
     export default {
-        props: ['students', 'project'],
+        props: ['students', 'project', 'studentList'],
 
         mounted() {
             this.students.forEach(student => {
@@ -92,6 +92,7 @@
                 acceptedStudents: [],
                 initiallyAccepted: [],
                 user: window.user,
+                manual_student_id: null,
             };
         },
 

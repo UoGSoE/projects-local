@@ -14,8 +14,8 @@ class ProjectController extends Controller
     {
         $project = Project::with('owner', 'programmes', 'courses', 'students')->findOrFail($id);
         $this->authorize('view', $project);
-
-        return view('project.show', ['project' => $project]);
+        $students = User::students()->orderBy('surname')->get();
+        return view('project.show', ['project' => $project, 'students' => $students]);
     }
 
     public function create(Request $request)

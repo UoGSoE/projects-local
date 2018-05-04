@@ -135,6 +135,10 @@
                 </div>
             </div>
         </div>
+        @if (Auth::user()->isAdmin())
+            <hr />
+            <manual-student-allocator :students='@json($students)' :project='@json($project)'></manual-student-allocator>
+        @endif
     </div>
 </div>
 

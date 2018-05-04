@@ -21,6 +21,7 @@ Vue.component('student-list', require('./components/StudentList.vue'));
 Vue.component('admin-toggle', require('./components/AdminToggle.vue'));
 Vue.component('new-user', require('./components/NewUser.vue'));
 Vue.component('email-edit', require('./components/EmailEdit.vue'));
+Vue.component('manual-student-allocator', require('./components/ManualStudentAllocator.vue'));
 import { TableComponent, TableColumn } from 'vue-table-component';
 Vue.component('table-component', TableComponent);
 Vue.component('table-column', TableColumn);
