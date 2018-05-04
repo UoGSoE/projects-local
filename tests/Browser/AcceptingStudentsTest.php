@@ -98,9 +98,9 @@ class AcceptingStudentsTest extends DuskTestCase
                     ->clickLink($student1->full_name)
                     ->assertUrlIs(route('admin.user.show', $student1->id))
                     ->visit(route('project.show', $project->id))
-                    ->assertSee($student1->full_name)
-                    ->assertSee($student2->full_name)
-                    ->assertDontSee($student3->full_name)
+                    ->assertSeeIn('#student-list-form', $student1->full_name)
+                    ->assertSeeIn('#student-list-form', $student2->full_name)
+                    ->assertDontSeeIn('#student-list-form', $student3->full_name)
                     // check we have the correct html form elements
                     ->assertSourceHas("accept-" . $student1->id)
                     ->assertSourceHas("accept-" . $student2->id)

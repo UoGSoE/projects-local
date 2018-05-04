@@ -9,7 +9,7 @@
         </div>
         <div v-else>
         <h3 class="title is-3">Student Applications</h3>
-        <form method="POST" action="">
+        <form method="POST" action="" id="student-list-form">
             <table class="table">
                 <thead>
                     <tr>

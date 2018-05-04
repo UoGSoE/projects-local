@@ -6,6 +6,8 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\User;
+use App\Course;
+use App\Project;
 
 class UserAdminTest extends TestCase
 {
@@ -29,12 +31,57 @@ class UserAdminTest extends TestCase
         $admin = create(User::class, ['is_admin' => true]);
         $user1 = create(User::class, ['is_staff' => true]);
         $user2 = create(User::class, ['is_staff' => true]);
+        $ugradCourse = create(Course::class, ['category' => 'undergrad']);
+        $student = create(User::class, ['is_staff' => false, 'course_id' => $ugradCourse->id]);
 
         $response = $this->actingAs($admin)->get(route('admin.users', 'staff'));
 
         $response->assertSuccessful();
         $response->assertSee($user1->surname);
         $response->assertSee($user2->surname);
+        $response->assertDontSee($student->surname);
+    }
+
+    /** @test */
+    public function admins_can_see_a_list_of_all_undergrads()
+    {
+        $this->withoutExceptionHandling();
+        $admin = create(User::class, ['is_admin' => true]);
+        $ugradCourse = create(Course::class, ['category' => 'undergrad']);
+        $pgradCourse = create(Course::class, ['category' => 'postgrad']);
+        $ugradProject = create(Project::class, ['category' => 'undergrad']);
+        $undergrad1 = create(User::class, ['is_staff' => false, 'course_id' => $ugradCourse->id]);
+        $undergrad2 = create(User::class, ['is_staff' => false]);
+        $postgrad = create(User::class, ['is_staff' => false, 'course_id' => $pgradCourse->id]);
+        $ugradProject->students()->sync([$undergrad2->id => ['choice' => 1]]);
+
+        $response = $this->actingAs($admin)->get(route('admin.users', 'undergrad'));
+
+        $response->assertSuccessful();
+        $response->assertSee($undergrad1->surname);
+        $response->assertSee($undergrad2->surname);
+        $response->assertDontSee($postgrad->surname);
+    }
+
+    /** @test */
+    public function admins_can_see_a_list_of_all_postgrads()
+    {
+        $this->withoutExceptionHandling();
+        $admin = create(User::class, ['is_admin' => true]);
+        $ugradCourse = create(Course::class, ['category' => 'undergrad']);
+        $pgradCourse = create(Course::class, ['category' => 'postgrad']);
+        $ugradProject = create(Project::class, ['category' => 'undergrad']);
+        $undergrad1 = create(User::class, ['is_staff' => false, 'course_id' => $ugradCourse->id]);
+        $undergrad2 = create(User::class, ['is_staff' => false]);
+        $postgrad = create(User::class, ['is_staff' => false, 'course_id' => $pgradCourse->id]);
+        $ugradProject->students()->sync([$undergrad2->id => ['choice' => 1]]);
+
+        $response = $this->actingAs($admin)->get(route('admin.users', 'postgrad'));
+
+        $response->assertSuccessful();
+        $response->assertDontSee($undergrad1->surname);
+        $response->assertDontSee($undergrad2->surname);
+        $response->assertSee($postgrad->surname);
     }
 
     /** @test */

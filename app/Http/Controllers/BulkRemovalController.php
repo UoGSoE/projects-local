@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Course;
+use App\Project;
 use Illuminate\Http\Request;
 
 class BulkRemovalController extends Controller
@@ -11,6 +12,7 @@ class BulkRemovalController extends Controller
     public function undergrads()
     {
         Course::undergrad()->get()->each->removeAllStudents();
+        Project::undergrad()->get()->each->deleteStudents();
 
         if (request()->wantsJson()) {
             return response()->json(['message' => 'removed']);
@@ -21,6 +23,7 @@ class BulkRemovalController extends Controller
     public function postgrads()
     {
         Course::postgrad()->get()->each->removeAllStudents();
+        Project::postgrad()->get()->each->deleteStudents();
 
         if (request()->wantsJson()) {
             return response()->json(['message' => 'removed']);
