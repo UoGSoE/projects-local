@@ -122,4 +122,30 @@ class AcceptingStudentsTest extends DuskTestCase
             $this->assertFalse($student1->isAccepted());
         });
     }
+
+    /** @test */
+    public function admins_can_manually_add_and_accept_anyone_on_any_project()
+    {
+        $this->browse(function (Browser $browser) {
+            $admin = create(User::class, ['is_admin' => true, 'is_staff' => true]);
+            $project = create(Project::class, ['category' => 'postgrad']);
+            $student1 = create(User::class, ['is_staff' => false]);
+            $student2 = create(User::class, ['is_staff' => false]);
+            $student2->projects()->sync([$project->id => ['choice' => 2, 'is_accepted' => false]]);
+
+            $browser->loginAs($admin)
+                ->visit(route('project.show', $project->id))
+                ->assertSourceMissing("accept-" . $student1->id)
+                ->assertSourceHas("accept-" . $student2->id)
+                ->assertSeeIn('.select', $student1->full_name)
+                ->select('student_id', $student1->id)
+                ->press('Allocate & Accept')
+                ->pause(200)
+                ->visit(route('project.show', $project->id))
+                ->assertSourceHas("accept-" . $student1->id)
+                ->assertSourceHas("accept-" . $student2->id);
+            $this->assertTrue($student1->isAccepted());
+            $this->assertFalse($student2->isAccepted());
+        });
+    }
 }

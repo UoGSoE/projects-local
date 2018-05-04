@@ -4,7 +4,7 @@
         <div class="field has-addons">
             <div class="control">
                 <div class="select">
-                    <select v-model="student_id">
+                    <select v-model="student_id" name="student_id">
                         <option v-for="student in students" :value="student.id">{{ student.full_name }} {{ student.username }}</option>
                     </select>
                 </div>

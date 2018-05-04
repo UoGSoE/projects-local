@@ -39002,6 +39002,7 @@ var render = function() {
                   expression: "student_id"
                 }
               ],
+              attrs: { name: "student_id" },
               on: {
                 change: function($event) {
                   var $$selectedVal = Array.prototype.filter
