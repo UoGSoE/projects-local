@@ -29,6 +29,7 @@ class CourseEnrollmentTest extends TestCase
     /** @test */
     public function an_admin_can_import_a_spreadsheet_of_students_who_are_on_a_course()
     {
+        $this->withoutExceptionHandling();
         // given we have an admin and a course
         $admin = create(User::class, ['is_admin' => true]);
         $course = create(Course::class);
@@ -43,7 +44,12 @@ class CourseEnrollmentTest extends TestCase
         // the course should have two students attached
         $response->assertStatus(302);
         $response->assertSessionMissing('errors');
-        $this->assertEquals(2, $course->students()->count());
+        $this->assertEquals(5, $course->students()->count());
+        $student = $course->students()->where('username', '=', '2383616s')->first();
+        $this->assertEquals('2383616s@student.gla.ac.uk', $student->email);
+        $this->assertEquals('Sham', $student->surname);
+        $this->assertEquals('Allan', $student->forenames);
+        $this->assertTrue($student->isStudent());
     }
 
     /** @test */
@@ -57,15 +63,15 @@ class CourseEnrollmentTest extends TestCase
         $this->assertEquals(1, $course->students()->count());
         $filename = './tests/Feature/data/course_students.xlsx';
 
-        // and we upload a test spreadsheet with two students details
+        // and we upload a test spreadsheet with new students details
         $response = $this->actingAs($admin)->post(route('admin.course.enroll', $course->id), [
             'sheet' => new UploadedFile($filename, 'course_students.xlsx', 'application/octet-stream', filesize($filename), UPLOAD_ERR_OK, true),
         ]);
 
-        // the course should have two students new students plus the original one
+        // the course should have all new students students plus the original one
         $response->assertStatus(302);
         $response->assertSessionMissing('errors');
-        $this->assertEquals(3, $course->students()->count());
+        $this->assertEquals(6, $course->students()->count());
         // and the previously enrolled student is still there
         $this->assertDatabaseHas('users', ['id' => $student->id]);
     }

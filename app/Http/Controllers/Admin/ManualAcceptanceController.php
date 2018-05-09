@@ -16,8 +16,7 @@ class ManualAcceptanceController extends Controller
         ]);
 
         $student = User::findOrFail($request->student_id);
-        $student->projects()->sync([$project->id => ['is_accepted' => false, 'choice' => 1]]);
-        $project->accept($student);
+        $project->addAndAccept($student);
 
         session()->flash('success', 'Student Accepted');
 

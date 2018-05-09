@@ -132,6 +132,12 @@ class Project extends Model
         Mail::to($student)->queue(new AcceptedOntoProject($this));
     }
 
+    public function addAndAccept(User $student)
+    {
+        $student->projects()->sync([$this->id => ['is_accepted' => false, 'choice' => 1]]);
+        $this->accept($student);
+    }
+
     public function deleteStudents()
     {
         $this->students->each->delete();

@@ -38,7 +38,7 @@ class EnrollmentController extends Controller
             }
             $user->surname = $row[1];
             $user->forenames = $row[2];
-            $user->email = $row[3];
+            $user->email = $username . '@student.gla.ac.uk';
             $user->course_id = $course->id;
             $user->save();
             return $user->id;
