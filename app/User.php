@@ -187,13 +187,6 @@ class User extends Authenticatable
         return substr($this->username, 0, 7);
     }
 
-    public function getFormattedProfile()
-    {
-        $parsedown = new \Parsedown;
-        $parsedown->setSafeMode(true);
-        return $parsedown->text($this->profile);
-    }
-
     public function getUgradActiveAttribute()
     {
         return $this->staffProjects->filter(function ($project) {
@@ -228,7 +221,6 @@ class User extends Authenticatable
             'id' => $this->id,
             'username' => $this->username,
             'full_name' => $this->full_name,
-            'profile' => $this->getFormattedProfile(),
             'email' => $this->email,
             'isAdmin' => $this->isAdmin(),
             'surname' => $this->surname,

@@ -31131,17 +31131,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['students', 'project', 'studentList'],
@@ -31284,53 +31273,7 @@ var render = function() {
                                   _vm._s(student.full_name) +
                                   "\n                        "
                               )
-                            ]),
-                        _vm._v(" "),
-                        student.profile
-                          ? _c(
-                              "span",
-                              {
-                                staticStyle: { cursor: "pointer" },
-                                attrs: {
-                                  role: "button",
-                                  title: "Show students profile"
-                                },
-                                on: {
-                                  click: function($event) {
-                                    _vm.$emit("showprofile", student)
-                                  }
-                                }
-                              },
-                              [
-                                _c(
-                                  "span",
-                                  {
-                                    staticClass: "icon",
-                                    staticStyle: { width: "1em" }
-                                  },
-                                  [
-                                    _c(
-                                      "svg",
-                                      {
-                                        attrs: {
-                                          xmlns: "http://www.w3.org/2000/svg",
-                                          viewBox: "0 0 20 20"
-                                        }
-                                      },
-                                      [
-                                        _c("path", {
-                                          attrs: {
-                                            d:
-                                              "M5 5a5 5 0 0 1 10 0v2A5 5 0 0 1 5 7V5zM0 16.68A19.9 19.9 0 0 1 10 14c3.64 0 7.06.97 10 2.68V20H0v-3.32z"
-                                          }
-                                        })
-                                      ]
-                                    )
-                                  ]
-                                )
-                              ]
-                            )
-                          : _vm._e()
+                            ])
                       ]),
                       _vm._v(" "),
                       _c("td", [

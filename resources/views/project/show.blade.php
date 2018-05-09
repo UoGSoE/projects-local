@@ -117,24 +117,6 @@
     <div class="column">
         <student-list :project='@json($project)' :students='{{ $project->studentsAsJson() }}' v-on:showprofile="selectedStudent = $event"></student-list>
 
-        <div id="student_profile_box" v-if="selectedStudent">
-            <p>&nbsp;</p>
-            <div class="card">
-                <div class="card-content">
-                    <article class="media">
-                      <div class="media-content">
-                        <div class="content">
-                          <p>
-                            Profile for <strong>@{{ selectedStudent.full_name}}</strong> <small>@{{ selectedStudent.email }}</small>
-                            <br>
-                            <span v-html="selectedStudent.profile"></span>
-                          </p>
-                        </div>
-                      </div>
-                    </article>
-                </div>
-            </div>
-        </div>
         @if (Auth::user()->isAdmin())
             <hr />
             <manual-student-allocator :students='@json($students)' :project='@json($project)'></manual-student-allocator>

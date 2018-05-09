@@ -312,6 +312,7 @@ class ProjectTest extends TestCase
     /** @test */
     public function staff_can_view_their_own_project()
     {
+        $this->withoutExceptionHandling();
         $staff = create(User::class, ['is_staff' => true]);
         $project = create(Project::class, ['staff_id' => $staff->id]);
 
