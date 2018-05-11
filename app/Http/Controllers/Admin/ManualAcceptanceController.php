@@ -11,6 +11,7 @@ class ManualAcceptanceController extends Controller
 {
     public function store(Project $project, Request $request)
     {
+        $this->ayecaramba();
         $request->validate([
             'student_id' => 'required|integer'
         ]);

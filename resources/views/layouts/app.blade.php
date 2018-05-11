@@ -26,22 +26,26 @@
     <section id="app" class="section">
         <div class="container">
 
-            <noscript>
-                This website requires javascript to function. Please turn it on.
-            </noscript>
+            <div>
+                <noscript>
+                    This website requires javascript to function. Please turn it on.
+                </noscript>
 
-            @include('layouts.errors')
-            @if (session('success'))
-                <article class="message is-success">
-                    <div class="message-body">
-                        {{ session('success') }}
-                    </div>
-                </article>
-            @endif
+                @include('layouts.errors')
+                @if (session('success'))
+                    <article class="message is-success">
+                        <div class="message-body">
+                            {{ session('success') }}
+                        </div>
+                    </article>
+                @endif
 
-            @yield('content')
+                @yield('content')
+            </div>
 
-            @include('layouts.footer')
+            <div>
+                @include('layouts.footer')
+            </div>
 
         </div>
     </section>
