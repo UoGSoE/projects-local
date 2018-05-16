@@ -24,9 +24,8 @@
 <body>
     @include('layouts.navbar')
     <section id="app" class="section">
-        <div class="container">
-
-            <div>
+        <div class="container" id="content-area">
+            <div id="content-main">
                 <noscript>
                     This website requires javascript to function. Please turn it on.
                 </noscript>
@@ -42,11 +41,9 @@
 
                 @yield('content')
             </div>
-
             <div>
                 @include('layouts.footer')
             </div>
-
         </div>
     </section>
 
@@ -54,7 +51,9 @@
     <script src="{{ asset('js/app.js') }}"></script>
     <script>
         (function() {
-            const success = document.querySelector('#success-box').classList.add('fadeout-success');
+            setTimeout(() => {
+                document.querySelector('#success-box').classList.add('fadeout-success');
+            }, 2000);
         })();
     </script>
     @stack('scripts')
