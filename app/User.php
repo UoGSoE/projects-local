@@ -77,6 +77,8 @@ class User extends Authenticatable
             return $this->scopeStaff($query);
         }
 
+        // this is because we don't know if a _student_ is under/post-grad - only the course
+        // or project they are on lets us know
         return $this->scopeStudents($query)->whereHas('course', function ($query) use ($type) {
             $query->where('category', '=', $type);
         })->orWhereHas('projects', function ($query) use ($type) {
@@ -86,6 +88,7 @@ class User extends Authenticatable
 
     public function isTooLate()
     {
+        // if admin is impersonating a student - ignore the rules they asked for :'-/
         if ($this->isImpersonating()) {
             return false;
         }
@@ -161,14 +164,12 @@ class User extends Authenticatable
 
     public function toggleAdmin()
     {
-        $this->is_admin = ! $this->is_admin;
-        $this->save();
+        $this->update(['is_admin' => ! $this->is_admin]);
     }
 
     public function makeAdmin()
     {
-        $this->is_admin = true;
-        $this->save();
+        $this->update(['is_admin' => true]);
     }
 
     public function getType()
@@ -185,6 +186,21 @@ class User extends Authenticatable
     public function getMatricAttribute()
     {
         return substr($this->username, 0, 7);
+    }
+
+    /**
+     * Used to json-ify all the extra columns admins need to see in the staff list :'-/
+     *
+     * @return void
+     */
+    public function forAdminIndex()
+    {
+        $user = $this->toArray();
+        $user['ugrad_active'] = $this->ugrad_active;
+        $user['ugrad_inactive'] = $this->ugrad_inactive;
+        $user['pgrad_active'] = $this->pgrad_active;
+        $user['pgrad_inactive'] = $this->pgrad_inactive;
+        return $user;
     }
 
     public function getUgradActiveAttribute()
@@ -227,15 +243,5 @@ class User extends Authenticatable
             'forenames' => $this->forenames,
             'type' => $this->getType(),
         ];
-    }
-
-    public function forAdminIndex()
-    {
-        $user = $this->toArray();
-        $user['ugrad_active'] = $this->ugrad_active;
-        $user['ugrad_inactive'] = $this->ugrad_inactive;
-        $user['pgrad_active'] = $this->pgrad_active;
-        $user['pgrad_inactive'] = $this->pgrad_inactive;
-        return $user;
     }
 }
