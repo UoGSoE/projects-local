@@ -26,6 +26,7 @@ import { TableComponent, TableColumn } from 'vue-table-component';
 Vue.component('table-component', TableComponent);
 Vue.component('table-column', TableColumn);
 
+
 window.moment = require('moment');
 import Pikaday from "pikaday";
 import "pikaday/css/pikaday.css";

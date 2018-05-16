@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class ImpersonationController extends Controller
 {
     public function store($id)
     {
         session(['original_id' => auth()->id()]);
-        
+
         auth()->loginUsingId($id);
 
         return redirect(route('home'));

@@ -25,6 +25,8 @@ class EnrollmentController extends Controller
 
         $data = (new ExcelSheet)->trimmedImport($request->file('sheet')->path());
 
+        $course->removeAllStudents();
+
         $students = collect($data)->filter(function ($row) {
             return $this->firstColumnIsAMatric($row);
         })->map(function ($row) use ($course) {
@@ -45,6 +47,19 @@ class EnrollmentController extends Controller
         });
 
         return redirect()->route('admin.course.show', $course->id)->with('success', "Imported {$students->count()} Students");
+    }
+
+    public function destroy($id)
+    {
+        Course::findOrFail($id)->removeAllStudents();
+
+        if (request()->wantsJson()) {
+            return response()->json([
+                'message' => 'Students Removed'
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'All students removed');
     }
 
     protected function firstColumnIsAMatric($row)

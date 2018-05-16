@@ -53,7 +53,7 @@ class CourseEnrollmentTest extends TestCase
     }
 
     /** @test */
-    public function when_admin_imports_the_spreadsheet_any_existing_students_on_the_course_are_left_intact()
+    public function when_admin_imports_the_spreadsheet_any_existing_students_on_the_course_are_removed()
     {
         // given we have an admin, a student and a course with that student on it
         $admin = create(User::class, ['is_admin' => true]);
@@ -68,11 +68,11 @@ class CourseEnrollmentTest extends TestCase
             'sheet' => new UploadedFile($filename, 'course_students.xlsx', 'application/octet-stream', filesize($filename), UPLOAD_ERR_OK, true),
         ]);
 
-        // the course should have all new students students plus the original one
+        // the course should have only the new students students
         $response->assertStatus(302);
         $response->assertSessionMissing('errors');
-        $this->assertEquals(6, $course->students()->count());
-        // and the previously enrolled student is still there
-        $this->assertDatabaseHas('users', ['id' => $student->id]);
+        $this->assertEquals(5, $course->students()->count());
+        // and the previously enrolled student is gone
+        $this->assertDatabaseMissing('users', ['username' => $student->username]);
     }
 }
