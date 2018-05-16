@@ -48,7 +48,10 @@ class CourseController extends Controller
             'category' => 'required|in:undergrad,postgrad',
             'application_deadline' => 'required|date_format:d/m/Y',
         ]);
-        $data['application_deadline'] = Carbon::createFromFormat('d/m/Y', $data['application_deadline'])->hour(23)->minute(59);
+        $data['application_deadline'] = Carbon::createFromFormat(
+            'd/m/Y',
+            $data['application_deadline']
+        )->hour(23)->minute(59);
 
         Course::create($data);
 
@@ -96,7 +99,10 @@ class CourseController extends Controller
             'category' => 'required|in:undergrad,postgrad',
             'application_deadline' => 'required|date_format:d/m/Y',
         ]);
-        $data['application_deadline'] = Carbon::createFromFormat('d/m/Y', $data['application_deadline'])->hour(23)->minute(59);
+        $data['application_deadline'] = Carbon::createFromFormat(
+            'd/m/Y',
+            $data['application_deadline']
+        )->hour(23)->minute(59);
 
         $course->update($data);
 

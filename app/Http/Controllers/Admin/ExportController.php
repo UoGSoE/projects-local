@@ -36,5 +36,4 @@ class ExportController extends Controller
 
         return 'uog_project_data.xlsx';
     }
-
 }
