@@ -116,10 +116,22 @@ class UserAdminTest extends TestCase
     }
 
     /** @test */
-    public function admins_can_view_an_individual_user()
+    public function admins_can_view_an_individual_staff_user()
     {
         $admin = create(User::class, ['is_admin' => true]);
         $user = create(User::class);
+
+        $response = $this->actingAs($admin)->get(route('admin.user.show', $user->id));
+
+        $response->assertSuccessful();
+        $response->assertSee($user->full_name);
+    }
+
+    /** @test */
+    public function admins_can_view_an_individual_student_user()
+    {
+        $admin = create(User::class, ['is_admin' => true]);
+        $user = create(User::class, ['is_staff' => false]);
 
         $response = $this->actingAs($admin)->get(route('admin.user.show', $user->id));
 

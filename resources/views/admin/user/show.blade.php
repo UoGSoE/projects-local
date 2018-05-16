@@ -59,12 +59,6 @@
             {{ $user->getType() }}
         </td>
     </tr>
-    @if ($user->profile)
-        <tr>
-            <th>Profile</th>
-            <td>{!! $user->getFormattedProfile() !!}</td>
-        </tr>
-    @endif
     @if ($user->course)
         <tr>
             <th>Course</th>
