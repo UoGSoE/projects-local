@@ -31476,14 +31476,6 @@ var render = function() {
   return _c("div", [
     _c(
       "div",
-      {
-        on: {
-          click: function($event) {
-            $event.preventDefault()
-            _vm.showInput($event)
-          }
-        }
-      },
       [
         _c("transition", { attrs: { name: "fadeWidth", mode: "out-in" } }, [
           _vm.mode === "button"
@@ -31492,9 +31484,20 @@ var render = function() {
                   _vm._v(_vm._s(_vm.email))
                 ]),
                 _vm._v(" "),
-                _c("span", { key: "button", staticClass: "button is-small" }, [
-                  _vm._v("Change")
-                ])
+                _c(
+                  "span",
+                  {
+                    key: "button",
+                    staticClass: "button is-small",
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        _vm.showInput($event)
+                      }
+                    }
+                  },
+                  [_vm._v("Change")]
+                )
               ])
             : _c("span", { key: "input" }, [
                 _c("form", [
@@ -31537,7 +31540,7 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n                            Save\n                        "
+                            "\n                                Save\n                            "
                           )
                         ]
                       )
@@ -31565,9 +31568,9 @@ var render = function() {
                           },
                           [
                             _vm._v(
-                              "\n                        " +
+                              "\n                            " +
                                 _vm._s(_vm.errorMessage) +
-                                "\n                        "
+                                "\n                            "
                             )
                           ]
                         )

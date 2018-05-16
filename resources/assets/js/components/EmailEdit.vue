@@ -1,30 +1,30 @@
 <template>
     <div>
-        <div @click.prevent="showInput">
+        <div>
             <transition name="fadeWidth" mode="out-in">
-            <span v-if="mode === 'button'">
-                <a :href="'mailto:' + email">{{ email }}</a>
-                <span key="button" class="button is-small">Change</span>
-            </span>
-            <span v-else key="input">
-                <form>
-                    <div class="field has-addons">
-                        <div class="control">
-                            <input class="input" type="text" v-model="email">
+                <span v-if="mode === 'button'">
+                    <a :href="'mailto:' + email">{{ email }}</a>
+                    <span @click.prevent="showInput" key="button" class="button is-small">Change</span>
+                </span>
+                <span v-else key="input">
+                    <form>
+                        <div class="field has-addons">
+                            <div class="control">
+                                <input class="input" type="text" v-model="email">
+                            </div>
+                            <div class="control">
+                                <button class="button" @click.prevent="updateEmail">
+                                    Save
+                                </button>
+                            </div>
+                            <div v-show="errorMessage" class="control">
+                                <a class="button is-danger" disabled>
+                                {{ errorMessage }}
+                                </a>
+                            </div>
                         </div>
-                        <div class="control">
-                            <button class="button" @click.prevent="updateEmail">
-                                Save
-                            </button>
-                        </div>
-                        <div v-show="errorMessage" class="control">
-                            <a class="button is-danger" disabled>
-                            {{ errorMessage }}
-                            </a>
-                        </div>
-                    </div>
-                </form>
-            </span>
+                    </form>
+                </span>
             </transition>
         </div>
     </div>
