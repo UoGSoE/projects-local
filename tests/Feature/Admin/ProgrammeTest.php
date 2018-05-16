@@ -40,8 +40,8 @@ class ProgrammeTest extends TestCase
         $response->assertSuccessful();
         $response->assertSee($programme1->title);
         $response->assertSee($programme2->title);
-        $response->assertSee($project1->max_students);
-        $response->assertSee($project2->max_students);
+        $response->assertSee("$project1->max_students");
+        $response->assertSee("$project2->max_students");
     }
 
     /** @test */
