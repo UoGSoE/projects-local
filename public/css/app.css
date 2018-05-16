@@ -11507,6 +11507,19 @@ label.panel-block:hover {
   padding: 3rem 1.5rem 6rem;
 }
 
+#success-box {
+  position: fixed;
+  right: 0px;
+  z-index: 9;
+}
+
+.fadeout-success {
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transition: visibility 0s 4s, opacity 2s linear;
+  transition: visibility 0s 4s, opacity 2s linear;
+}
+
 #infobox {
   position: fixed;
   bottom: 1em;

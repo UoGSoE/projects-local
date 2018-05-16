@@ -33,7 +33,7 @@
 
                 @include('layouts.errors')
                 @if (session('success'))
-                    <article class="message is-success">
+                    <article class="message is-success" id="success-box">
                         <div class="message-body">
                             {{ session('success') }}
                         </div>
@@ -52,6 +52,11 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    <script>
+        (function() {
+            const success = document.querySelector('#success-box').classList.add('fadeout-success');
+        })();
+    </script>
     @stack('scripts')
 </body>
 </html>
