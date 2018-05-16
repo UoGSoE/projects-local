@@ -4,13 +4,13 @@
             <transition name="fadeWidth" mode="out-in">
                 <span v-if="mode === 'button'">
                     <a :href="'mailto:' + email">{{ email }}</a>
-                    <span @click.prevent="showInput" key="button" class="button is-small">Change</span>
+                    <span @click.prevent="showInput" id="change-email-button" key="button" class="button is-small">Change</span>
                 </span>
                 <span v-else key="input">
                     <form>
                         <div class="field has-addons">
                             <div class="control">
-                                <input class="input" type="text" v-model="email">
+                                <input class="input" type="text" id="email-input" v-model="email">
                             </div>
                             <div class="control">
                                 <button class="button" @click.prevent="updateEmail">

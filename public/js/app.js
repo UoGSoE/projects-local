@@ -31489,6 +31489,7 @@ var render = function() {
                   {
                     key: "button",
                     staticClass: "button is-small",
+                    attrs: { id: "change-email-button" },
                     on: {
                       click: function($event) {
                         $event.preventDefault()
@@ -31513,7 +31514,7 @@ var render = function() {
                           }
                         ],
                         staticClass: "input",
-                        attrs: { type: "text" },
+                        attrs: { type: "text", id: "email-input" },
                         domProps: { value: _vm.email },
                         on: {
                           input: function($event) {
