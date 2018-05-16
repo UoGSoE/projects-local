@@ -42,11 +42,6 @@
             <div class="level">
                 <div class="level-left">
                     <div class="level-item">
-                        <a href="mailto:{{ $user->email }}">
-                            {{ $user->email }}
-                        </a>
-                    </div>
-                    <div class="level-item">
                         <email-edit :user='@json($user)'></email-edit>
                     </div>
                 </div>

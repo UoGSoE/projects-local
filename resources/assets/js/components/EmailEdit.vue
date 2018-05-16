@@ -2,7 +2,10 @@
     <div>
         <div @click.prevent="showInput">
             <transition name="fadeWidth" mode="out-in">
-            <span v-if="mode === 'button'" key="button" class="button is-small">Change</span>
+            <span v-if="mode === 'button'">
+                <a :href="'mailto:' + email">{{ email }}</a>
+                <span key="button" class="button is-small">Change</span>
+            </span>
             <span v-else key="input">
                 <form>
                     <div class="field has-addons">
