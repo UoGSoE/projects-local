@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Project;
 use Illuminate\Http\Request;
 use Ohffs\SimpleSpout\ExcelSheet;
 use App\Exports\ProjectListExporter;
+use App\Http\Controllers\Controller;
 
 class ExportController extends Controller
 {
@@ -35,5 +36,4 @@ class ExportController extends Controller
 
         return 'uog_project_data.xlsx';
     }
-
 }

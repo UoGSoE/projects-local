@@ -42,11 +42,6 @@
             <div class="level">
                 <div class="level-left">
                     <div class="level-item">
-                        <a href="mailto:{{ $user->email }}">
-                            {{ $user->email }}
-                        </a>
-                    </div>
-                    <div class="level-item">
                         <email-edit :user='@json($user)'></email-edit>
                     </div>
                 </div>
@@ -59,12 +54,6 @@
             {{ $user->getType() }}
         </td>
     </tr>
-    @if ($user->profile)
-        <tr>
-            <th>Profile</th>
-            <td>{!! $user->getFormattedProfile() !!}</td>
-        </tr>
-    @endif
     @if ($user->course)
         <tr>
             <th>Course</th>

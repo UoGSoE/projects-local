@@ -28,6 +28,5 @@ class ProjectCopyController extends Controller
             'courses' => Course::where('category', '=', $copyProject->category)->orderBy('title')->get(),
             'staff' => User::staff()->orderBy('surname')->get(),
         ]);
-
     }
 }

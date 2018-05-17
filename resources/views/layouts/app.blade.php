@@ -24,30 +24,38 @@
 <body>
     @include('layouts.navbar')
     <section id="app" class="section">
-        <div class="container">
+        <div class="container" id="content-area">
+            <div id="content-main">
+                <noscript>
+                    This website requires javascript to function. Please turn it on.
+                </noscript>
 
-            <noscript>
-                This website requires javascript to function. Please turn it on.
-            </noscript>
+                @include('layouts.errors')
+                @if (session('success'))
+                    <article class="message is-success" id="success-box">
+                        <div class="message-body">
+                            {{ session('success') }}
+                        </div>
+                    </article>
+                @endif
 
-            @include('layouts.errors')
-            @if (session('success'))
-                <article class="message is-success">
-                    <div class="message-body">
-                        {{ session('success') }}
-                    </div>
-                </article>
-            @endif
-
-            @yield('content')
-
-            @include('layouts.footer')
-
+                @yield('content')
+            </div>
+            <div>
+                @include('layouts.footer')
+            </div>
         </div>
     </section>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    <script>
+        (function() {
+            setTimeout(() => {
+                document.querySelector('#success-box').classList.add('fadeout-success');
+            }, 2000);
+        })();
+    </script>
     @stack('scripts')
 </body>
 </html>

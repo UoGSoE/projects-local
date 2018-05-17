@@ -1,17 +1,23 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Programme;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Http\Controllers\Controller;
 
 class ProgrammeController extends Controller
 {
     public function index()
     {
         return view('admin.programme.index', [
-            'programmes' => Programme::with('projects.students', 'projects.courses', 'projects.owner')->orderBy('title')->withCount('projects')->get()->each->append('places_count', 'accepted_count'),
+            'programmes' => Programme::with('projects.students', 'projects.courses', 'projects.owner')
+                                ->orderBy('title')
+                                ->withCount('projects')
+                                ->get()
+                                ->each
+                                ->append('places_count', 'accepted_count'),
         ]);
     }
 

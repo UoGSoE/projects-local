@@ -76,10 +76,6 @@
               {{ Auth::user()->full_name }}
           </a>
           <div class="navbar-dropdown is-right">
-            <a href="" class="navbar-item">
-              My Profile
-            </a>
-            <hr class="navbar-divider" />
             <form method="POST" action="{{ url('/logout') }}" class="navbar-item">
               {{ csrf_field() }}
               <a href="#" onclick="this.parentNode.submit()">Log Out</a>

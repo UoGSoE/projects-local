@@ -1,18 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\User;
 use App\Course;
 use App\Project;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class BulkRemovalController extends Controller
 {
     public function undergrads()
     {
         Course::undergrad()->get()->each->removeAllStudents();
-        Project::undergrad()->get()->each->deleteStudents();
+        Project::undergrad()->get()->each->removeAllStudents();
 
         if (request()->wantsJson()) {
             return response()->json(['message' => 'removed']);
@@ -23,7 +24,7 @@ class BulkRemovalController extends Controller
     public function postgrads()
     {
         Course::postgrad()->get()->each->removeAllStudents();
-        Project::postgrad()->get()->each->deleteStudents();
+        Project::postgrad()->get()->each->removeAllStudents();
 
         if (request()->wantsJson()) {
             return response()->json(['message' => 'removed']);

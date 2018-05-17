@@ -16,11 +16,6 @@ class Project extends Model
         'is_confidential' => 'boolean',
     ];
 
-    // protected $appends = [
-    //     'course_codes',
-    //     'owner_name',
-    // ];
-
     public function programmes()
     {
         return $this->belongsToMany(Programme::class, 'project_programmes');
@@ -37,16 +32,6 @@ class Project extends Model
                     ->withPivot('is_accepted', 'choice');
     }
 
-    public function studentsAsJson()
-    {
-        return $this->students->map(function ($student) {
-            $base = $student->toArray();
-            $base['choice'] = intval($student->pivot->choice);
-            $base['is_accepted'] = (boolean) $student->pivot->is_accepted;
-            return $base;
-        })->toJson();
-    }
-
     public function owner()
     {
         return $this->belongsTo(User::class, 'staff_id');
@@ -56,17 +41,6 @@ class Project extends Model
     {
         return $this->belongsTo(User::class, 'second_supervisor_id');
     }
-
-    public function hasSecondSupervisor()
-    {
-        return ! is_null($this->second_supervisor_id);
-    }
-
-    public function getOwnerNameAttribute()
-    {
-        return $this->owner->full_name;
-    }
-
     public function scopeUndergrad($query)
     {
         return $query->where('category', '=', 'undergrad');
@@ -85,6 +59,26 @@ class Project extends Model
     public function scopeInactive($query)
     {
         return $query->where('is_active', '=', false);
+    }
+
+    public function hasSecondSupervisor()
+    {
+        return !is_null($this->second_supervisor_id);
+    }
+
+    public function studentsAsJson()
+    {
+        return $this->students->map(function ($student) {
+            $base = $student->toArray();
+            $base['choice'] = intval($student->pivot->choice);
+            $base['is_accepted'] = (boolean) $student->pivot->is_accepted;
+            return $base;
+        })->toJson();
+    }
+
+    public function getOwnerNameAttribute()
+    {
+        return $this->owner->full_name;
     }
 
     public function getCourseCodesAttribute()
@@ -132,7 +126,13 @@ class Project extends Model
         Mail::to($student)->queue(new AcceptedOntoProject($this));
     }
 
-    public function deleteStudents()
+    public function addAndAccept(User $student)
+    {
+        $student->projects()->sync([$this->id => ['is_accepted' => false, 'choice' => 1]]);
+        $this->accept($student);
+    }
+
+    public function removeAllStudents()
     {
         $this->students->each->delete();
     }

@@ -58,6 +58,16 @@ You should now be able to point your browser to the url the last command showed 
 
 ## Production install
 
-Much the same steps as above but skip the last two steps. You will want to point a real webserver at a document root of `/path/to/the/code/public/` and make sure `/storage` and `/bootstrap/cache` directories are write-able by the webserver.
+Much the same steps as above but skip the last two steps. You will want to point a real db server & real webserver with a document root of `/path/to/the/code/public/` and make sure `/storage` and `/bootstrap/cache` directories are write-able by the webserver.
 
+## Tests
 
+If you're making changes to the code, make sure you write tests for new features and run the test suite to
+make sure you've not broken anything else. You should be able to run the test-suite by running :
+
+```
+# for base/backend tests
+phpunit
+# for browser/UI tests
+php artisan dusk
+```

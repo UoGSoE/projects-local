@@ -13,6 +13,7 @@
         "laravel/tinker": "~1.0",
         "ohffs/simple-laravel-ldap": "dev-master",
         "ohffs/simple-spout": "dev-master",
+        "rollbar/rollbar-laravel": "^2.3",
         "tightenco/ziggy": "^0.6.3",
         "uogsoe/ldap-laravel": "^1.0"
     },
@@ -45,6 +46,7 @@
     "extra": {
         "laravel": {
             "dont-discover": [
+                "rollbar/rollbar-laravel"
             ]
         }
     },
