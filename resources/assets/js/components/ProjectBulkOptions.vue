@@ -12,7 +12,7 @@
     <table-column show="title" label="Title">
         <template slot-scope="row">
             <a
-             :href="row.id"
+             :href="getProjectUrl(row.id)"
              :class="{ 'has-text-grey-light': !row.is_active }"
              :title="row.is_active ? '' : 'Inactive'"
             >
@@ -110,7 +110,12 @@ export default {
         isActive(id) {
             let index = this.actives.findIndex(project => project.id == id);
             return this.actives[index].is_active;
-        }
+        },
+        getProjectUrl: function (projectId) {
+            return route('project.show', projectId);
+        },
+
+
     }
 }
 </script>

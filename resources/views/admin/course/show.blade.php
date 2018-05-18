@@ -37,10 +37,21 @@
 		</h4>
 		<ul>
 		@foreach ($course->students as $student)
-			<li>
-				<a href="{{ route('admin.user.show', $student->id) }}">
-					{{ $student->full_name }} ({{ $student->matric }})
-				</a>
+			<li class="columns">
+				<span class="column" style="padding-bottom: 3px; padding-top: 3px;">
+					<a href="{{ route('admin.user.show', $student->id) }}">
+						{{ $student->full_name }} ({{ $student->matric }})
+					</a>
+				</span>
+				<span class="column" style="padding-bottom: 3px; padding-top: 3px;">
+					<form method="POST" action="{{ route('admin.user.delete', $student->id) }}">
+						@csrf
+						@method('DELETE')
+						<button class="button is-text has-text-danger is-small">
+							Remove
+						</button>
+					</form>
+				</span>
 			</li>
 		@endforeach
 		</ul>

@@ -39184,7 +39184,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return project.id == id;
             });
             return this.actives[index].is_active;
+        },
+
+        getProjectUrl: function getProjectUrl(projectId) {
+            return route('project.show', projectId);
         }
+
     }
 });
 
@@ -39225,7 +39230,7 @@ var render = function() {
                       {
                         class: { "has-text-grey-light": !row.is_active },
                         attrs: {
-                          href: row.id,
+                          href: _vm.getProjectUrl(row.id),
                           title: row.is_active ? "" : "Inactive"
                         }
                       },
