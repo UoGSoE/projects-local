@@ -115,4 +115,46 @@ class ProjectTest extends TestCase
         $this->assertEquals(2, $project->programmes()->count());
         $this->assertEquals(1, $project->courses()->count());
     }
+
+    /** @test */
+    public function an_admin_can_see_the_bulk_edit_project_options_page()
+    {
+        $this->withoutExceptionHandling();
+        $admin = create(User::class, ['is_admin' => true]);
+        $ugProject1 = create(Project::class, ['category' => 'undergrad']);
+        $ugProject2 = create(Project::class, ['category' => 'undergrad']);
+        $pgProject = create(Project::class, ['category' => 'postgrad']);
+
+        $response = $this->actingAs($admin)->get(route('admin.project.bulk-options', 'undergrad'));
+
+        $response->assertSuccessful();
+        $response->assertSee($ugProject1->title);
+        $response->assertSee($ugProject2->title);
+        $response->assertDontSee($pgProject->title);
+    }
+
+    /** @test */
+    public function an_admin_can_bulk_update_project_options()
+    {
+        $this->withoutExceptionHandling();
+        $admin = create(User::class, ['is_admin' => true]);
+        $ugProject1 = create(Project::class, ['category' => 'undergrad', 'is_active' => true]);
+        $ugProject2 = create(Project::class, ['category' => 'undergrad', 'is_active' => false]);
+        $ugProject3 = create(Project::class, ['category' => 'undergrad', 'is_active' => true]);
+
+        $response = $this->actingAs($admin)->post(route('admin.project.bulk-options.update', ['category' => 'undergrad']), [
+            'active' => [
+                $ugProject1->id => 0,
+                $ugProject2->id => 1,
+            ],
+            'delete' => [
+                $ugProject3->id => 1,
+            ]
+        ]);
+
+        $response->assertRedirect(route('admin.project.index', ['category' => 'undergrad']));
+        $this->assertFalse($ugProject1->fresh()->isActive());
+        $this->assertTrue($ugProject2->fresh()->isActive());
+        $this->assertDatabaseMissing('projects', ['id' => $ugProject3->id]);
+    }
 }

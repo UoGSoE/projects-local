@@ -3,18 +3,11 @@
 @section('content')
 
 <h3 class="title is-3">
-    All {{ ucfirst($category) }} Projects
-    <a href="{{ route('admin.project.bulk-options', ['category' => $category]) }}" class="button is-pulled-right">
-        Bulk Options
-    </a>
-    <a href="{{ route('export.projects.excel', ['category' => $category]) }}" class="button is-pulled-right">
-        Export
-    </a>
-    <a href="{{ route('admin.import.second_supervisors.show') }}" class="button is-pulled-right">
-        Import 2nd Supervisors
-    </a>
+    {{ ucfirst($category) }} Project Options
 </h3>
 
+<form method="POST" action="{{ route('admin.project.bulk-options.update', ['category' => $category]) }}">
+@csrf
 <table-component
     :data='@json($projects)'
     sort-by="title"
@@ -47,10 +40,29 @@
     </table-column>
     <table-column show="owner.full_name" label="Owner"></table-column>
     <table-column show="second_supervisor.full_name" label="2nd"></table-column>
-    <table-column show="max_students" label="Max Students"></table-column>
-    <table-column show="students_count" label="Students Applied"></table-column>
-    <table-column show="accepted_students_count" label="Accepted"></table-column>
+    <table-column show="is_active" label="Active?">
+        <template slot-scope="row">
+            <input type="hidden" :name="'active[' + row.id + ']'" value="0">
+            <input type="checkbox" class="checkbox" :name="'active[' + row.id + ']'" :value="1" :checked="row.is_active">
+        </template>
+    </table-column>
+    <table-column show="" label="Delete?">
+        <template slot-scope="row">
+            <input type="hidden" :name="'delete[' + row.id + ']'" value="0">
+            <input type="checkbox" class="checkbox is-danger" :name="'delete[' + row.id + ']'" :value="1">
+        </template>
+    </table-column>
     <table-column show="" :hidden="true" filter-on="course_codes"></table-column>
 </table-component>
+
+<hr />
+
+<div class="field is-pulled-right">
+    <div class="control">
+        <button type="submit" class="button">Save Changes</button>
+    </div>
+</div>
+
+</form>
 
 @endsection

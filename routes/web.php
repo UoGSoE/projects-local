@@ -43,6 +43,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/api/user/{id}', 'Api\UserController@update')->name('api.user.update');
 
         Route::get('/projects/{category}', 'Admin\ProjectController@index')->name('admin.project.index');
+        Route::get('/projects/{category}/options', 'Admin\ProjectOptionsController@index')->name('admin.project.bulk-options');
+        Route::post('/projects/{category}/options', 'Admin\ProjectOptionsController@update')->name('admin.project.bulk-options.update');
+
         Route::get('/choices/{category}', 'Admin\ChoiceController@index')->name('admin.student.choices');
 
         Route::get('/course', 'Admin\CourseController@index')->name('admin.course.index');
