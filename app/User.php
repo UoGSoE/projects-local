@@ -242,6 +242,7 @@ class User extends Authenticatable
             'surname' => $this->surname,
             'forenames' => $this->forenames,
             'type' => $this->getType(),
+            'matric' => $this->matric,
         ];
     }
 }

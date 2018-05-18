@@ -17470,6 +17470,7 @@ Vue.component('new-user', __webpack_require__(171));
 Vue.component('email-edit', __webpack_require__(174));
 Vue.component('manual-student-allocator', __webpack_require__(177));
 Vue.component('project-bulk-options', __webpack_require__(191));
+Vue.component('course-student-list', __webpack_require__(194));
 
 Vue.component('table-component', __WEBPACK_IMPORTED_MODULE_0_vue_table_component__["TableComponent"]);
 Vue.component('table-column', __WEBPACK_IMPORTED_MODULE_0_vue_table_component__["TableColumn"]);
@@ -39446,6 +39447,213 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-c467d56c", module.exports)
+  }
+}
+
+/***/ }),
+/* 194 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(195)
+/* template */
+var __vue_template__ = __webpack_require__(196)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/CourseStudentList.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-5cdcda37", Component.options)
+  } else {
+    hotAPI.reload("data-v-5cdcda37", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 195 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['students'],
+    data: function data() {
+        return {
+            studentList: this.students,
+            selectedStudent: {},
+            showConfirmation: false
+        };
+    },
+
+    methods: {
+        showUserUrl: function showUserUrl(userId) {
+            return route('admin.user.show', userId);
+        },
+        confirmRemoveStudent: function confirmRemoveStudent(studentId) {
+            this.selectedStudent = studentId;
+            this.showConfirmation = true;
+        },
+        removeStudent: function removeStudent() {
+            var _this = this;
+
+            axios.delete(route('admin.user.delete', this.selectedStudent.id)).then(function (response) {
+                var index = _this.studentList.findIndex(function (student) {
+                    return student.id == _this.selectedStudent.id;
+                });
+                _this.studentList.splice(index, 1);
+                _this.showConfirmation = false;
+                _this.selectedStudent = {};
+            }).catch(function (error) {
+                console.log(error);
+            });
+        }
+    }
+});
+
+/***/ }),
+/* 196 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c(
+        "ul",
+        _vm._l(_vm.studentList, function(student) {
+          return _c("li", { staticClass: "columns" }, [
+            _c(
+              "span",
+              {
+                staticClass: "column",
+                staticStyle: { "padding-bottom": "3px", "padding-top": "3px" }
+              },
+              [
+                _c("a", { attrs: { href: "getUserUrl(student.id)" } }, [
+                  _vm._v(
+                    "\n\t\t\t\t\t\t" +
+                      _vm._s(student.full_name) +
+                      " (" +
+                      _vm._s(student.matric) +
+                      ")\n\t\t\t\t\t"
+                  )
+                ])
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "span",
+              {
+                staticClass: "column",
+                staticStyle: { "padding-bottom": "3px", "padding-top": "3px" }
+              },
+              [
+                _c(
+                  "button",
+                  {
+                    staticClass: "button is-text has-text-danger is-small",
+                    on: {
+                      click: function($event) {
+                        _vm.confirmRemoveStudent(student)
+                      }
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n                        Remove\n                    "
+                    )
+                  ]
+                )
+              ]
+            )
+          ])
+        })
+      ),
+      _vm._v(" "),
+      _c(
+        "confirmation-dialog",
+        {
+          attrs: { show: _vm.showConfirmation },
+          on: {
+            cancel: function($event) {
+              _vm.showConfirmation = false
+            },
+            confirm: _vm.removeStudent
+          }
+        },
+        [
+          _vm._v(
+            "\n            Do you really want to delete " +
+              _vm._s(_vm.selectedStudent.full_name) +
+              "?\n        "
+          )
+        ]
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-5cdcda37", module.exports)
   }
 }
 
