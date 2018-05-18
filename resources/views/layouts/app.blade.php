@@ -52,7 +52,10 @@
     <script>
         (function() {
             setTimeout(() => {
-                document.querySelector('#success-box').classList.add('fadeout-success');
+                const box = document.querySelector('#success-box');
+                if (box) {
+                    box.classList.add('fadeout-success');
+                }
             }, 2000);
         })();
     </script>

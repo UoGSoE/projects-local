@@ -17469,6 +17469,7 @@ Vue.component('admin-toggle', __webpack_require__(168));
 Vue.component('new-user', __webpack_require__(171));
 Vue.component('email-edit', __webpack_require__(174));
 Vue.component('manual-student-allocator', __webpack_require__(177));
+Vue.component('project-bulk-options', __webpack_require__(191));
 
 Vue.component('table-component', __WEBPACK_IMPORTED_MODULE_0_vue_table_component__["TableComponent"]);
 Vue.component('table-column', __WEBPACK_IMPORTED_MODULE_0_vue_table_component__["TableColumn"]);
@@ -39008,6 +39009,440 @@ module.exports = function (css) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 190 */,
+/* 191 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(192)
+/* template */
+var __vue_template__ = __webpack_require__(193)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/ProjectBulkOptions.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-c467d56c", Component.options)
+  } else {
+    hotAPI.reload("data-v-c467d56c", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 192 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['projects'],
+    data: function data() {
+        return {
+            actives: [],
+            deletes: [],
+            showConfirmation: false
+        };
+    },
+
+    computed: {
+        numberToDelete: function numberToDelete() {
+            return this.deletes.length;
+        }
+    },
+    created: function created() {
+        var _this = this;
+
+        this.projects.forEach(function (project) {
+            _this.actives.push({
+                id: project.id,
+                is_active: project.is_active
+            });
+        });
+    },
+
+    methods: {
+        submit: function submit() {
+            if (this.numberToDelete > 0) {
+                this.showConfirmation = true;
+                return;
+            } else {
+                this.reallySubmit();
+            }
+        },
+        reallySubmit: function reallySubmit() {
+            axios.post(route('admin.project.bulk-options.update', 'undergrad'), {
+                active: this.actives,
+                delete: this.deletes
+            }).then(function (response) {
+                location.reload();
+            }).catch(function (error) {
+                console.log('Boo');
+            });
+        },
+        toggleActive: function toggleActive(id) {
+            var index = this.actives.findIndex(function (project) {
+                return project.id == id;
+            });
+            this.actives[index].is_active = !this.actives[index].is_active;
+        },
+        isActive: function isActive(id) {
+            var index = this.actives.findIndex(function (project) {
+                return project.id == id;
+            });
+            return this.actives[index].is_active;
+        }
+    }
+});
+
+/***/ }),
+/* 193 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c(
+        "table-component",
+        {
+          attrs: {
+            data: _vm.projects,
+            "sort-by": "title",
+            "sort-order": "asc",
+            "table-class": "table is-fullwidth is-striped is-hover",
+            "thead-class": "cursor-pointer",
+            "show-caption": false,
+            "filter-input-class": "input"
+          }
+        },
+        [
+          _c("table-column", {
+            attrs: { show: "title", label: "Title" },
+            scopedSlots: _vm._u([
+              {
+                key: "default",
+                fn: function(row) {
+                  return [
+                    _c(
+                      "a",
+                      {
+                        class: { "has-text-grey-light": !row.is_active },
+                        attrs: {
+                          href: row.id,
+                          title: row.is_active ? "" : "Inactive"
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n             " +
+                            _vm._s(row.title) +
+                            "\n            "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    row.is_confidential
+                      ? _c(
+                          "span",
+                          {
+                            staticClass: "icon is-small",
+                            attrs: { title: "Confidential" }
+                          },
+                          [
+                            _c("i", [
+                              _c(
+                                "svg",
+                                {
+                                  attrs: {
+                                    xmlns: "http://www.w3.org/2000/svg",
+                                    viewBox: "0 0 20 20"
+                                  }
+                                },
+                                [
+                                  _c("path", {
+                                    attrs: {
+                                      d:
+                                        "M4 8V6a6 6 0 1 1 12 0v2h1a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-8c0-1.1.9-2 2-2h1zm5 6.73V17h2v-2.27a2 2 0 1 0-2 0zM7 6v2h6V6a3 3 0 0 0-6 0z"
+                                    }
+                                  })
+                                ]
+                              )
+                            ])
+                          ]
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
+                    row.is_placement
+                      ? _c(
+                          "span",
+                          {
+                            staticClass: "icon is-small",
+                            attrs: { title: "Placement" }
+                          },
+                          [
+                            _c("i", [
+                              _c(
+                                "svg",
+                                {
+                                  attrs: {
+                                    xmlns: "http://www.w3.org/2000/svg",
+                                    viewBox: "0 0 20 20"
+                                  }
+                                },
+                                [
+                                  _c("path", {
+                                    attrs: {
+                                      d:
+                                        "M10 20S3 10.87 3 7a7 7 0 1 1 14 0c0 3.87-7 13-7 13zm0-11a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"
+                                    }
+                                  })
+                                ]
+                              )
+                            ])
+                          ]
+                        )
+                      : _vm._e()
+                  ]
+                }
+              }
+            ])
+          }),
+          _vm._v(" "),
+          _c("table-column", {
+            attrs: { show: "owner.full_name", label: "Owner" }
+          }),
+          _vm._v(" "),
+          _c("table-column", {
+            attrs: { show: "second_supervisor.full_name", label: "2nd" }
+          }),
+          _vm._v(" "),
+          _c("table-column", {
+            attrs: { show: "rand()", label: "Active?" },
+            scopedSlots: _vm._u([
+              {
+                key: "default",
+                fn: function(row) {
+                  return [
+                    _c("input", {
+                      staticClass: "checkbox",
+                      attrs: { type: "checkbox", id: "active" + row.id },
+                      domProps: { checked: _vm.isActive(row.id) },
+                      on: {
+                        click: function($event) {
+                          _vm.toggleActive(row.id)
+                        }
+                      }
+                    })
+                  ]
+                }
+              }
+            ])
+          }),
+          _vm._v(" "),
+          _c("table-column", {
+            attrs: { show: "row.id", label: "Delete?" },
+            scopedSlots: _vm._u([
+              {
+                key: "default",
+                fn: function(row) {
+                  return [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.deletes,
+                          expression: "deletes"
+                        }
+                      ],
+                      staticClass: "checkbox is-danger",
+                      attrs: { type: "checkbox", id: "delete" + row.id },
+                      domProps: {
+                        value: row.id,
+                        checked: Array.isArray(_vm.deletes)
+                          ? _vm._i(_vm.deletes, row.id) > -1
+                          : _vm.deletes
+                      },
+                      on: {
+                        change: function($event) {
+                          var $$a = _vm.deletes,
+                            $$el = $event.target,
+                            $$c = $$el.checked ? true : false
+                          if (Array.isArray($$a)) {
+                            var $$v = row.id,
+                              $$i = _vm._i($$a, $$v)
+                            if ($$el.checked) {
+                              $$i < 0 && (_vm.deletes = $$a.concat([$$v]))
+                            } else {
+                              $$i > -1 &&
+                                (_vm.deletes = $$a
+                                  .slice(0, $$i)
+                                  .concat($$a.slice($$i + 1)))
+                            }
+                          } else {
+                            _vm.deletes = $$c
+                          }
+                        }
+                      }
+                    })
+                  ]
+                }
+              }
+            ])
+          }),
+          _vm._v(" "),
+          _c("table-column", {
+            attrs: { show: "", hidden: true, "filter-on": "course_codes" }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c("hr"),
+      _vm._v(" "),
+      _c("div", { staticClass: "field is-pulled-right" }, [
+        _c("div", { staticClass: "control" }, [
+          _c(
+            "button",
+            {
+              staticClass: "button",
+              attrs: { type: "button" },
+              on: { click: _vm.submit }
+            },
+            [_vm._v("Save Changes")]
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "confirmation-dialog",
+        {
+          attrs: { show: _vm.showConfirmation },
+          on: {
+            cancel: function($event) {
+              _vm.showConfirmation = false
+            },
+            confirm: _vm.reallySubmit
+          }
+        },
+        [
+          _vm._v(
+            "\n    Do you really want to delete " +
+              _vm._s(_vm.numberToDelete) +
+              " projects?\n"
+          )
+        ]
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-c467d56c", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

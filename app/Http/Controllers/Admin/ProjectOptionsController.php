@@ -29,14 +29,13 @@ class ProjectOptionsController extends Controller
             'active' => 'array',
             'delete' => 'array',
         ]);
-
-        collect($request->active)->each(function ($newValue, $projectId) {
-            Project::findOrFail($projectId)->update(['is_active' => $newValue]);
+        collect($request->active)->reject(function ($obj) {
+            return $obj['id'] == 0;
+        })->each(function ($obj) {
+            Project::findOrFail($obj['id'])->update(['is_active' => $obj['is_active']]);
         });
 
-        collect($request->delete)->filter(function ($flag, $projectId) {
-            return $flag == 1;
-        })->each(function ($flag, $projectId) {
+        collect($request->delete)->each(function ($projectId) {
             Project::findorFail($projectId)->delete();
         });
 

@@ -144,11 +144,17 @@ class ProjectTest extends TestCase
 
         $response = $this->actingAs($admin)->post(route('admin.project.bulk-options.update', ['category' => 'undergrad']), [
             'active' => [
-                $ugProject1->id => 0,
-                $ugProject2->id => 1,
+                [
+                    'id' => $ugProject1->id,
+                    'is_active' => 0,
+                ],
+                [
+                    'id' => $ugProject2->id,
+                    'is_active' => 1,
+                ],
             ],
             'delete' => [
-                $ugProject3->id => 1,
+                $ugProject3->id,
             ]
         ]);
 
