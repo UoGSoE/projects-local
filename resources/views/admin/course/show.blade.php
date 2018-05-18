@@ -35,15 +35,9 @@
                 <button class="button is-text is-pulled-right has-text-danger has-text-weight-semibold" @click.prevent="showConfirmation = true">Remove All Students</button>
 
 		</h4>
-		<ul>
-		@foreach ($course->students as $student)
-			<li>
-				<a href="{{ route('admin.user.show', $student->id) }}">
-					{{ $student->full_name }} ({{ $student->matric }})
-				</a>
-			</li>
-		@endforeach
-		</ul>
+
+		<course-student-list :students='@json($course->students)'></course-student-list>
+
 	</div>
 	<div class="column">
 		<h4 class="title is-4">

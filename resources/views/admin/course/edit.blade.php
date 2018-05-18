@@ -30,15 +30,7 @@
             Students
             <a href="{{ route('admin.course.enrollment', $course->id) }}" class="button">Upload student list</a>
         </h3>
-        <ul>
-            @foreach ($course->students as $student)
-                <li>
-                    <a href="{{ route('admin.user.show', $student->id) }}">
-                        {{ $student->matric }} {{ $student->full_name }}
-                    </a>
-                </li>
-            @endforeach
-        </ul>
+        <course-student-list :students='@json($course->students)'></course-student-list>
     </div>
 </div>
 

@@ -96,6 +96,11 @@ class Project extends Model
         return ! $this->isInactive();
     }
 
+    public function markActive()
+    {
+        $this->update(['is_active' => true]);
+    }
+
     public function isConfidential()
     {
         return $this->is_confidential;
