@@ -7,8 +7,8 @@
 </h3>
 
 <p class="subtitle">
-    Note: This will <b>replace</b> all students currently on the course. Any students
-    not included on the spreadsheet will be <b>removed</b> from the system.
+    Note: This will <b>add</b> students to the course. Any students currently on
+    the course will be left in place.
 </p>
 
 <form method="POST" action="{{ route('admin.course.enroll', $course->id) }}" enctype="multipart/form-data">
