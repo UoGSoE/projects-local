@@ -1,6 +1,4 @@
 .git
-storage/*
-bootstrap/cache/*
 tests/Browser/screenshots
 tests/Browser/console
 node_modules
