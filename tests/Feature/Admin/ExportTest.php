@@ -28,7 +28,7 @@ class ExportTest extends TestCase
 
         $response->assertSuccessful();
         $this->assertEquals('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', $response->headers->get('content-type'));
-        $this->assertEquals('attachment; filename="uog_project_data.xlsx"', $response->headers->get('content-disposition'));
+        $this->assertEquals('attachment; filename=uog_project_data.xlsx', $response->headers->get('content-disposition'));
     }
 
     /** @test */
@@ -47,7 +47,7 @@ class ExportTest extends TestCase
 
         $response->assertSuccessful();
         $this->assertEquals('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', $response->headers->get('content-type'));
-        $this->assertEquals('attachment; filename="uog_undergrad_project_data.xlsx"', $response->headers->get('content-disposition'));
+        $this->assertEquals('attachment; filename=uog_undergrad_project_data.xlsx', $response->headers->get('content-disposition'));
     }
 
     /** @test */
@@ -66,7 +66,6 @@ class ExportTest extends TestCase
 
         $response->assertSuccessful();
         $this->assertEquals('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', $response->headers->get('content-type'));
-        $this->assertEquals('attachment; filename="uog_postgrad_project_data.xlsx"', $response->headers->get('content-disposition'));
+        $this->assertEquals('attachment; filename=uog_postgrad_project_data.xlsx', $response->headers->get('content-disposition'));
     }
-
 }
