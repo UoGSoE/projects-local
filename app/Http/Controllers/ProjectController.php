@@ -25,12 +25,18 @@ class ProjectController extends Controller
         ]);
 
         return view('project.create', [
-            'project' => new Project(['category' => $request->type, 'max_students' => 1, 'is_active' => true]),
+            'project' => new Project([
+                'category' => $request->type,
+                'max_students' => 1,
+                'is_active' => true,
+                'staff_id' => auth()->id(),
+            ]),
             'programmes' => Programme::where('category', '=', $request->type)->orderBy('title')->get(),
             'courses' => Course::where('category', '=', $request->type)->orderBy('title')->get(),
             'staff' => User::staff()->orderBy('surname')->get(),
         ]);
     }
+
     public function store(Request $request)
     {
         $data = $request->validate([
