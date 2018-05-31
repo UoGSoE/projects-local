@@ -37,11 +37,8 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
-        if (Auth::check() && $this->shouldReport($exception)) { // Confirm the authenticated user, and that the errors should be reported.
-            $user = Auth::user(); // Store the user in a variable (I think it reads more cleanly)
-            \Log::error($exception->getMessage(), [
-                'person' => ['id' => $user->id, 'username' => $user->username] // Pass the exception message and user-specific data.
-            ]);
+        if (app()->bound('sentry') && $this->shouldReport($exception)) {
+            app('sentry')->captureException($exception);
         }
         parent::report($exception);
     }

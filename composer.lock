@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1d4d2662b44d84a949f5446f824c3b98",
+    "content-hash": "65a608f2018476353898816ac2a401db",
     "packages": [
         {
             "name": "box/spout",
@@ -1596,132 +1596,132 @@
             "time": "2018-01-20T00:28:24+00:00"
         },
         {
-            "name": "rollbar/rollbar",
-            "version": "v1.5.1",
+            "name": "sentry/sentry",
+            "version": "1.9.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/rollbar/rollbar-php.git",
-                "reference": "f8816f2e633f7289c373bb35c1979a665007d90b"
+                "url": "https://github.com/getsentry/sentry-php.git",
+                "reference": "c90567d78382b803e563939654d1563ddee61707"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rollbar/rollbar-php/zipball/f8816f2e633f7289c373bb35c1979a665007d90b",
-                "reference": "f8816f2e633f7289c373bb35c1979a665007d90b",
+                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/c90567d78382b803e563939654d1563ddee61707",
+                "reference": "c90567d78382b803e563939654d1563ddee61707",
                 "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
-                "monolog/monolog": "^1.23",
-                "psr/log": "^1.0.1"
+                "php": "^5.3|^7.0"
+            },
+            "conflict": {
+                "raven/raven": "*"
             },
             "require-dev": {
-                "codeclimate/php-test-reporter": "dev-master",
-                "mockery/mockery": "0.9.*",
-                "monolog/monolog": "^1.23",
-                "packfire/php5.3-compat": "*",
-                "phpmd/phpmd": "@stable",
-                "phpunit/phpunit": "4.8.*",
-                "squizlabs/php_codesniffer": "2.*"
+                "friendsofphp/php-cs-fixer": "^1.8.0",
+                "monolog/monolog": "*",
+                "phpunit/phpunit": "^4.8.35 || ^5.7"
             },
             "suggest": {
-                "fluent/logger": "Needed to use the 'fluent' handler for fluentd support",
-                "packfire/php5.3-compat": "for backward compatibility with PHP 5.3"
+                "ext-hash": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "monolog/monolog": "Automatically capture Monolog events as breadcrumbs"
             },
+            "bin": [
+                "bin/sentry"
+            ],
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.9.x-dev"
+                }
+            },
             "autoload": {
-                "psr-4": {
-                    "Rollbar\\": "src/"
+                "psr-0": {
+                    "Raven_": "lib/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "MIT"
+                "BSD-3-Clause"
             ],
             "authors": [
                 {
-                    "name": "Rollbar, Inc.",
-                    "email": "support@rollbar.com",
-                    "role": "Developer"
+                    "name": "David Cramer",
+                    "email": "dcramer@gmail.com"
                 }
             ],
-            "description": "Monitors errors and exceptions and reports them to Rollbar",
-            "homepage": "http://github.com/rollbar/rollbar-php",
+            "description": "A PHP client for Sentry (http://getsentry.com)",
+            "homepage": "http://getsentry.com",
             "keywords": [
-                "debugging",
-                "errors",
-                "exceptions",
-                "logging",
-                "monitoring"
+                "log",
+                "logging"
             ],
-            "time": "2018-05-20T04:54:14+00:00"
+            "time": "2018-05-03T12:06:52+00:00"
         },
         {
-            "name": "rollbar/rollbar-laravel",
-            "version": "v2.3.0",
+            "name": "sentry/sentry-laravel",
+            "version": "0.9.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/rollbar/rollbar-php-laravel.git",
-                "reference": "babf54eecde563d9a53fac6405f3b2c789af6feb"
+                "url": "https://github.com/getsentry/sentry-laravel.git",
+                "reference": "4b2a43c28bf8b4f72c2c32005ea75a72cd7f88ad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rollbar/rollbar-php-laravel/zipball/babf54eecde563d9a53fac6405f3b2c789af6feb",
-                "reference": "babf54eecde563d9a53fac6405f3b2c789af6feb",
+                "url": "https://api.github.com/repos/getsentry/sentry-laravel/zipball/4b2a43c28bf8b4f72c2c32005ea75a72cd7f88ad",
+                "reference": "4b2a43c28bf8b4f72c2c32005ea75a72cd7f88ad",
                 "shasum": ""
             },
             "require": {
-                "illuminate/support": "^4.0|^5.0",
-                "php": ">=5.4",
-                "rollbar/rollbar": "^1"
+                "illuminate/support": "5.0.*|5.1.*|5.2.*|5.3.*|5.4.*|5.5.*|5.6.*",
+                "php": "^5.4||^7.0",
+                "sentry/sentry": "^1.9.0"
             },
             "require-dev": {
-                "mockery/mockery": "^0.9",
-                "orchestra/testbench": "~3.0",
-                "phpunit/phpunit": "~4.0|~5.0",
-                "satooshi/php-coveralls": "^1.0",
-                "squizlabs/php_codesniffer": "2.*"
+                "friendsofphp/php-cs-fixer": "2.2.*",
+                "laravel/framework": "5.6.*",
+                "orchestra/testbench": "3.6.*",
+                "phpunit/phpunit": "7.0.*"
             },
             "type": "library",
             "extra": {
+                "branch-alias": {
+                    "dev-master": "0.9.x-dev"
+                },
                 "laravel": {
                     "providers": [
-                        "Rollbar\\Laravel\\RollbarServiceProvider"
+                        "Sentry\\SentryLaravel\\SentryLaravelServiceProvider"
                     ],
                     "aliases": {
-                        "Rollbar": "Rollbar\\Laravel\\Facades\\Rollbar"
+                        "Sentry": "Sentry\\SentryLaravel\\SentryFacade"
                     }
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "Rollbar\\Laravel\\": "src/"
+                "psr-0": {
+                    "Sentry\\SentryLaravel\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "MIT"
+                "Apache-2.0"
             ],
             "authors": [
                 {
-                    "name": "Jens Segers",
-                    "homepage": "https://jenssegers.com"
-                },
-                {
-                    "name": "Artur Moczulski",
-                    "email": "artur.moczulski@gmail.com",
-                    "role": "Contractor @ Rollbar, Inc."
+                    "name": "David Cramer",
+                    "email": "dcramer@gmail.com"
                 }
             ],
-            "description": "Rollbar error monitoring integration for Laravel projects",
-            "homepage": "https://github.com/rollbar/rollbar-php-laravel",
+            "description": "Laravel integration for Sentry (https://sentry.io)",
+            "homepage": "https://sentry.io",
             "keywords": [
-                "error",
+                "errors",
                 "laravel",
                 "logging",
-                "monitoring",
-                "rollbar"
+                "sentry"
             ],
-            "time": "2018-03-22T05:59:47+00:00"
+            "time": "2018-05-03T13:05:35+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
