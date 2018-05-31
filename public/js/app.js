@@ -32341,7 +32341,7 @@ var render = function() {
                 staticStyle: { "padding-bottom": "3px", "padding-top": "3px" }
               },
               [
-                _c("a", { attrs: { href: "getUserUrl(student.id)" } }, [
+                _c("a", { attrs: { href: _vm.showUserUrl(student.id) } }, [
                   _vm._v(
                     "\n\t\t\t\t\t\t" +
                       _vm._s(student.full_name) +

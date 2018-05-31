@@ -3,7 +3,7 @@
         <ul>
 			<li class="columns" v-for="student in studentList">
 				<span class="column" style="padding-bottom: 3px; padding-top: 3px;">
-					<a href="getUserUrl(student.id)">
+					<a :href="showUserUrl(student.id)">
 						{{ student.full_name }} ({{ student.matric }})
 					</a>
 				</span>
