@@ -17445,7 +17445,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_pikaday___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_pikaday__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_pikaday_css_pikaday_css__ = __webpack_require__(190);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_pikaday_css_pikaday_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_pikaday_css_pikaday_css__);
-
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -17462,115 +17461,116 @@ window.Vue = __webpack_require__(156);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('confirmation-dialog', __webpack_require__(159));
-Vue.component('project-list', __webpack_require__(162));
-Vue.component('student-list', __webpack_require__(165));
-Vue.component('admin-toggle', __webpack_require__(168));
-Vue.component('new-user', __webpack_require__(171));
-Vue.component('email-edit', __webpack_require__(174));
-Vue.component('manual-student-allocator', __webpack_require__(177));
-Vue.component('project-bulk-options', __webpack_require__(180));
-Vue.component('course-student-list', __webpack_require__(183));
+Vue.component("confirmation-dialog", __webpack_require__(159));
+Vue.component("project-list", __webpack_require__(162));
+Vue.component("student-list", __webpack_require__(165));
+Vue.component("admin-toggle", __webpack_require__(168));
+Vue.component("new-user", __webpack_require__(171));
+Vue.component("email-edit", __webpack_require__(174));
+Vue.component("manual-student-allocator", __webpack_require__(177));
+Vue.component("project-bulk-options", __webpack_require__(180));
+Vue.component("course-student-list", __webpack_require__(183));
+Vue.component("deletable-list", __webpack_require__(199));
 
-Vue.component('table-component', __WEBPACK_IMPORTED_MODULE_0_vue_table_component__["TableComponent"]);
-Vue.component('table-column', __WEBPACK_IMPORTED_MODULE_0_vue_table_component__["TableColumn"]);
+Vue.component("table-component", __WEBPACK_IMPORTED_MODULE_0_vue_table_component__["TableComponent"]);
+Vue.component("table-column", __WEBPACK_IMPORTED_MODULE_0_vue_table_component__["TableColumn"]);
 
 window.moment = __webpack_require__(0);
 
 
 Vue.directive("pikaday", {
-    bind: function bind(el, binding) {
-        el.pikadayInstance = new __WEBPACK_IMPORTED_MODULE_1_pikaday___default.a({
-            field: el,
-            format: 'DD/MM/YYYY',
-            onSelect: function onSelect() {
-                var event = new Event("input", { bubbles: true });
-                el.value = el.pikadayInstance.toString();
-                el.dispatchEvent(event);
-            }
-            // add more Pikaday options below if you need
-            // all available options are listed on https://github.com/dbushell/Pikaday
-        });
-    },
+  bind: function bind(el, binding) {
+    el.pikadayInstance = new __WEBPACK_IMPORTED_MODULE_1_pikaday___default.a({
+      field: el,
+      format: "DD/MM/YYYY",
+      onSelect: function onSelect() {
+        var event = new Event("input", { bubbles: true });
+        el.value = el.pikadayInstance.toString();
+        el.dispatchEvent(event);
+      }
+      // add more Pikaday options below if you need
+      // all available options are listed on https://github.com/dbushell/Pikaday
+    });
+  },
 
-    unbind: function unbind(el) {
-        el.pikadayInstance.destroy();
-    }
+  unbind: function unbind(el) {
+    el.pikadayInstance.destroy();
+  }
 });
 
 var app = new Vue({
-    el: '#app',
+  el: "#app",
 
-    data: {
-        showConfirmation: false,
-        openProjects: [],
-        selectedStudent: null
+  data: {
+    showConfirmation: false,
+    openProjects: [],
+    selectedStudent: null
+  },
+
+  methods: {
+    showUserUrl: function showUserUrl(userId) {
+      return route("admin.user.show", userId);
     },
 
-    methods: {
-        showUserUrl: function showUserUrl(userId) {
-            return route('admin.user.show', userId);
-        },
+    getProjectUrl: function getProjectUrl(projectId) {
+      return route("project.show", projectId);
+    },
 
-        getProjectUrl: function getProjectUrl(projectId) {
-            return route('project.show', projectId);
-        },
+    editProgrammeUrl: function editProgrammeUrl(programmeId) {
+      return route("admin.programme.edit", programmeId);
+    },
 
-        editProgrammeUrl: function editProgrammeUrl(programmeId) {
-            return route('admin.programme.edit', programmeId);
-        },
+    deleteProject: function deleteProject(projectId) {
+      console.log(projectId);
+      this.showConfirmation = false;
+      axios.delete(route("project.delete", projectId)).then(function (response) {
+        window.location = route("home");
+      });
+    },
 
-        deleteProject: function deleteProject(projectId) {
-            console.log(projectId);
-            this.showConfirmation = false;
-            axios.delete(route('project.delete', projectId)).then(function (response) {
-                window.location = route('home');
-            });
-        },
+    deleteCourse: function deleteCourse(courseId) {
+      console.log(courseId);
+      this.showConfirmation = false;
+      axios.delete(route("admin.course.destroy", courseId)).then(function (response) {
+        window.location = route("admin.course.index");
+      });
+    },
 
-        deleteCourse: function deleteCourse(courseId) {
-            console.log(courseId);
-            this.showConfirmation = false;
-            axios.delete(route('admin.course.destroy', courseId)).then(function (response) {
-                window.location = route('admin.course.index');
-            });
-        },
+    deleteProgramme: function deleteProgramme(programmeId) {
+      console.log(programmeId);
+      this.showConfirmation = false;
+      axios.delete(route("admin.programme.destroy", programmeId)).then(function (response) {
+        window.location = route("admin.programme.index");
+      });
+    },
 
-        deleteProgramme: function deleteProgramme(programmeId) {
-            console.log(programmeId);
-            this.showConfirmation = false;
-            axios.delete(route('admin.programme.destroy', programmeId)).then(function (response) {
-                window.location = route('admin.programme.index');
-            });
-        },
+    deleteCourseStudents: function deleteCourseStudents(courseId) {
+      console.log(courseId);
 
-        deleteCourseStudents: function deleteCourseStudents(courseId) {
-            console.log(courseId);
+      this.showConfirmation = false;
+      axios.delete(route("course.remove_students", courseId)).then(function (response) {
+        window.location = route("admin.course.show", courseId);
+      });
+    },
 
-            this.showConfirmation = false;
-            axios.delete(route('course.remove_students', courseId)).then(function (response) {
-                window.location = route('admin.course.show', courseId);
-            });
-        },
+    deleteStudents: function deleteStudents(category) {
+      console.log(category);
 
-        deleteStudents: function deleteStudents(category) {
-            console.log(category);
+      this.showConfirmation = false;
+      axios.delete(route("students.remove_" + category)).then(function (response) {
+        window.location = route("admin.users", category);
+      });
+    },
 
-            this.showConfirmation = false;
-            axios.delete(route('students.remove_' + category)).then(function (response) {
-                window.location = route('admin.users', category);
-            });
-        },
+    deleteUser: function deleteUser(userId) {
+      console.log(userId);
 
-        deleteUser: function deleteUser(userId) {
-            console.log(userId);
-
-            this.showConfirmation = false;
-            axios.delete(route('admin.user.delete', userId)).then(function (response) {
-                window.location = route('home');
-            });
-        }
+      this.showConfirmation = false;
+      axios.delete(route("admin.user.delete", userId)).then(function (response) {
+        window.location = route("home");
+      });
     }
+  }
 });
 
 /***/ }),
@@ -32283,6 +32283,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["students"],
@@ -32297,10 +32301,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       return route("admin.user.show", userId);
     },
     confirmRemoveStudent: function confirmRemoveStudent(student) {
-      if (student.should_remove) {
-        this.removeStudent(student);
-        return;
-      }
       student.should_remove = true;
       var index = this.studentList.findIndex(function (existingStudent) {
         return existingStudent.id == student.id;
@@ -32308,14 +32308,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.studentList.splice(index, 1, student);
     },
     removeStudent: function removeStudent(student) {
-      var _this = this;
-
-      axios.delete(route("admin.user.delete", student.id)).then(function (response) {
-        var index = _this.studentList.findIndex(function (existingStudent) {
-          return existingStudent.id == student.id;
-        });
-        _this.studentList.splice(index, 1);
-      }).catch(function (error) {
+      axios.delete(route("admin.user.delete", student.id)).then(function (response) {}).catch(function (error) {
         console.log(error);
       });
     }
@@ -32330,74 +32323,111 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c(
-      "ul",
-      _vm._l(_vm.studentList, function(student) {
-        return _c("li", { key: student.id, staticClass: "columns" }, [
-          _c(
-            "span",
-            {
-              staticClass: "column",
-              staticStyle: { "padding-bottom": "3px", "padding-top": "3px" }
-            },
-            [
-              _c("a", { attrs: { href: _vm.showUserUrl(student.id) } }, [
-                _vm._v(
-                  "\n\t\t\t\t\t\t" +
-                    _vm._s(student.full_name) +
-                    " (" +
-                    _vm._s(student.matric) +
-                    ")\n\t\t\t\t\t"
-                )
-              ])
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "span",
-            {
-              staticClass: "column",
-              staticStyle: { "padding-bottom": "3px", "padding-top": "3px" }
-            },
-            [
-              _c(
-                "button",
-                {
-                  staticClass: "button is-text has-text-danger is-small",
-                  on: {
-                    click: function($event) {
-                      _vm.confirmRemoveStudent(student)
-                    }
-                  }
-                },
-                [
-                  _c(
-                    "transition",
-                    { attrs: { name: "fade", mode: "out-in" } },
-                    [
-                      _c("span", { key: student.should_remove }, [
-                        _vm._v(
-                          "\n                                " +
-                            _vm._s(
-                              student.should_remove
-                                ? "Really Remove?"
-                                : "Remove"
-                            ) +
-                            "\n                            "
+  return _c(
+    "div",
+    [
+      _c("deletable-list", {
+        attrs: { "delete-callback": _vm.removeStudent },
+        scopedSlots: _vm._u([
+          {
+            key: "default",
+            fn: function(ref) {
+              var items = ref.items
+              var removeItem = ref.removeItem
+              var clear = ref.clear
+              return _c(
+                "ul",
+                {},
+                _vm._l(items, function(student) {
+                  return _c("li", { key: student.id, staticClass: "columns" }, [
+                    _c(
+                      "span",
+                      {
+                        staticClass: "column",
+                        staticStyle: {
+                          "padding-bottom": "3px",
+                          "padding-top": "3px"
+                        }
+                      },
+                      [
+                        _c(
+                          "a",
+                          { attrs: { href: _vm.showUserUrl(student.id) } },
+                          [
+                            _vm._v(
+                              "\n                        " +
+                                _vm._s(student.full_name) +
+                                " (" +
+                                _vm._s(student.matric) +
+                                ")\n                    "
+                            )
+                          ]
                         )
-                      ])
-                    ]
-                  )
-                ],
-                1
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "span",
+                      {
+                        staticClass: "column",
+                        staticStyle: {
+                          "padding-bottom": "3px",
+                          "padding-top": "3px"
+                        }
+                      },
+                      [
+                        _c(
+                          "transition",
+                          { attrs: { name: "fade", mode: "out-in" } },
+                          [
+                            _c(
+                              "button",
+                              {
+                                key: student.should_remove,
+                                staticClass:
+                                  "button is-text has-text-danger is-small",
+                                on: {
+                                  click: function($event) {
+                                    student.should_remove
+                                      ? removeItem(student)
+                                      : _vm.confirmRemoveStudent(student)
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                            " +
+                                    _vm._s(
+                                      student.should_remove
+                                        ? "Really Remove?"
+                                        : "Remove"
+                                    ) +
+                                    "\n                        "
+                                )
+                              ]
+                            )
+                          ]
+                        )
+                      ],
+                      1
+                    )
+                  ])
+                })
               )
-            ]
-          )
-        ])
+            }
+          }
+        ]),
+        model: {
+          value: _vm.studentList,
+          callback: function($$v) {
+            _vm.studentList = $$v
+          },
+          expression: "studentList"
+        }
       })
-    )
-  ])
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -39649,6 +39679,90 @@ module.exports = function (css) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 196 */,
+/* 197 */,
+/* 198 */,
+/* 199 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(200)
+/* template */
+var __vue_template__ = null
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/DeletableList.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-1f95fb6b", Component.options)
+  } else {
+    hotAPI.reload("data-v-1f95fb6b", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 200 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    value: { required: true },
+    deleteCallback: { default: null }
+  },
+  methods: {
+    removeItem: function removeItem(item) {
+      this.$emit("input", this.value.filter(function (t) {
+        return t.id !== item.id;
+      }));
+      if (this.deleteCallback) {
+        this.deleteCallback(item);
+      }
+    },
+    clear: function clear() {
+      this.$emit("input", []);
+    }
+  },
+  render: function render() {
+    return this.$scopedSlots.default({
+      items: this.value,
+      removeItem: this.removeItem,
+      clear: this.clear
+    });
+  }
+});
 
 /***/ })
 /******/ ]);
