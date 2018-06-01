@@ -8,6 +8,7 @@ RUN apt-get update && \
 
 COPY docker/vhost.conf /etc/apache2/sites-available/000-default.conf
 COPY docker/start.sh /usr/local/bin/start
+COPY docker/ldap.conf /etc/ldap/ldap.conf
 
 RUN chmod u+x /usr/local/bin/start
 
