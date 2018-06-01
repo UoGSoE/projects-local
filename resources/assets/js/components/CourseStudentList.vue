@@ -8,9 +8,9 @@
 					</a>
 				</span>
 				<span class="column" style="padding-bottom: 3px; padding-top: 3px;">
-                    <button class="button is-text has-text-danger is-small" style="position: relative; width: 100%" @click="confirmRemoveStudent(student)">
+                    <button class="button is-text has-text-danger is-small" @click="confirmRemoveStudent(student)">
                         <transition name="fade" mode="out-in">
-                            <span :key="student.should_remove" style="position: absolute; left: 0px">
+                            <span :key="student.should_remove">
                                 {{ student.should_remove ? 'Really Remove?' : 'Remove' }}
                             </span>
                         </transition>

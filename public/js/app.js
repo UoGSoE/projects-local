@@ -32365,7 +32365,6 @@ var render = function() {
                 "button",
                 {
                   staticClass: "button is-text has-text-danger is-small",
-                  staticStyle: { position: "relative", width: "100%" },
                   on: {
                     click: function($event) {
                       _vm.confirmRemoveStudent(student)
@@ -32377,24 +32376,17 @@ var render = function() {
                     "transition",
                     { attrs: { name: "fade", mode: "out-in" } },
                     [
-                      _c(
-                        "span",
-                        {
-                          key: student.should_remove,
-                          staticStyle: { position: "absolute", left: "0px" }
-                        },
-                        [
-                          _vm._v(
-                            "\n                                " +
-                              _vm._s(
-                                student.should_remove
-                                  ? "Really Remove?"
-                                  : "Remove"
-                              ) +
-                              "\n                            "
-                          )
-                        ]
-                      )
+                      _c("span", { key: student.should_remove }, [
+                        _vm._v(
+                          "\n                                " +
+                            _vm._s(
+                              student.should_remove
+                                ? "Really Remove?"
+                                : "Remove"
+                            ) +
+                            "\n                            "
+                        )
+                      ])
                     ]
                   )
                 ],
