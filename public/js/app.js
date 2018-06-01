@@ -32287,6 +32287,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["students"],
@@ -32386,6 +32387,7 @@ var render = function() {
                                 key: student.should_remove,
                                 staticClass:
                                   "button is-text has-text-danger is-small",
+                                attrs: { id: "remove-student-" + student.id },
                                 on: {
                                   click: function($event) {
                                     student.should_remove

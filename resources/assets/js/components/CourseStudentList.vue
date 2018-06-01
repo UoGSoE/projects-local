@@ -11,6 +11,7 @@
                     <span class="column" style="padding-bottom: 3px; padding-top: 3px;">
                         <transition name="fade" mode="out-in">
                             <button
+                              :id="'remove-student-' + student.id"
                               :key="student.should_remove"
                               class="button is-text has-text-danger is-small"
                               @click="student.should_remove ? removeItem(student) : confirmRemoveStudent(student)"
