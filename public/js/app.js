@@ -32285,38 +32285,41 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['students'],
-    data: function data() {
-        return {
-            studentList: this.students,
-            selectedStudent: {},
-            showConfirmation: false
-        };
+  props: ["students"],
+  data: function data() {
+    return {
+      studentList: this.students
+    };
+  },
+
+  methods: {
+    showUserUrl: function showUserUrl(userId) {
+      return route("admin.user.show", userId);
     },
+    confirmRemoveStudent: function confirmRemoveStudent(student) {
+      if (student.should_remove) {
+        this.removeStudent(student);
+        return;
+      }
+      student.should_remove = true;
+      var index = this.studentList.findIndex(function (existingStudent) {
+        return existingStudent.id == student.id;
+      });
+      this.studentList.splice(index, 1, student);
+    },
+    removeStudent: function removeStudent(student) {
+      var _this = this;
 
-    methods: {
-        showUserUrl: function showUserUrl(userId) {
-            return route('admin.user.show', userId);
-        },
-        confirmRemoveStudent: function confirmRemoveStudent(studentId) {
-            this.selectedStudent = studentId;
-            this.showConfirmation = true;
-        },
-        removeStudent: function removeStudent() {
-            var _this = this;
-
-            axios.delete(route('admin.user.delete', this.selectedStudent.id)).then(function (response) {
-                var index = _this.studentList.findIndex(function (student) {
-                    return student.id == _this.selectedStudent.id;
-                });
-                _this.studentList.splice(index, 1);
-                _this.showConfirmation = false;
-                _this.selectedStudent = {};
-            }).catch(function (error) {
-                console.log(error);
-            });
-        }
+      axios.delete(route("admin.user.delete", student.id)).then(function (response) {
+        var index = _this.studentList.findIndex(function (existingStudent) {
+          return existingStudent.id == student.id;
+        });
+        _this.studentList.splice(index, 1);
+      }).catch(function (error) {
+        console.log(error);
+      });
     }
+  }
 });
 
 /***/ }),
@@ -32327,83 +32330,82 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c(
-        "ul",
-        _vm._l(_vm.studentList, function(student) {
-          return _c("li", { staticClass: "columns" }, [
-            _c(
-              "span",
-              {
-                staticClass: "column",
-                staticStyle: { "padding-bottom": "3px", "padding-top": "3px" }
-              },
-              [
-                _c("a", { attrs: { href: _vm.showUserUrl(student.id) } }, [
-                  _vm._v(
-                    "\n\t\t\t\t\t\t" +
-                      _vm._s(student.full_name) +
-                      " (" +
-                      _vm._s(student.matric) +
-                      ")\n\t\t\t\t\t"
-                  )
-                ])
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "span",
-              {
-                staticClass: "column",
-                staticStyle: { "padding-bottom": "3px", "padding-top": "3px" }
-              },
-              [
-                _c(
-                  "button",
-                  {
-                    staticClass: "button is-text has-text-danger is-small",
-                    on: {
-                      click: function($event) {
-                        _vm.confirmRemoveStudent(student)
-                      }
-                    }
-                  },
-                  [
-                    _vm._v(
-                      "\n                        Remove\n                    "
-                    )
-                  ]
-                )
-              ]
-            )
-          ])
-        })
-      ),
-      _vm._v(" "),
-      _c(
-        "confirmation-dialog",
-        {
-          attrs: { show: _vm.showConfirmation },
-          on: {
-            cancel: function($event) {
-              _vm.showConfirmation = false
+  return _c("div", [
+    _c(
+      "ul",
+      _vm._l(_vm.studentList, function(student) {
+        return _c("li", { key: student.id, staticClass: "columns" }, [
+          _c(
+            "span",
+            {
+              staticClass: "column",
+              staticStyle: { "padding-bottom": "3px", "padding-top": "3px" }
             },
-            confirm: _vm.removeStudent
-          }
-        },
-        [
-          _vm._v(
-            "\n            Do you really want to delete " +
-              _vm._s(_vm.selectedStudent.full_name) +
-              "?\n        "
+            [
+              _c("a", { attrs: { href: _vm.showUserUrl(student.id) } }, [
+                _vm._v(
+                  "\n\t\t\t\t\t\t" +
+                    _vm._s(student.full_name) +
+                    " (" +
+                    _vm._s(student.matric) +
+                    ")\n\t\t\t\t\t"
+                )
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "span",
+            {
+              staticClass: "column",
+              staticStyle: { "padding-bottom": "3px", "padding-top": "3px" }
+            },
+            [
+              _c(
+                "button",
+                {
+                  staticClass: "button is-text has-text-danger is-small",
+                  staticStyle: { position: "relative", width: "100%" },
+                  on: {
+                    click: function($event) {
+                      _vm.confirmRemoveStudent(student)
+                    }
+                  }
+                },
+                [
+                  _c(
+                    "transition",
+                    { attrs: { name: "fade", mode: "out-in" } },
+                    [
+                      _c(
+                        "span",
+                        {
+                          key: student.should_remove,
+                          staticStyle: { position: "absolute", left: "0px" }
+                        },
+                        [
+                          _vm._v(
+                            "\n                                " +
+                              _vm._s(
+                                student.should_remove
+                                  ? "Really Remove?"
+                                  : "Remove"
+                              ) +
+                              "\n                            "
+                          )
+                        ]
+                      )
+                    ]
+                  )
+                ],
+                1
+              )
+            ]
           )
-        ]
-      )
-    ],
-    1
-  )
+        ])
+      })
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
