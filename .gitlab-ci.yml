@@ -12,6 +12,8 @@ services:
 variables:
   MYSQL_DATABASE: homestead
   MYSQL_ROOT_PASSWORD: secret
+  MYSQL_USER: homestead
+  MYSQL_PASSWORD: secret
 
 # This folder is cached between builds
 # http://docs.gitlab.com/ce/ci/yaml/README.html#cache
@@ -50,9 +52,10 @@ before_script:
   - php composer.phar install 
 
   # If you need Node.js
-  # - curl -sL https://deb.nodesource.com/setup_8.x | bash -
-  # - npm install
-  # - npm run dev
+  - curl -sL https://deb.nodesource.com/setup_8.x | bash -
+  - apt-get install -y nodejs
+  - npm install
+  - npm run dev
 
   # Generate an application key. Re-cache.
   - php artisan key:generate
