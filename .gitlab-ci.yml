@@ -45,7 +45,7 @@ before_script:
   # DB_DATABASE=project_name
   # DB_USERNAME=root
   # DB_PASSWORD=secret
-  - cp .env.testing .env
+  - cp .env.gitlab .env
 
   # Install Composer and project dependencies.
   - curl -sS https://getcomposer.org/installer | php
