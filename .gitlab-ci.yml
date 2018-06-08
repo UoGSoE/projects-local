@@ -40,14 +40,6 @@ before_script:
   - pecl install xdebug
   - docker-php-ext-enable xdebug
 
-  # Install Composer and project dependencies.
-  - curl -sS https://getcomposer.org/installer | php
-  - php composer.phar install 
-
-  # Install Node dependencies.
-  # comment this out if you don't have a node dependency
-  #- npm install
-
   # Copy over testing configuration.
   # Don't forget to set the database config in .env.testing correctly
   # DB_HOST=mysql
@@ -55,6 +47,14 @@ before_script:
   # DB_USERNAME=root
   # DB_PASSWORD=secret
   - cp .env.testing .env
+
+  # Install Composer and project dependencies.
+  - curl -sS https://getcomposer.org/installer | php
+  - php composer.phar install 
+
+  # Install Node dependencies.
+  # comment this out if you don't have a node dependency
+  #- npm install
 
   # Run npm build
   # comment this out if you don't have a frontend build
@@ -64,7 +64,7 @@ before_script:
 
   # Generate an application key. Re-cache.
   - php artisan key:generate
-  # - php artisan config:cache
+  - php artisan config:clear
 
   # Run database migrations.
   - php artisan migrate
