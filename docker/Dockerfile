@@ -1,4 +1,4 @@
-FROM uogsoe/soe-php-apache:
+FROM uogsoe/soe-php-apache:7.2
 
 COPY docker/start.sh /usr/local/bin/start
 COPY docker/ldap.conf /etc/ldap/ldap.conf
