@@ -35,7 +35,7 @@ before_script:
   - cp .env.gitlab .env
 
   # Install Composer and project dependencies.
-  - php composer.phar install
+  - composer install
 
   # If you need Node.js
   #- curl -sL https://deb.nodesource.com/setup_8.x | bash -
