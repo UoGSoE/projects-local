@@ -77,6 +77,7 @@ class CourseTest extends TestCase
     /** @test */
     public function admins_can_create_a_new_course()
     {
+        $this->refreshDatabase();
         $admin = create(User::class, ['is_admin' => true]);
 
         $response = $this->actingAs($admin)->post(route('admin.course.store'), [
