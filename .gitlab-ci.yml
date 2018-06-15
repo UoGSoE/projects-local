@@ -46,7 +46,7 @@ before_script:
   - php artisan config:cache
 
   # Run database migrations.
-  - php artisan migrate
+  - php artisan migrate:fresh
 
   # Run database seed
   - php artisan db:seed
