@@ -51,8 +51,27 @@ before_script:
 test:
   script:
   # run laravel tests
-  - php vendor/bin/phpunit --coverage-text --colors=never
-
+  - php vendor/bin/phpunit --coverage-text --colors=never --filter ProgrammeTest
+  - php vendor/bin/phpunit --coverage-text --colors=never --filter ConfirmationEmailTest
+  - php vendor/bin/phpunit --coverage-text --colors=never --filter GdprTest
+  - php vendor/bin/phpunit --coverage-text --colors=never --filter ActivityTest
+  - php vendor/bin/phpunit --coverage-text --colors=never --filter ArtisanTest
+  - php vendor/bin/phpunit --coverage-text --colors=never --filter ProjectCopyTest
+  - php vendor/bin/phpunit --coverage-text --colors=never --filter CourseTest
+  - php vendor/bin/phpunit --coverage-text --colors=never --filter ProgrammeTest
+  - php vendor/bin/phpunit --coverage-text --colors=never --filter MaintenanceTest
+  - php vendor/bin/phpunit --coverage-text --colors=never --filter ImpersonationTest
+  - php vendor/bin/phpunit --coverage-text --colors=never --filter ImportSecondSupervisorsTest
+  - php vendor/bin/phpunit --coverage-text --colors=never --filter UserAdminTest
+  - php vendor/bin/phpunit --coverage-text --colors=never --filter ExportTest
+  - php vendor/bin/phpunit --coverage-text --colors=never --filter AcceptStudentsTest
+  - php vendor/bin/phpunit --coverage-text --colors=never --filter ProjectTest
+  - php vendor/bin/phpunit --coverage-text --colors=never --filter CourseEnrollmentTest
+  - php vendor/bin/phpunit --coverage-text --colors=never --filter ReportTest
+  - php vendor/bin/phpunit --coverage-text --colors=never --filter ApplicationTest
+  - php vendor/bin/phpunit --coverage-text --colors=never --filter HomepageTest
+  - php vendor/bin/phpunit --coverage-text --colors=never --filter AcceptingStudentsTest
+  - php vendor/bin/phpunit --coverage-text --colors=never --filter ProjectTest
   # run frontend tests
   # if you have any task for testing frontend
   # set it in your package.json script
