@@ -89,7 +89,6 @@ class CourseTest extends TestCase
         $response->assertStatus(302);
         $response->assertSessionMissing('errors');
         $course = Course::first();
-        dd(Course::all());
 
         $this->assertEquals('A COURSE', $course->title);
         $this->assertEquals('ENG9999', $course->code);
