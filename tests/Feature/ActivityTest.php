@@ -48,7 +48,8 @@ class ActivityTest extends TestCase
     /** @test */
     public function an_event_is_recorded_when_a_user_is_manually_created()
     {
-        $this->assertTrue(true);
+        // commented out while debugging gitlab CI
+
         // $this->withoutExceptionHandling();
         // \Ldap::shouldReceive('findUser')->once()->andReturn(new LdapUser([
         //     0 => [
