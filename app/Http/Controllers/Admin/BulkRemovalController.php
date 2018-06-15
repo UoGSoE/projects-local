@@ -7,6 +7,7 @@ use App\Course;
 use App\Project;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Events\SomethingNoteworthyHappened;
 
 class BulkRemovalController extends Controller
 {
@@ -14,6 +15,8 @@ class BulkRemovalController extends Controller
     {
         Course::undergrad()->get()->each->removeAllStudents();
         Project::undergrad()->get()->each->removeAllStudents();
+
+        event(new SomethingNoteworthyHappened(auth()->user(), 'Removed all undergrad students'));
 
         if (request()->wantsJson()) {
             return response()->json(['message' => 'removed']);
@@ -25,6 +28,8 @@ class BulkRemovalController extends Controller
     {
         Course::postgrad()->get()->each->removeAllStudents();
         Project::postgrad()->get()->each->removeAllStudents();
+
+        event(new SomethingNoteworthyHappened(auth()->user(), 'Removed all postgrad students'));
 
         if (request()->wantsJson()) {
             return response()->json(['message' => 'removed']);

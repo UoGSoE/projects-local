@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Project;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Events\SomethingNoteworthyHappened;
 
 class ProjectOptionsController extends Controller
 {
@@ -29,11 +30,27 @@ class ProjectOptionsController extends Controller
             'active' => 'array',
             'delete' => 'array',
         ]);
+        event(new SomethingNoteworthyHappened($request->user(), 'Bulk updated project options'));
+
+        // grab the model event dispacher as we might disable it do avoid spamming the activity log
+        $dispacher = Project::getEventDispatcher();
+
         collect($request->active)->reject(function ($obj) {
             return $obj['id'] == 0;
-        })->each(function ($obj) {
-            Project::findOrFail($obj['id'])->update(['is_active' => $obj['is_active']]);
+        })->each(function ($obj) use ($request) {
+            $project = Project::findOrFail($obj['id']);
+            $project->unsetEventDispatcher();
+            if ($project->is_active != $obj['is_active']) {
+                event(new SomethingNoteworthyHappened(
+                    $request->user(),
+                    "Set project {$project->title} as " . ($obj['is_active'] ? 'active' : 'inactive')
+                ));
+                $project->update(['is_active' => $obj['is_active']]);
+            }
         });
+
+        // set the event dispacher back in case it was disabled by the is_active stuff above
+        Project::setEventDispatcher($dispacher);
 
         collect($request->delete)->each(function ($projectId) {
             Project::findorFail($projectId)->delete();

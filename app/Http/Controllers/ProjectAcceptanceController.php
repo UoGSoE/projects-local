@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Project;
 use Illuminate\Http\Request;
+use App\Events\SomethingNoteworthyHappened;
 
 class ProjectAcceptanceController extends Controller
 {
@@ -23,6 +24,14 @@ class ProjectAcceptanceController extends Controller
             $this->authorize('accept-onto-project', [$student, $project]);
             $project->accept($student);
         });
+        $matrics = $students->map(function ($student) {
+            return $student->matric;
+        })->implode(', ');
+
+        event(new SomethingNoteworthyHappened(
+            $request->user(),
+            "Accepted students {$matrics} onto project {$project->title}"
+        ));
 
         return redirect(route('project.show', $project->id))->with('success', 'Students Accepted');
     }

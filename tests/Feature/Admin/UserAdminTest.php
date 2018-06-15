@@ -8,6 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\User;
 use App\Course;
 use App\Project;
+use Ohffs\Ldap\LdapUser;
 
 class UserAdminTest extends TestCase
 {
@@ -151,5 +152,32 @@ class UserAdminTest extends TestCase
 
         $response->assertSuccessful();
         $this->assertEquals('fred@example.com', $user->fresh()->email);
+    }
+
+    /** @test */
+    public function admins_can_add_a_new_user()
+    {
+        $this->withoutExceptionHandling();
+        \Ldap::shouldReceive('findUser')->once()->andReturn(new LdapUser([
+            0 => [
+                'uid' => ['valid123x'],
+                'mail' => ['valid@example.org'],
+                'sn' => ['Valid'],
+                'givenname' => ['Miss'],
+                'telephonenumber' => ['12345'],
+            ]
+        ]));
+
+        $admin = create(User::class, ['is_admin' => true]);
+
+        $response = $this->actingAs($admin)->postJson(route('api.user.store'), [
+            'guid' => 'valid123x',
+        ]);
+
+        $response->assertSuccessful();
+        $user = User::where('username', '=', 'valid123x')->first();
+        $this->assertEquals('valid@example.org', $user->email);
+        $this->assertEquals('Valid', $user->surname);
+        $this->assertEquals('Miss', $user->forenames);
     }
 }

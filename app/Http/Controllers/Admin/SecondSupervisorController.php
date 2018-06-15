@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Ohffs\SimpleSpout\ExcelSheet;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\MessageBag;
+use App\Events\SomethingNoteworthyHappened;
 
 class SecondSupervisorController extends Controller
 {
@@ -38,6 +39,8 @@ class SecondSupervisorController extends Controller
                 $this->errors->add("projectnotfound-{$projectId}", "Project Not Found : {$projectId} / {$row[1]}");
                 return;
             }
+            // disable the project events being logged so we don't spam the activity log
+            $project->unsetEventDispatcher();
             if (!$guid) {
                 $project->update(['second_supervisor_id' => null]);
                 return;
@@ -49,6 +52,8 @@ class SecondSupervisorController extends Controller
             }
             $project->update(['second_supervisor_id' => $user->id]);
         });
+
+        event(new SomethingNoteworthyHappened($request->user(), 'Imported 2nd supervisors'));
 
         return redirect()->back()->with('success', 'Imported OK')->withErrors($this->errors);
     }

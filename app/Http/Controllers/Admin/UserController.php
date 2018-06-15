@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Events\SomethingNoteworthyHappened;
 
 class UserController extends Controller
 {
@@ -28,6 +29,7 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
+        event(new SomethingNoteworthyHappened(auth()->user(), $this->getDeleteMessageFor($user)));
         $user->delete();
 
         if (request()->wantsJson()) {
@@ -43,5 +45,14 @@ class UserController extends Controller
         }
         $user->toggleAdmin();
         return response()->json(['status' => 'ok']);
+    }
+
+    public function getDeleteMessageFor(User $user)
+    {
+        if ($user->isStudent()) {
+            return "Deleted student {$user->matric}";
+        }
+
+        return "Deleted staffmember {$user->full_name}";
     }
 }

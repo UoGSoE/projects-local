@@ -8,6 +8,7 @@ use App\Project;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Spatie\Activitylog\Models\Activity;
 
 class MaintenanceTest extends TestCase
 {
@@ -55,6 +56,8 @@ class MaintenanceTest extends TestCase
         $postgrad->save();
         // (the mystery student is _not_ on a course - for instance been manually added by admins)
 
+        Activity::truncate();
+
         // when we make the call to remove all undergrads
         $response = $this->actingAs($admin)->delete(route('students.remove_undergrads'));
 
@@ -65,6 +68,12 @@ class MaintenanceTest extends TestCase
         $this->assertDatabaseHas('users', ['id' => $postgrad->id]);
         $this->assertDatabaseHas('users', ['id' => $mysteryGrad->id]);
 
+        $logs = Activity::all();
+        $this->assertTrue($logs[0]->causer->is($admin));
+        $this->assertEquals("Removed all undergrad students", $logs[0]->description);
+
+        Activity::truncate();
+
         // when we call to remove all postgrads
         $response = $this->actingAs($admin)->delete(route('students.remove_postgrads'));
 
@@ -73,6 +82,10 @@ class MaintenanceTest extends TestCase
         $response->assertSessionMissing('errors');
         $this->assertDatabaseMissing('users', ['id' => $postgrad->id]);
         $this->assertDatabaseMissing('users', ['id' => $mysteryGrad->id]);
+
+        $logs = Activity::all();
+        $this->assertTrue($logs[0]->causer->is($admin));
+        $this->assertEquals("Removed all postgrad students", $logs[0]->description);
     }
 
     /** @test */

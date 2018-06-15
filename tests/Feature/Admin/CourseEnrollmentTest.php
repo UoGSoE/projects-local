@@ -9,6 +9,7 @@ use Tests\TestCase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Spatie\Activitylog\Models\Activity;
 
 class CourseEnrollmentTest extends TestCase
 {
@@ -35,6 +36,7 @@ class CourseEnrollmentTest extends TestCase
         $course = create(Course::class);
         $this->assertEquals(0, $course->students()->count());
         $filename = './tests/Feature/data/course_students.xlsx';
+        Activity::truncate();
 
         // and we upload a test spreadsheet with two students details
         $response = $this->actingAs($admin)->post(route('admin.course.enroll', $course->id), [
@@ -50,6 +52,10 @@ class CourseEnrollmentTest extends TestCase
         $this->assertEquals('Sham', $student->surname);
         $this->assertEquals('Allan', $student->forenames);
         $this->assertTrue($student->isStudent());
+
+        $logs = Activity::all();
+        $this->assertTrue($logs[0]->causer->is($admin));
+        $this->assertEquals("Enrolled students onto {$course->code}", $logs[0]->description);
     }
 
     /** @test */

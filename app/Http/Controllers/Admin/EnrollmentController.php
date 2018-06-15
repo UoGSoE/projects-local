@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Ohffs\SimpleSpout\ExcelSheet;
 use App\User;
+use App\Events\SomethingNoteworthyHappened;
 
 class EnrollmentController extends Controller
 {
@@ -32,7 +33,7 @@ class EnrollmentController extends Controller
         })->map(function ($row) use ($course) {
             $username = $this->joinMatricAndFirstInitial($row);
             $user = User::where('username', '=', $username)->first();
-            if (! $user) {
+            if (!$user) {
                 $user = new User([
                     'username' => $username,
                     'password' => bcrypt(str_random(64)),
@@ -46,13 +47,18 @@ class EnrollmentController extends Controller
             return $user->id;
         });
 
+        event(new SomethingNoteworthyHappened($request->user(), "Enrolled students onto {$course->code}"));
+
         return redirect()->route('admin.course.show', $course->id)
-                         ->with('success', "Imported {$students->count()} Students");
+            ->with('success', "Imported {$students->count()} Students");
     }
 
     public function destroy($id)
     {
-        Course::findOrFail($id)->removeAllStudents();
+        $course = Course::findOrFail($id);
+        $course->removeAllStudents();
+
+        event(new SomethingNoteworthyHappened(auth()->user(), "Removed all students from {$course->code}"));
 
         if (request()->wantsJson()) {
             return response()->json([

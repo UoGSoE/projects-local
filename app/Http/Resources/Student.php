@@ -2,7 +2,9 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Resources\ActivityLog;
 use App\Http\Resources\ProjectChoice;
+use Spatie\Activitylog\Models\Activity;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class Student extends JsonResource
@@ -18,6 +20,7 @@ class Student extends JsonResource
             'created' => $this->created_at->format('Y-m-d H:i'),
             'updated' => $this->updated_at->format('Y-m-d H:i'),
             'projects' => ProjectChoice::collection($this->projects),
+            'logs' => ActivityLog::collection(Activity::where('causer_id', '=', $this->id)->get())
         ];
     }
 

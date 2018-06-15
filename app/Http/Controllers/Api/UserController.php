@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Events\SomethingNoteworthyHappened;
 
 class UserController extends Controller
 {
@@ -24,7 +25,7 @@ class UserController extends Controller
 
         $ldapUser = \Ldap::findUser($request->guid);
 
-        if (! $ldapUser) {
+        if (!$ldapUser) {
             return response()->json([
                 'data' => [],
                 'message' => 'Not Found'
@@ -54,7 +55,7 @@ class UserController extends Controller
 
         $ldapUser = \Ldap::findUser($request->guid);
 
-        if (! $ldapUser) {
+        if (!$ldapUser) {
             return response()->json([
                 'data' => [],
                 'message' => 'Not Found'
@@ -69,6 +70,8 @@ class UserController extends Controller
             'is_staff' => !$this->looksLikeMatric($ldapUser->username),
             'password' => bcrypt(str_random(64)),
         ]);
+
+        event(new SomethingNoteworthyHappened(auth()->user(), "Created user {$user->full_name}"));
 
         return response()->json([
             'data' => $user->toArray(),

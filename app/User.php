@@ -105,7 +105,7 @@ class User extends Authenticatable
 
     public function applicableProjects()
     {
-        if (! $this->course_id) {
+        if (!$this->course_id) {
             return collect([]);
         }
         return $this->course->projects()->with('owner', 'programmes')->active()->get();
@@ -113,7 +113,7 @@ class User extends Authenticatable
 
     public function applicableProgrammes()
     {
-        if (! $this->course_id) {
+        if (!$this->course_id) {
             return collect([]);
         }
         return Programme::where('category', '=', $this->course->category)->orderBy('title')->get();
@@ -151,7 +151,7 @@ class User extends Authenticatable
 
     public function isStudent()
     {
-        return ! $this->isStaff();
+        return !$this->isStaff();
     }
 
     public function isFirstChoice(Project $project)
@@ -164,7 +164,7 @@ class User extends Authenticatable
 
     public function toggleAdmin()
     {
-        $this->update(['is_admin' => ! $this->is_admin]);
+        $this->update(['is_admin' => !$this->is_admin]);
     }
 
     public function makeAdmin()

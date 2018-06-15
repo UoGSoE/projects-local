@@ -6,6 +6,7 @@ use App\User;
 use App\Project;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Events\SomethingNoteworthyHappened;
 
 class ManualAcceptanceController extends Controller
 {
@@ -17,6 +18,11 @@ class ManualAcceptanceController extends Controller
 
         $student = User::findOrFail($request->student_id);
         $project->addAndAccept($student);
+
+        event(new SomethingNoteworthyHappened(
+            $request->user(),
+            "Manually accepted student {$student->matric} onto project {$project->title}"
+        ));
 
         session()->flash('success', 'Student Accepted');
 

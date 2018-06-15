@@ -15,6 +15,7 @@
         "ohffs/simple-spout": "dev-master",
         "sentry/sentry": "^1.9",
         "sentry/sentry-laravel": "^0.9.0",
+        "spatie/laravel-activitylog": "^2.5",
         "tightenco/ziggy": "^0.6.3",
         "uogsoe/ldap-laravel": "^1.0"
     },

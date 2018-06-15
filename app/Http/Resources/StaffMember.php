@@ -3,6 +3,8 @@
 namespace App\Http\Resources;
 
 use App\Http\Resources\Project;
+use App\Http\Resources\ActivityLog;
+use Spatie\Activitylog\Models\Activity;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class StaffMember extends JsonResource
@@ -17,6 +19,7 @@ class StaffMember extends JsonResource
             'created' => $this->created_at->format('Y-m-d H:i'),
             'updated' => $this->updated_at->format('Y-m-d H:i'),
             'projects' => Project::collection($this->staffProjects),
+            'logs' => ActivityLog::collection(Activity::where('causer_id', '=', $this->id)->get())
         ];
     }
 

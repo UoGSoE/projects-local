@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Ldap;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Spatie\Activitylog\Models\Activity;
 
 class ImportSecondSupervisorsTest extends TestCase
 {
@@ -32,6 +33,7 @@ class ImportSecondSupervisorsTest extends TestCase
         $project1->update(['second_supervisor_id' => null]);
         $project2->update(['second_supervisor_id' => null]);
         $project3->update(['second_supervisor_id' => null]);
+        Activity::truncate();
 
         // then if we upload the spreadsheet with the supervisors guids in place
         $response = $this->actingAs($admin)->post(route('admin.import.second_supervisors'), [
@@ -43,6 +45,9 @@ class ImportSecondSupervisorsTest extends TestCase
         $this->assertEquals($sup1->id, $project1->fresh()->second_supervisor_id);
         $this->assertEquals($sup1->id, $project2->fresh()->second_supervisor_id);
         $this->assertEquals($sup2->id, $project3->fresh()->second_supervisor_id);
+        $log = Activity::first();
+        $this->assertTrue($log->causer->is($admin));
+        $this->assertEquals("Imported 2nd supervisors", $log->description);
     }
 
     /** @test */
