@@ -89,6 +89,7 @@ class CourseTest extends TestCase
         $response->assertStatus(302);
         $response->assertSessionMissing('errors');
         $course = Course::first();
+        dd(Course::all());
         $this->assertEquals('A COURSE', $course->title);
         $this->assertEquals('ENG9999', $course->code);
         $this->assertEquals(now()->addMonths(3)->format('d/m/Y 23:59'), $course->application_deadline->format('d/m/Y H:i'));
