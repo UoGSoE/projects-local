@@ -14,65 +14,65 @@ class CourseTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
-    public function regular_users_cant_view_a_course()
-    {
-        $user = create(User::class);
-        $course = create(Course::class);
+    // /** @test */
+    // public function regular_users_cant_view_a_course()
+    // {
+    //     $user = create(User::class);
+    //     $course = create(Course::class);
 
-        $response = $this->actingAs($user)->get(route('admin.course.show', $course->id));
+    //     $response = $this->actingAs($user)->get(route('admin.course.show', $course->id));
 
-        $response->assertRedirect('/');
-    }
+    //     $response->assertRedirect('/');
+    // }
 
-    /** @test */
-    public function admins_can_view_a_course()
-    {
-        $admin = create(User::class, ['is_admin' => true]);
-        $course = create(Course::class);
-        $student1 = create(User::class, ['is_staff' => false]);
-        $student2 = create(User::class, ['is_staff' => false]);
-        $student3 = create(User::class, ['is_staff' => false]);
-        $course->students()->saveMany([$student1, $student3]);
+    // /** @test */
+    // public function admins_can_view_a_course()
+    // {
+    //     $admin = create(User::class, ['is_admin' => true]);
+    //     $course = create(Course::class);
+    //     $student1 = create(User::class, ['is_staff' => false]);
+    //     $student2 = create(User::class, ['is_staff' => false]);
+    //     $student3 = create(User::class, ['is_staff' => false]);
+    //     $course->students()->saveMany([$student1, $student3]);
 
-        $response = $this->actingAs($admin)->get(route('admin.course.show', $course->id));
+    //     $response = $this->actingAs($admin)->get(route('admin.course.show', $course->id));
 
-        $response->assertSuccessful();
-        $response->assertSee('Course ' . $course->code);
-        $response->assertSee($course->title);
-        $response->assertSee($course->application_deadline->format('d/m/Y'));
-        $response->assertSee($student1->full_name);
-        $response->assertSee($student3->full_name);
-    }
+    //     $response->assertSuccessful();
+    //     $response->assertSee('Course ' . $course->code);
+    //     $response->assertSee($course->title);
+    //     $response->assertSee($course->application_deadline->format('d/m/Y'));
+    //     $response->assertSee($student1->full_name);
+    //     $response->assertSee($student3->full_name);
+    // }
 
-    /** @test */
-    public function admins_can_see_a_list_of_all_courses()
-    {
-        $this->withoutExceptionHandling();
-        $admin = create(User::class, ['is_admin' => true]);
-        $course1 = create(Course::class);
-        $course2 = create(Course::class);
+    // /** @test */
+    // public function admins_can_see_a_list_of_all_courses()
+    // {
+    //     $this->withoutExceptionHandling();
+    //     $admin = create(User::class, ['is_admin' => true]);
+    //     $course1 = create(Course::class);
+    //     $course2 = create(Course::class);
 
-        $response = $this->actingAs($admin)->get(route('admin.course.index'));
+    //     $response = $this->actingAs($admin)->get(route('admin.course.index'));
 
-        $response->assertSuccessful();
-        $response->assertSee($course1->title);
-        $response->assertSee($course2->title);
-        $response->assertSee($course1->application_deadline->format('d/m/Y'));
-        $response->assertSee($course2->application_deadline->format('d/m/Y'));
-    }
+    //     $response->assertSuccessful();
+    //     $response->assertSee($course1->title);
+    //     $response->assertSee($course2->title);
+    //     $response->assertSee($course1->application_deadline->format('d/m/Y'));
+    //     $response->assertSee($course2->application_deadline->format('d/m/Y'));
+    // }
 
-    /** @test */
-    public function admins_can_see_the_page_to_create_a_new_course()
-    {
-        $this->withoutExceptionHandling();
-        $admin = create(User::class, ['is_admin' => true]);
+    // /** @test */
+    // public function admins_can_see_the_page_to_create_a_new_course()
+    // {
+    //     $this->withoutExceptionHandling();
+    //     $admin = create(User::class, ['is_admin' => true]);
 
-        $response = $this->actingAs($admin)->get(route('admin.course.create'));
+    //     $response = $this->actingAs($admin)->get(route('admin.course.create'));
 
-        $response->assertSuccessful();
-        $response->assertSee('Create new course');
-    }
+    //     $response->assertSuccessful();
+    //     $response->assertSee('Create new course');
+    // }
 
     /** @test */
     public function admins_can_create_a_new_course()
