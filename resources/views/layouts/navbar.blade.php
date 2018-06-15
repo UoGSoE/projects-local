@@ -56,6 +56,11 @@
                 Postgrad Bulk Accept
               </a>
 
+              <hr class="navbar-divider" />
+
+              <a class="navbar-item" href="{{ route('admin.activitylog') }}">
+                Activity Log
+              </a>
             </div>
         </div>
         @endif

@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use App\Project;
-use Illuminate\Http\Request;
-use App\Programme;
 use App\Course;
+use App\Project;
+use App\Programme;
+use Illuminate\Http\Request;
+use App\Events\SomethingNoteworthyHappened;
 
 class ProjectController extends Controller
 {
@@ -61,6 +62,8 @@ class ProjectController extends Controller
         $project->programmes()->sync($request->programmes);
         $project->courses()->sync($request->courses);
 
+        event(new SomethingNoteworthyHappened(auth()->user(), "Created project {$project->title}"));
+
         return redirect(route('project.show', $project->id));
     }
 
@@ -102,6 +105,8 @@ class ProjectController extends Controller
         $project->programmes()->sync($request->programmes);
         $project->courses()->sync($request->courses);
 
+        event(new SomethingNoteworthyHappened(auth()->user(), "Updated project {$project->title}"));
+
         return redirect(route('project.show', $project->id))->with('success', 'Project Updated');
     }
 
@@ -111,6 +116,8 @@ class ProjectController extends Controller
         $this->authorize('delete', $project);
 
         $project->delete();
+
+        event(new SomethingNoteworthyHappened(auth()->user(), "Deleted project {$project->title}"));
 
         if ($request->wantsJson()) {
             return response()->json(['status' => 'deleted']);

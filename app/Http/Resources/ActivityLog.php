@@ -14,6 +14,9 @@ class ActivityLog extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'event' => $this->description,
+            'date' => $this->created_at->format('Y-m-d H:i'),
+        ];
     }
 }

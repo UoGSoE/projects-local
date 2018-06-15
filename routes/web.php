@@ -11,7 +11,7 @@ use App\Mail\AcceptedOntoProject;
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+ */
 
 
 Auth::routes();
@@ -89,5 +89,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/import/second-supervisors', 'Admin\SecondSupervisorController@store')->name('admin.import.second_supervisors');
 
         Route::post('/project/{project}/add-student', 'Admin\ManualAcceptanceController@store')->name('admin.project.add_student');
+
+        Route::get('/activity', 'Admin\ActivityLogController@index')->name('admin.activitylog');
     });
 });

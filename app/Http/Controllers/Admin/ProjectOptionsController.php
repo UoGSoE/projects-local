@@ -32,14 +32,10 @@ class ProjectOptionsController extends Controller
         ]);
         event(new SomethingNoteworthyHappened($request->user(), 'Bulk updated project options'));
 
-        // grab the model event dispacher as we might disable it do avoid spamming the activity log
-        $dispacher = Project::getEventDispatcher();
-
         collect($request->active)->reject(function ($obj) {
             return $obj['id'] == 0;
         })->each(function ($obj) use ($request) {
             $project = Project::findOrFail($obj['id']);
-            $project->unsetEventDispatcher();
             if ($project->is_active != $obj['is_active']) {
                 event(new SomethingNoteworthyHappened(
                     $request->user(),
@@ -49,11 +45,13 @@ class ProjectOptionsController extends Controller
             }
         });
 
-        // set the event dispacher back in case it was disabled by the is_active stuff above
-        Project::setEventDispatcher($dispacher);
-
-        collect($request->delete)->each(function ($projectId) {
-            Project::findorFail($projectId)->delete();
+        collect($request->delete)->each(function ($projectId) use ($request) {
+            $project = Project::findorFail($projectId);
+            event(new SomethingNoteworthyHappened(
+                $request->user(),
+                "Deleted project {$project->title}"
+            ));
+            $project->delete();
         });
 
         session()->flash('success', 'Updated');

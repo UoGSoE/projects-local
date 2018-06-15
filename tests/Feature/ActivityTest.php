@@ -18,6 +18,34 @@ class ActivityTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
+    public function regular_users_cant_see_the_activity_log()
+    {
+        $user = create(User::class);
+
+        $response = $this->actingAs($user)->get(route('admin.activitylog'));
+
+        $response->assertStatus(302);
+        $response->assertRedirect('/');
+    }
+
+    /** @test */
+    public function admins_can_see_the_activity_log()
+    {
+        $user = create(User::class);
+        $admin = create(User::class, ['is_admin' => true]);
+
+        // generate some activity
+        login($user);
+        login($admin);
+
+        $response = $this->actingAs($admin)->get(route('admin.activitylog'));
+
+        $response->assertSuccessful();
+        $response->assertSee('Activity Log');
+        $this->assertEquals(2, $response->data('logs')->count());
+    }
+
+    /** @test */
     public function an_event_is_recorded_when_a_user_is_manually_created()
     {
         $this->withoutExceptionHandling();
@@ -81,28 +109,53 @@ class ActivityTest extends TestCase
     }
 
     /** @test */
-    public function an_event_is_recorded_when_a_user_creates_or_edits_or_deletes_a_project()
+    public function an_event_is_recorded_when_a_user_creates_updates_or_deletes_a_project()
     {
         $staff = create(User::class, ['is_staff' => true]);
-        login($staff);
+        $programme1 = create(Programme::class);
+        $programme2 = create(Programme::class);
+        $course = create(Course::class);
         Activity::truncate();
 
-        $project = create(Project::class, ['staff_id' => $staff->id]);
+        $response = $this->actingAs($staff)->post(route('project.store'), [
+            'category' => 'undergrad',
+            'title' => 'My new project',
+            'pre_req' => 'Some mad skillz',
+            'description' => 'Doing something',
+            'max_students' => 2,
+            'courses' => [$course->id],
+            'programmes' => [$programme1->id, $programme2->id],
+            'is_confidential' => true,
+            'is_placement' => true,
+        ]);
 
         $log = Activity::first();
         $this->assertTrue($log->causer->is($staff));
-        $this->assertEquals("Created project {$project->title}", $log->description);
+        $this->assertEquals("Created project My new project", $log->description);
 
         Activity::truncate();
-        $project->update(['title' => 'NEW TITLE']);
+        $project = Project::first();
+
+        $response = $this->actingAs($staff)->post(route('project.update', $project->id), [
+            'category' => 'undergrad',
+            'title' => 'NEW TITLE',
+            'pre_req' => 'Some mad skillz',
+            'description' => 'Doing something',
+            'max_students' => 2,
+            'courses' => [$course->id],
+            'programmes' => [$programme1->id, $programme2->id],
+            'is_confidential' => true,
+            'is_placement' => true,
+        ]);
 
         $log = Activity::first();
         $this->assertTrue($log->causer->is($staff));
         $this->assertEquals("Updated project NEW TITLE", $log->description);
 
         Activity::truncate();
-        $originalTitle = $project->title;
-        $project->delete();
+        $originalTitle = $project->fresh()->title;
+
+        $response = $this->actingAs($staff)->delete(route('project.delete', $project->id));
 
         $log = Activity::first();
         $this->assertTrue($log->causer->is($staff));
@@ -283,6 +336,7 @@ class ActivityTest extends TestCase
     public function an_event_is_recorded_when_an_admin_imports_students_onto_a_course()
     {
         // see 'EnrollmentTest@an_admin_can_import_a_spreadsheet_of_students_who_are_on_a_course'
+        $this->assertTrue(true);
     }
 
     /** @test */
@@ -305,6 +359,7 @@ class ActivityTest extends TestCase
     public function an_event_is_recorded_when_an_admin_removes_all_students_of_a_given_type()
     {
         // see 'MaintenanceTest@an_admin_can_clear_all_postgrad_or_undergrad_students'
+        $this->assertTrue(true);
     }
 
     /** @test */

@@ -188,6 +188,11 @@ class User extends Authenticatable
         return substr($this->username, 0, 7);
     }
 
+    public function getShowUrlAttribute()
+    {
+        return route('admin.user.show', $this->id);
+    }
+
     /**
      * Used to json-ify all the extra columns admins need to see in the staff list :'-/
      *
