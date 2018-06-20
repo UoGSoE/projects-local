@@ -37,10 +37,10 @@ php artisan key:generate
 cd $DIR/packaged
 cp ../Dockerfile ./
 docker build \
-    -t localhost:5000/glasgow-projects-app:latest \
-    -t localhost:5000/glasgow-projects-app:$HASH .
-docker push localhost:5000/glasgow-projects-app:$HASH
-docker push localhost:5000/glasgow-projects-app:latest
+    -t versions.eng.gla.ac.uk:5555//billy/glasgow_projects:latest \
+    -t versions.eng.gla.ac.uk:5555//billy/glasgow_projects:$HASH .
+docker push versions.eng.gla.ac.uk:5555//billy/glasgow_projects:$HASH
+docker push versions.eng.gla.ac.uk:5555//billy/glasgow_projects:latest
 
 # Clean up packaged directory
 cd $DIR/packaged

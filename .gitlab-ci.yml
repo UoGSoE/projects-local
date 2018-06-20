@@ -10,7 +10,6 @@ stages:
 # Check out: http://docs.gitlab.com/ce/ci/docker/using_docker_images.html#what-is-a-service
 services:
   - mysql:5.7
-  - docker:dind
 
 variables:
   MYSQL_DATABASE: homestead
@@ -66,5 +65,10 @@ test:
 
 build:
   stage: build
+  image: docker:stable
+  services:
+  - docker:dind
+  before_script:
+  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN versions.eng.gla.ac.uk
   script:
   - docker/build.sh
