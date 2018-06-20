@@ -6,6 +6,7 @@ image: uogsoe/soe-php-apache:7.2-ci
 # Check out: http://docs.gitlab.com/ce/ci/docker/using_docker_images.html#what-is-a-service
 services:
   - mysql:5.7
+  - docker:dind
 
 variables:
   MYSQL_DATABASE: homestead
@@ -43,7 +44,7 @@ before_script:
 
   # Generate an application key. Re-cache.
   - php artisan key:generate
-  - php artisan config:cache
+  - php artisan config:clear
 
   # Run database migrations.
   - php artisan migrate:fresh
@@ -58,3 +59,8 @@ test:
   # set it in your package.json script
   # comment this out if you don't have a frontend test
   # - npm test
+
+build:
+  stage: build
+  script:
+  - docker/build.sh
