@@ -36,7 +36,7 @@ class CourseEnrollmentTest extends TestCase
         $course = create(Course::class);
         $this->assertEquals(0, $course->students()->count());
         $filename = './tests/Feature/data/course_students.xlsx';
-        Activity::truncate();
+        Activity::all()->each->delete();
 
         // and we upload a test spreadsheet with two students details
         $response = $this->actingAs($admin)->post(route('admin.course.enroll', $course->id), [

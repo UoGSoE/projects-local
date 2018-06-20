@@ -92,7 +92,7 @@ class ActivityTest extends TestCase
         $admin = create(User::class, ['is_admin' => true]);
         $student = create(User::class, ['is_staff' => false]);
         $staff = create(User::class, ['is_staff' => true]);
-        Activity::truncate();
+        Activity::all()->each->delete();
 
         $response = $this->actingAs($admin)->delete(route('admin.user.delete', $staff->id));
 
@@ -100,7 +100,7 @@ class ActivityTest extends TestCase
         $this->assertTrue($log->causer->is($admin));
         $this->assertEquals("Deleted staffmember {$staff->full_name}", $log->description);
 
-        Activity::truncate();
+        Activity::all()->each->delete();
 
         $response = $this->actingAs($admin)->delete(route('admin.user.delete', $student->id));
 
@@ -117,7 +117,7 @@ class ActivityTest extends TestCase
         $programme1 = create(Programme::class);
         $programme2 = create(Programme::class);
         $course = create(Course::class);
-        Activity::truncate();
+        Activity::all()->each->delete();
 
         $response = $this->actingAs($staff)->post(route('project.store'), [
             'category' => 'undergrad',
@@ -135,7 +135,7 @@ class ActivityTest extends TestCase
         $this->assertTrue($log->causer->is($staff));
         $this->assertEquals("Created project My new project", $log->description);
 
-        Activity::truncate();
+        Activity::all()->each->delete();
         $project = Project::first();
 
         $response = $this->actingAs($staff)->post(route('project.update', $project->id), [
@@ -154,7 +154,7 @@ class ActivityTest extends TestCase
         $this->assertTrue($log->causer->is($staff));
         $this->assertEquals("Updated project NEW TITLE", $log->description);
 
-        Activity::truncate();
+        Activity::all()->each->delete();
         $originalTitle = $project->fresh()->title;
 
         $response = $this->actingAs($staff)->delete(route('project.delete', $project->id));
@@ -171,7 +171,7 @@ class ActivityTest extends TestCase
         config(['projects.required_choices' => 2]);
         login();
         $projects = create(Project::class, [], 2);
-        Activity::truncate();
+        Activity::all()->each->delete();
 
         $response = $this->actingAs($student)->post(route('projects.choose'), [
             'choices' => [
@@ -194,7 +194,7 @@ class ActivityTest extends TestCase
         $student = create(User::class, ['is_staff' => false]);
         $project = create(Project::class, ['staff_id' => $staff->id, 'category' => 'undergrad']);
         $student->projects()->sync([$project->id => ['choice' => 1]]);
-        Activity::truncate();
+        Activity::all()->each->delete();
 
         $response = $this->actingAs($staff)->post(route('project.accept_students', $project->id), [
             'students' => [$student->id],
@@ -215,7 +215,7 @@ class ActivityTest extends TestCase
         $project = create(Project::class, ['category' => 'undergrad']);
         $student->projects()->sync([$project->id => ['choice' => 2]]);
         $this->assertFalse($project->students()->first()->isAccepted());
-        Activity::truncate();
+        Activity::all()->each->delete();
 
         $response = $this->actingAs($admin)->post(route('admin.project.add_student', $project->id), [
             'student_id' => $student->id,
@@ -240,7 +240,7 @@ class ActivityTest extends TestCase
         $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_admin' => true]);
         $ugProject1 = create(Project::class, ['category' => 'undergrad', 'is_active' => true]);
-        Activity::truncate();
+        Activity::all()->each->delete();
 
         $response = $this->actingAs($admin)->post(route('admin.project.bulk-options.update', ['category' => 'undergrad']), [
             'active' => [
@@ -269,7 +269,7 @@ class ActivityTest extends TestCase
         $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_admin' => true]);
         $project1 = create(Project::class, ['category' => 'postgrad']);
-        Activity::truncate();
+        Activity::all()->each->delete();
 
         $response = $this->actingAs($admin)->get(route('export.projects.excel', ['category' => 'postgrad']));
 
@@ -283,7 +283,7 @@ class ActivityTest extends TestCase
     {
         $admin = create(User::class, ['is_admin' => true]);
         login($admin);
-        Activity::truncate();
+        Activity::all()->each->delete();
 
         $course = create(Course::class);
 
@@ -291,14 +291,14 @@ class ActivityTest extends TestCase
         $this->assertTrue($logs[0]->causer->is($admin));
         $this->assertEquals("Created course {$course->code}", $logs[0]->description);
 
-        Activity::truncate();
+        Activity::all()->each->delete();
         $course->update(['code' => 'NEW9999']);
 
         $logs = Activity::all();
         $this->assertTrue($logs[0]->causer->is($admin));
         $this->assertEquals("Updated course {$course->code}", $logs[0]->description);
 
-        Activity::truncate();
+        Activity::all()->each->delete();
         $course->delete();
 
         $logs = Activity::all();
@@ -311,7 +311,7 @@ class ActivityTest extends TestCase
     {
         $admin = create(User::class, ['is_admin' => true]);
         login($admin);
-        Activity::truncate();
+        Activity::all()->each->delete();
 
         $programme = create(Programme::class);
 
@@ -319,14 +319,14 @@ class ActivityTest extends TestCase
         $this->assertTrue($logs[0]->causer->is($admin));
         $this->assertEquals("Created programme {$programme->title}", $logs[0]->description);
 
-        Activity::truncate();
+        Activity::all()->each->delete();
         $programme->update(['title' => 'Lasers on Sharks']);
 
         $logs = Activity::all();
         $this->assertTrue($logs[0]->causer->is($admin));
         $this->assertEquals("Updated programme Lasers on Sharks", $logs[0]->description);
 
-        Activity::truncate();
+        Activity::all()->each->delete();
         $programme->delete();
 
         $logs = Activity::all();
@@ -348,7 +348,7 @@ class ActivityTest extends TestCase
         $course = create(Course::class);
         $students = create(User::class, ['is_staff' => false], 3);
         $course->students()->saveMany($students);
-        Activity::truncate();
+        Activity::all()->each->delete();
 
         $response = $this->actingAs($admin)->delete(route('course.remove_students', $course->id));
 
@@ -373,7 +373,7 @@ class ActivityTest extends TestCase
         $project1 = create(Project::class);
         $student1 = create(User::class, ['is_staff' => false]);
         $student1->projects()->sync([$project1->id => ['choice' => 1]]);
-        Activity::truncate();
+        Activity::all()->each->delete();
 
         $response = $this->actingAs($admin)->post(route('project.bulk_accept'), [
             'students' => [
@@ -393,7 +393,7 @@ class ActivityTest extends TestCase
         $admin = create(User::class, ['is_admin' => true]);
         $user = create(User::class);
         login($admin);
-        Activity::truncate();
+        Activity::all()->each->delete();
 
         $response = $this->post(route('impersonate.start', $user->id));
 
@@ -401,7 +401,7 @@ class ActivityTest extends TestCase
         $this->assertTrue($logs[0]->causer->is($admin));
         $this->assertEquals("Started impersonating {$user->full_name}", $logs[0]->description);
 
-        Activity::truncate();
+        Activity::all()->each->delete();
 
         $response = $this->delete(route('impersonate.stop'));
 
@@ -416,7 +416,7 @@ class ActivityTest extends TestCase
         $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_staff' => true, 'is_admin' => true]);
         $staff = create(User::class, ['is_staff' => true]);
-        Activity::truncate();
+        Activity::all()->each->delete();
 
         $response = $this->actingAs($admin)->get(route('gdpr.export.user', $staff->id));
 

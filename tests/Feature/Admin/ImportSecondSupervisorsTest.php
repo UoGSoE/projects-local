@@ -33,7 +33,7 @@ class ImportSecondSupervisorsTest extends TestCase
         $project1->update(['second_supervisor_id' => null]);
         $project2->update(['second_supervisor_id' => null]);
         $project3->update(['second_supervisor_id' => null]);
-        Activity::truncate();
+        Activity::all()->each->delete();
 
         // then if we upload the spreadsheet with the supervisors guids in place
         $response = $this->actingAs($admin)->post(route('admin.import.second_supervisors'), [

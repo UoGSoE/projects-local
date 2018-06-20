@@ -56,7 +56,7 @@ class MaintenanceTest extends TestCase
         $postgrad->save();
         // (the mystery student is _not_ on a course - for instance been manually added by admins)
 
-        Activity::truncate();
+        Activity::all()->each->delete();
 
         // when we make the call to remove all undergrads
         $response = $this->actingAs($admin)->delete(route('students.remove_undergrads'));
@@ -72,7 +72,7 @@ class MaintenanceTest extends TestCase
         $this->assertTrue($logs[0]->causer->is($admin));
         $this->assertEquals("Removed all undergrad students", $logs[0]->description);
 
-        Activity::truncate();
+        Activity::all()->each->delete();
 
         // when we call to remove all postgrads
         $response = $this->actingAs($admin)->delete(route('students.remove_postgrads'));
