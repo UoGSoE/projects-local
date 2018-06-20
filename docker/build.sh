@@ -10,7 +10,7 @@ apt-get install -y git
 
 # Get the directory of the build script
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-mkdir -f "$DIR/packaged"
+mkdir "$DIR/packaged"
 
 # Get the current git commit sha
 HASH=$(git rev-parse HEAD)
