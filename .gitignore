@@ -6,6 +6,8 @@
 /vendor
 /.idea
 /.vagrant
+/docker/packaged
+!/docker/packaged/.gitkeep
 Homestead.json
 Homestead.yaml
 npm-debug.log
