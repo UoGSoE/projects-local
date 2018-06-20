@@ -10,6 +10,7 @@ apt-get install -y git
 
 # Get the directory of the build script
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+mkdir -f "$DIR/packaged"
 
 # Get the current git commit sha
 HASH=$(git rev-parse HEAD)
@@ -24,7 +25,7 @@ git archive --format=tar --worktree-attributes $HASH | tar -xf - -C $DIR/package
 ## (Decision between export-ignore'ing docker/develop command or not)
 cd $DIR/packaged
 composer install --no-dev
-npm install && npm run prod && rm -fr node_modules
+#npm install && npm run prod && rm -fr node_modules
 
 # Get the production .env file
 ## This assumes we're running in Jenkins as user "jenkins"
