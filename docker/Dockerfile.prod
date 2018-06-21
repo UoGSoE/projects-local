@@ -13,7 +13,7 @@ COPY . /var/www/html
 
 RUN /tmp/install-composer.sh
 RUN cp .env.gitlab .env
-RUN /usr/local/bin/php composer.phar install
+RUN /usr/local/bin/php composer.phar install --no-dev
 RUN /usr/local/bin/php artisan key:generate
 RUN /usr/local/bin/php artisan view:clear
 RUN /usr/local/bin/php artisan config:cache
