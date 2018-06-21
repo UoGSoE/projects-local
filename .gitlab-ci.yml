@@ -68,6 +68,8 @@ build:
   image: docker:stable
   services:
   - docker:dind
+    entrypoint:
+       - dockerd-entrypoint.sh
     command: ["--insecure-registry=versions.eng.gla.ac.uk"]
   before_script:
   - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN versions.eng.gla.ac.uk
