@@ -70,7 +70,6 @@ build:
   image: docker:stable
   before_script:
   - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN versions.eng.gla.ac.uk
-  - echo "{ \"insecure-registries\": [ \"versions.eng.gla.ac.uk:5555\" ] }" >> /etc/docker/daemon.json
   script:
   - cp docker/Dockerfile.prod ./Dockerfile
   - docker build -t versions.eng.gla.ac.uk:5555/billy/glasgow_projects .
