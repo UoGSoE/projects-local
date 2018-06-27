@@ -70,7 +70,7 @@ build:
   image: docker:stable
   services:
   - name: docker:dind
-    command: ["--insecure-registry=versions.eng.gla.ac.uk"]
+    command: ["--insecure-registry=versions.eng.gla.ac.uk:5555"]
   before_script:
   - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN versions.eng.gla.ac.uk
   script:
