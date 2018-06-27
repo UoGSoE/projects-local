@@ -5,13 +5,8 @@ stages:
   - test
   - build
 
-# Pick zero or more services to be used on all builds.
-# Only needed when using a docker container to run your tests in.
-# Check out: http://docs.gitlab.com/ce/ci/docker/using_docker_images.html#what-is-a-service
 services:
   - mysql:5.7
-  # - name: docker:dind
-  #   command: ["--insecure-registry=versions.eng.gla.ac.uk:5555"]
 
 variables:
   MYSQL_DATABASE: homestead
@@ -30,7 +25,6 @@ cache:
 # services such as redis or postgres
 test:
   before_script:
-
   - cp .env.gitlab .env
   - composer install
 
@@ -42,18 +36,10 @@ test:
 
   - php artisan key:generate
   - php artisan config:clear
-
   - php artisan migrate:fresh
 
   script:
-  # run laravel tests
   - php vendor/bin/phpunit --coverage-text --colors=never
-
-  # run frontend tests
-  # if you have any task for testing frontend
-  # set it in your package.json script
-  # comment this out if you don't have a frontend test
-  # - npm test
 
 build:
   stage: build
