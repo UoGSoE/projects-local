@@ -11,7 +11,7 @@ stages:
 services:
   - mysql:5.7
   - name: docker:dind
-    command: ["--insecure-registry=versions.eng.gla.ac.uk"]
+    command: ["--insecure-registry=versions.eng.gla.ac.uk:5555"]
 
 variables:
   MYSQL_DATABASE: homestead
@@ -68,9 +68,6 @@ test:
 build:
   stage: build
   image: docker:stable
-  services:
-  - name: docker:dind
-    command: ["--insecure-registry=versions.eng.gla.ac.uk:5555"]
   before_script:
   - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN versions.eng.gla.ac.uk
   script:
