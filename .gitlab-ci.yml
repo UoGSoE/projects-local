@@ -10,8 +10,8 @@ stages:
 # Check out: http://docs.gitlab.com/ce/ci/docker/using_docker_images.html#what-is-a-service
 services:
   - mysql:5.7
-  - name: docker:dind
-    command: ["--insecure-registry=versions.eng.gla.ac.uk:5555"]
+  # - name: docker:dind
+  #   command: ["--insecure-registry=versions.eng.gla.ac.uk:5555"]
 
 variables:
   MYSQL_DATABASE: homestead
