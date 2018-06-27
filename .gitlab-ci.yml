@@ -28,17 +28,10 @@ cache:
 
 # This is a basic example for a gem or script which doesn't use
 # services such as redis or postgres
-before_script:
+test:
+  before_script:
 
-  # Copy over testing configuration.
-  # Don't forget to set the database config in .env.testing correctly
-  # DB_HOST=mysql
-  # DB_DATABASE=project_name
-  # DB_USERNAME=root
-  # DB_PASSWORD=secret
   - cp .env.gitlab .env
-
-  # Install Composer and project dependencies.
   - composer install
 
   # If you need Node.js
@@ -47,14 +40,11 @@ before_script:
   #- npm install
   #- npm run dev
 
-  # Generate an application key. Re-cache.
   - php artisan key:generate
   - php artisan config:clear
 
-  # Run database migrations.
   - php artisan migrate:fresh
 
-test:
   script:
   # run laravel tests
   - php vendor/bin/phpunit --coverage-text --colors=never
@@ -68,11 +58,9 @@ test:
 build:
   stage: build
   image: docker:stable
-  before_script:
   script:
   - cp docker/Dockerfile.prod ./Dockerfile
   - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN versions.eng.gla.ac.uk
-  - cat Dockerfile
   - docker build -t versions.eng.gla.ac.uk:5555/billy/glasgow_projects .
   #- docker build -t versions.eng.gla.ac.uk:5555/billy/glasgow_projects:$CI_COMMIT_SHA .
   - docker push versions.eng.gla.ac.uk:5555/billy/glasgow_projects
