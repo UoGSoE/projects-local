@@ -44,6 +44,8 @@ test:
 build:
   stage: build
   image: docker:stable
+  only:
+  - master
   script:
   - cp docker/Dockerfile.prod ./Dockerfile
   - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
