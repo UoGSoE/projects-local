@@ -46,7 +46,7 @@ build:
   image: docker:stable
   script:
   - cp docker/Dockerfile.prod ./Dockerfile
-  - echo $CI_PROJECT_NAME
+  - echo $CI_PROJECT_PATH
   - echo $CI_REGISTRY
   - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
   - docker build -t $CI_REGISTRY/billy/glasgow_projects .
