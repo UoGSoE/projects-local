@@ -13,6 +13,9 @@
     <a href="{{ route('admin.import.second_supervisors.show') }}" class="button is-pulled-right">
         Import 2nd Supervisors
     </a>
+    <a href="{{ route('admin.import.placements.show') }}" class="button is-pulled-right">
+        Import Placements
+    </a>
 </h3>
 
 <table-component

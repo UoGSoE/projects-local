@@ -88,6 +88,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/import/second-supervisors', 'Admin\SecondSupervisorController@show')->name('admin.import.second_supervisors.show');
         Route::post('/import/second-supervisors', 'Admin\SecondSupervisorController@store')->name('admin.import.second_supervisors');
 
+        Route::get('/import/placements', 'Admin\PlacementController@show')->name('admin.import.placements.show');
+        Route::post('/import/placements', 'Admin\PlacementController@store')->name('admin.import.placements');
+
         Route::post('/project/{project}/add-student', 'Admin\ManualAcceptanceController@store')->name('admin.project.add_student');
 
         Route::get('/activity', 'Admin\ActivityLogController@index')->name('admin.activitylog');
