@@ -11,6 +11,8 @@ use Illuminate\Http\UploadedFile;
 use Spatie\Activitylog\Models\Activity;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\AcceptedOntoProject;
 
 class ProjectPlacementImportTest extends TestCase
 {
@@ -28,9 +30,19 @@ class ProjectPlacementImportTest extends TestCase
     }
 
     /** @test */
+    public function regular_users_cant_see_the_placements_import_page()
+    {
+        $user = create(User::class);
+
+        $response = $this->actingAs($user)->get(route('admin.import.placements.show'));
+
+        $response->assertRedirect('/');
+    }
+
+    /** @test */
     public function an_admin_can_import_a_list_of_placement_projects()
     {
-        $this->withoutExceptionHandling();
+        Mail::fake();
         $admin = create(User::class, ['is_admin' => true]);
         $staff = create(User::class, ['is_staff' => true, 'username' => 'staff1x']);
         $student = create(User::class, ['is_staff' => false, 'username' => '1234567s']);
@@ -55,6 +67,67 @@ class ProjectPlacementImportTest extends TestCase
         $this->assertTrue($project->isActive());
         $this->assertTrue($project->isPlacement());
         $this->assertFalse($project->isConfidential());
+        Mail::assertQueued(AcceptedOntoProject::class, function ($mail) use ($student) {
+            return $mail->hasTo($student->email);
+        });
+    }
+
+    /** @test */
+    public function if_the_sheet_is_imported_twice_students_who_have_already_been_imported_and_accepted_dont_get_a_second_email()
+    {
+        $this->withoutExceptionHandling();
+        $admin = create(User::class, ['is_admin' => true]);
+        $staff = create(User::class, ['is_staff' => true, 'username' => 'staff1x']);
+        $student = create(User::class, ['is_staff' => false, 'username' => '1234567s']);
+        $course = create(Course::class, ['code' => 'ENG5041P', 'category' => 'undergrad']);
+        $programme = create(Programme::class, ['title' => 'BME', 'category' => 'undergrad']);
+        Activity::all()->each->delete();
+
+        $filename = './tests/Feature/data/placement_projects.xlsx';
+
+        Mail::fake();
+
+        $response = $this->actingAs($admin)->post(route('admin.import.placements'), [
+            'sheet' => new UploadedFile($filename, 'placements.xlsx', 'application/octet-stream', filesize($filename), UPLOAD_ERR_OK, true),
+        ]);
+
+        Mail::assertQueued(AcceptedOntoProject::class, function ($mail) use ($student) {
+            return $mail->hasto($student->email);
+        });
+
+        Mail::fake();
+
+        $response = $this->actingAs($admin)->post(route('admin.import.placements'), [
+            'sheet' => new UploadedFile($filename, 'placements.xlsx', 'application/octet-stream', filesize($filename), UPLOAD_ERR_OK, true),
+        ]);
+
+        Mail::assertNotQueued(AcceptedOntoProject::class);
+    }
+
+    /** @test */
+    public function if_the_sheet_is_imported_twice_projects_arent_created_twice()
+    {
+        $this->withoutExceptionHandling();
+        $admin = create(User::class, ['is_admin' => true]);
+        $staff = create(User::class, ['is_staff' => true, 'username' => 'staff1x']);
+        $student = create(User::class, ['is_staff' => false, 'username' => '1234567s']);
+        $course = create(Course::class, ['code' => 'ENG5041P', 'category' => 'undergrad']);
+        $programme = create(Programme::class, ['title' => 'BME', 'category' => 'undergrad']);
+        Activity::all()->each->delete();
+
+        $filename = './tests/Feature/data/placement_projects.xlsx';
+
+        $response = $this->actingAs($admin)->post(route('admin.import.placements'), [
+            'sheet' => new UploadedFile($filename, 'placements.xlsx', 'application/octet-stream', filesize($filename), UPLOAD_ERR_OK, true),
+        ]);
+
+        $this->assertCount(1, Project::all());
+
+        $response = $this->actingAs($admin)->post(route('admin.import.placements'), [
+            'sheet' => new UploadedFile($filename, 'placements.xlsx', 'application/octet-stream', filesize($filename), UPLOAD_ERR_OK, true),
+        ]);
+
+        $this->assertCount(1, Project::all());
     }
 
     /** @test */

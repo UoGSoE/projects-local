@@ -11,6 +11,7 @@ use Ohffs\SimpleSpout\ExcelSheet;
 use Illuminate\Support\MessageBag;
 use App\Http\Controllers\Controller;
 use App\Events\SomethingNoteworthyHappened;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class PlacementController extends Controller
 {
@@ -57,7 +58,7 @@ class PlacementController extends Controller
                 $this->errors->add("programmenotfound-{$programmeName}", "Programme Not Found : {$programmeName}");
                 return;
             }
-            $project = Project::create([
+            $project = Project::firstOrCreate(['title' => $title], [
                 'title' => $title,
                 'description' => $description,
                 'pre_req' => $prereq,
@@ -70,7 +71,9 @@ class PlacementController extends Controller
             ]);
             $project->courses()->sync([$course->id]);
             $project->programmes()->sync([$programme->id]);
-            $project->addAndAccept($student);
+            if ($project->doesntHaveAcceptedStudent($student)) {
+                $project->addAndAccept($student);
+            }
         });
 
         event(new SomethingNoteworthyHappened($request->user(), 'Imported placement projects'));

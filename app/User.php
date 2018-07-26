@@ -139,6 +139,11 @@ class User extends Authenticatable
         return $this->projects()->findOrFail($project->id)->pivot->is_accepted;
     }
 
+    public function isntAcceptedOn($project)
+    {
+        return !$this->isAcceptedOn($project);
+    }
+
     public function isAdmin()
     {
         return $this->is_admin;
