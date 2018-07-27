@@ -37,28 +37,7 @@ class PlacementController extends Controller
         })->each(function ($row) {
             $data = $this->extractCells($row);
 
-            $staff = User::where('username', '=', $data['guid'])->first();
-            if (!$staff) {
-                $this->errors->add("staffnotfound-{$data['guid']}", "Staff Not Found : {$data['guid']}");
-                return;
-            }
-
-            $studentGuid = $data['matric'] . strtolower(substr($data['surname'], 0, 1));
-            $student = User::where('username', '=', $studentGuid)->first();
-            if (!$student) {
-                $this->errors->add("studentnotfound-{$studentGuid}", "Student Not Found : {$studentGuid}");
-                return;
-            }
-
-            $course = Course::where('code', '=', $data['courseCode'])->where('category', '=', $data['category'])->first();
-            if (!$course) {
-                $this->errors->add("coursenotfound-{$data['courseCode']}", "Course Not Found : {$data['courseCode']}");
-                return;
-            }
-
-            $programme = Programme::where('title', '=', $data['programmeName'])->where('category', '=', $data['category'])->first();
-            if (!$programme) {
-                $this->errors->add("programmenotfound-{$data['programmeName']}", "Programme Not Found : {$data['programmeName']}");
+            if (!$data['staff'] or !$data['student'] or !$data['course'] or !$data['programme']) {
                 return;
             }
 
@@ -70,13 +49,13 @@ class PlacementController extends Controller
                 'is_active' => $data['active'] == 'y',
                 'is_placement' => $data['placement'] == 'y',
                 'is_confidential' => $data['confidential'] == 'y',
-                'staff_id' => $staff->id,
+                'staff_id' => $data['staff']->id,
                 'max_students' => $data['max_students'],
             ]);
-            $project->courses()->sync([$course->id]);
-            $project->programmes()->sync([$programme->id]);
-            if ($project->doesntHaveAcceptedStudent($student)) {
-                $project->addAndAccept($student);
+            $project->courses()->sync([$data['course']->id]);
+            $project->programmes()->sync([$data['programme']->id]);
+            if ($project->doesntHaveAcceptedStudent($data['student'])) {
+                $project->addAndAccept($data['student']);
             }
         });
 
@@ -88,14 +67,14 @@ class PlacementController extends Controller
             ->withErrors($this->errors);
     }
 
-    public function rowHasMatric($row)
+    protected function rowHasMatric($row)
     {
         return preg_match('/[0-9]{7}/i', $row[11]) === 1;
     }
 
-    public function extractCells($row)
+    protected function extractCells($row)
     {
-        return [
+        $data = [
             'category' => strtolower($row[0]),
             'title' => $row[1],
             'description' => $row[2],
@@ -110,5 +89,47 @@ class PlacementController extends Controller
             'matric' => $row[11],
             'surname' => strtolower($row[12]),
         ];
+        $data['staff'] = $this->findStaff($data['guid']);
+        $data['student'] = $this->findStudent($data['matric'], $data['surname']);
+        $data['course'] = $this->findCourse($data['courseCode'], $data['category']);
+        $data['programme'] = $this->findProgramme($data['programmeName'], $data['category']);
+        return $data;
+    }
+
+    protected function findStaff($guid)
+    {
+        $staff = User::where('username', '=', $guid)->first();
+        if (!$staff) {
+            $this->errors->add("staffnotfound-{$guid}", "Staff Not Found : {$guid}");
+        }
+        return $staff;
+    }
+
+    protected function findStudent($matric, $surname)
+    {
+        $studentGuid = $matric . strtolower(substr($surname, 0, 1));
+        $student = User::where('username', '=', $studentGuid)->first();
+        if (!$student) {
+            $this->errors->add("studentnotfound-{$studentGuid}", "Student Not Found : {$studentGuid}");
+        }
+        return $student;
+    }
+
+    protected function findCourse($code, $category)
+    {
+        $course = Course::where('code', '=', $code)->where('category', '=', $category)->first();
+        if (!$course) {
+            $this->errors->add("coursenotfound-{$code}", "Course Not Found : {$code}");
+        }
+        return $course;
+    }
+
+    protected function findProgramme($title, $category)
+    {
+        $programme = Programme::where('title', '=', $title)->where('category', '=', $category)->first();
+        if (!$programme) {
+            $this->errors->add("programmenotfound-{$title}", "Programme Not Found : {$title}");
+        }
+        return $programme;
     }
 }
