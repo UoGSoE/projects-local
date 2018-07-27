@@ -21,14 +21,7 @@ class PlacementDataExtractor
 
     public function extract()
     {
-        $data = $this->extractCells($this->row);
-
-        $data['error'] = false;
-        if (!$data['staff'] or !$data['student'] or !$data['course'] or !$data['programme']) {
-            $data['error'] = true;
-        }
-
-        return $data;
+        return $this->extractCells($this->row);
     }
 
     public function hasErrors()

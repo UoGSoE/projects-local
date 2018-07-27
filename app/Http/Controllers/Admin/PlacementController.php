@@ -43,23 +43,7 @@ class PlacementController extends Controller
                 return;
             }
 
-            $project = Project::createFromPlacementSheet($data);
-            $project = Project::firstOrCreate(['title' => $data['title']], [
-                'title' => $data['title'],
-                'description' => $data['description'],
-                'pre_req' => $data['prereq'],
-                'category' => $data['category'],
-                'is_active' => $data['active'] == 'y',
-                'is_placement' => $data['placement'] == 'y',
-                'is_confidential' => $data['confidential'] == 'y',
-                'staff_id' => $data['staff']->id,
-                'max_students' => $data['max_students'],
-            ]);
-            $project->courses()->sync([$data['course']->id]);
-            $project->programmes()->sync([$data['programme']->id]);
-            if ($project->doesntHaveAcceptedStudent($data['student'])) {
-                $project->addAndAccept($data['student']);
-            }
+            Project::createFromPlacementSheet($data);
         });
 
         event(new SomethingNoteworthyHappened($request->user(), 'Imported placement projects'));
