@@ -12,6 +12,7 @@ use Illuminate\Support\MessageBag;
 use App\Http\Controllers\Controller;
 use App\Events\SomethingNoteworthyHappened;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Imports\PlacementDataExtractor;
 
 class PlacementController extends Controller
 {
@@ -35,12 +36,14 @@ class PlacementController extends Controller
         collect($data)->filter(function ($row) {
             return $this->rowHasMatric($row);
         })->each(function ($row) {
-            $data = $this->extractCells($row);
-
-            if (!$data['staff'] or !$data['student'] or !$data['course'] or !$data['programme']) {
+            $extractor = new PlacementDataExtractor($row);
+            $data = $extractor->extract();
+            if ($extractor->hasErrors()) {
+                $this->errors->merge($extractor->getErrors());
                 return;
             }
 
+            $project = Project::createFromPlacementSheet($data);
             $project = Project::firstOrCreate(['title' => $data['title']], [
                 'title' => $data['title'],
                 'description' => $data['description'],
@@ -70,66 +73,5 @@ class PlacementController extends Controller
     protected function rowHasMatric($row)
     {
         return preg_match('/[0-9]{7}/i', $row[11]) === 1;
-    }
-
-    protected function extractCells($row)
-    {
-        $data = [
-            'category' => strtolower($row[0]),
-            'title' => $row[1],
-            'description' => $row[2],
-            'prereq' => $row[3],
-            'active' => substr(strtolower($row[4]), 0, 1),
-            'placement' => substr(strtolower($row[5]), 0, 1),
-            'confidential' => substr(strtolower($row[6]), 0, 1),
-            'guid' => strtolower($row[7]),
-            'max_students' => $row[8],
-            'courseCode' => strtoupper($row[9]),
-            'programmeName' => $row[10],
-            'matric' => $row[11],
-            'surname' => strtolower($row[12]),
-        ];
-        $data['staff'] = $this->findStaff($data['guid']);
-        $data['student'] = $this->findStudent($data['matric'], $data['surname']);
-        $data['course'] = $this->findCourse($data['courseCode'], $data['category']);
-        $data['programme'] = $this->findProgramme($data['programmeName'], $data['category']);
-        return $data;
-    }
-
-    protected function findStaff($guid)
-    {
-        $staff = User::where('username', '=', $guid)->first();
-        if (!$staff) {
-            $this->errors->add("staffnotfound-{$guid}", "Staff Not Found : {$guid}");
-        }
-        return $staff;
-    }
-
-    protected function findStudent($matric, $surname)
-    {
-        $studentGuid = $matric . strtolower(substr($surname, 0, 1));
-        $student = User::where('username', '=', $studentGuid)->first();
-        if (!$student) {
-            $this->errors->add("studentnotfound-{$studentGuid}", "Student Not Found : {$studentGuid}");
-        }
-        return $student;
-    }
-
-    protected function findCourse($code, $category)
-    {
-        $course = Course::where('code', '=', $code)->where('category', '=', $category)->first();
-        if (!$course) {
-            $this->errors->add("coursenotfound-{$code}", "Course Not Found : {$code}");
-        }
-        return $course;
-    }
-
-    protected function findProgramme($title, $category)
-    {
-        $programme = Programme::where('title', '=', $title)->where('category', '=', $category)->first();
-        if (!$programme) {
-            $this->errors->add("programmenotfound-{$title}", "Programme Not Found : {$title}");
-        }
-        return $programme;
     }
 }
