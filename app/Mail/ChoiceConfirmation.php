@@ -8,7 +8,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class ChoiceConfirmation extends Mailable
+class ChoiceConfirmation extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -32,6 +32,6 @@ class ChoiceConfirmation extends Mailable
     public function build()
     {
         return $this->subject('Engineering Project Choices')
-                    ->markdown('emails.choice_confirmation');
+            ->markdown('emails.choice_confirmation');
     }
 }

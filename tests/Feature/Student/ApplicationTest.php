@@ -125,6 +125,11 @@ class ApplicationTest extends TestCase
         $response->assertRedirect(route('thank_you'));
         $response->assertSessionMissing('errors');
         $this->assertCount(2, $student->projects);
+
+        // And a mail is sent (queued) to them with confirmation
+        Mail::assertQueued(ChoiceConfirmation::class, function ($mail) use ($student) {
+            return $mail->hasTo($student->email);
+        });
     }
 
     /** @test */
