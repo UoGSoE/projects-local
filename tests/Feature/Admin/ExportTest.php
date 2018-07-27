@@ -84,11 +84,13 @@ class ExportTest extends TestCase
         $postgradProject2->students()->sync([$student1->id => ['choice' => 2, 'is_accepted' => false]]);
         $undergradProject1->students()->sync([$student2->id => ['choice' => 2, 'is_accepted' => false]]);
 
+        // export the postgrad projects
         $sheet = (new ProjectListExporter(Project::postgrad()->get()))->create();
 
+        // convert the sheet back to an array/collection
         $contents = (new ExcelSheet)->import($sheet);
 
-        // three rows - one header, two postgrad projects
+        // it should have three rows - one header, two postgrad projects, no undergrad projects
         $this->assertCount(3, $contents);
 
         // row 1 should be postgradProject1 which has one accepted student
