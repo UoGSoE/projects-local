@@ -41,6 +41,7 @@ class Project extends Model
     {
         return $this->belongsTo(User::class, 'second_supervisor_id');
     }
+
     public function scopeUndergrad($query)
     {
         return $query->where('category', '=', 'undergrad');

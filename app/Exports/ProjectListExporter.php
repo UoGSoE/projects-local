@@ -21,7 +21,8 @@ class ProjectListExporter
     protected function projectsToArray()
     {
         return $this->projects->map(function ($project, $key) {
-            return [
+            $acceptedStudents = $project->students()->where('is_accepted', '=', true)->get();
+            $row = [
                 'id' => $project->id,
                 'title' => $project->title,
                 'owner_guid' => $project->owner->username,
@@ -37,6 +38,10 @@ class ProjectListExporter
                 'description' => $project->description,
                 'pre_req' => $project->pre_req,
             ];
+            foreach ($acceptedStudents as $student) {
+                $row[] = $student->full_name;
+            }
+            return $row;
         })->prepend([
             'ID',
             'Title',
