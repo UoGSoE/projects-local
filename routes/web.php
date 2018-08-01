@@ -94,5 +94,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/project/{project}/add-student', 'Admin\ManualAcceptanceController@store')->name('admin.project.add_student');
 
         Route::get('/activity', 'Admin\ActivityLogController@index')->name('admin.activitylog');
+
+        Route::get('/researcharea', 'Admin\ResearchAreaController@index')->name('researcharea.index');
+        Route::post('/researcharea', 'Admin\ResearchAreaController@store')->name('researcharea.store');
+        Route::post('/researcharea/{area}', 'Admin\ResearchAreaController@update')->name('researcharea.update');
+        Route::delete('/researcharea/{area}', 'Admin\ResearchAreaController@destroy')->name('researcharea.destroy');
     });
 });
