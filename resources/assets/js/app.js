@@ -51,12 +51,14 @@ Vue.component(
   "course-student-list",
   require("./components/CourseStudentList.vue")
 );
+Vue.component(
+  "research-area-admin",
+  require("./components/ResearchAreaAdmin.vue")
+);
 Vue.component("deletable-list", require("./components/DeletableList.vue"));
 import { TableComponent, TableColumn } from "vue-table-component";
 Vue.component("table-component", TableComponent);
 Vue.component("table-column", TableColumn);
-Vue.component("research-area", require("./components/ResearchArea.vue"));
-Vue.component("new-research-area", require("./components/NewResearchArea.vue"));
 
 window.moment = require("moment");
 import Pikaday from "pikaday";

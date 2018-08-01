@@ -35,7 +35,7 @@ export default {
         .post(route("researcharea.update", this.area.id), {
           title: this.title
         })
-        .takeAtLeast(300)
+        .takeAtLeast(200)
         .then(response => {
           this.saving = false;
         })
@@ -49,9 +49,9 @@ export default {
       this.deleting = true;
       axios
         .delete(route("researcharea.destroy", this.area.id))
-        .takeAtLeast(300)
+        .takeAtLeast(200)
         .then(response => {
-          window.location.reload(true);
+          this.$emit("destroy", this.area.id);
         })
         .catch(error => {
           console.log(error);

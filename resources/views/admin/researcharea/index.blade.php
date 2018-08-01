@@ -6,12 +6,6 @@
     Research areas
 </h3>
 
-@foreach ($areas as $area)
-    <research-area :area="{{ $area->toJson() }}"></research-area>
-@endforeach
-<hr />
-<new-research-area></new-research-area>
-</div>
-
+<research-area-admin :areas="{{ $areas->toJson() }}"></research-area-admin>
 
 @endsection

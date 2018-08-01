@@ -17493,12 +17493,11 @@ Vue.component("email-edit", __webpack_require__(174));
 Vue.component("manual-student-allocator", __webpack_require__(177));
 Vue.component("project-bulk-options", __webpack_require__(180));
 Vue.component("course-student-list", __webpack_require__(183));
+Vue.component("research-area-admin", __webpack_require__(205));
 Vue.component("deletable-list", __webpack_require__(186));
 
 Vue.component("table-component", __WEBPACK_IMPORTED_MODULE_0_vue_table_component__["TableComponent"]);
 Vue.component("table-column", __WEBPACK_IMPORTED_MODULE_0_vue_table_component__["TableColumn"]);
-Vue.component("research-area", __webpack_require__(191));
-Vue.component("new-research-area", __webpack_require__(202));
 
 window.moment = __webpack_require__(0);
 
@@ -38041,7 +38040,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.saving = true;
       axios.post(route("researcharea.update", this.area.id), {
         title: this.title
-      }).takeAtLeast(300).then(function (response) {
+      }).takeAtLeast(200).then(function (response) {
         _this.saving = false;
       }).catch(function (error) {
         _this.saving = false;
@@ -38049,9 +38048,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     },
     destroy: function destroy() {
+      var _this2 = this;
+
       this.deleting = true;
-      axios.delete(route("researcharea.destroy", this.area.id)).takeAtLeast(300).then(function (response) {
-        window.location.reload(true);
+      axios.delete(route("researcharea.destroy", this.area.id)).takeAtLeast(200).then(function (response) {
+        _this2.$emit("destroy", _this2.area.id);
       }).catch(function (error) {
         console.log(error);
       });
@@ -40047,11 +40048,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   methods: {
     add: function add() {
+      var _this = this;
+
       this.busy = true;
       axios.post(route("researcharea.store"), {
         title: this.title
-      }).takeAtLeast(300).then(function (response) {
-        window.location.reload(true);
+      }).takeAtLeast(200).then(function (response) {
+        _this.$emit("add", response.data);
+        _this.busy = false;
+        _this.title = "";
       }).catch(function (error) {
         console.log(error);
       });
@@ -40116,6 +40121,140 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-00f254be", module.exports)
+  }
+}
+
+/***/ }),
+/* 205 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(206)
+/* template */
+var __vue_template__ = __webpack_require__(207)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/ResearchAreaAdmin.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-64cf1a80", Component.options)
+  } else {
+    hotAPI.reload("data-v-64cf1a80", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 206 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+var ResearchArea = __webpack_require__(191);
+var NewResearchArea = __webpack_require__(202);
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ["areas"],
+
+  components: {
+    "research-area": ResearchArea,
+    "new-research-area": NewResearchArea
+  },
+
+  data: function data() {
+    return {
+      researchAreas: this.areas
+    };
+  },
+
+
+  methods: {
+    add: function add(data) {
+      this.researchAreas.push(JSON.parse(data.area));
+    },
+    remove: function remove(id) {
+      this.researchAreas = this.researchAreas.filter(function (area) {
+        return area.id != id;
+      });
+    }
+  }
+});
+
+/***/ }),
+/* 207 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c(
+        "transition-group",
+        { attrs: { name: "fade" } },
+        _vm._l(_vm.researchAreas, function(area) {
+          return _c("research-area", {
+            key: area.id,
+            attrs: { area: area },
+            on: { destroy: _vm.remove }
+          })
+        })
+      ),
+      _vm._v(" "),
+      _c("hr"),
+      _vm._v(" "),
+      _c("new-research-area", { on: { add: _vm.add } })
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-64cf1a80", module.exports)
   }
 }
 

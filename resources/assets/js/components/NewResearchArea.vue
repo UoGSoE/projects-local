@@ -30,9 +30,11 @@ export default {
         .post(route("researcharea.store"), {
           title: this.title
         })
-        .takeAtLeast(300)
+        .takeAtLeast(200)
         .then(response => {
-          window.location.reload(true);
+          this.$emit("add", response.data);
+          this.busy = false;
+          this.title = "";
         })
         .catch(error => {
           console.log(error);
