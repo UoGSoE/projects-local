@@ -1,10 +1,26 @@
 <template>
-    <div>
-        <transition-group name="fade">
-            <research-area v-for="area in researchAreas" :key="area.id" :area="area" @destroy="remove"></research-area>
-        </transition-group>
-        <hr />
-        <new-research-area @add="add"></new-research-area>
+    <div class="columns">
+        <div class="column">
+            <div class="level">
+                <div class="level-left">
+                    <div class="level-item">
+                        <h3 class="title is-3">
+                            Research areas
+                        </h3>
+                    </div>
+                </div>
+                <div class="level-right">
+                    <div class="level-item">
+                        <new-research-area @add="add"></new-research-area>
+                    </div>
+                </div>
+            </div>
+            <transition-group name="fade">
+                <research-area v-for="area in researchAreas" :key="area.id" :area="area" @destroy="remove"></research-area>
+            </transition-group>
+        </div>
+        <div class="column">
+        </div>
     </div>
 </template>
 
@@ -28,7 +44,7 @@ export default {
 
   methods: {
     add(data) {
-      this.researchAreas.push(JSON.parse(data.area));
+      this.researchAreas.unshift(JSON.parse(data.area));
     },
     remove(id) {
       this.researchAreas = this.researchAreas.filter(area => area.id != id);

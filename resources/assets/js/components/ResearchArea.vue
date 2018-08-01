@@ -1,7 +1,7 @@
 <template>
     <div class="field has-addons">
-        <div class="control">
-            <input class="input" type="text" v-model="title">
+        <div class="control is-expanded">
+            <input class="input is-fullwidth" type="text" v-model="title" @keyup.enter="update">
         </div>
         <div class="control">
             <button class="button is-info" :class="{'is-loading': saving}" @click="update">
@@ -10,7 +10,7 @@
         </div>
         <div class="control">
             <button class="button is-danger" :class="{'is-loading': deleting}" @click="destroy">
-                Delete
+                {{ deleteText }}
             </button>
         </div>
     </div>
@@ -24,8 +24,18 @@ export default {
     return {
       title: this.area.title,
       saving: false,
-      deleting: false
+      deleting: false,
+      confirmDelete: false
     };
+  },
+
+  computed: {
+    deleteText() {
+      if (this.confirmDelete) {
+        return "Really?";
+      }
+      return "Delete";
+    }
   },
 
   methods: {
@@ -46,6 +56,10 @@ export default {
     },
 
     destroy() {
+      if (!this.confirmDelete) {
+        this.confirmDelete = true;
+        return;
+      }
       this.deleting = true;
       axios
         .delete(route("researcharea.destroy", this.area.id))

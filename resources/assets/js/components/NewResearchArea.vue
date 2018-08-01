@@ -1,9 +1,8 @@
 <template>
     <div>
-        <label class="label">Add new research area</label>
         <div class="field has-addons">
             <div class="control">
-                <input class="input" type="text" v-model="title">
+                <input class="input" type="text" v-model="title" @keyup.enter="add" placeholder="Add new area..." autofocus>
             </div>
             <div class="control">
                 <button class="button is-info" :class="{'is-loading': busy}" @click="add">

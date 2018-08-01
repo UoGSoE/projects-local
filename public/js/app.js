@@ -38028,10 +38028,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     return {
       title: this.area.title,
       saving: false,
-      deleting: false
+      deleting: false,
+      confirmDelete: false
     };
   },
 
+
+  computed: {
+    deleteText: function deleteText() {
+      if (this.confirmDelete) {
+        return "Really?";
+      }
+      return "Delete";
+    }
+  },
 
   methods: {
     update: function update() {
@@ -38050,6 +38060,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     destroy: function destroy() {
       var _this2 = this;
 
+      if (!this.confirmDelete) {
+        this.confirmDelete = true;
+        return;
+      }
       this.deleting = true;
       axios.delete(route("researcharea.destroy", this.area.id)).takeAtLeast(200).then(function (response) {
         _this2.$emit("destroy", _this2.area.id);
@@ -38069,7 +38083,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "field has-addons" }, [
-    _c("div", { staticClass: "control" }, [
+    _c("div", { staticClass: "control is-expanded" }, [
       _c("input", {
         directives: [
           {
@@ -38079,10 +38093,19 @@ var render = function() {
             expression: "title"
           }
         ],
-        staticClass: "input",
+        staticClass: "input is-fullwidth",
         attrs: { type: "text" },
         domProps: { value: _vm.title },
         on: {
+          keyup: function($event) {
+            if (
+              !("button" in $event) &&
+              _vm._k($event.keyCode, "enter", 13, $event.key)
+            ) {
+              return null
+            }
+            _vm.update($event)
+          },
           input: function($event) {
             if ($event.target.composing) {
               return
@@ -38113,7 +38136,7 @@ var render = function() {
           class: { "is-loading": _vm.deleting },
           on: { click: _vm.destroy }
         },
-        [_vm._v("\n            Delete\n        ")]
+        [_vm._v("\n            " + _vm._s(_vm.deleteText) + "\n        ")]
       )
     ])
   ])
@@ -40035,7 +40058,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -40073,8 +40095,6 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("label", { staticClass: "label" }, [_vm._v("Add new research area")]),
-    _vm._v(" "),
     _c("div", { staticClass: "field has-addons" }, [
       _c("div", { staticClass: "control" }, [
         _c("input", {
@@ -40087,9 +40107,22 @@ var render = function() {
             }
           ],
           staticClass: "input",
-          attrs: { type: "text" },
+          attrs: {
+            type: "text",
+            placeholder: "Add new area...",
+            autofocus: ""
+          },
           domProps: { value: _vm.title },
           on: {
+            keyup: function($event) {
+              if (
+                !("button" in $event) &&
+                _vm._k($event.keyCode, "enter", 13, $event.key)
+              ) {
+                return null
+              }
+              _vm.add($event)
+            },
             input: function($event) {
               if ($event.target.composing) {
                 return
@@ -40187,6 +40220,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 var ResearchArea = __webpack_require__(191);
 var NewResearchArea = __webpack_require__(202);
@@ -40208,7 +40257,7 @@ var NewResearchArea = __webpack_require__(202);
 
   methods: {
     add: function add(data) {
-      this.researchAreas.push(JSON.parse(data.area));
+      this.researchAreas.unshift(JSON.parse(data.area));
     },
     remove: function remove(id) {
       this.researchAreas = this.researchAreas.filter(function (area) {
@@ -40226,29 +40275,58 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c(
-        "transition-group",
-        { attrs: { name: "fade" } },
-        _vm._l(_vm.researchAreas, function(area) {
-          return _c("research-area", {
-            key: area.id,
-            attrs: { area: area },
-            on: { destroy: _vm.remove }
+  return _c("div", { staticClass: "columns" }, [
+    _c(
+      "div",
+      { staticClass: "column" },
+      [
+        _c("div", { staticClass: "level" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("div", { staticClass: "level-right" }, [
+            _c(
+              "div",
+              { staticClass: "level-item" },
+              [_c("new-research-area", { on: { add: _vm.add } })],
+              1
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c(
+          "transition-group",
+          { attrs: { name: "fade" } },
+          _vm._l(_vm.researchAreas, function(area) {
+            return _c("research-area", {
+              key: area.id,
+              attrs: { area: area },
+              on: { destroy: _vm.remove }
+            })
           })
-        })
-      ),
-      _vm._v(" "),
-      _c("hr"),
-      _vm._v(" "),
-      _c("new-research-area", { on: { add: _vm.add } })
-    ],
-    1
-  )
+        )
+      ],
+      1
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "column" })
+  ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "level-left" }, [
+      _c("div", { staticClass: "level-item" }, [
+        _c("h3", { staticClass: "title is-3" }, [
+          _vm._v(
+            "\n                        Research areas\n                    "
+          )
+        ])
+      ])
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
