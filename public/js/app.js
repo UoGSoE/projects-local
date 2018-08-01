@@ -31692,32 +31692,38 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['students', 'project'],
+  props: ["students", "project"],
 
-    mounted: function mounted() {},
-    data: function data() {
-        return {
-            student_id: null
-        };
-    },
+  mounted: function mounted() {},
+  data: function data() {
+    return {
+      student_id: null,
+      errorMessage: ""
+    };
+  },
 
 
-    computed: {},
+  computed: {},
 
-    methods: {
-        submit: function submit() {
-            axios.post(route('admin.project.add_student', this.project.id), {
-                'student_id': this.student_id
-            }).then(function (response) {
-                console.log('Woo');
-                location.reload();
-            }).catch(function (error) {
-                console.log('Boo');
-            });
-        }
+  methods: {
+    submit: function submit() {
+      var _this = this;
+
+      axios.post(route("admin.project.add_student", this.project.id), {
+        student_id: this.student_id
+      }).then(function (response) {
+        location.reload();
+      }).catch(function (error) {
+        console.log(error.response);
+        _this.errorMessage = error.response.statusText;
+      });
     }
+  }
 });
 
 /***/ }),
@@ -31765,11 +31771,15 @@ var render = function() {
               }
             },
             _vm._l(_vm.students, function(student) {
-              return _c("option", { domProps: { value: student.id } }, [
-                _vm._v(
-                  _vm._s(student.full_name) + " " + _vm._s(student.username)
-                )
-              ])
+              return _c(
+                "option",
+                { key: student.id, domProps: { value: student.id } },
+                [
+                  _vm._v(
+                    _vm._s(student.full_name) + " " + _vm._s(student.username)
+                  )
+                ]
+              )
             })
           )
         ])
@@ -31780,7 +31790,13 @@ var render = function() {
           _vm._v("Allocate & Accept")
         ])
       ])
-    ])
+    ]),
+    _vm._v(" "),
+    _vm.errorMessage
+      ? _c("span", { staticClass: "has-text-danger" }, [
+          _vm._v("\n            " + _vm._s(_vm.errorMessage) + "\n        ")
+        ])
+      : _vm._e()
   ])
 }
 var staticRenderFns = []
