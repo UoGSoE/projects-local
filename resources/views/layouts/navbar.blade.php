@@ -34,6 +34,9 @@
               <a class="navbar-item" href="{{ route('admin.programme.index') }}">
                 Programmes
               </a>
+              <a class="navbar-item" href="{{ route('researcharea.index') }}">
+                Research Areas
+              </a>
 
               <hr class="navbar-divider" />
 

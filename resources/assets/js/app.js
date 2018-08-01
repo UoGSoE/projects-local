@@ -14,6 +14,22 @@ window.Vue = require("vue");
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+// Creates a new promise that automatically resolves after some timeout:
+Promise.delay = function(time) {
+  return new Promise((resolve, reject) => {
+    setTimeout(resolve, time);
+  });
+};
+
+// Throttle this promise to resolve no faster than the specified time:
+Promise.prototype.takeAtLeast = function(time) {
+  return new Promise((resolve, reject) => {
+    Promise.all([this, Promise.delay(time)]).then(([result]) => {
+      resolve(result);
+    }, reject);
+  });
+};
+
 Vue.component(
   "confirmation-dialog",
   require("./components/ConfirmationDialog.vue")
@@ -39,6 +55,8 @@ Vue.component("deletable-list", require("./components/DeletableList.vue"));
 import { TableComponent, TableColumn } from "vue-table-component";
 Vue.component("table-component", TableComponent);
 Vue.component("table-column", TableColumn);
+Vue.component("research-area", require("./components/ResearchArea.vue"));
+Vue.component("new-research-area", require("./components/NewResearchArea.vue"));
 
 window.moment = require("moment");
 import Pikaday from "pikaday";
