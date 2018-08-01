@@ -16,7 +16,12 @@
                 </div>
             </div>
             <transition-group name="fade">
-                <research-area v-for="area in orderedResearchAreas" :key="area.id" :area="area" @destroy="remove"></research-area>
+                <research-area
+                  v-for="area in orderedResearchAreas"
+                  :key="area.id"
+                  :area="area"
+                  @destroy="remove">
+                </research-area>
             </transition-group>
         </div>
         <div class="column">

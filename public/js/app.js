@@ -30616,94 +30616,93 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['students', 'project', 'studentList'],
+  props: ["students", "project", "studentList"],
 
-    mounted: function mounted() {
-        var _this = this;
+  mounted: function mounted() {
+    var _this = this;
 
-        this.students.forEach(function (student) {
-            if (student.is_accepted) {
-                _this.acceptedStudents.push(student.id);
-                _this.initiallyAccepted.push(student.id);
-            }
-        });
-    },
-    data: function data() {
-        return {
-            acceptedStudents: [],
-            initiallyAccepted: [],
-            user: window.user,
-            manual_student_id: null
-        };
-    },
+    this.students.forEach(function (student) {
+      if (student.is_accepted) {
+        _this.acceptedStudents.push(student.id);
+        _this.initiallyAccepted.push(student.id);
+      }
+    });
+  },
+  data: function data() {
+    return {
+      acceptedStudents: [],
+      initiallyAccepted: [],
+      user: window.user,
+      manual_student_id: null
+    };
+  },
 
 
-    computed: {
-        changesHaveBeenMade: function changesHaveBeenMade() {
-            var _this2 = this;
+  computed: {
+    changesHaveBeenMade: function changesHaveBeenMade() {
+      var _this2 = this;
 
-            // if the dynamic 'acceptedStudents' array is different length to the initial one, then yes
-            if (this.initiallyAccepted.length != this.acceptedStudents.length) {
-                return true;
-            }
+      // if the dynamic 'acceptedStudents' array is different length to the initial one, then yes
+      if (this.initiallyAccepted.length != this.acceptedStudents.length) {
+        return true;
+      }
 
-            // if there's anything in the dynamic acceptedStudents array that doesn't exist in the initial one, then yes
-            var changed = false;
-            this.acceptedStudents.forEach(function (studentId) {
-                if (_this2.initiallyAccepted.indexOf(studentId) == -1) {
-                    changed = true;
-                }
-            });
-            if (changed) {
-                return true;
-            }
-
-            // if there's anything in the initial list that isn't in the dynamic one, then yes
-            this.initiallyAccepted.forEach(function (studentId) {
-                if (_this2.acceptedStudents.indexOf(studentId) == -1) {
-                    changed = true;
-                }
-            });
-            return changed;
+      // if there's anything in the dynamic acceptedStudents array that doesn't exist in the initial one, then yes
+      var changed = false;
+      this.acceptedStudents.forEach(function (studentId) {
+        if (_this2.initiallyAccepted.indexOf(studentId) == -1) {
+          changed = true;
         }
-    },
+      });
+      if (changed) {
+        return true;
+      }
 
-    methods: {
-        showUserUrl: function showUserUrl(userId) {
-            return route('admin.user.show', userId);
-        },
-
-        canAcceptStudent: function canAcceptStudent(student) {
-            // admins can do anything
-            if (!!+this.user.isAdmin) {
-                return true;
-            }
-            // staff cannot choose anything for postgrad projects
-            if (this.project.category == 'postgrad') {
-                return false;
-            }
-            // if the student is already accepted, staff cannot change it
-            if (!!+student.is_accepted) {
-                return false;
-            }
-            // can only accept students who have made this project their first choice
-            if (student.choice != 1) {
-                return false;
-            }
-            // ~~ end of byzantine rules ~~
-            return true;
-        },
-        submit: function submit() {
-            axios.post(route('project.accept_students', this.project.id), {
-                'students': this.acceptedStudents
-            }).then(function (response) {
-                console.log('Woo');
-            }).catch(function (error) {
-                console.log('Boo');
-            });
+      // if there's anything in the initial list that isn't in the dynamic one, then yes
+      this.initiallyAccepted.forEach(function (studentId) {
+        if (_this2.acceptedStudents.indexOf(studentId) == -1) {
+          changed = true;
         }
+      });
+      return changed;
     }
+  },
 
+  methods: {
+    showUserUrl: function showUserUrl(userId) {
+      return route("admin.user.show", userId);
+    },
+
+    canAcceptStudent: function canAcceptStudent(student) {
+      // admins can do anything
+      if (!!+this.user.isAdmin) {
+        return true;
+      }
+      // staff cannot choose anything for postgrad projects
+      if (this.project.category == "postgrad") {
+        return false;
+      }
+      // if the student is already accepted, staff cannot change it
+      if (!!+student.is_accepted) {
+        return false;
+      }
+      // can only accept students who have made this project their first choice
+      if (student.choice != 1) {
+        return false;
+      }
+      // ~~ end of byzantine rules ~~
+      return true;
+    },
+    submit: function submit() {
+      axios.post(route("project.accept_students", this.project.id), {
+        students: this.acceptedStudents
+      }).then(function (response) {
+        console.log("Woo");
+      }).catch(function (error) {
+        console.log("Boo");
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -30732,7 +30731,7 @@ var render = function() {
                 _c(
                   "tbody",
                   _vm._l(_vm.students, function(student) {
-                    return _c("tr", [
+                    return _c("tr", { key: student.id }, [
                       _c("td", [
                         _vm.user.isAdmin
                           ? _c("span", [
@@ -40210,6 +40209,11 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
 //
 //
 //
