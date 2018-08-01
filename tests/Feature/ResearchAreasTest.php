@@ -32,7 +32,6 @@ class ResearchAreasTest extends TestCase
         $response = $this->actingAs($admin)->get(route('researcharea.index'));
 
         $response->assertOk();
-        $response->assertSee('Research areas');
         $this->assertEquals(3, $response->data('areas')->count());
     }
 

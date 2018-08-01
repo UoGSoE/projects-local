@@ -12,6 +12,7 @@ use Spatie\Activitylog\Models\Activity;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Programme;
+use App\ResearchArea;
 
 class ActivityTest extends TestCase
 {
@@ -423,5 +424,41 @@ class ActivityTest extends TestCase
         $logs = Activity::all();
         $this->assertTrue($logs[0]->causer->is($admin));
         $this->assertEquals("Exported GDPR data for {$staff->username}", $logs[0]->description);
+    }
+
+    /** @test */
+    public function an_event_is_recorded_a_research_area_is_added_updated_or_deleted()
+    {
+        $this->withoutExceptionHandling();
+        $admin = create(User::class, ['is_staff' => true, 'is_admin' => true]);
+        Activity::all()->each->delete();
+
+        $response = $this->actingAs($admin)->post(route('researcharea.store'), [
+            'title' => 'Fred'
+        ]);
+
+        $logs = Activity::all();
+        $this->assertTrue($logs[0]->causer->is($admin));
+        $this->assertEquals("Created new research area Fred", $logs[0]->description);
+
+        Activity::all()->each->delete();
+        $area = ResearchArea::first();
+
+        $response = $this->actingAs($admin)->post(route('researcharea.update', $area->id), [
+            'title' => 'Updated Title'
+        ]);
+
+        $logs = Activity::all();
+        $this->assertTrue($logs[0]->causer->is($admin));
+        $this->assertEquals("Updated research area Updated Title", $logs[0]->description);
+
+        Activity::all()->each->delete();
+        $area = ResearchArea::first();
+
+        $response = $this->actingAs($admin)->delete(route('researcharea.destroy', $area->id));
+
+        $logs = Activity::all();
+        $this->assertTrue($logs[0]->causer->is($admin));
+        $this->assertEquals("Deleted research area Updated Title", $logs[0]->description);
     }
 }
