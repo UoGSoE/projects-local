@@ -40248,6 +40248,14 @@ var NewResearchArea = __webpack_require__(202);
     "new-research-area": NewResearchArea
   },
 
+  computed: {
+    orderedResearchAreas: function orderedResearchAreas() {
+      return this.researchAreas.sort(function (a, b) {
+        return a.title > b.title;
+      });
+    }
+  },
+
   data: function data() {
     return {
       researchAreas: this.areas
@@ -40296,7 +40304,7 @@ var render = function() {
         _c(
           "transition-group",
           { attrs: { name: "fade" } },
-          _vm._l(_vm.researchAreas, function(area) {
+          _vm._l(_vm.orderedResearchAreas, function(area) {
             return _c("research-area", {
               key: area.id,
               attrs: { area: area },

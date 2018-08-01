@@ -16,7 +16,7 @@
                 </div>
             </div>
             <transition-group name="fade">
-                <research-area v-for="area in researchAreas" :key="area.id" :area="area" @destroy="remove"></research-area>
+                <research-area v-for="area in orderedResearchAreas" :key="area.id" :area="area" @destroy="remove"></research-area>
             </transition-group>
         </div>
         <div class="column">
@@ -34,6 +34,12 @@ export default {
   components: {
     "research-area": ResearchArea,
     "new-research-area": NewResearchArea
+  },
+
+  computed: {
+    orderedResearchAreas() {
+      return this.researchAreas.sort((a, b) => a.title > b.title);
+    }
   },
 
   data() {
