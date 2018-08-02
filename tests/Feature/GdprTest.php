@@ -72,15 +72,19 @@ class GdprTest extends TestCase
     {
         LdapService::shouldReceive('findUser')->once()->with('ihaveleft9x')->andReturn(false);
         LdapService::shouldReceive('findUser')->once()->with('stillhere5x')->andReturn(true);
+        LdapService::shouldReceive('findUser')->once()->with('leftrecently3x')->andReturn(false);
+        config(['projects.gdpr_anonymise_after' => 365]);
 
-        $staff1 = create(User::class, ['is_staff' => true, 'username' => 'ihaveleft9x', 'forenames' => 'FRED']);
-        $staff2 = create(User::class, ['is_staff' => true, 'username' => 'stillhere5x', 'forenames' => 'JENNY']);
+        $staff1 = create(User::class, ['is_staff' => true, 'username' => 'ihaveleft9x', 'left_at' => now()->subDays(366), 'forenames' => 'FRED']);
+        $staff2 = create(User::class, ['is_staff' => true, 'username' => 'stillhere5x', 'left_at' => null, 'forenames' => 'JENNY']);
+        $staff3 = create(User::class, ['is_staff' => true, 'username' => 'leftrecently3x', 'left_at' => now()->subDays(5), 'forenames' => 'ANNE']);
         $student = create(User::class, ['is_staff' => false, 'username' => '9999999left', 'forenames' => 'CAROL']);
 
         Artisan::call('projects:gdpranonymise');
 
-        $this->assertEquals("ANON" . $staff1->id, $staff1->fresh()->forenames);
+        $this->assertEquals("ANON{$staff1->id}", $staff1->fresh()->forenames);
         $this->assertEquals('JENNY', $staff2->fresh()->forenames);
+        $this->assertEquals('ANNE', $staff3->fresh()->forenames);
         $this->assertEquals("CAROL", $student->fresh()->forenames);
     }
 }

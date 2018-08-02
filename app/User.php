@@ -23,6 +23,7 @@ class User extends Authenticatable
     protected $casts = [
         'is_staff' => 'boolean',
         'is_admin' => 'boolean',
+        'left_at' => 'date',
     ];
 
     protected $appends = [
@@ -250,6 +251,34 @@ class User extends Authenticatable
             'forenames' => $anonInfo,
             'email' => $anonInfo . '@glasgow.ac.uk',
         ]);
+    }
+
+    public function markAsStillHere()
+    {
+        $this->update([
+            'left_at' => null,
+        ]);
+    }
+
+    public function markAsLeft()
+    {
+        $this->update([
+            'left_at' => now(),
+        ]);
+    }
+
+    public function wasMarkedAsLeft()
+    {
+        return !!$this->left_at;
+    }
+
+    public function leftAgesAgo()
+    {
+        if (!$this->wasMarkedAsLeft()) {
+            return false;
+        }
+
+        return $this->left_at->lt(now()->subDays(config('projects.gdpr_anonymise_after')));
     }
 
     public function toArray()

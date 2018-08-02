@@ -2,9 +2,10 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\User;
+use Illuminate\Console\Command;
 use Facades\Ohffs\Ldap\LdapService;
+use Illuminate\Support\Facades\Log;
 
 class GdprAnonymise extends Command
 {
@@ -42,10 +43,22 @@ class GdprAnonymise extends Command
         $staff = User::staff()->where('username', 'not like', 'ANON%')->get();
 
         $staff->each(function ($user) {
-            if (!LdapService::findUser($user->username)) {
-                \Log::info('Anonymising ' . $user->username);
+            if ($this->userIsInLdap($user->username)) {
+                $user->markAsStillHere();
+                return;
+            }
+
+            Log::info('Anonymising ' . $user->username);
+            if ($user->leftAgesAgo()) {
                 $user->anonymise();
+            } else {
+                $user->markAsLeft();
             }
         });
+    }
+
+    public function userIsInLdap($username)
+    {
+        return LdapService::findUser($username);
     }
 }
