@@ -4,7 +4,7 @@
             <input class="input is-fullwidth" type="text" v-model="title" @keyup.enter="update">
         </div>
         <div class="control">
-            <button class="button is-info" :class="{'is-loading': saving}" @click="update">
+            <button class="button is-info" :class="{'is-loading': saving}" :disabled="!title" @click="update">
                 Update
             </button>
         </div>
@@ -40,6 +40,9 @@ export default {
 
   methods: {
     update() {
+      if (!this.title) {
+        return;
+      }
       this.saving = true;
       axios
         .post(route("researcharea.update", this.area.id), {
