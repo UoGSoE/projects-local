@@ -8,6 +8,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\User;
 use App\Course;
 use App\Project;
+use Illuminate\Support\Facades\Artisan;
+use Facades\Ohffs\Ldap\LdapService;
 
 class GdprTest extends TestCase
 {
@@ -63,5 +65,22 @@ class GdprTest extends TestCase
                 ]
             ]
         ]);
+    }
+
+    /** @test */
+    public function an_artisan_command_can_anonymise_staff_accounts_if_they_have_left()
+    {
+        LdapService::shouldReceive('findUser')->once()->with('ihaveleft9x')->andReturn(false);
+        LdapService::shouldReceive('findUser')->once()->with('stillhere5x')->andReturn(true);
+
+        $staff1 = create(User::class, ['is_staff' => true, 'username' => 'ihaveleft9x', 'forenames' => 'FRED']);
+        $staff2 = create(User::class, ['is_staff' => true, 'username' => 'stillhere5x', 'forenames' => 'JENNY']);
+        $student = create(User::class, ['is_staff' => false, 'username' => '9999999left', 'forenames' => 'CAROL']);
+
+        Artisan::call('projects:gdpranonymise');
+
+        $this->assertEquals("ANON" . $staff1->id, $staff1->fresh()->forenames);
+        $this->assertEquals('JENNY', $staff2->fresh()->forenames);
+        $this->assertEquals("CAROL", $student->fresh()->forenames);
     }
 }

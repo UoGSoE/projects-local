@@ -241,6 +241,17 @@ class User extends Authenticatable
         })->count();
     }
 
+    public function anonymise()
+    {
+        $anonInfo = "ANON{$this->id}";
+        $this->update([
+            'username' => $anonInfo,
+            'surname' => $anonInfo,
+            'forenames' => $anonInfo,
+            'email' => $anonInfo . '@glasgow.ac.uk',
+        ]);
+    }
+
     public function toArray()
     {
         return [
