@@ -47,6 +47,11 @@ class User extends Authenticatable
         return $this->hasMany(Project::class, 'staff_id');
     }
 
+    public function secondSupervisorProjects()
+    {
+        return $this->hasMany(Project::class, 'second_supervisor_id');
+    }
+
     public function undergradProjects()
     {
         return $this->projects()->where('category', '=', 'undergrad');
@@ -199,47 +204,9 @@ class User extends Authenticatable
         return route('admin.user.show', $this->id);
     }
 
-    /**
-     * Used to json-ify all the extra columns admins need to see in the staff list :'-/
-     *
-     * @return void
-     */
-    public function forAdminIndex()
+    public function getProjectStats()
     {
-        $user = $this->toArray();
-        $user['ugrad_active'] = $this->ugrad_active;
-        $user['ugrad_inactive'] = $this->ugrad_inactive;
-        $user['pgrad_active'] = $this->pgrad_active;
-        $user['pgrad_inactive'] = $this->pgrad_inactive;
-        return $user;
-    }
-
-    public function getUgradActiveAttribute()
-    {
-        return $this->staffProjects->filter(function ($project) {
-            return $project->isUndergrad() && $project->isActive();
-        })->count();
-    }
-
-    public function getUgradInactiveAttribute()
-    {
-        return $this->staffProjects->filter(function ($project) {
-            return $project->isUndergrad() && $project->isInactive();
-        })->count();
-    }
-
-    public function getPgradActiveAttribute()
-    {
-        return $this->staffProjects->filter(function ($project) {
-            return $project->isPostgrad() && $project->isActive();
-        })->count();
-    }
-
-    public function getPgradInactiveAttribute()
-    {
-        return $this->staffProjects->filter(function ($project) {
-            return $project->isPostgrad() && $project->isInactive();
-        })->count();
+        return (new ProjectStats($this))->get();
     }
 
     public function anonymise()

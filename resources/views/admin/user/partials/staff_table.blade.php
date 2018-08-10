@@ -24,6 +24,18 @@
             @{{ row.pgrad_active }} / @{{ row.pgrad_inactive}}
         </template>
     </table-column>
+
+    <table-column show="second_ugrad_active" label="2nd Ugrad Proj">
+        <template slot-scope="row">
+            @{{ row.second_ugrad_active }} / @{{ row.second_ugrad_inactive}}
+        </template>
+    </table-column>
+    <table-column show="second_pgrad_active" label="2nd Pgrad Proj">
+        <template slot-scope="row">
+            @{{ row.second_pgrad_active }} / @{{ row.second_pgrad_inactive}}
+        </template>
+    </table-column>
+
     <table-column show="email" label="Email">
         <template slot-scope="row">
             <a :href="`mailto:${row.email}`">@{{ row.email }}</a>
