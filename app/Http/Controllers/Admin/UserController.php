@@ -11,7 +11,7 @@ class UserController extends Controller
 {
     public function index($category = 'staff')
     {
-        $users = User::ofType($category)->with('staffProjects')->orderBy('surname')->get()->map(function ($user) {
+        $users = User::ofType($category)->with(['staffProjects', 'secondSupervisorProjects'])->orderBy('surname')->get()->map(function ($user) {
             return $user->getProjectStats();
         });
         return view('admin.user.index', [
