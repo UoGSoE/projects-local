@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
+use App\Events\SomethingNoteworthyHappened;
 
 class CourseController extends Controller
 {
@@ -54,6 +55,8 @@ class CourseController extends Controller
         )->hour(23)->minute(59);
 
         Course::create($data);
+
+        event(new SomethingNoteworthyHappened(auth()->user(), "Created course {$data['code']}"));
 
         return redirect()->route('admin.course.index')->with('success', 'Course Created');
     }
@@ -106,6 +109,8 @@ class CourseController extends Controller
 
         $course->update($data);
 
+        event(new SomethingNoteworthyHappened(auth()->user(), "Updated course {$data['code']}"));
+
         return redirect()->route('admin.course.index')->with('success', 'Course Updated');
     }
 
@@ -117,10 +122,14 @@ class CourseController extends Controller
      */
     public function destroy(Course $course, Request $request)
     {
+        $code = $course->code;
         $course->students->each->delete();
         $course->delete();
 
         session()->flash('success', 'Course deleted');
+
+        event(new SomethingNoteworthyHappened(auth()->user(), "Deleted course {$code}"));
+
         if ($request->wantsJson()) {
             return response()->json(['status' => 'deleted']);
         }

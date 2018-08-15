@@ -111,7 +111,7 @@ class User extends Authenticatable
 
     public function applicableProjects()
     {
-        if (!$this->course_id) {
+        if ($this->isntOnACourse()) {
             return collect([]);
         }
         return $this->course->projects()->with('owner', 'programmes')->active()->get();
@@ -119,7 +119,7 @@ class User extends Authenticatable
 
     public function applicableProgrammes()
     {
-        if (!$this->course_id) {
+        if ($this->isntOnACourse()) {
             return collect([]);
         }
         return Programme::where('category', '=', $this->course->category)->orderBy('title')->get();

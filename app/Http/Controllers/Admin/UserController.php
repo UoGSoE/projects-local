@@ -11,9 +11,13 @@ class UserController extends Controller
 {
     public function index($category = 'staff')
     {
-        $users = User::ofType($category)->with(['staffProjects', 'secondSupervisorProjects'])->orderBy('surname')->get()->map(function ($user) {
-            return $user->getProjectStats();
-        });
+        $users = User::ofType($category)
+            ->with(['staffProjects', 'secondSupervisorProjects'])
+            ->orderBy('surname')
+            ->get()
+            ->map(function ($user) {
+                return $user->getProjectStats();
+            });
         return view('admin.user.index', [
             'category' => $category,
             'users' => $users,
@@ -47,7 +51,7 @@ class UserController extends Controller
         return response()->json(['status' => 'ok']);
     }
 
-    public function getDeleteMessageFor(User $user)
+    protected function getDeleteMessageFor(User $user)
     {
         if ($user->isStudent()) {
             return "Deleted student {$user->matric}";

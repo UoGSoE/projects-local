@@ -246,18 +246,18 @@ class ApplicationTest extends TestCase
         $this->withoutExceptionHandling();
         // given we have a student on a course
         $student = create(User::class, ['is_staff' => false]);
-        $course = create(Course::class, ['application_deadline' => now()->subDays(1)]);
+        $course = create(Course::class, ['application_deadline' => now()->subDays(1), 'category' => 'undergrad']);
         $course->students()->save($student);
         // and given we have three projects
-        $project1 = create(Project::class);
-        $project2 = create(Project::class);
-        $project3 = create(Project::class);
+        $project1 = create(Project::class, ['category' => 'undergrad']);
+        $project2 = create(Project::class, ['category' => 'undergrad']);
+        $project3 = create(Project::class, ['category' => 'undergrad']);
         $course->projects()->sync([$project1->id, $project2->id, $project3->id]);
 
         // if they visit their homepage
         $response = $this->actingAs($student)->get('/');
 
-        // they see the warning as well as the projects
+        // they see the deadline warning but can still see the projects
         $response->assertSuccessful();
         $response->assertSee('deadline has passed');
         $response->assertSee($project1->title);
