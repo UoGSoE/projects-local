@@ -1,0 +1,81 @@
+{
+    "Response": "OK",
+    "ResponseCode": 1,
+    "Data": [
+        {
+            "ItemType": "Project",
+            "AcademicSession": "2018/2019",
+            "Code": "PROJ489778",
+            "Title": "MEng A new device to study liquid bridges between particles",
+            "Submitter": {
+                "GUID": "fake1x",
+                "Surname": "Smith",
+                "Forenames": "Fake"
+            },
+            "Courses": [
+                "ENG1234"
+            ],
+            "Staff": {
+                "fake1x": {
+                    "GUID": "fake1x",
+                    "Surname": "Smith",
+                    "Forenames": "Fake"
+                }
+            },
+            "Students": [],
+            "Approved": "Yes",
+            "ApprovedBy": "",
+            "Type": "",
+            "ProjectType": "FYP",
+            "ConfidentialFlag": null,
+            "Programme": "Programme1 [MEng]|Programme2 [MEng]",
+            "Description": "Blah de blah",
+            "Prereq": "Some pre-reqs",
+            "NumStudents": 1,
+            "Placement": "Yes",
+            "StartDate": "",
+            "EndDate": "",
+            "_id": {
+                "$id": "5b0f987ce175784605000385"
+            }
+        },
+        {
+            "ItemType": "Project",
+            "AcademicSession": "2018/2019",
+            "Code": "PROJ924206",
+            "Title": "(BEng) Design and Build an Optical Fibre Pulling System",
+            "Submitter": {
+                "GUID": "fake2x",
+                "Surname": "McFake",
+                "Forenames": "Jane"
+            },
+            "Courses": [
+                "ENG2345"
+            ],
+            "Staff": {
+                "fake2x": {
+                    "GUID": "fake2x",
+                    "Surname": "McFake",
+                    "Forenames": "Jane"
+                }
+            },
+            "Students": [],
+            "Approved": "Yes",
+            "ApprovedBy": "",
+            "Type": "",
+            "ProjectType": "FYP",
+            "ConfidentialFlag": null,
+            "Programme": "Programme1 [MEng]|Programme3 [MEng]",
+            "Description": "Some amazing project description",
+            "Prereq": "",
+            "NumStudents": 1,
+            "Placement": null,
+            "StartDate": "",
+            "EndDate": "",
+            "_id": {
+                "$id": "5ae96a05e17578917f0006fb"
+            },
+            "ArchiveStudents": {}
+        }
+    ]
+}
