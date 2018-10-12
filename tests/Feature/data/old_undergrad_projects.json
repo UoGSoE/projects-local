@@ -76,6 +76,44 @@
                 "$id": "5ae96a05e17578917f0006fb"
             },
             "ArchiveStudents": {}
+        },
+        {
+            "ItemType": "Project",
+            "AcademicSession": "2018/2019",
+            "Code": "PROJ481647",
+            "Title": "xAP enabled 1-Wire master",
+            "Submitter": {
+                "Surname": "Smith",
+                "Forenames": "Fake",
+                "GUID": "fake1x"
+            },
+            "Courses": [
+                "ENG9191"
+            ],
+            "Staff": {
+                "sar4r": {
+                    "GUID": "fake1x",
+                    "Surname": "Smith",
+                    "Forenames": "Fake"
+                }
+            },
+            "Students": [],
+            "Approved": "Yes",
+            "ApprovedBy": "",
+            "Type": "",
+            "ProjectType": "PG",
+            "ConfidentialFlag": null,
+            "Programme": "PG Programme1 [MSc]|PG Programme2 [MSc]|PG Programme3 [MSc]",
+            "Description": "Something to do with busses",
+            "Prereq": "Competent programming skills",
+            "NumStudents": 1,
+            "Placement": null,
+            "StartDate": "",
+            "EndDate": "",
+            "_id": {
+                "$id": "5ae96a06e17578917f00084b"
+            },
+            "ArchiveStudents": {}
         }
     ]
 }

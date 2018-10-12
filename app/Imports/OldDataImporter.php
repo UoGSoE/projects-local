@@ -82,7 +82,7 @@ class OldDataImporter
             'title' => $jsonProject['Title'],
             'category' => $jsonProject['ProjectType'] == 'FYP' ? 'undergrad' : 'postgrad',
             'is_confidential' => $jsonProject['ConfidentialFlag'] == 'Yes' ? true : false,
-            'is_placement' => $jsonProject['Placement'] == 'Yes' ? true : false,
+            'is_placement' => $jsonProject['Placement'] ? true : false,
             'description' => $jsonProject['Description'],
             'pre_req' => $jsonProject['Prereq'],
             'is_active' => true,
