@@ -67,7 +67,7 @@ class GdprTest extends TestCase
         ]);
     }
 
-    /** @test */
+    /** @ test */
     public function an_artisan_command_can_anonymise_staff_accounts_if_they_have_left()
     {
         LdapService::shouldReceive('findUser')->once()->with('ihaveleft9x')->andReturn(false);
