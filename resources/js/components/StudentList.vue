@@ -145,7 +145,7 @@ export default {
           students: this.acceptedStudents
         })
         .then(response => {
-          console.log("Woo");
+          location.reload();
         })
         .catch(error => {
           console.log("Boo");

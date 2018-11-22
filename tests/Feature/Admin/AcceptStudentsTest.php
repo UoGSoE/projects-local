@@ -2,13 +2,12 @@
 
 namespace Tests\Feature\Admin;
 
-use App\User;
-use App\Project;
-use Tests\TestCase;
 use App\Mail\AcceptedOntoProject;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Project;
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
+use Tests\TestCase;
 
 class AcceptStudentsTest extends TestCase
 {
@@ -58,6 +57,32 @@ class AcceptStudentsTest extends TestCase
         $response->assertRedirect(route('project.show', $project->id));
         $response->assertSessionHas('success');
         $this->assertTrue($project->students()->first()->isAccepted());
+    }
+
+    /** @test */
+    public function an_admin_can_unaccept_any_student_on_a_given_project()
+    {
+        Mail::fake();
+        // given we have a an undergrad project with two accepted students
+        $admin = create(User::class, ['is_admin' => true]);
+        $student1 = create(User::class, ['is_staff' => false]);
+        $student2 = create(User::class, ['is_staff' => false]);
+        $project = create(Project::class, ['category' => 'undergrad']);
+        $student1->projects()->sync([$project->id => ['choice' => 1, 'is_accepted' => true]]);
+        $student2->projects()->sync([$project->id => ['choice' => 1, 'is_accepted' => true]]);
+        $this->assertTrue($student1->isAccepted());
+        $this->assertTrue($student2->isAccepted());
+
+        // and when we submit the form with student2 missing
+        $response = $this->actingAs($admin)->post(route('project.accept_students', $project->id), [
+            'students' => [$student1->id],
+        ]);
+
+        // the student2 should be unaccepted, and student1 should still be accepted
+        $response->assertRedirect(route('project.show', $project->id));
+        $response->assertSessionHas('success');
+        $this->assertTrue($student1->fresh()->isAccepted());
+        $this->assertFalse($student2->fresh()->isAccepted());
     }
 
     /** @test */

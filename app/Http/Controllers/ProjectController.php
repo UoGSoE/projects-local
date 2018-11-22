@@ -2,18 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
 use App\Course;
-use App\Project;
-use App\Programme;
-use Illuminate\Http\Request;
 use App\Events\SomethingNoteworthyHappened;
+use App\Programme;
+use App\Project;
+use App\User;
+use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
     public function show($id)
     {
-        $project = Project::with('owner', 'programmes', 'courses', 'students')->findOrFail($id);
+        $project = Project::with('owner', 'programmes', 'courses', 'students')->withCount([
+            'students',
+            'students as accepted_students_count' => function ($query) {
+                return $query->where('is_accepted', '=', true);
+            },
+        ])->findOrFail($id);
         $this->authorize('view', $project);
         $students = User::students()->orderBy('surname')->get();
         return view('project.show', ['project' => $project, 'students' => $students]);

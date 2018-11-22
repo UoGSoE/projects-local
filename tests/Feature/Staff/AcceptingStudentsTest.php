@@ -2,14 +2,12 @@
 
 namespace Tests\Feature\Staff;
 
-use App\User;
-use App\Course;
-use App\Project;
-use Tests\TestCase;
 use App\Mail\AcceptedOntoProject;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Project;
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
+use Tests\TestCase;
 
 class AcceptingStudentsTest extends TestCase
 {
@@ -79,6 +77,52 @@ class AcceptingStudentsTest extends TestCase
         $response->assertStatus(403);
         $response->assertSessionMissing('success');
         $this->assertFalse($project->students()->first()->isAccepted());
+    }
+
+    /** @test */
+    public function staff_can_only_accept_upto_the_max_students_number_of_students()
+    {
+        $staff = create(User::class, ['is_staff' => true]);
+        $student1 = create(User::class, ['is_staff' => false]);
+        $student2 = create(User::class, ['is_staff' => false]);
+        $project = create(Project::class, ['staff_id' => $staff->id, 'category' => 'undergrad', 'max_students' => 1]);
+        $student1->projects()->sync([$project->id => ['choice' => 1, 'is_accepted' => true]]);
+        $student2->projects()->sync([$project->id => ['choice' => 1, 'is_accepted' => false]]);
+
+        $response = $this->actingAs($staff)->get(route('project.show', $project->id));
+
+        $response = $this->actingAs($staff)->post(route('project.accept_students', $project->id), [
+            'students' => [$student2->id],
+        ]);
+
+        $response->assertStatus(403);
+        $response->assertSessionMissing('success');
+        $this->assertFalse($student2->isAccepted());
+    }
+
+    /** @test */
+    public function staff_cant_unaccept_any_student_on_a_given_project()
+    {
+        Mail::fake();
+        // given we have a an undergrad project with two accepted students
+        $staff = create(User::class, ['is_staff' => true]);
+        $student1 = create(User::class, ['is_staff' => false]);
+        $student2 = create(User::class, ['is_staff' => false]);
+        $project = create(Project::class, ['category' => 'undergrad', 'max_students' => 5]);
+        $student1->projects()->sync([$project->id => ['choice' => 1, 'is_accepted' => true]]);
+        $student2->projects()->sync([$project->id => ['choice' => 1, 'is_accepted' => true]]);
+        $this->assertTrue($student1->isAccepted());
+        $this->assertTrue($student2->isAccepted());
+
+        // and when we submit the form with student2 missing
+        $response = $this->actingAs($staff)->post(route('project.accept_students', $project->id), [
+            'students' => [$student1->id],
+        ]);
+
+        // both students should still be accepted
+        $response->assertStatus(302);
+        $this->assertTrue($student1->fresh()->isAccepted());
+        $this->assertTrue($student2->fresh()->isAccepted());
     }
 
     /** @test */

@@ -1,6 +1,8 @@
 <template>
     <div>
-        <label class="label">Manually Allocate a Student</label>
+        <label class="label">
+            Manually Allocate a Student
+        </label>
         <div class="field has-addons">
             <div class="control">
                 <div class="select">
@@ -15,6 +17,10 @@
         </div>
             <span v-if="errorMessage" class="has-text-danger">
                 {{ errorMessage }}
+            </span>
+            <span v-if="fullyAllocated">
+                 <span class="tag is-danger">Warning!</span>
+                 <span class="has-text-danger">Maximum number for this project is {{ project.max_students }}</span>
             </span>
     </div>
 </template>
@@ -32,7 +38,11 @@ export default {
     };
   },
 
-  computed: {},
+  computed: {
+    fullyAllocated() {
+      return this.project.accepted_students_count >= this.project.max_students;
+    }
+  },
 
   methods: {
     submit() {

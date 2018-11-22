@@ -164,6 +164,11 @@ class Project extends Model
         $this->accept($student);
     }
 
+    public function unAccept(User $student)
+    {
+        $student->projects()->syncWithoutDetaching([$this->id => ['is_accepted' => false]]);
+    }
+
     public function removeAllStudents()
     {
         $this->students->each->delete();

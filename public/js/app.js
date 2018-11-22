@@ -30849,7 +30849,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       axios.post(route("project.accept_students", this.project.id), {
         students: this.acceptedStudents
       }).then(function (response) {
-        console.log("Woo");
+        location.reload();
       }).catch(function (error) {
         console.log("Boo");
       });
@@ -31847,6 +31847,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["students", "project"],
@@ -31860,7 +31866,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
 
 
-  computed: {},
+  computed: {
+    fullyAllocated: function fullyAllocated() {
+      return this.project.accepted_students_count >= this.project.max_students;
+    }
+  },
 
   methods: {
     submit: function submit() {
@@ -31888,7 +31898,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _c("label", { staticClass: "label" }, [
-      _vm._v("Manually Allocate a Student")
+      _vm._v("\n        Manually Allocate a Student\n    ")
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "field has-addons" }, [
@@ -31947,6 +31957,19 @@ var render = function() {
     _vm.errorMessage
       ? _c("span", { staticClass: "has-text-danger" }, [
           _vm._v("\n            " + _vm._s(_vm.errorMessage) + "\n        ")
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.fullyAllocated
+      ? _c("span", [
+          _c("span", { staticClass: "tag is-danger" }, [_vm._v("Warning!")]),
+          _vm._v(" "),
+          _c("span", { staticClass: "has-text-danger" }, [
+            _vm._v(
+              "Maximum number for this project is " +
+                _vm._s(_vm.project.max_students)
+            )
+          ])
         ])
       : _vm._e()
   ])

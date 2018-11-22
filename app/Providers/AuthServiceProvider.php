@@ -2,11 +2,10 @@
 
 namespace App\Providers;
 
-use App\User;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Illuminate\Contracts\Hashing\Hasher as HasherContract;
 use App\Policies\ProjectPolicy;
+use App\User;
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -36,6 +35,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('accept-students', function ($user, $project) {
             if ($user->isAdmin()) {
                 return true;
+            }
+            if ($project->students()->wherePivot('is_accepted', true)->count() >= $project->max_students) {
+                return false;
             }
             if ($project->category == 'undergrad') {
                 return true;

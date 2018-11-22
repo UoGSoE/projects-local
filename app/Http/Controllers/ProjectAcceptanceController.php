@@ -2,22 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
-use App\Project;
-use Illuminate\Http\Request;
 use App\Events\SomethingNoteworthyHappened;
+use App\Project;
+use App\User;
+use Illuminate\Http\Request;
 
 class ProjectAcceptanceController extends Controller
 {
     public function store($id, Request $request)
     {
         $request->validate([
-            'students' => 'required|array|min:1',
+            'students' => 'present|array',
         ]);
 
         $project = Project::findOrFail($id);
 
         $this->authorize('accept-students', $project);
+
+        if ($request->user()->isAdmin()) {
+            $this->unacceptStudentsWhoHaveBeenUnaccepted($project, $request->students);
+        }
 
         $students = User::students()->findMany($request->students);
         $students->each(function ($student) use ($project) {
@@ -34,5 +38,14 @@ class ProjectAcceptanceController extends Controller
         ));
 
         return redirect(route('project.show', $project->id))->with('success', 'Students Accepted');
+    }
+
+    public function unacceptStudentsWhoHaveBeenUnaccepted(Project $project, array $studentIds)
+    {
+        $students = $project->students()->whereNotIn('student_id', $studentIds);
+        $students->each(function ($student) use ($project) {
+            $project->unAccept($student);
+        });
+        return;
     }
 }
