@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Course;
+use App\Events\SomethingNoteworthyHappened;
+use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use App\Http\Controllers\Controller;
-use App\Events\SomethingNoteworthyHappened;
 
 class CourseController extends Controller
 {

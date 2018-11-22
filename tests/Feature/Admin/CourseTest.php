@@ -2,13 +2,10 @@
 
 namespace Tests\Feature\Admin;
 
-use App\User;
 use App\Course;
-use App\Project;
-use App\Programme;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class CourseTest extends TestCase
 {
@@ -162,6 +159,27 @@ class CourseTest extends TestCase
         $response->assertSessionHasErrors('title');
         $response->assertSessionHasErrors('code');
         $response->assertSessionHasErrors('application_deadline');
+    }
+
+    /** @test */
+    public function the_same_code_can_be_used_when_updating_a_course()
+    {
+        $admin = create(User::class, ['is_admin' => true]);
+        $course = create(Course::class, [
+            'title' => 'A COURSE',
+            'code' => 'ENG9999',
+            'category' => 'undergrad',
+        ]);
+
+        $response = $this->actingAs($admin)->post(route('admin.course.update', $course->id), [
+            'title' => "Whatever",
+            'code' => $course->code,
+            'category' => 'undergrad',
+            'application_deadline' => now()->addMonths(3)->format('d/m/Y'),
+        ]);
+
+        $response->assertStatus(302);
+        $response->assertSessionHasNoErrors();
     }
 
     /** @test */
