@@ -2,8 +2,8 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
@@ -114,7 +114,9 @@ class User extends Authenticatable
         if ($this->isntOnACourse()) {
             return collect([]);
         }
-        return $this->course->projects()->with('owner', 'programmes')->active()->get();
+        return $this->course->projects()->with('owner', 'programmes')->active()->get()->reject(function ($project) {
+            return $project->students()->wherePivot('is_accepted', true)->count() >= $project->max_students;
+        });
     }
 
     public function applicableProgrammes()

@@ -2,14 +2,13 @@
 
 namespace Tests\Feature\Student;
 
-use App\User;
 use App\Course;
-use App\Project;
-use Tests\TestCase;
 use App\Mail\ChoiceConfirmation;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Project;
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
+use Tests\TestCase;
 
 class ApplicationTest extends TestCase
 {
@@ -66,6 +65,38 @@ class ApplicationTest extends TestCase
     }
 
     /** @test */
+    public function projects_which_are_fully_allocated_do_not_show_up_on_the_list()
+    {
+        // given we have students and a course
+        $student1 = create(User::class, ['is_staff' => false]);
+        $student2 = create(User::class, ['is_staff' => false]);
+        $student3 = create(User::class, ['is_staff' => false]);
+        $course1 = create(Course::class);
+        // and the students are on that course
+        $course1->students()->save($student1);
+        $course1->students()->save($student2);
+        $course1->students()->save($student3);
+        // and a fully allocated project for that course
+        $allocatedProject = create(Project::class, ['max_students' => 1]);
+        $allocatedProject->courses()->sync([$course1->id]);
+        $student1->projects()->sync([$allocatedProject->id => ['choice' => 1]]);
+        $allocatedProject->accept($student1); // leaving no places free
+        // and places left on another project
+        $unallocatedProject = create(Project::class, ['max_students' => 2]);
+        $unallocatedProject->courses()->sync([$course1->id]);
+        $student2->projects()->sync([$allocatedProject->id => ['choice' => 1]]);
+        $allocatedProject->accept($student2); // leaving one place still free
+
+        // when the student goes to the homepage
+        $response = $this->actingAs($student3)->get(route('home'));
+
+        // they should only see the allocated project
+        $response->assertSuccessful();
+        $response->data('projects')->assertNotContains($allocatedProject);
+        $response->data('projects')->assertContains($unallocatedProject);
+    }
+
+    /** @test */
     public function a_student_cant_apply_for_a_more_than_the_required_number_of_projects()
     {
         // given we have a student on a course
@@ -86,7 +117,7 @@ class ApplicationTest extends TestCase
                 [1 => $project3->id],
                 [2 => $project1->id],
                 [3 => $project2->id],
-            ]
+            ],
         ]);
 
         // then they get an error and no project choices are stored
@@ -117,7 +148,7 @@ class ApplicationTest extends TestCase
             'choices' => [
                 1 => $project3->id,
                 2 => $project1->id,
-            ]
+            ],
         ]);
 
         // then they get the thank you page and the choices are stored
@@ -152,7 +183,7 @@ class ApplicationTest extends TestCase
             'choices' => [
                 1 => $project3->id,
                 2 => $project1->id,
-            ]
+            ],
         ]);
 
         // then they get an error and no project choices are stored
@@ -183,7 +214,7 @@ class ApplicationTest extends TestCase
             'choices' => [
                 1 => $project3->id,
                 2 => $project1->id,
-            ]
+            ],
         ]);
 
         // then they get the thank you page and the choices are stored
@@ -231,7 +262,7 @@ class ApplicationTest extends TestCase
             'choices' => [
                 1 => $project3->id,
                 2 => $project1->id,
-            ]
+            ],
         ]);
 
         // then they get redirected and no new choices are saved

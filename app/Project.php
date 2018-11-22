@@ -3,8 +3,8 @@
 namespace App;
 
 use App\Mail\AcceptedOntoProject;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Mail;
 
 class Project extends Model
 {
@@ -98,7 +98,7 @@ class Project extends Model
         return $this->students->map(function ($student) {
             $base = $student->toArray();
             $base['choice'] = intval($student->pivot->choice);
-            $base['is_accepted'] = (boolean)$student->pivot->is_accepted;
+            $base['is_accepted'] = (boolean) $student->pivot->is_accepted;
             return $base;
         })->toJson();
     }
