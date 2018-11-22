@@ -17,18 +17,23 @@
             <th>Title</th>
             <th>Type</th>
             <th>No. Students Applied</th>
+            <th>No. Students Accepted</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (auth()->user()->projects()->withCount('students')->orderBy('title')->get() as $project)
+        @foreach (auth()->user()->projects()->withCount([
+            'students',
+            'students as accepted_students_count' => function ($query) {
+                return $query->where('is_accepted', '=', true);
+            },
+        ])->orderBy('title')->get() as $project)
             <tr>
                 <td>
                     <a href="{{ route('project.show', $project->id) }}">
                         @if ($project->isInactive())
-                            <strike title="Inactive">{{ $project->title }}</strike>
-                        @else
-                            {{ $project->title }}
+                            <span class="tag">Inactive</span>
                         @endif
+                        {{ $project->title }}
                     </a>
                 </td>
                 <td>
@@ -36,6 +41,9 @@
                 </td>
                 <td>
                     {{ $project->students_count }}
+                </td>
+                <td>
+                    {{ $project->accepted_students_count }}
                 </td>
             </tr>
         @endforeach
