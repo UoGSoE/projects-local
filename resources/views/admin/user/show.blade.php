@@ -68,15 +68,40 @@
 
 @if ($user->isStaff())
     <h4 class="title is-4">Projects</h4>
-    <ul>
-        @foreach ($user->projects as $project)
-            <li>
-                <a href="{{ route('project.show', $project->id) }}">
-                    {{ $project->title }}
-                </a>
-            </li>
-        @endforeach
-    </ul>
+    <table class="table is-fullwidth is-striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Courses</th>
+                <th>Allocated Students</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($user->projects as $project)
+                <tr>
+                    <td>
+                        <a href="{{ route('project.show', $project->id) }}">
+                            {{ $project->title }}
+                        </a>
+                    </td>
+                    <td>
+                        @foreach ($project->courses as $course)
+                            <a href="{{ route('admin.course.show', $course->id) }}">
+                                {{ $course->code }}
+                            </a><br>
+                        @endforeach
+                    </td>
+                    <td>
+                        @foreach ($project->students()->wherePivot('is_accepted', true)->get() as $student)
+                            <a href="{{ route('admin.user.show', $student->id) }}">
+                                {{ $student->matric }} {{ $student->full_name }}
+                            </a><br>
+                        @endforeach
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
 @else
     <h4 class="title is-4">Project Choices</h4>
     <table class="table">
