@@ -113,6 +113,11 @@ class Project extends Model
         return $this->courses->implode('code', ' ');
     }
 
+    public function getProgrammeTitlesAttribute()
+    {
+        return $this->programmes->implode('title', ' ');
+    }
+
     public function isInactive()
     {
         return !$this->is_active;
