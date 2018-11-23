@@ -1,7 +1,5 @@
 <?php
 
-use App\Mail\AcceptedOntoProject;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,7 +10,6 @@ use App\Mail\AcceptedOntoProject;
 | contains the "web" middleware group. Now create something great!
 |
  */
-
 
 Auth::routes();
 
@@ -68,6 +65,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::delete('/programme/{id}', 'Admin\ProgrammeController@destroy')->name('admin.programme.destroy');
 
         Route::post('/bulk-accept', 'Admin\BulkAcceptanceController@store')->name('project.bulk_accept');
+        Route::get('/import-allocations', 'Admin\ImportAllocationController@show')->name('project.import.allocations-page');
+        Route::post('/import-allocations', 'Admin\ImportAllocationController@store')->name('project.import.allocations');
 
         Route::post('/impersonate/{id}', 'Admin\ImpersonationController@store')->name('impersonate.start');
 
@@ -99,5 +98,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/researcharea', 'Admin\ResearchAreaController@store')->name('researcharea.store');
         Route::post('/researcharea/{area}', 'Admin\ResearchAreaController@update')->name('researcharea.update');
         Route::delete('/researcharea/{area}', 'Admin\ResearchAreaController@destroy')->name('researcharea.destroy');
+
+        Route::get('/reports/choices/{category}', 'Admin\Reports\ChoicesReportController@show')->name('admin.report.choices');
     });
 });
