@@ -25,13 +25,13 @@ class ProjectStats
     {
         $user = $this->staffMember->toArray();
         $user['ugrad_active'] = $this->ugradActive();
-        $user['ugrad_inactive'] = $this->ugradInactive();
+        $user['ugrad_allocated'] = $this->ugradAllocated();
         $user['pgrad_active'] = $this->pgradActive();
-        $user['pgrad_inactive'] = $this->pgradInactive();
+        $user['pgrad_allocated'] = $this->pgradAllocated();
         $user['2nd_ugrad_active'] = $this->secondUgradActive();
-        $user['2nd_ugrad_inactive'] = $this->secondUgradInactive();
+        $user['2nd_ugrad_allocated'] = $this->secondUgradAllocated();
         $user['2nd_pgrad_active'] = $this->secondPgradActive();
-        $user['2nd_pgrad_inactive'] = $this->secondPgradInactive();
+        $user['2nd_pgrad_allocated'] = $this->secondPgradAllocated();
         return $user;
     }
 
@@ -46,6 +46,34 @@ class ProjectStats
     {
         return $this->staffMember->staffProjects->filter(function ($project) {
             return $project->isUndergrad() && $project->isInactive();
+        })->count();
+    }
+
+    public function ugradAllocated()
+    {
+        return $this->staffMember->staffProjects->filter(function ($project) {
+            return $project->isUndergrad() && $project->isFullyAllocated();
+        })->count();
+    }
+
+    public function secondUgradAllocated()
+    {
+        return $this->staffMember->secondSupervisorProjects->filter(function ($project) {
+            return $project->isUndergrad() && $project->isFullyAllocated();
+        })->count();
+    }
+
+    public function pgradAllocated()
+    {
+        return $this->staffMember->staffProjects->filter(function ($project) {
+            return $project->isPostgrad() && $project->isFullyAllocated();
+        })->count();
+    }
+
+    public function secondPgradAllocated()
+    {
+        return $this->staffMember->secondSupervisorProjects->filter(function ($project) {
+            return $project->isPostgrad() && $project->isFullyAllocated();
         })->count();
     }
 

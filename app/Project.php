@@ -174,6 +174,11 @@ class Project extends Model
         $student->projects()->syncWithoutDetaching([$this->id => ['is_accepted' => false]]);
     }
 
+    public function isFullyAllocated()
+    {
+        return $this->students->count() >= $this->max_students;
+    }
+
     public function removeAllStudents()
     {
         $this->students->each->delete();

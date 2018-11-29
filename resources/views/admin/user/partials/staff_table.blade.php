@@ -16,23 +16,23 @@
     <table-column show="forenames" label="Forename"></table-column>
     <table-column show="ugrad_active" label="Ugrad Proj">
         <template slot-scope="row">
-            @{{ row.ugrad_active }} / @{{ row.ugrad_inactive}}
+            @{{ row.ugrad_active }} / @{{ row.ugrad_allocated}}
         </template>
     </table-column>
     <table-column show="pgrad_active" label="Pgrad Proj">
         <template slot-scope="row">
-            @{{ row.pgrad_active }} / @{{ row.pgrad_inactive}}
+            @{{ row.pgrad_active }} / @{{ row.pgrad_allocated}}
         </template>
     </table-column>
 
     <table-column show="second_ugrad_active" label="2nd Ugrad Proj">
         <template slot-scope="row">
-            @{{ row.second_ugrad_active }} / @{{ row.second_ugrad_inactive}}
+            @{{ row.second_ugrad_active }} / @{{ row.second_ugrad_allocated}}
         </template>
     </table-column>
     <table-column show="second_pgrad_active" label="2nd Pgrad Proj">
         <template slot-scope="row">
-            @{{ row.second_pgrad_active }} / @{{ row.second_pgrad_inactive}}
+            @{{ row.second_pgrad_active }} / @{{ row.second_pgrad_allocated}}
         </template>
     </table-column>
 
