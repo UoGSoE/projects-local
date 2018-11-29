@@ -27,7 +27,13 @@
             You cannot choose any projects as the application deadline has passed.
         </div>
     @endif
-    <project-list :projects='@json($projects)' :programmes='@json($programmes)' :toolate='@json(Auth::user()->isTooLate())'></project-list>
+    <project-list
+      :projects='@json($projects)'
+      :programmes='@json($programmes)'
+      :toolate='@json(Auth::user()->isTooLate())'
+      :research_areas='@json($researchAreas)'
+    >
+    </project-list>
 @endif
 
 @endsection

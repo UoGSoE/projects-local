@@ -2,17 +2,15 @@
 
 namespace Tests\Feature;
 
-use App\User;
 use App\Course;
+use App\Programme;
 use App\Project;
-use Tests\TestCase;
-use Ohffs\Ldap\LdapUser;
+use App\ResearchArea;
+use App\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Activitylog\Models\Activity;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Programme;
-use App\ResearchArea;
+use Tests\TestCase;
 
 class ActivityTest extends TestCase
 {
@@ -172,13 +170,15 @@ class ActivityTest extends TestCase
         config(['projects.required_choices' => 2]);
         login();
         $projects = create(Project::class, [], 2);
+        $area = create(ResearchArea::class);
         Activity::all()->each->delete();
 
         $response = $this->actingAs($student)->post(route('projects.choose'), [
             'choices' => [
                 1 => $projects[0]->id,
                 2 => $projects[1]->id,
-            ]
+            ],
+            'research_area' => $area->title,
         ]);
 
         $response->assertSessionHasNoErrors();
@@ -252,7 +252,7 @@ class ActivityTest extends TestCase
             ],
             'delete' => [
                 $ugProject1->id,
-            ]
+            ],
         ]);
 
         $logs = Activity::all();
@@ -434,7 +434,7 @@ class ActivityTest extends TestCase
         Activity::all()->each->delete();
 
         $response = $this->actingAs($admin)->post(route('researcharea.store'), [
-            'title' => 'Fred'
+            'title' => 'Fred',
         ]);
 
         $logs = Activity::all();
@@ -445,7 +445,7 @@ class ActivityTest extends TestCase
         $area = ResearchArea::first();
 
         $response = $this->actingAs($admin)->post(route('researcharea.update', $area->id), [
-            'title' => 'Updated Title'
+            'title' => 'Updated Title',
         ]);
 
         $logs = Activity::all();

@@ -30119,148 +30119,204 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['projects', 'programmes', 'toolate'],
+  props: ["projects", "programmes", "toolate", "research_areas"],
 
-    data: function data() {
-        return {
-            showConfirmation: false,
-            openProjects: [],
-            selectedStudent: null,
-            requiredChoices: window.config.required_choices,
-            submitButtonText: 'Submit my choices',
-            submissionError: false,
-            selectedProgramme: -1,
-            choices: {
-                first: null,
-                second: null,
-                third: null,
-                fourth: null,
-                fifth: null
-            }
-        };
+  data: function data() {
+    return {
+      showConfirmation: false,
+      openProjects: [],
+      selectedStudent: null,
+      requiredChoices: window.config.required_choices,
+      submitButtonText: "Submit my choices",
+      submissionError: false,
+      selectedProgramme: -1,
+      choices: {
+        first: null,
+        second: null,
+        third: null,
+        fourth: null,
+        fifth: null
+      },
+      research_area: ""
+    };
+  },
+
+
+  computed: {
+    anyProjectsChosen: function anyProjectsChosen() {
+      return this.choices.first || this.choices.second || this.choices.third || this.choices.fourth || this.choices.fifth;
     },
-
-
-    computed: {
-        anyProjectsChosen: function anyProjectsChosen() {
-            return this.choices.first || this.choices.second || this.choices.third || this.choices.fourth || this.choices.fifth;
-        },
-        numberChosen: function numberChosen() {
-            var total = 0;
-            for (var key in this.choices) {
-                if (this.choices.hasOwnProperty(key)) {
-                    if (this.choices[key] != null) {
-                        total++;
-                    }
-                }
-            }
-            return total;
-        },
-        availableProjects: function availableProjects() {
-            var _this = this;
-
-            if (this.selectedProgramme == -1) {
-                return this.projects;
-            }
-            return this.projects.filter(function (project) {
-                return project.programmes.find(function (programme) {
-                    if (programme.title == _this.selectedProgramme) {
-                        return true;
-                    }
-                });
-            });
+    numberChosen: function numberChosen() {
+      var total = 0;
+      for (var key in this.choices) {
+        if (this.choices.hasOwnProperty(key)) {
+          if (this.choices[key] != null) {
+            total++;
+          }
         }
+      }
+      return total;
     },
+    availableProjects: function availableProjects() {
+      var _this = this;
 
-    methods: {
-        getChoice: function getChoice(choice) {
-            return this.findProject(this.choices[choice]);
-        },
-
-        findProject: function findProject(projectId) {
-            var project = this.projects.find(function (project) {
-                return project.id === projectId;
-            });
-            if (!project) {
-                return '';
-            }
-            return project.title;
-        },
-
-        isExpanded: function isExpanded(projectId) {
-            if (this.openProjects.indexOf(projectId) != -1) {
-                return true;
-            }
-            return false;
-        },
-
-        expandProject: function expandProject(projectId) {
-            if (this.isExpanded(projectId)) {
-                var index = this.openProjects.indexOf(projectId);
-                this.openProjects.splice(index, 1);
-                return;
-            }
-            this.openProjects.push(projectId);
-        },
-
-        isChosen: function isChosen(projectId) {
-            if (this.choices.first == projectId) {
-                return true;
-            }
-            if (this.choices.second == projectId) {
-                return true;
-            }
-            if (this.choices.third == projectId) {
-                return true;
-            }
-            if (this.choices.fourth == projectId) {
-                return true;
-            }
-            if (this.choices.fifth == projectId) {
-                return true;
-            }
-        },
-
-        choose: function choose(choice, projectId) {
-            var _this2 = this;
-
-            if (this.toolate) {
-                return;
-            }
-            var keys = ['first', 'second', 'third', 'fourth', 'fifth'];
-            keys.forEach(function (key) {
-                if (_this2.choices[key] == projectId) {
-                    _this2.choices[key] = null;
-                }
-            });
-            this.choices[choice] = projectId;
-        },
-
-        submitChoices: function submitChoices() {
-            var _this3 = this;
-
-            if (this.toolate) {
-                return;
-            }
-            var choices = {
-                "1": this.choices.first,
-                "2": this.choices.second,
-                "3": this.choices.third,
-                "4": this.choices.fourth,
-                "5": this.choices.fifth
-            };
-            console.log(choices);
-            axios.post(route('projects.choose'), { choices: choices }).then(function (response) {
-                window.location = route('thank_you');
-            }).catch(function (error) {
-                _this3.submitButtonText = 'Error submitting choices - sorry';
-                _this3.submissionError = true;
-                console.log(error);
-            });
-        }
+      if (this.selectedProgramme == -1) {
+        return this.projects;
+      }
+      return this.projects.filter(function (project) {
+        return project.programmes.find(function (programme) {
+          if (programme.title == _this.selectedProgramme) {
+            return true;
+          }
+        });
+      });
     }
+  },
+
+  methods: {
+    getChoice: function getChoice(choice) {
+      return this.findProject(this.choices[choice]);
+    },
+
+    findProject: function findProject(projectId) {
+      var project = this.projects.find(function (project) {
+        return project.id === projectId;
+      });
+      if (!project) {
+        return "";
+      }
+      return project.title;
+    },
+
+    isExpanded: function isExpanded(projectId) {
+      if (this.openProjects.indexOf(projectId) != -1) {
+        return true;
+      }
+      return false;
+    },
+
+    expandProject: function expandProject(projectId) {
+      if (this.isExpanded(projectId)) {
+        var index = this.openProjects.indexOf(projectId);
+        this.openProjects.splice(index, 1);
+        return;
+      }
+      this.openProjects.push(projectId);
+    },
+
+    isChosen: function isChosen(projectId) {
+      if (this.choices.first == projectId) {
+        return true;
+      }
+      if (this.choices.second == projectId) {
+        return true;
+      }
+      if (this.choices.third == projectId) {
+        return true;
+      }
+      if (this.choices.fourth == projectId) {
+        return true;
+      }
+      if (this.choices.fifth == projectId) {
+        return true;
+      }
+    },
+
+    choose: function choose(choice, projectId) {
+      var _this2 = this;
+
+      if (this.toolate) {
+        return;
+      }
+      var keys = ["first", "second", "third", "fourth", "fifth"];
+      keys.forEach(function (key) {
+        if (_this2.choices[key] == projectId) {
+          _this2.choices[key] = null;
+        }
+      });
+      this.choices[choice] = projectId;
+    },
+
+    submitChoices: function submitChoices() {
+      var _this3 = this;
+
+      if (this.toolate) {
+        return;
+      }
+      var choices = {
+        "1": this.choices.first,
+        "2": this.choices.second,
+        "3": this.choices.third,
+        "4": this.choices.fourth,
+        "5": this.choices.fifth
+      };
+      console.log(choices);
+      axios.post(route("projects.choose"), {
+        choices: choices,
+        research_area: this.research_area
+      }).then(function (response) {
+        window.location = route("thank_you");
+      }).catch(function (error) {
+        _this3.submitButtonText = "Error submitting choices - sorry";
+        _this3.submissionError = true;
+        console.log(error);
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -30274,269 +30330,345 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("div", { staticClass: "field" }, [
-        _c("div", { staticClass: "control" }, [
-          _c("div", { staticClass: "select" }, [
+      _c(
+        "div",
+        {},
+        [
+          _c("transition", { attrs: { name: "fade", mode: "in-out" } }, [
             _c(
-              "select",
+              "div",
               {
                 directives: [
                   {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.selectedProgramme,
-                    expression: "selectedProgramme"
+                    name: "show",
+                    rawName: "v-show",
+                    value: !_vm.research_area,
+                    expression: "!research_area"
                   }
-                ],
-                attrs: { name: "programmes" },
-                on: {
-                  change: function($event) {
-                    var $$selectedVal = Array.prototype.filter
-                      .call($event.target.options, function(o) {
-                        return o.selected
-                      })
-                      .map(function(o) {
-                        var val = "_value" in o ? o._value : o.value
-                        return val
-                      })
-                    _vm.selectedProgramme = $event.target.multiple
-                      ? $$selectedVal
-                      : $$selectedVal[0]
-                  }
-                }
+                ]
               },
               [
-                _c("option", { domProps: { value: -1 } }, [
-                  _vm._v("For any degree programme")
+                _c("h4", { staticClass: "title is-4" }, [
+                  _vm._v("First choose a research theme")
                 ]),
                 _vm._v(" "),
-                _vm._l(_vm.programmes, function(programme) {
-                  return _c(
-                    "option",
-                    { domProps: { value: programme.title } },
-                    [_vm._v(_vm._s(programme.title))]
-                  )
-                })
-              ],
-              2
-            )
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _vm._l(_vm.availableProjects, function(project) {
-        return _c("div", { key: project.id, staticClass: "box" }, [
-          _c("h4", { staticClass: "title is-4" }, [
-            _c(
-              "button",
-              {
-                staticClass: "button",
-                class: { "is-info": _vm.isChosen(project.id) },
-                attrs: {
-                  id: "expand-" + project.id,
-                  title: "Show full description"
-                },
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    _vm.expandProject(project.id)
-                  }
-                }
-              },
-              [
-                _vm.isExpanded(project.id)
-                  ? _c("span", { staticClass: "icon" }, [
-                      _vm._v("\n                    -\n                ")
-                    ])
-                  : _c("span", { staticClass: "icon" }, [
-                      _vm._v("\n                    +\n                ")
-                    ])
-              ]
-            ),
-            _vm._v("\n            " + _vm._s(project.title) + "\n        ")
-          ]),
-          _vm._v(" "),
-          _c("p", { staticClass: "subtitle has-text-grey-light" }, [
-            _vm._v(
-              "\n            Run by " +
-                _vm._s(project.owner.full_name) +
-                "\n        "
-            )
-          ]),
-          _vm._v(" "),
-          _vm.isExpanded(project.id)
-            ? _c("div", [
-                _c("h5", { staticClass: "title is-5 has-text-grey" }, [
-                  _vm._v("Description")
-                ]),
-                _vm._v(" "),
-                _c("p", [
+                _c("p", { staticClass: "subtitle is-5" }, [
                   _vm._v(
-                    "\n                " +
-                      _vm._s(project.description) +
-                      "\n            "
+                    "\n          This is used when none of your chosen projects can be allocated to you. Staff will try and find another\n          project which aligns with your interests.\n        "
                   )
-                ]),
-                _vm._v(" "),
-                project.pre_req
-                  ? _c("span", [
-                      _c("br"),
-                      _vm._v(" "),
-                      _c("h5", { staticClass: "title is-5 has-text-grey" }, [
-                        _vm._v("Prerequisite Skills")
-                      ]),
-                      _vm._v(" "),
-                      _c("p", [
-                        _vm._v(
-                          "\n                    " +
-                            _vm._s(project.pre_req) +
-                            "\n                "
-                        )
-                      ])
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _c("hr"),
-                _vm._v(" "),
-                _c("div", { staticClass: "level" }, [
+                ])
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "field" }, [
+            _c("div", { staticClass: "control" }, [
+              _c(
+                "label",
+                { staticClass: "label", attrs: { for: "research_area" } },
+                [_vm._v("Research Theme")]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "select" }, [
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.research_area,
+                        expression: "research_area"
+                      }
+                    ],
+                    attrs: { name: "research_area" },
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.research_area = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      }
+                    }
+                  },
+                  _vm._l(_vm.research_areas, function(area) {
+                    return _c(
+                      "option",
+                      { key: area.id, domProps: { value: area.title } },
+                      [_vm._v(_vm._s(area.title))]
+                    )
+                  })
+                )
+              ])
+            ])
+          ])
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c("transition", { attrs: { name: "fade" } }, [
+        _c(
+          "div",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.research_area,
+                expression: "research_area"
+              }
+            ]
+          },
+          [
+            _c("hr"),
+            _vm._v(" "),
+            _c("h4", { staticClass: "title is-4" }, [
+              _vm._v("Now choose your projects")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "field" }, [
+              _c("div", { staticClass: "control" }, [
+                _c("div", { staticClass: "select" }, [
                   _c(
-                    "div",
+                    "select",
                     {
-                      staticClass:
-                        "level-left has-text-weight-semibold has-text-grey"
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.selectedProgramme,
+                          expression: "selectedProgramme"
+                        }
+                      ],
+                      attrs: { name: "programmes" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.selectedProgramme = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        }
+                      }
                     },
                     [
-                      _c("div", { staticClass: "level-item" }, [
-                        _vm._v(
-                          "\n                        Make this project my\n                    "
-                        )
+                      _c("option", { domProps: { value: -1 } }, [
+                        _vm._v("For any degree programme")
                       ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "level-item" }, [
-                        _c("div", { staticClass: "buttons has-addons" }, [
-                          _c(
-                            "span",
-                            {
-                              staticClass: "button",
-                              class: {
-                                "is-info": _vm.choices.first == project.id
-                              },
-                              attrs: { id: "project-" + project.id + "-first" },
-                              on: {
-                                click: function($event) {
-                                  _vm.choose("first", project.id)
-                                }
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                                1st\n                            "
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "span",
-                            {
-                              staticClass: "button",
-                              class: {
-                                "is-info": _vm.choices.second == project.id
-                              },
-                              attrs: {
-                                id: "project-" + project.id + "-second"
-                              },
-                              on: {
-                                click: function($event) {
-                                  _vm.choose("second", project.id)
-                                }
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                                2nd\n                            "
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "span",
-                            {
-                              staticClass: "button",
-                              class: {
-                                "is-info": _vm.choices.third == project.id
-                              },
-                              attrs: { id: "project-" + project.id + "-third" },
-                              on: {
-                                click: function($event) {
-                                  _vm.choose("third", project.id)
-                                }
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                                3rd\n                            "
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "span",
-                            {
-                              staticClass: "button",
-                              class: {
-                                "is-info": _vm.choices.fourth == project.id
-                              },
-                              attrs: {
-                                id: "project-" + project.id + "-fourth"
-                              },
-                              on: {
-                                click: function($event) {
-                                  _vm.choose("fourth", project.id)
-                                }
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                                4th\n                            "
-                              )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "span",
-                            {
-                              staticClass: "button",
-                              class: {
-                                "is-info": _vm.choices.fifth == project.id
-                              },
-                              attrs: { id: "project-" + project.id + "-fifth" },
-                              on: {
-                                click: function($event) {
-                                  _vm.choose("fifth", project.id)
-                                }
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                                5th\n                            "
-                              )
-                            ]
-                          )
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "level-item" }, [
-                        _vm._v(
-                          "\n                        preference\n                    "
+                      _vm._l(_vm.programmes, function(programme) {
+                        return _c(
+                          "option",
+                          {
+                            key: programme.title,
+                            domProps: { value: programme.title }
+                          },
+                          [_vm._v(_vm._s(programme.title))]
                         )
-                      ])
-                    ]
+                      })
+                    ],
+                    2
                   )
                 ])
               ])
-            : _vm._e()
-        ])
-      }),
+            ]),
+            _vm._v(" "),
+            _vm._l(_vm.availableProjects, function(project) {
+              return _c("div", { key: project.id, staticClass: "box" }, [
+                _c("h4", { staticClass: "title is-4" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "button",
+                      class: { "is-info": _vm.isChosen(project.id) },
+                      attrs: {
+                        id: "expand-" + project.id,
+                        title: "Show full description"
+                      },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          _vm.expandProject(project.id)
+                        }
+                      }
+                    },
+                    [
+                      _vm.isExpanded(project.id)
+                        ? _c("span", { staticClass: "icon" }, [_vm._v("-")])
+                        : _c("span", { staticClass: "icon" }, [_vm._v("+")])
+                    ]
+                  ),
+                  _vm._v("\n          " + _vm._s(project.title) + "\n        ")
+                ]),
+                _vm._v(" "),
+                _c("p", { staticClass: "subtitle has-text-grey-light" }, [
+                  _vm._v("Run by " + _vm._s(project.owner.full_name))
+                ]),
+                _vm._v(" "),
+                _vm.isExpanded(project.id)
+                  ? _c("div", [
+                      _c("h5", { staticClass: "title is-5 has-text-grey" }, [
+                        _vm._v("Description")
+                      ]),
+                      _vm._v(" "),
+                      _c("p", [_vm._v(_vm._s(project.description))]),
+                      _vm._v(" "),
+                      project.pre_req
+                        ? _c("span", [
+                            _c("br"),
+                            _vm._v(" "),
+                            _c(
+                              "h5",
+                              { staticClass: "title is-5 has-text-grey" },
+                              [_vm._v("Prerequisite Skills")]
+                            ),
+                            _vm._v(" "),
+                            _c("p", [_vm._v(_vm._s(project.pre_req))])
+                          ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c("hr"),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "level" }, [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "level-left has-text-weight-semibold has-text-grey"
+                          },
+                          [
+                            _c("div", { staticClass: "level-item" }, [
+                              _vm._v("Make this project my")
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "level-item" }, [
+                              _c("div", { staticClass: "buttons has-addons" }, [
+                                _c(
+                                  "span",
+                                  {
+                                    staticClass: "button",
+                                    class: {
+                                      "is-info": _vm.choices.first == project.id
+                                    },
+                                    attrs: {
+                                      id: "project-" + project.id + "-first"
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        _vm.choose("first", project.id)
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("1st")]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "span",
+                                  {
+                                    staticClass: "button",
+                                    class: {
+                                      "is-info":
+                                        _vm.choices.second == project.id
+                                    },
+                                    attrs: {
+                                      id: "project-" + project.id + "-second"
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        _vm.choose("second", project.id)
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("2nd")]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "span",
+                                  {
+                                    staticClass: "button",
+                                    class: {
+                                      "is-info": _vm.choices.third == project.id
+                                    },
+                                    attrs: {
+                                      id: "project-" + project.id + "-third"
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        _vm.choose("third", project.id)
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("3rd")]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "span",
+                                  {
+                                    staticClass: "button",
+                                    class: {
+                                      "is-info":
+                                        _vm.choices.fourth == project.id
+                                    },
+                                    attrs: {
+                                      id: "project-" + project.id + "-fourth"
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        _vm.choose("fourth", project.id)
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("4th")]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "span",
+                                  {
+                                    staticClass: "button",
+                                    class: {
+                                      "is-info": _vm.choices.fifth == project.id
+                                    },
+                                    attrs: {
+                                      id: "project-" + project.id + "-fifth"
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        _vm.choose("fifth", project.id)
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("5th")]
+                                )
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "level-item" }, [
+                              _vm._v("preference")
+                            ])
+                          ]
+                        )
+                      ])
+                    ])
+                  : _vm._e()
+              ])
+            })
+          ],
+          2
+        )
+      ]),
       _vm._v(" "),
       _c("transition", { attrs: { name: "fade" } }, [
         _vm.anyProjectsChosen
@@ -30559,7 +30691,7 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n            You have chosen " +
+                            "\n          You have chosen " +
                               _vm._s(_vm.numberChosen) +
                               " " +
                               _vm._s(
@@ -30567,7 +30699,7 @@ var render = function() {
                               ) +
                               ". You need to choose " +
                               _vm._s(_vm.requiredChoices - _vm.numberChosen) +
-                              " more.\n            "
+                              " more.\n          "
                           ),
                           _c("hr"),
                           _vm._v(" "),
@@ -30602,9 +30734,9 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n            You have chosen all " +
+                            "\n          You have chosen all " +
                               _vm._s(_vm.requiredChoices) +
-                              " projects - you can now submit your choices."
+                              " projects - you can now submit your choices.\n          "
                           ),
                           _c("br"),
                           _vm._v(" "),
@@ -30635,7 +30767,7 @@ var render = function() {
       _vm._v(" "),
       _c("p", [_vm._v(" ")])
     ],
-    2
+    1
   )
 }
 var staticRenderFns = []

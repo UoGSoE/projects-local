@@ -5,6 +5,7 @@ namespace Tests\Feature\Student;
 use App\Course;
 use App\Mail\ChoiceConfirmation;
 use App\Project;
+use App\ResearchArea;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
@@ -97,6 +98,26 @@ class ApplicationTest extends TestCase
     }
 
     /** @test */
+    public function research_areas_are_passed_to_the_choices_page()
+    {
+        // given we have students and a course
+        $student1 = create(User::class, ['is_staff' => false]);
+        $course1 = create(Course::class);
+        // and the students are on that course
+        $course1->students()->save($student1);
+        $area1 = create(ResearchArea::class);
+        $area2 = create(ResearchArea::class);
+
+        // when the student goes to the homepage
+        $response = $this->actingAs($student1)->get(route('home'));
+
+        // they should only see the allocated project
+        $response->assertSuccessful();
+        $this->assertTrue($response->data('researchAreas')->contains($area1));
+        $this->assertTrue($response->data('researchAreas')->contains($area2));
+    }
+
+    /** @test */
     public function a_student_cant_apply_for_a_more_than_the_required_number_of_projects()
     {
         // given we have a student on a course
@@ -135,6 +156,10 @@ class ApplicationTest extends TestCase
         $student = create(User::class, ['is_staff' => false]);
         $course = create(Course::class);
         $course->students()->save($student);
+
+        $area1 = create(ResearchArea::class);
+        $area2 = create(ResearchArea::class);
+
         // and given we have three projects
         $project1 = create(Project::class);
         $project2 = create(Project::class);
@@ -149,6 +174,7 @@ class ApplicationTest extends TestCase
                 1 => $project3->id,
                 2 => $project1->id,
             ],
+            'research_area' => $area2->title,
         ]);
 
         // then they get the thank you page and the choices are stored
@@ -156,6 +182,7 @@ class ApplicationTest extends TestCase
         $response->assertRedirect(route('thank_you'));
         $response->assertSessionMissing('errors');
         $this->assertCount(2, $student->projects);
+        $this->assertEquals($area2->title, $student->fresh()->research_area);
 
         // And a mail is sent (queued) to them with confirmation
         Mail::assertQueued(ChoiceConfirmation::class, function ($mail) use ($student) {
@@ -201,6 +228,7 @@ class ApplicationTest extends TestCase
         $student = create(User::class, ['is_staff' => false]);
         $course = create(Course::class);
         $course->students()->save($student);
+        $area = create(ResearchArea::class);
         // and given we have three projects
         $project1 = create(Project::class);
         $project2 = create(Project::class);
@@ -215,6 +243,7 @@ class ApplicationTest extends TestCase
                 1 => $project3->id,
                 2 => $project1->id,
             ],
+            'research_area' => $area->title,
         ]);
 
         // then they get the thank you page and the choices are stored
