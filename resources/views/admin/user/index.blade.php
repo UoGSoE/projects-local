@@ -10,8 +10,8 @@
         </h3>
         &nbsp;
         @if ($category != 'staff')
-            <a class="button" href="{{ route('admin.report.choices', $category) }}">
-                Student Choices
+            <a class="button" href="{{ route('export.students.csv', $category) }}">
+                ⬇️ Export CSV
             </a>
         @endif
         &nbsp;
