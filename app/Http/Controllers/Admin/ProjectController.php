@@ -11,7 +11,7 @@ class ProjectController extends Controller
     {
         $projects = Project::where('category', '=', $category)
             ->orderBy('title')
-            ->with(['owner', 'secondSupervisor', 'courses', 'programmes'])
+            ->with(['owner', 'secondSupervisor', 'courses', 'programmes', 'students'])
             ->withCount([
                 'students',
                 'students as accepted_students_count' => function ($query) {

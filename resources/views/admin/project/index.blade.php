@@ -54,7 +54,8 @@
     <table-column show="students_count" label="Students Applied"></table-column>
     <table-column show="accepted_students_count" label="Accepted"></table-column>
     <table-column show="" :hidden="true" filter-on="course_codes"></table-column>
-    <table-column show="" :hidden="true" filter-on="programme_titles"></table-column>
+    <table-column show="" :hidden="true" filter-on="programme_titles">
+    </table-column>
 </table-component>
 
 @endsection
