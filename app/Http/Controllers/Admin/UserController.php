@@ -12,7 +12,7 @@ class UserController extends Controller
     public function index($category = 'staff')
     {
         $users = User::ofType($category)
-            ->with(['staffProjects', 'secondSupervisorProjects'])
+            ->with(['staffProjects.students', 'secondSupervisorProjects'])
             ->orderBy('surname')
             ->get()
             ->map(function ($user) {

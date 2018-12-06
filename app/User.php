@@ -144,7 +144,7 @@ class User extends Authenticatable
 
     public function isAcceptedOn($project)
     {
-        return (bool) $this->projects()->findOrFail($project->id)->pivot->is_accepted;
+        return (bool)$this->projects()->findOrFail($project->id)->pivot->is_accepted;
     }
 
     public function isntAcceptedOn($project)
@@ -262,6 +262,7 @@ class User extends Authenticatable
             'forenames' => $this->forenames,
             'type' => $this->getType(),
             'matric' => $this->matric,
+            'pivot' => $this->pivot ?? [],
         ];
     }
 }

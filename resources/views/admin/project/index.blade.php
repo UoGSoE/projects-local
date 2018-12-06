@@ -20,7 +20,7 @@
 
 <filterable-items :items='@json($projects)' searchables="title,course_codes,programe_titles,owner_name,student_names">
     <span  slot-scope="{ items: projects, inputAttrs, inputEvents, sortOn }">
-        <input class="input" type="text" v-bind="inputAttrs" v-on="inputEvents" placeholder="Filter table...">
+        <input class="input" type="text" v-bind="inputAttrs" v-on="inputEvents" placeholder="Filter table..." autofocus>
         <table class="table is-fullwidth is-striped is-hover">
             <thead>
                 <tr>
@@ -61,6 +61,7 @@
                     <td>@{{ project.accepted_students_count }}</td>
                     <td>
                         <span v-for="student in project.students">
+                            <span class="tag" :class="{ 'is-success': student.pivot.is_accepted }">@{{ student.pivot.choice }}</span>
                             @{{ student.full_name }}<br>
                         </span>
                     </td>
