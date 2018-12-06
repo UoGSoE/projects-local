@@ -14,11 +14,15 @@ export default {
         .sort((a, b) => {
           if (this.sortOrder) {
             return this.sortColumn
-              ? b[this.sortColumn].localeCompare(a[this.sortColumn])
+              ? b[this.sortColumn]
+                  .toString()
+                  .localeCompare(a[this.sortColumn].toString())
               : 0;
           }
           return this.sortColumn
-            ? a[this.sortColumn].localeCompare(b[this.sortColumn])
+            ? a[this.sortColumn]
+                .toString()
+                .localeCompare(b[this.sortColumn].toString())
             : 0;
         });
     }

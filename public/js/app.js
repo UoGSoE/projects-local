@@ -40759,9 +40759,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return _this.itemToString(item).join("").toLowerCase().includes(_this.filterText.toLowerCase());
       }).sort(function (a, b) {
         if (_this.sortOrder) {
-          return _this.sortColumn ? b[_this.sortColumn].localeCompare(a[_this.sortColumn]) : 0;
+          return _this.sortColumn ? b[_this.sortColumn].toString().localeCompare(a[_this.sortColumn].toString()) : 0;
         }
-        return _this.sortColumn ? a[_this.sortColumn].localeCompare(b[_this.sortColumn]) : 0;
+        return _this.sortColumn ? a[_this.sortColumn].toString().localeCompare(b[_this.sortColumn].toString()) : 0;
       });
     }
   },
