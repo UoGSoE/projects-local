@@ -32225,71 +32225,98 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['projects'],
-    data: function data() {
-        return {
-            actives: [],
-            deletes: [],
-            showConfirmation: false
-        };
-    },
+  props: ["projects"],
+  data: function data() {
+    return {
+      actives: [],
+      deletes: [],
+      showConfirmation: false
+    };
+  },
 
-    computed: {
-        numberToDelete: function numberToDelete() {
-            return this.deletes.length;
-        }
-    },
-    created: function created() {
-        var _this = this;
-
-        this.projects.forEach(function (project) {
-            _this.actives.push({
-                id: project.id,
-                is_active: project.is_active
-            });
-        });
-    },
-
-    methods: {
-        submit: function submit() {
-            if (this.numberToDelete > 0) {
-                this.showConfirmation = true;
-                return;
-            } else {
-                this.reallySubmit();
-            }
-        },
-        reallySubmit: function reallySubmit() {
-            axios.post(route('admin.project.bulk-options.update', 'undergrad'), {
-                active: this.actives,
-                delete: this.deletes
-            }).then(function (response) {
-                location.reload();
-            }).catch(function (error) {
-                console.log('Boo');
-            });
-        },
-        toggleActive: function toggleActive(id) {
-            var index = this.actives.findIndex(function (project) {
-                return project.id == id;
-            });
-            this.actives[index].is_active = !this.actives[index].is_active;
-        },
-        isActive: function isActive(id) {
-            var index = this.actives.findIndex(function (project) {
-                return project.id == id;
-            });
-            return this.actives[index].is_active;
-        },
-
-        getProjectUrl: function getProjectUrl(projectId) {
-            return route('project.show', projectId);
-        }
-
+  computed: {
+    numberToDelete: function numberToDelete() {
+      return this.deletes.length;
     }
+  },
+  created: function created() {
+    var _this = this;
+
+    this.projects.forEach(function (project) {
+      _this.actives.push({
+        id: project.id,
+        is_active: project.is_active
+      });
+    });
+  },
+
+  methods: {
+    submit: function submit() {
+      if (this.numberToDelete > 0) {
+        this.showConfirmation = true;
+        return;
+      } else {
+        this.reallySubmit();
+      }
+    },
+    reallySubmit: function reallySubmit() {
+      axios.post(route("admin.project.bulk-options.update", "undergrad"), {
+        active: this.actives,
+        delete: this.deletes
+      }).then(function (response) {
+        location.reload();
+      }).catch(function (error) {
+        console.log("Boo");
+      });
+    },
+    toggleActive: function toggleActive(id) {
+      var index = this.actives.findIndex(function (project) {
+        return project.id == id;
+      });
+      this.actives[index].is_active = !this.actives[index].is_active;
+    },
+    isActive: function isActive(id) {
+      var index = this.actives.findIndex(function (project) {
+        return project.id == id;
+      });
+      return this.actives[index].is_active;
+    },
+
+    getProjectUrl: function getProjectUrl(projectId) {
+      return route("project.show", projectId);
+    }
+  }
 });
 
 /***/ }),
@@ -32303,201 +32330,250 @@ var render = function() {
   return _c(
     "div",
     [
-      _c(
-        "table-component",
-        {
-          attrs: {
-            data: _vm.projects,
-            "sort-by": "title",
-            "sort-order": "asc",
-            "table-class": "table is-fullwidth is-striped is-hover",
-            "thead-class": "cursor-pointer",
-            "show-caption": false,
-            "filter-input-class": "input"
-          }
-        },
-        [
-          _c("table-column", {
-            attrs: { show: "title", label: "Title" },
-            scopedSlots: _vm._u([
-              {
-                key: "default",
-                fn: function(row) {
-                  return [
-                    _c(
-                      "a",
+      _c("filterable-items", {
+        attrs: { items: _vm.projects },
+        scopedSlots: _vm._u([
+          {
+            key: "default",
+            fn: function(ref) {
+              var projects = ref.items
+              var inputAttrs = ref.inputAttrs
+              var inputEvents = ref.inputEvents
+              var sortOn = ref.sortOn
+              return _c("span", {}, [
+                _c(
+                  "input",
+                  _vm._g(
+                    _vm._b(
                       {
-                        class: { "has-text-grey-light": !row.is_active },
+                        staticClass: "input",
                         attrs: {
-                          href: _vm.getProjectUrl(row.id),
-                          title: row.is_active ? "" : "Inactive"
+                          type: "text",
+                          placeholder: "Filter table...",
+                          autofocus: ""
                         }
                       },
-                      [
-                        _vm._v(
-                          "\n             " +
-                            _vm._s(row.title) +
-                            "\n            "
-                        )
-                      ]
+                      "input",
+                      inputAttrs,
+                      false
                     ),
-                    _vm._v(" "),
-                    row.is_confidential
-                      ? _c(
-                          "span",
+                    inputEvents
+                  )
+                ),
+                _vm._v(" "),
+                _c(
+                  "table",
+                  { staticClass: "table is-fullwidth is-striped is-hover" },
+                  [
+                    _c("thead", [
+                      _c("tr", [
+                        _c(
+                          "th",
                           {
-                            staticClass: "icon is-small",
-                            attrs: { title: "Confidential" }
-                          },
-                          [
-                            _c("i", [
-                              _c(
-                                "svg",
-                                {
-                                  attrs: {
-                                    xmlns: "http://www.w3.org/2000/svg",
-                                    viewBox: "0 0 20 20"
-                                  }
-                                },
-                                [
-                                  _c("path", {
-                                    attrs: {
-                                      d:
-                                        "M4 8V6a6 6 0 1 1 12 0v2h1a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-8c0-1.1.9-2 2-2h1zm5 6.73V17h2v-2.27a2 2 0 1 0-2 0zM7 6v2h6V6a3 3 0 0 0-6 0z"
-                                    }
-                                  })
-                                ]
-                              )
-                            ])
-                          ]
-                        )
-                      : _vm._e(),
-                    _vm._v(" "),
-                    row.is_placement
-                      ? _c(
-                          "span",
-                          {
-                            staticClass: "icon is-small",
-                            attrs: { title: "Placement" }
-                          },
-                          [
-                            _c("i", [
-                              _c(
-                                "svg",
-                                {
-                                  attrs: {
-                                    xmlns: "http://www.w3.org/2000/svg",
-                                    viewBox: "0 0 20 20"
-                                  }
-                                },
-                                [
-                                  _c("path", {
-                                    attrs: {
-                                      d:
-                                        "M10 20S3 10.87 3 7a7 7 0 1 1 14 0c0 3.87-7 13-7 13zm0-11a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"
-                                    }
-                                  })
-                                ]
-                              )
-                            ])
-                          ]
-                        )
-                      : _vm._e()
-                  ]
-                }
-              }
-            ])
-          }),
-          _vm._v(" "),
-          _c("table-column", {
-            attrs: { show: "owner.full_name", label: "Owner" }
-          }),
-          _vm._v(" "),
-          _c("table-column", {
-            attrs: { show: "second_supervisor.full_name", label: "2nd" }
-          }),
-          _vm._v(" "),
-          _c("table-column", {
-            attrs: { show: "rand()", label: "Active?" },
-            scopedSlots: _vm._u([
-              {
-                key: "default",
-                fn: function(row) {
-                  return [
-                    _c("input", {
-                      staticClass: "checkbox",
-                      attrs: { type: "checkbox", id: "active" + row.id },
-                      domProps: { checked: _vm.isActive(row.id) },
-                      on: {
-                        click: function($event) {
-                          _vm.toggleActive(row.id)
-                        }
-                      }
-                    })
-                  ]
-                }
-              }
-            ])
-          }),
-          _vm._v(" "),
-          _c("table-column", {
-            attrs: { show: "row.id", label: "Delete?" },
-            scopedSlots: _vm._u([
-              {
-                key: "default",
-                fn: function(row) {
-                  return [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.deletes,
-                          expression: "deletes"
-                        }
-                      ],
-                      staticClass: "checkbox is-danger",
-                      attrs: { type: "checkbox", id: "delete" + row.id },
-                      domProps: {
-                        value: row.id,
-                        checked: Array.isArray(_vm.deletes)
-                          ? _vm._i(_vm.deletes, row.id) > -1
-                          : _vm.deletes
-                      },
-                      on: {
-                        change: function($event) {
-                          var $$a = _vm.deletes,
-                            $$el = $event.target,
-                            $$c = $$el.checked ? true : false
-                          if (Array.isArray($$a)) {
-                            var $$v = row.id,
-                              $$i = _vm._i($$a, $$v)
-                            if ($$el.checked) {
-                              $$i < 0 && (_vm.deletes = $$a.concat([$$v]))
-                            } else {
-                              $$i > -1 &&
-                                (_vm.deletes = $$a
-                                  .slice(0, $$i)
-                                  .concat($$a.slice($$i + 1)))
+                            staticClass: "cursor-pointer",
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                sortOn("title")
+                              }
                             }
-                          } else {
-                            _vm.deletes = $$c
-                          }
-                        }
-                      }
-                    })
+                          },
+                          [_vm._v("Title")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "th",
+                          {
+                            staticClass: "cursor-pointer",
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                sortOn("owner_name")
+                              }
+                            }
+                          },
+                          [_vm._v("Owner")]
+                        ),
+                        _vm._v(" "),
+                        _c("th", { staticClass: "cursor-pointer" }, [
+                          _vm._v("2nd")
+                        ]),
+                        _vm._v(" "),
+                        _c("th", { staticClass: "cursor-pointer" }, [
+                          _vm._v("Active?")
+                        ]),
+                        _vm._v(" "),
+                        _c("th", { staticClass: "cursor-pointer" }, [
+                          _vm._v("Delete?")
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "tbody",
+                      _vm._l(projects, function(project) {
+                        return _c("tr", { key: project.id }, [
+                          _c("td", [
+                            _c(
+                              "a",
+                              {
+                                class: {
+                                  "has-text-grey-light": !project.is_active
+                                },
+                                attrs: {
+                                  href: _vm.getProjectUrl(project.id),
+                                  title: project.is_active ? "" : "Inactive"
+                                }
+                              },
+                              [_vm._v(_vm._s(project.title))]
+                            ),
+                            _vm._v(" "),
+                            project.is_confidential
+                              ? _c(
+                                  "span",
+                                  {
+                                    staticClass: "icon is-small",
+                                    attrs: { title: "Confidential" }
+                                  },
+                                  [
+                                    _c("i", [
+                                      _c(
+                                        "svg",
+                                        {
+                                          attrs: {
+                                            xmlns: "http://www.w3.org/2000/svg",
+                                            viewBox: "0 0 20 20"
+                                          }
+                                        },
+                                        [
+                                          _c("path", {
+                                            attrs: {
+                                              d:
+                                                "M4 8V6a6 6 0 1 1 12 0v2h1a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-8c0-1.1.9-2 2-2h1zm5 6.73V17h2v-2.27a2 2 0 1 0-2 0zM7 6v2h6V6a3 3 0 0 0-6 0z"
+                                            }
+                                          })
+                                        ]
+                                      )
+                                    ])
+                                  ]
+                                )
+                              : _vm._e(),
+                            _vm._v(" "),
+                            project.is_placement
+                              ? _c(
+                                  "span",
+                                  {
+                                    staticClass: "icon is-small",
+                                    attrs: { title: "Placement" }
+                                  },
+                                  [
+                                    _c("i", [
+                                      _c(
+                                        "svg",
+                                        {
+                                          attrs: {
+                                            xmlns: "http://www.w3.org/2000/svg",
+                                            viewBox: "0 0 20 20"
+                                          }
+                                        },
+                                        [
+                                          _c("path", {
+                                            attrs: {
+                                              d:
+                                                "M10 20S3 10.87 3 7a7 7 0 1 1 14 0c0 3.87-7 13-7 13zm0-11a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"
+                                            }
+                                          })
+                                        ]
+                                      )
+                                    ])
+                                  ]
+                                )
+                              : _vm._e()
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(project.owner.full_name))]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm._v(
+                              _vm._s(
+                                project.second_supervisor
+                                  ? project.second_supervisor.full_name
+                                  : ""
+                              )
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c("input", {
+                              staticClass: "checkbox",
+                              attrs: {
+                                type: "checkbox",
+                                id: "active" + project.id
+                              },
+                              domProps: { checked: _vm.isActive(project.id) },
+                              on: {
+                                click: function($event) {
+                                  _vm.toggleActive(project.id)
+                                }
+                              }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.deletes,
+                                  expression: "deletes"
+                                }
+                              ],
+                              staticClass: "checkbox is-danger",
+                              attrs: {
+                                type: "checkbox",
+                                id: "delete" + project.id
+                              },
+                              domProps: {
+                                value: project.id,
+                                checked: Array.isArray(_vm.deletes)
+                                  ? _vm._i(_vm.deletes, project.id) > -1
+                                  : _vm.deletes
+                              },
+                              on: {
+                                change: function($event) {
+                                  var $$a = _vm.deletes,
+                                    $$el = $event.target,
+                                    $$c = $$el.checked ? true : false
+                                  if (Array.isArray($$a)) {
+                                    var $$v = project.id,
+                                      $$i = _vm._i($$a, $$v)
+                                    if ($$el.checked) {
+                                      $$i < 0 &&
+                                        (_vm.deletes = $$a.concat([$$v]))
+                                    } else {
+                                      $$i > -1 &&
+                                        (_vm.deletes = $$a
+                                          .slice(0, $$i)
+                                          .concat($$a.slice($$i + 1)))
+                                    }
+                                  } else {
+                                    _vm.deletes = $$c
+                                  }
+                                }
+                              }
+                            })
+                          ])
+                        ])
+                      })
+                    )
                   ]
-                }
-              }
-            ])
-          }),
-          _vm._v(" "),
-          _c("table-column", {
-            attrs: { show: "", hidden: true, "filter-on": "course_codes" }
-          })
-        ],
-        1
-      ),
+                )
+              ])
+            }
+          }
+        ])
+      }),
       _vm._v(" "),
       _c("hr"),
       _vm._v(" "),
@@ -32528,9 +32604,9 @@ var render = function() {
         },
         [
           _vm._v(
-            "\n    Do you really want to delete " +
+            "Do you really want to delete " +
               _vm._s(_vm.numberToDelete) +
-              " projects?\n"
+              " projects?"
           )
         ]
       )
