@@ -24,7 +24,6 @@
     "dependencies": {
         "bulma": "^0.6.2",
         "moment": "^2.22.0",
-        "pikaday": "^1.7.0",
-        "vue-table-component": "^1.9.1"
+        "pikaday": "^1.7.0"
     }
 }

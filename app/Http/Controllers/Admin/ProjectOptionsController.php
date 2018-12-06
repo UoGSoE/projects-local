@@ -17,6 +17,7 @@ class ProjectOptionsController extends Controller
             ->get();
 
         $projects->each->append('course_codes');
+        $projects->each->append('owner_name');
 
         return view('admin.project.options.index', [
             'category' => $category,
