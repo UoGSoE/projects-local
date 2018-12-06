@@ -4,6 +4,9 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
+import { TableComponent, TableColumn } from "vue-table-component";
+import Pikaday from "pikaday";
+import "pikaday/css/pikaday.css";
 require("./bootstrap");
 
 window.Vue = require("vue");
@@ -15,14 +18,14 @@ window.Vue = require("vue");
  */
 
 // Creates a new promise that automatically resolves after some timeout:
-Promise.delay = function(time) {
+Promise.delay = function (time) {
   return new Promise((resolve, reject) => {
     setTimeout(resolve, time);
   });
 };
 
 // Throttle this promise to resolve no faster than the specified time:
-Promise.prototype.takeAtLeast = function(time) {
+Promise.prototype.takeAtLeast = function (time) {
   return new Promise((resolve, reject) => {
     Promise.all([this, Promise.delay(time)]).then(([result]) => {
       resolve(result);
@@ -56,112 +59,111 @@ Vue.component(
   require("./components/ResearchAreaAdmin.vue")
 );
 Vue.component("deletable-list", require("./components/DeletableList.vue"));
-import { TableComponent, TableColumn } from "vue-table-component";
 Vue.component("table-component", TableComponent);
 Vue.component("table-column", TableColumn);
+Vue.component('filterable-items', require('./components/FilterableItems.vue'));
 
 window.moment = require("moment");
-import Pikaday from "pikaday";
-import "pikaday/css/pikaday.css";
-Vue.directive("pikaday", {
+
+Vue.directive('pikaday', {
   bind: (el, binding) => {
     el.pikadayInstance = new Pikaday({
       field: el,
-      format: "DD/MM/YYYY",
+      format: 'DD/MM/YYYY',
       onSelect: () => {
-        var event = new Event("input", { bubbles: true });
+        let event = new Event('input', { bubbles: true });
         el.value = el.pikadayInstance.toString();
         el.dispatchEvent(event);
-      }
+      },
       // add more Pikaday options below if you need
       // all available options are listed on https://github.com/dbushell/Pikaday
     });
   },
 
-  unbind: el => {
+  unbind: (el) => {
     el.pikadayInstance.destroy();
-  }
+  },
 });
 
 const app = new Vue({
-  el: "#app",
+  el: '#app',
 
   data: {
     showConfirmation: false,
     openProjects: [],
-    selectedStudent: null
+    selectedStudent: null,
   },
 
   methods: {
-    showUserUrl: function(userId) {
+    showUserUrl (userId) {
       return route("admin.user.show", userId);
     },
 
-    getProjectUrl: function(projectId) {
+    getProjectUrl (projectId) {
       return route("project.show", projectId);
     },
 
-    editProgrammeUrl: function(programmeId) {
+    editProgrammeUrl (programmeId) {
       return route("admin.programme.edit", programmeId);
     },
 
-    deleteProject: function(projectId) {
+    deleteProject (projectId) {
       console.log(projectId);
       this.showConfirmation = false;
-      axios.delete(route("project.delete", projectId)).then(function(response) {
+      axios.delete(route("project.delete", projectId)).then(function (response) {
         window.location = route("home");
       });
     },
 
-    deleteCourse: function(courseId) {
+    deleteCourse (courseId) {
       console.log(courseId);
       this.showConfirmation = false;
       axios
         .delete(route("admin.course.destroy", courseId))
-        .then(function(response) {
+        .then(function (response) {
           window.location = route("admin.course.index");
         });
     },
 
-    deleteProgramme: function(programmeId) {
+    deleteProgramme (programmeId) {
       console.log(programmeId);
       this.showConfirmation = false;
       axios
         .delete(route("admin.programme.destroy", programmeId))
-        .then(function(response) {
+        .then(function (response) {
           window.location = route("admin.programme.index");
         });
     },
 
-    deleteCourseStudents: function(courseId) {
+    deleteCourseStudents (courseId) {
       console.log(courseId);
 
       this.showConfirmation = false;
       axios
         .delete(route("course.remove_students", courseId))
-        .then(function(response) {
+        .then(function (response) {
           window.location = route("admin.course.show", courseId);
         });
     },
 
-    deleteStudents: function(category) {
+    deleteStudents (category) {
       console.log(category);
 
       this.showConfirmation = false;
       axios
         .delete(route("students.remove_" + category))
-        .then(function(response) {
+        .then(function (response) {
           window.location = route("admin.users", category);
         });
     },
 
-    deleteUser: function(userId) {
+    deleteUser (userId) {
       console.log(userId);
 
       this.showConfirmation = false;
-      axios.delete(route("admin.user.delete", userId)).then(function(response) {
+      axios.delete(route("admin.user.delete", userId)).then(function (response) {
         window.location = route("home");
       });
-    }
-  }
+    },
+  },
 });

@@ -17453,6 +17453,9 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
  * building robust, powerful web applications using Vue and Laravel.
  */
 
+
+
+
 __webpack_require__(136);
 
 window.Vue = __webpack_require__(156);
@@ -17495,20 +17498,19 @@ Vue.component("project-bulk-options", __webpack_require__(180));
 Vue.component("course-student-list", __webpack_require__(183));
 Vue.component("research-area-admin", __webpack_require__(186));
 Vue.component("deletable-list", __webpack_require__(195));
-
 Vue.component("table-component", __WEBPACK_IMPORTED_MODULE_0_vue_table_component__["TableComponent"]);
 Vue.component("table-column", __WEBPACK_IMPORTED_MODULE_0_vue_table_component__["TableColumn"]);
+Vue.component('filterable-items', __webpack_require__(208));
 
 window.moment = __webpack_require__(0);
 
-
-Vue.directive("pikaday", {
+Vue.directive('pikaday', {
   bind: function bind(el, binding) {
     el.pikadayInstance = new __WEBPACK_IMPORTED_MODULE_1_pikaday___default.a({
       field: el,
-      format: "DD/MM/YYYY",
+      format: 'DD/MM/YYYY',
       onSelect: function onSelect() {
-        var event = new Event("input", { bubbles: true });
+        var event = new Event('input', { bubbles: true });
         el.value = el.pikadayInstance.toString();
         el.dispatchEvent(event);
       }
@@ -17523,7 +17525,7 @@ Vue.directive("pikaday", {
 });
 
 var app = new Vue({
-  el: "#app",
+  el: '#app',
 
   data: {
     showConfirmation: false,
@@ -17535,15 +17537,12 @@ var app = new Vue({
     showUserUrl: function showUserUrl(userId) {
       return route("admin.user.show", userId);
     },
-
     getProjectUrl: function getProjectUrl(projectId) {
       return route("project.show", projectId);
     },
-
     editProgrammeUrl: function editProgrammeUrl(programmeId) {
       return route("admin.programme.edit", programmeId);
     },
-
     deleteProject: function deleteProject(projectId) {
       console.log(projectId);
       this.showConfirmation = false;
@@ -17551,7 +17550,6 @@ var app = new Vue({
         window.location = route("home");
       });
     },
-
     deleteCourse: function deleteCourse(courseId) {
       console.log(courseId);
       this.showConfirmation = false;
@@ -17559,7 +17557,6 @@ var app = new Vue({
         window.location = route("admin.course.index");
       });
     },
-
     deleteProgramme: function deleteProgramme(programmeId) {
       console.log(programmeId);
       this.showConfirmation = false;
@@ -17567,7 +17564,6 @@ var app = new Vue({
         window.location = route("admin.programme.index");
       });
     },
-
     deleteCourseStudents: function deleteCourseStudents(courseId) {
       console.log(courseId);
 
@@ -17576,7 +17572,6 @@ var app = new Vue({
         window.location = route("admin.course.show", courseId);
       });
     },
-
     deleteStudents: function deleteStudents(category) {
       console.log(category);
 
@@ -17585,7 +17580,6 @@ var app = new Vue({
         window.location = route("admin.users", category);
       });
     },
-
     deleteUser: function deleteUser(userId) {
       console.log(userId);
 
@@ -40698,6 +40692,125 @@ module.exports = function (css) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 207 */,
+/* 208 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(209)
+/* template */
+var __vue_template__ = null
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/FilterableItems.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-033d9b73", Component.options)
+  } else {
+    hotAPI.reload("data-v-033d9b73", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 209 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ["items", "searchables"],
+
+  computed: {
+    filteredItems: function filteredItems() {
+      var _this = this;
+
+      return this.items.filter(function (item) {
+        return _this.itemToString(item).join("").toLowerCase().includes(_this.filterText.toLowerCase());
+      }).sort(function (a, b) {
+        if (_this.sortOrder) {
+          return _this.sortColumn ? b[_this.sortColumn].localeCompare(a[_this.sortColumn]) : 0;
+        }
+        return _this.sortColumn ? a[_this.sortColumn].localeCompare(b[_this.sortColumn]) : 0;
+      });
+    }
+  },
+
+  data: function data() {
+    return {
+      filterText: "",
+      sortColumn: null,
+      sortOrder: false // false = a-z, true = z-a
+    };
+  },
+
+
+  methods: {
+    itemToString: function itemToString(item) {
+      if (!this.searchables) {
+        return Object.values(item); // only get searchables key values?
+      }
+      return this.searchables.split(",").map(function (term) {
+        return item[term];
+      });
+    },
+    setSortColumn: function setSortColumn(column) {
+      if (this.sortColumn == column) {
+        this.sortOrder = !this.sortOrder;
+      } else {
+        this.sortOrder = true;
+      }
+      this.sortColumn = column;
+    }
+  },
+
+  render: function render() {
+    var _this2 = this;
+
+    return this.$scopedSlots.default({
+      items: this.filteredItems,
+      inputAttrs: {
+        value: this.filterText
+      },
+      inputEvents: {
+        input: function input(e) {
+          _this2.filterText = e.target.value;
+        }
+      },
+      sortOn: this.setSortColumn
+    });
+  }
+});
 
 /***/ })
 /******/ ]);

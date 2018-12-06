@@ -22,6 +22,8 @@ class ProjectController extends Controller
 
         $projects->each->append('course_codes');
         $projects->each->append('programme_titles');
+        $projects->each->append('owner_name');
+        $projects->each->append('student_names');
 
         return view('admin.project.index', [
             'category' => $category,

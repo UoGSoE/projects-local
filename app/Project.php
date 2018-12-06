@@ -98,7 +98,7 @@ class Project extends Model
         return $this->students->map(function ($student) {
             $base = $student->toArray();
             $base['choice'] = intval($student->pivot->choice);
-            $base['is_accepted'] = (boolean) $student->pivot->is_accepted;
+            $base['is_accepted'] = (boolean)$student->pivot->is_accepted;
             return $base;
         })->toJson();
     }
@@ -106,6 +106,11 @@ class Project extends Model
     public function getOwnerNameAttribute()
     {
         return $this->owner->full_name;
+    }
+
+    public function getStudentNamesAttribute()
+    {
+        return $this->students->implode('full_name', ' ');
     }
 
     public function getCourseCodesAttribute()
