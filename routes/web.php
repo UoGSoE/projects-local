@@ -99,7 +99,5 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/researcharea', 'Admin\ResearchAreaController@store')->name('researcharea.store');
         Route::post('/researcharea/{area}', 'Admin\ResearchAreaController@update')->name('researcharea.update');
         Route::delete('/researcharea/{area}', 'Admin\ResearchAreaController@destroy')->name('researcharea.destroy');
-
-        Route::get('/reports/choices/{category}', 'Admin\Reports\ChoicesReportController@show')->name('admin.report.choices');
     });
 });
