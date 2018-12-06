@@ -11,23 +11,32 @@
 	</a>
 </h3>
 
-<table-component
-    :data='@json($programmes)'
-    sort-by="title"
-    sort-order="asc"
-    table-class="table is-fullwidth is-striped is-hover"
-    :show-caption="false"
-    filter-input-class="input"
-    >
-    <table-column show="title" label="Name">
-        <template slot-scope="row">
-            <a :href="editProgrammeUrl(row.id)">@{{ row.title }}</a>
-        </template>
-    </table-column>
-    <table-column show="category" label="Category"></table-column>
-    <table-column show="projects_count" label="No. Projects"></table-column>
-    <table-column show="places_count" label="No. Places"></table-column>
-    <table-column show="accepted_count" label="No. Accepted"></table-column>
-</table-component>
+<filterable-items :items='@json($programmes)'>
+    <span  slot-scope="{ items: programmes, inputAttrs, inputEvents, sortOn }">
+        <input class="input" type="text" v-bind="inputAttrs" v-on="inputEvents" placeholder="Filter table..." autofocus>
+        <table class="table is-fullwidth is-striped is-hover">
+            <thead>
+                <tr>
+                    <th @click.prevent="sortOn('title')" class="cursor-pointer">Name</th>
+                    <th @click.prevent="sortOn('category')" class="cursor-pointer">Category</th>
+                    <th @click.prevent="sortOn('projects_count')" class="cursor-pointer">Projects</th>
+                    <th @click.prevent="sortOn('places_count')" class="cursor-pointer">Places</th>
+                    <th @click.prevent="sortOn('accepted_count')" class="cursor-pointer">Accepted</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="programme in programmes" :key="programme.id">
+                    <td>
+                        <a :href="editProgrammeUrl(programme.id)">@{{ programme.title }}</a>
+                    </td>
+                    <td>@{{ programme.category }}</td>
+                    <td>@{{ programme.projects_count }}</td>
+                    <td>@{{ programme.places_count }}</td>
+                    <td>@{{ programme.accepted_count }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </span>
+</filterable-items>
 
 @endsection
