@@ -82,6 +82,7 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('/export/projects-excel', 'Admin\ExportController@projects')->name('export.projects.excel');
         Route::get('/export/students/{category}', 'Admin\StudentExportController@export')->name('export.students.csv');
+        Route::get('/export/staff', 'Admin\StaffExportController@export')->name('export.staff.excel');
 
         Route::get('/gdpr/user/{user}', 'Gdpr\UserExportController@show')->name('gdpr.export.user');
 

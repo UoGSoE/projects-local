@@ -13,6 +13,10 @@
             <a class="button" href="{{ route('export.students.csv', $category) }}">
                 ⬇️ Export CSV
             </a>
+        @else
+            <a class="button" href="{{ route('export.staff.excel') }}">
+                ⬇️ Export Excel
+            </a>
         @endif
         &nbsp;
         <new-user></new-user>
