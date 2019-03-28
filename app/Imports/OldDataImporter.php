@@ -2,11 +2,12 @@
 
 namespace App\Imports;
 
-use Illuminate\Support\Facades\DB;
-use App\Project;
 use App\User;
-use App\Programme;
 use App\Course;
+use App\Project;
+use App\Programme;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 class OldDataImporter
 {
@@ -44,7 +45,7 @@ class OldDataImporter
             'forenames' => $jsonStaff['Forenames'],
             'is_staff' => true,
             'email' => $jsonStaff['GUID'] . '@campus.gla.ac.uk',
-            'password' => bcrypt(str_random(64)),
+            'password' => bcrypt(Str::random(64)),
         ]);
     }
 

@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Course;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Ohffs\SimpleSpout\ExcelSheet;
 use App\User;
+use App\Course;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Ohffs\SimpleSpout\ExcelSheet;
+use App\Http\Controllers\Controller;
 use App\Events\SomethingNoteworthyHappened;
 
 class EnrollmentController extends Controller
@@ -36,7 +37,7 @@ class EnrollmentController extends Controller
             if (!$user) {
                 $user = new User([
                     'username' => $username,
-                    'password' => bcrypt(str_random(64)),
+                    'password' => bcrypt(Str::random(64)),
                 ]);
             }
             $user->surname = $row[1];

@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Str;
 use Faker\Generator as Faker;
 
 /*
@@ -22,7 +23,7 @@ $factory->define(App\User::class, function (Faker $faker) {
         'forenames' => preg_replace('/[^a-zA-Z]/', '', $faker->firstName),
         'is_staff' => true,
         'is_admin' => false,
-        'remember_token' => str_random(10),
+        'remember_token' => Str::random(10),
     ];
 });
 

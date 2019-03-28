@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\User;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Events\SomethingNoteworthyHappened;
@@ -68,7 +69,7 @@ class UserController extends Controller
             'surname' => $ldapUser->surname,
             'forenames' => $ldapUser->forenames,
             'is_staff' => !$this->looksLikeMatric($ldapUser->username),
-            'password' => bcrypt(str_random(64)),
+            'password' => bcrypt(Str::random(64)),
         ]);
 
         event(new SomethingNoteworthyHappened(auth()->user(), "Created user {$user->full_name}"));
