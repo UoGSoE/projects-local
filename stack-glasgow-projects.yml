@@ -1,0 +1,106 @@
+version: "3"
+services:
+  app:
+    image: localhost:5000/glasgow-projects-web
+    depends_on:
+      - redis
+      - mysql
+    networks:
+      - proxy
+      - private
+    expose:
+      - "80"
+    environment:
+      CONTAINER_ROLE: app
+      DB_DATABASE: ${MYSQL_DB_NAME}
+      DB_USERNAME: ${MYSQL_USERNAME}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+    secrets:
+      - source: glasgow-projects-env-2019-02-01
+        target: .env
+    deploy:
+      replicas: 3
+      labels:
+        - "traefik.backend=glasgow-projects-web"
+        - "traefik.docker.network=proxy"
+        - "traefik.frontend.rule=Host:glasgow.ultravixen.elec.gla.ac.uk"
+        - "traefik.enable=true"
+        - "traefik.port=80"
+        - "traefik.default.protocol=http"
+
+  scheduler:
+    image: localhost:5000/glasgow-projects-web
+    depends_on:
+      - app
+    deploy:
+      labels:
+        - "traefik.enable=false"
+    networks:
+      - private
+    environment:
+      CONTAINER_ROLE: scheduler
+      DB_DATABASE: ${MYSQL_DB_NAME}
+      DB_USERNAME: ${MYSQL_USERNAME}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+    secrets:
+      - source: glasgow-projects-env-2019-02-01
+        target: .env
+
+  queue:
+    image: localhost:5000/glasgow-projects-web
+    depends_on:
+      - app
+    deploy:
+      replicas: 1
+      labels:
+        - "traefik.enable=false"
+    networks:
+      - private
+    environment:
+      CONTAINER_ROLE: queue
+      DB_DATABASE: ${MYSQL_DB_NAME}
+      DB_USERNAME: ${MYSQL_USERNAME}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+    secrets:
+      - source: glasgow-projects-env-2019-02-01
+        target: .env
+
+  redis:
+    image: redis:4
+    deploy:
+      labels:
+        - "traefik.enable=false"
+    networks:
+      - private
+    volumes:
+      - redis:/data
+
+  mysql:
+    image: mysql:5.7
+    deploy:
+      labels:
+        - "traefik.enable=false"
+    networks:
+      - private
+    volumes:
+      - mysql:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DB_NAME}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USERNAME}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+
+secrets:
+  glasgow-projects-env-2019-02-01:
+    external: true
+
+volumes:
+  redis:
+    driver: "local"
+  mysql:
+    driver: "local"
+
+networks:
+  private:
+  proxy:
+    external: true

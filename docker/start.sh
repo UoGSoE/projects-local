@@ -12,11 +12,6 @@ do
     sleep 5
 done
 
-if [ "$env" != "local" ]; then
-    echo "Caching configuration..."
-    (cd /var/www/html && php artisan config:cache && php artisan route:cache && php artisan view:cache)
-fi
-
 if [ "$role" = "app" ]; then
 
     php /var/www/html/artisan migrate
@@ -24,7 +19,6 @@ if [ "$role" = "app" ]; then
 
 elif [ "$role" = "queue" ]; then
 
-    echo "Running the queue..."
     php /var/www/html/artisan horizon
 
 elif [ "$role" = "scheduler" ]; then
