@@ -28,25 +28,7 @@ class EnrollmentController extends Controller
         $data = (new ExcelSheet)->trimmedImport($request->file('sheet')->path());
 
         $course->removeAllStudents();
-
-        $students = collect($data)->filter(function ($row) {
-            return $this->firstColumnIsAMatric($row);
-        })->map(function ($row) use ($course) {
-            $username = $this->joinMatricAndFirstInitial($row);
-            $user = User::where('username', '=', $username)->first();
-            if (!$user) {
-                $user = new User([
-                    'username' => $username,
-                    'password' => bcrypt(Str::random(64)),
-                ]);
-            }
-            $user->surname = $row[1];
-            $user->forenames = $row[2];
-            $user->email = $username . '@student.gla.ac.uk';
-            $user->course_id = $course->id;
-            $user->save();
-            return $user->id;
-        });
+        $students = $course->enrollStudents($data);
 
         event(new SomethingNoteworthyHappened($request->user(), "Enrolled students onto {$course->code}"));
 
@@ -68,15 +50,5 @@ class EnrollmentController extends Controller
         }
 
         return redirect()->back()->with('success', 'All students removed');
-    }
-
-    protected function firstColumnIsAMatric($row)
-    {
-        return preg_match('/^[0-9]{7}$/', $row[0]) === 1;
-    }
-
-    protected function joinMatricAndFirstInitial($row)
-    {
-        return $row[0] . strtolower(substr($row[1], 0, 1));
     }
 }

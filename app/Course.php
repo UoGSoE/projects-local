@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 
 class Course extends Model
@@ -35,5 +36,37 @@ class Course extends Model
     public function removeAllStudents()
     {
         $this->students->each->delete();
+    }
+
+    public function enrollStudents($spreadsheetRows)
+    {
+        return collect($spreadsheetRows)->filter(function ($row) {
+            return $this->firstColumnIsAMatric($row);
+        })->map(function ($row) {
+            $username = $this->joinMatricAndFirstInitial($row);
+            $user = User::where('username', '=', $username)->first();
+            if (!$user) {
+                $user = new User([
+                    'username' => $username,
+                    'password' => bcrypt(Str::random(64)),
+                ]);
+            }
+            $user->surname = $row[1];
+            $user->forenames = $row[2];
+            $user->email = $username . '@student.gla.ac.uk';
+            $user->course_id = $this->id;
+            $user->save();
+            return $user->id;
+        });
+    }
+
+    protected function firstColumnIsAMatric($row)
+    {
+        return preg_match('/^[0-9]{7}$/', $row[0]) === 1;
+    }
+
+    protected function joinMatricAndFirstInitial($row)
+    {
+        return $row[0] . strtolower(substr($row[1], 0, 1));
     }
 }
