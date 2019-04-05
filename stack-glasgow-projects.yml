@@ -1,32 +1,33 @@
-version: "3"
+version: "3.7"
 services:
   app:
     image: localhost:5000/glasgow-projects-web
     depends_on:
       - redis
-      - mysql
     networks:
       - proxy
-      - private
+      - mysql
     expose:
       - "80"
     environment:
       CONTAINER_ROLE: app
-      DB_DATABASE: ${MYSQL_DB_NAME}
-      DB_USERNAME: ${MYSQL_USERNAME}
-      DB_PASSWORD: ${MYSQL_PASSWORD}
     secrets:
-      - source: glasgow-projects-env-2019-02-01
+      - source: dotenv
         target: .env
     deploy:
       replicas: 3
       labels:
-        - "traefik.backend=glasgow-projects-web"
+        - "traefik.backend=${TRAEFIK_BACKEND}"
         - "traefik.docker.network=proxy"
-        - "traefik.frontend.rule=Host:glasgow.ultravixen.elec.gla.ac.uk"
+        - "traefik.frontend.rule=Host:${TRAEFIK_HOSTNAME}"
         - "traefik.enable=true"
         - "traefik.port=80"
         - "traefik.default.protocol=http"
+    healthcheck:
+      test: ["CMD", "/usr/local/bin/app-healthcheck"]
+      interval: 5m
+      timeout: 5s
+      start_period: 30s
 
   scheduler:
     image: localhost:5000/glasgow-projects-web
@@ -36,15 +37,17 @@ services:
       labels:
         - "traefik.enable=false"
     networks:
-      - private
+      - mysql
     environment:
       CONTAINER_ROLE: scheduler
-      DB_DATABASE: ${MYSQL_DB_NAME}
-      DB_USERNAME: ${MYSQL_USERNAME}
-      DB_PASSWORD: ${MYSQL_PASSWORD}
     secrets:
-      - source: glasgow-projects-env-2019-02-01
+      - source: dotenv
         target: .env
+    healthcheck:
+      test: ["CMD", "/usr/local/bin/app-healthcheck"]
+      interval: 5m
+      timeout: 5s
+      start_period: 30s
 
   queue:
     image: localhost:5000/glasgow-projects-web
@@ -55,14 +58,30 @@ services:
       labels:
         - "traefik.enable=false"
     networks:
-      - private
+      - mysql
     environment:
       CONTAINER_ROLE: queue
-      DB_DATABASE: ${MYSQL_DB_NAME}
-      DB_USERNAME: ${MYSQL_USERNAME}
-      DB_PASSWORD: ${MYSQL_PASSWORD}
     secrets:
-      - source: glasgow-projects-env-2019-02-01
+      - source: dotenv
+        target: .env
+    healthcheck:
+      test: ["CMD", "/usr/local/bin/app-healthcheck"]
+      interval: 5m
+      timeout: 5s
+      start_period: 30s
+
+  migrations:
+    image: localhost:5000/glasgow-projects-web
+    deploy:
+      replicas: 1
+      labels:
+        - "traefik.enable=false"
+    networks:
+      - mysql
+    environment:
+      CONTAINER_ROLE: migrations
+    secrets:
+      - source: dotenv
         target: .env
 
   redis:
@@ -70,37 +89,14 @@ services:
     deploy:
       labels:
         - "traefik.enable=false"
-    networks:
-      - private
-    volumes:
-      - redis:/data
-
-  mysql:
-    image: mysql:5.7
-    deploy:
-      labels:
-        - "traefik.enable=false"
-    networks:
-      - private
-    volumes:
-      - mysql:/var/lib/mysql
-    environment:
-      MYSQL_DATABASE: ${MYSQL_DB_NAME}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_USER: ${MYSQL_USERNAME}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
 
 secrets:
-  glasgow-projects-env-2019-02-01:
+  dotenv:
     external: true
-
-volumes:
-  redis:
-    driver: "local"
-  mysql:
-    driver: "local"
+    name: ${DOTENV_NAME}
 
 networks:
-  private:
   proxy:
+    external: true
+  mysql:
     external: true

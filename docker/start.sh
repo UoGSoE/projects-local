@@ -8,13 +8,17 @@ env=${APP_ENV:-production}
 until nc -z -v -w30 mysql 3306
 do
     echo "Waiting for database connection..."
-    # wait for 5 seconds before check again
+    sleep 5
+done
+
+until echo 'PING' | nc -w 1 redis 6379 | grep -q PONG
+do
+    echo "Waiting for Redis connection..."
     sleep 5
 done
 
 if [ "$role" = "app" ]; then
 
-    php /var/www/html/artisan migrate
     exec apache2-foreground
 
 elif [ "$role" = "queue" ]; then
@@ -28,6 +32,10 @@ elif [ "$role" = "scheduler" ]; then
       php /var/www/html/artisan schedule:run --verbose --no-interaction &
       sleep 60
     done
+
+elif [ "$role" = "migrations" ]; then
+
+    php /var/www/html/artisan migrate --force
 
 else
     echo "Could not match the container role \"$role\""
