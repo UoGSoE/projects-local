@@ -11,12 +11,6 @@ do
     sleep 5
 done
 
-until echo 'PING' | nc -w 1 redis 6379 | grep -q PONG
-do
-    echo "Waiting for Redis connection..."
-    sleep 5
-done
-
 php /var/www/html/artisan config:cache
 
 if [ "$role" = "app" ]; then
