@@ -17,6 +17,8 @@ do
     sleep 5
 done
 
+php /var/www/html/artisan config:cache
+
 if [ "$role" = "app" ]; then
 
     exec apache2-foreground

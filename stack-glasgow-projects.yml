@@ -1,9 +1,21 @@
 version: "3.7"
+
+x-logging:
+  &default-logging
+  options:
+    max-size: '12m'
+    max-file: '5'
+  driver: json-file
+x-healthcheck:
+  &default-healthcheck
+  test: ["CMD", "/usr/local/bin/app-healthcheck"]
+  interval: 5m
+  timeout: 5s
+  start_period: 30s
+
 services:
   app:
-    image: localhost:5000/glasgow-projects-web
-    depends_on:
-      - redis
+    image: ${IMAGE_NAME}
     networks:
       - proxy
       - mysql
@@ -23,16 +35,11 @@ services:
         - "traefik.enable=true"
         - "traefik.port=80"
         - "traefik.default.protocol=http"
-    healthcheck:
-      test: ["CMD", "/usr/local/bin/app-healthcheck"]
-      interval: 5m
-      timeout: 5s
-      start_period: 30s
+    healthcheck: *default-healthcheck
+    logging: *default-logging
 
   scheduler:
-    image: localhost:5000/glasgow-projects-web
-    depends_on:
-      - app
+    image: ${IMAGE_NAME}
     deploy:
       labels:
         - "traefik.enable=false"
@@ -43,16 +50,11 @@ services:
     secrets:
       - source: dotenv
         target: .env
-    healthcheck:
-      test: ["CMD", "/usr/local/bin/app-healthcheck"]
-      interval: 5m
-      timeout: 5s
-      start_period: 30s
+    healthcheck: *default-healthcheck
+    logging: *default-logging
 
   queue:
-    image: localhost:5000/glasgow-projects-web
-    depends_on:
-      - app
+    image: ${IMAGE_NAME}
     deploy:
       replicas: 1
       labels:
@@ -64,14 +66,11 @@ services:
     secrets:
       - source: dotenv
         target: .env
-    healthcheck:
-      test: ["CMD", "/usr/local/bin/app-healthcheck"]
-      interval: 5m
-      timeout: 5s
-      start_period: 30s
+    healthcheck: *default-healthcheck
+    logging: *default-logging
 
   migrations:
-    image: localhost:5000/glasgow-projects-web
+    image: ${IMAGE_NAME}
     deploy:
       replicas: 1
       labels:
@@ -89,6 +88,7 @@ services:
     deploy:
       labels:
         - "traefik.enable=false"
+    logging: *default-logging
 
 secrets:
   dotenv:
