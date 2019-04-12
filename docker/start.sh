@@ -11,6 +11,12 @@ do
     sleep 5
 done
 
+until echo 'PING' | nc -w 1 redis 6379 | grep -q PONG
+do
+    echo "Waiting for Redis connection..."
+    sleep 5
+done
+
 php /var/www/html/artisan config:cache
 
 if [ "$role" = "app" ]; then
@@ -31,7 +37,11 @@ elif [ "$role" = "scheduler" ]; then
 
 elif [ "$role" = "migrations" ]; then
 
-    php /var/www/html/artisan migrate --force
+    php /var/www/html/artisan migrate --
+    while [ true ]
+    do
+        sleep 86400
+    done
 
 else
     echo "Could not match the container role \"$role\""
