@@ -6,6 +6,8 @@ use App\User;
 use Illuminate\Console\Command;
 use Facades\Ohffs\Ldap\LdapService;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\GdprAnonymisedUsers;
 
 class GdprAnonymise extends Command
 {
@@ -40,9 +42,10 @@ class GdprAnonymise extends Command
      */
     public function handle()
     {
+        $anonymisedUsers = collect([]);
         $staff = User::staff()->where('username', 'not like', 'ANON%')->get();
 
-        $staff->each(function ($user) {
+        $staff->each(function ($user) use ($anonymisedUsers) {
             if ($this->userIsInLdap($user->username)) {
                 $user->markAsStillHere();
                 return;
@@ -50,11 +53,17 @@ class GdprAnonymise extends Command
 
             Log::info('Anonymising ' . $user->username);
             if ($user->leftAgesAgo()) {
-                $user->anonymise();
+                $oldUsername = $user->username;
+                $anonUsername = $user->anonymise();
+                $anonymisedUsers->push(['originalName' => $oldUsername, 'anonName' => $anonUsername]);
             } else {
                 $user->markAsLeft();
             }
         });
+
+        if ($anonymisedUsers->count() > 0) {
+            Mail::to(config('projects.gdpr_contact'))->queue(new GdprAnonymisedUsers($anonymisedUsers));
+        }
     }
 
     public function userIsInLdap($username)

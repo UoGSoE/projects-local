@@ -228,6 +228,7 @@ class User extends Authenticatable
             'forenames' => $anonInfo,
             'email' => $anonInfo . '@glasgow.ac.uk',
         ]);
+        return $anonInfo;
     }
 
     public function markAsStillHere()
