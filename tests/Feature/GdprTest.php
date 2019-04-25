@@ -6,12 +6,13 @@ use App\User;
 use App\Course;
 use App\Project;
 use Tests\TestCase;
-use Facades\Ohffs\Ldap\LdapService;
+// use Facades\Ohffs\Ldap\LdapService;
+use Ohffs\Ldap\LdapService;
+use App\Mail\GdprAnonymisedUsers;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Mail\GdprAnonymisedUsers;
 
 class GdprTest extends TestCase
 {
@@ -73,9 +74,14 @@ class GdprTest extends TestCase
     public function an_artisan_command_can_anonymise_staff_accounts_if_they_have_left()
     {
         Mail::fake();
-        LdapService::shouldReceive('findUser')->once()->with('ihaveleft9x')->andReturn(false);
-        LdapService::shouldReceive('findUser')->once()->with('stillhere5x')->andReturn(true);
-        LdapService::shouldReceive('findUser')->once()->with('leftrecently3x')->andReturn(false);
+        $this->mock(LdapService::class, function ($ldap) {
+            $ldap->shouldReceive('findUser')->with('ihaveleft9x')->andReturn(false);
+            $ldap->shouldReceive('findUser')->with('stillhere5x')->andReturn(true);
+            $ldap->shouldReceive('findUser')->with('leftrecently3x')->andReturn(false);
+        });
+        // LdapService::shouldReceive('findUser')->once()->with('ihaveleft9x')->andReturn(false);
+        // LdapService::shouldReceive('findUser')->once()->with('stillhere5x')->andReturn(true);
+        // LdapService::shouldReceive('findUser')->once()->with('leftrecently3x')->andReturn(false);
         config(['projects.gdpr_anonymise_after' => 365]);
         config(['projects.gdpr_contact' => 'test@example.com']);
 
