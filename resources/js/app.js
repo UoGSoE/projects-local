@@ -142,7 +142,7 @@ const app = new Vue({
     deleteStudents(category) {
       this.showConfirmation = false;
       axios
-        .delete(route(`students.remove_${  category}`))
+        .delete(route(`students.remove_${category}`))
         .then((response) => {
           window.location = route('admin.users', category);
         });
