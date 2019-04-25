@@ -1,31 +1,31 @@
 /* eslint-disable */
 <template>
   <div>
-    <div class>
-      <transition name="fade" mode="in-out">
-        <div v-show="!research_area">
+    <transition name="fade" mode="in-out">
+      <div v-show="!research_area">
+        <div>
           <h4 class="title is-4">First choose a research theme</h4>
           <p class="subtitle is-5">
             This is used when none of your chosen projects can be allocated to you. Staff will try and find another
             project which aligns with your interests.
           </p>
         </div>
-      </transition>
-      <div class="field">
-        <div class="control">
-          <label class="label" for="research_area">Research Theme</label>
-          <div class="select">
-            <select name="research_area" v-model="research_area">
-              <option
-                v-for="area in research_areas"
-                :key="area.id"
-                v-bind:value="area.title"
-              >{{ area.title }}</option>
-            </select>
+        <div class="field">
+          <div class="control">
+            <label class="label" for="research_area">Research Theme</label>
+            <div class="select">
+              <select name="research_area" v-model="research_area">
+                <option
+                  v-for="area in research_areas"
+                  :key="area.id"
+                  v-bind:value="area.title"
+                >{{ area.title }}</option>
+              </select>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </transition>
     <transition name="fade">
       <div v-show="research_area">
         <hr>
@@ -153,7 +153,14 @@
 
 <script>
 export default {
-  props: ["projects", "programmes", "toolate", "research_areas"],
+  props: [
+    "projects",
+    "programmes",
+    "toolate",
+    "research_areas",
+    "user",
+    "undergrad"
+  ],
 
   data() {
     return {
@@ -171,7 +178,7 @@ export default {
         fourth: null,
         fifth: null
       },
-      research_area: ""
+      research_area: this.undergrad ? "N/A" : ""
     };
   },
 

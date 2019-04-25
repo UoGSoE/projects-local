@@ -191,6 +191,49 @@ class ApplicationTest extends TestCase
     }
 
     /** @test */
+    public function postgrad_students_must_give_a_research_area_alongside_their_choices()
+    {
+        Mail::fake();
+        $this->withoutExceptionHandling();
+        // given we have a student on a course
+        $student = create(User::class, ['is_staff' => false]);
+        $course = create(Course::class, ['category' => 'postgrad']);
+        $course->students()->save($student);
+
+        $area1 = create(ResearchArea::class);
+        $area2 = create(ResearchArea::class);
+
+        // and given we have three projects
+        $project1 = create(Project::class, ['category' => 'undergrad']);
+        $project2 = create(Project::class, ['category' => 'undergrad']);
+        $project3 = create(Project::class, ['category' => 'undergrad']);
+        $course->projects()->sync([$project1->id, $project2->id, $project3->id]);
+        // and given that the required number to apply for is 2
+        config(['projects.required_choices' => 2]);
+
+        // then if they apply for 2
+        $response = $this->actingAs($student)->post(route('projects.choose'), [
+            'choices' => [
+                1 => $project3->id,
+                2 => $project1->id,
+            ],
+            'research_area' => $area2->title,
+        ]);
+
+        // then they get the thank you page and the choices are stored
+        $response->assertStatus(302);
+        $response->assertRedirect(route('thank_you'));
+        $response->assertSessionMissing('errors');
+        $this->assertCount(2, $student->projects);
+        $this->assertEquals($area2->title, $student->fresh()->research_area);
+
+        // And a mail is sent (queued) to them with confirmation
+        Mail::assertQueued(ChoiceConfirmation::class, function ($mail) use ($student) {
+            return $mail->hasTo($student->email);
+        });
+    }
+
+    /** @test */
     public function a_student_cant_apply_for_a_less_than_the_required_number_of_projects()
     {
         // given we have a student on a course

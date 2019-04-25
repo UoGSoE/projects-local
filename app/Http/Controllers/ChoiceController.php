@@ -15,7 +15,7 @@ class ChoiceController extends Controller
             return redirect('/');
         }
 
-        $request->validate([
+        $data = $request->validate([
             'choices' => 'required|array|size:' . config('projects.required_choices'),
             'research_area' => 'required',
         ]);
@@ -26,7 +26,7 @@ class ChoiceController extends Controller
         }
 
         $request->user()->projects()->sync($choices);
-        $request->user()->update(['research_area' => $request->research_area]);
+        $request->user()->update(['research_area' => $data['research_area']]);
 
         Mail::to($request->user())->queue(new ChoiceConfirmation($request->user()));
 

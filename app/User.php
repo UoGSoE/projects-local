@@ -167,6 +167,14 @@ class User extends Authenticatable
         return !$this->isStaff();
     }
 
+    public function isUndergrad()
+    {
+        if ($this->isStaff()) {
+            return false;
+        }
+        return optional($this->course)->category == 'undergrad';
+    }
+
     public function isFirstChoice(Project $project)
     {
         if ($this->projects()->where('project_id', '=', $project->id)->wherePivot('choice', '=', 1)->first()) {

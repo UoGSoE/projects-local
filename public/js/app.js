@@ -32294,7 +32294,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["projects", "programmes", "toolate", "research_areas"],
+  props: ["projects", "programmes", "toolate", "research_areas", "user", "undergrad"],
 
   data: function data() {
     return {
@@ -32312,7 +32312,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         fourth: null,
         fifth: null
       },
-      research_area: ""
+      research_area: this.undergrad ? "N/A" : ""
     };
   },
 
@@ -32451,88 +32451,83 @@ var render = function() {
   return _c(
     "div",
     [
-      _c(
-        "div",
-        {},
-        [
-          _c("transition", { attrs: { name: "fade", mode: "in-out" } }, [
-            _c(
-              "div",
+      _c("transition", { attrs: { name: "fade", mode: "in-out" } }, [
+        _c(
+          "div",
+          {
+            directives: [
               {
-                directives: [
-                  {
-                    name: "show",
-                    rawName: "v-show",
-                    value: !_vm.research_area,
-                    expression: "!research_area"
-                  }
-                ]
-              },
-              [
-                _c("h4", { staticClass: "title is-4" }, [
-                  _vm._v("First choose a research theme")
-                ]),
-                _vm._v(" "),
-                _c("p", { staticClass: "subtitle is-5" }, [
-                  _vm._v(
-                    "\n          This is used when none of your chosen projects can be allocated to you. Staff will try and find another\n          project which aligns with your interests.\n        "
-                  )
-                ])
-              ]
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "field" }, [
-            _c("div", { staticClass: "control" }, [
-              _c(
-                "label",
-                { staticClass: "label", attrs: { for: "research_area" } },
-                [_vm._v("Research Theme")]
-              ),
+                name: "show",
+                rawName: "v-show",
+                value: !_vm.research_area,
+                expression: "!research_area"
+              }
+            ]
+          },
+          [
+            _c("div", [
+              _c("h4", { staticClass: "title is-4" }, [
+                _vm._v("First choose a research theme")
+              ]),
               _vm._v(" "),
-              _c("div", { staticClass: "select" }, [
-                _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.research_area,
-                        expression: "research_area"
-                      }
-                    ],
-                    attrs: { name: "research_area" },
-                    on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.research_area = $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      }
-                    }
-                  },
-                  _vm._l(_vm.research_areas, function(area) {
-                    return _c(
-                      "option",
-                      { key: area.id, domProps: { value: area.title } },
-                      [_vm._v(_vm._s(area.title))]
-                    )
-                  })
+              _c("p", { staticClass: "subtitle is-5" }, [
+                _vm._v(
+                  "\n          This is used when none of your chosen projects can be allocated to you. Staff will try and find another\n          project which aligns with your interests.\n        "
                 )
               ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "field" }, [
+              _c("div", { staticClass: "control" }, [
+                _c(
+                  "label",
+                  { staticClass: "label", attrs: { for: "research_area" } },
+                  [_vm._v("Research Theme")]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "select" }, [
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.research_area,
+                          expression: "research_area"
+                        }
+                      ],
+                      attrs: { name: "research_area" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.research_area = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        }
+                      }
+                    },
+                    _vm._l(_vm.research_areas, function(area) {
+                      return _c(
+                        "option",
+                        { key: area.id, domProps: { value: area.title } },
+                        [_vm._v(_vm._s(area.title))]
+                      )
+                    })
+                  )
+                ])
+              ])
             ])
-          ])
-        ],
-        1
-      ),
+          ]
+        )
+      ]),
       _vm._v(" "),
       _c("transition", { attrs: { name: "fade" } }, [
         _c(
