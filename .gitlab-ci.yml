@@ -27,9 +27,6 @@ test:
   - php artisan key:generate
   - php artisan config:clear
   - php artisan migrate:fresh
-  - php --version
-  - php -m
-  - php --ri pcov
 
   # If you need Node.js
   #- curl -sL https://deb.nodesource.com/setup_8.x | bash -
@@ -38,8 +35,7 @@ test:
   #- npm run dev
 
   script:
-  - echo ${DRIVER}
-  - php vendor/bin/phpunit --coverage-text --colors=never
+  - php vendor/bin/phpunit --colors=never
 
 build:
   stage: build
