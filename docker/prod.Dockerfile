@@ -15,7 +15,7 @@ RUN npm install
 RUN npm run production
 
 # And build the app
-FROM uogsoe/soe-php-apache:7.2 as prod
+FROM uogsoe/soe-php-apache:${PHP_VERSION}} as prod
 
 ENV APP_ENV=production
 ENV APP_DEBUG=0
