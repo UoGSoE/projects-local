@@ -38,7 +38,7 @@ test:
   #- npm run dev
 
   script:
-  - php vendor/bin/phpunit --coverage-text --colors=never
+  - DRIVER=pcov php vendor/bin/phpunit --coverage-text --colors=never
 
 build:
   stage: build
