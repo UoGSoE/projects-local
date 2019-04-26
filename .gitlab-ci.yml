@@ -27,6 +27,7 @@ test:
   - php artisan key:generate
   - php artisan config:clear
   - php artisan migrate:fresh
+  - php --version
   - php -m
   - php --ri pcov
 
