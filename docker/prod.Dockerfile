@@ -31,6 +31,7 @@ COPY --from=frontend --chown=www-data:www-data /app/mix-manifest.json /var/www/h
 
 RUN chmod u+x /usr/local/bin/start /usr/local/bin/app-healthcheck && \
     ln -sf /run/secrets/.env /var/www/html/.env && \
+    ls /usr/local/bin && \
     /usr/local/bin/composer install \
     --no-interaction \
     --no-plugins \
