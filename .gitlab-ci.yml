@@ -1,5 +1,4 @@
 stages:
-  - build-qa
   - test
   - build
 
@@ -11,7 +10,7 @@ cache:
   # - node_modules/
 
 test:
-  image: $CI_REGISTRY/$CI_PROJECT_PATH:qa-$CI_COMMIT_SHA
+  image: uogsoe/soe-php-apache:${PHP_VERSION}-ci
 
   services:
   - mysql:5.7
@@ -22,6 +21,13 @@ test:
     MYSQL_USER: homestead
     MYSQL_PASSWORD: secret
 
+  before_script:
+  - cp .env.gitlab .env
+  - composer install
+  - php artisan key:generate
+  - php artisan config:clear
+  - php artisan migrate:fresh
+
   # If you need Node.js
   #- curl -sL https://deb.nodesource.com/setup_10.x | bash -
   #- apt-get install -y nodejs
@@ -30,14 +36,10 @@ test:
 
   script:
   # - php vendor/bin/phpunit --coverage-text --colors=never
-  - cp .env.gitlab .env
-  - php artisan key:generate
-  - php artisan config:clear
-  - php artisan migrate:fresh
   - php vendor/bin/phpunit --colors=never
 
 build-qa-tagged:
-  stage: build-qa
+  stage: build
   image: docker:stable
   script:
   - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
