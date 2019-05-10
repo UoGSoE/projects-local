@@ -44,7 +44,7 @@ build-qa-tagged:
   script:
   - cp docker/prod.Dockerfile ./Dockerfile
   - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
-  - DOCKER_BUILDKIT=1 docker build --build-arg PHP_VERSION=${PHP_VERSION} --target=ci --build-arg PHP_VERSION=${PHP_VERSION} -t $CI_REGISTRY/$CI_PROJECT_PATH:ci-$CI_COMMIT_SHA .
+  - DOCKER_BUILDKIT=1 docker build --build-arg PHP_VERSION=${PHP_VERSION} --target=ci --build-arg PHP_VERSION=${PHP_VERSION} -t $CI_REGISTRY/$CI_PROJECT_PATH:qa-$CI_COMMIT_SHA .
   - docker push $CI_REGISTRY/$CI_PROJECT_PATH:qa-$CI_COMMIT_SHA
 
 build-prod-tagged:
