@@ -6,11 +6,9 @@ FROM node:10 as frontend
 
 WORKDIR /app
 
-USER node:node
+RUN mkdir -p /app/public /app/resources
 
-RUN node --version
-RUN mkdir -p /app/public
-RUN mkdir /app/resources
+USER node
 
 COPY --chown=node:node package.json webpack.mix.js package-lock.json /app/
 COPY --chown=node:node resources/ /app/resources/
@@ -24,7 +22,9 @@ RUN npm install && \
 # And build the prod app
 FROM uogsoe/soe-php-apache:${PHP_VERSION} as prod
 
-USER root:www-data
+WORKDIR /var/www/html
+
+USER root
 
 ENV APP_ENV=production
 ENV APP_DEBUG=0
@@ -48,15 +48,18 @@ RUN composer install \
     --no-dev \
     --prefer-dist
 
-RUN rm -fr /var/www/html/bootstrap/cache/*.php
-RUN php /var/www/html/artisan storage:link
-RUN php /var/www/html/artisan view:cache
-RUN php /var/www/html/artisan route:cache
+RUN rm -fr /var/www/html/bootstrap/cache/*.php && \
+    php /var/www/html/artisan storage:link && \
+    php /var/www/html/artisan view:cache && \
+    php /var/www/html/artisan route:cache
 
 CMD ["/usr/local/bin/start"]
 
 # And build the ci version of the app
 FROM uogsoe/soe-php-apache:${PHP_VERSION} as ci
+
+ENV APP_ENV=local
+ENV APP_DEBUG=1
 
 RUN composer install \
     --no-interaction \
