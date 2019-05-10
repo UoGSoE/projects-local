@@ -12,8 +12,8 @@ ENV APP_DEBUG=false
 RUN mkdir -p database/seeds
 RUN mkdir -p database/factories
 
-COPY --chown composer:composer composer.json composer.json
-COPY --chown composer:composer composer.lock composer.lock
+COPY --chown=composer:composer composer.json composer.json
+COPY --chown=composer:composer composer.lock composer.lock
 
 RUN composer install \
     --no-interaction \
@@ -31,8 +31,8 @@ RUN node --version
 RUN mkdir -p /app/public
 RUN mkdir /app/resources
 
-COPY --chown node:node package.json webpack.mix.js package-lock.json /app/
-COPY --chown node:node resources/ /app/resources/
+COPY --chown=node:node package.json webpack.mix.js package-lock.json /app/
+COPY --chown=node:node resources/ /app/resources/
 
 WORKDIR /app
 
