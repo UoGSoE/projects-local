@@ -54,7 +54,7 @@ RUN rm -fr /var/www/html/bootstrap/cache/*.php && \
 CMD ["/usr/local/bin/start"]
 
 # And build the ci version of the app
-FROM uogsoe/soe-php-apache:${PHP_VERSION} as ci
+FROM prod as ci
 
 ENV APP_ENV=local
 ENV APP_DEBUG=1
