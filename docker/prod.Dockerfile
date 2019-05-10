@@ -8,8 +8,6 @@ WORKDIR /app
 
 RUN mkdir -p /app/public /app/resources
 
-USER node
-
 COPY --chown=node:node package.json webpack.mix.js package-lock.json /app/
 COPY --chown=node:node resources/ /app/resources/
 
@@ -21,8 +19,6 @@ RUN npm install && \
 FROM uogsoe/soe-php-apache:${PHP_VERSION} as prod
 
 WORKDIR /var/www/html
-
-USER root
 
 ENV APP_ENV=production
 ENV APP_DEBUG=0
