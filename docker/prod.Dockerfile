@@ -13,8 +13,6 @@ USER node
 COPY --chown=node:node package.json webpack.mix.js package-lock.json /app/
 COPY --chown=node:node resources/ /app/resources/
 
-ENV NODE_ENV=production
-
 RUN npm install && \
     npm run production && \
     npm cache clean --force
