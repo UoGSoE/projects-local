@@ -1,27 +1,6 @@
 # PHP version we are targetting
 ARG PHP_VERSION=7.2
 
-# Set up php dependancies
-FROM uogsoe/soe-php-apache:${PHP_VERSION}-ci as vendor
-
-USER composer:composer
-
-ENV APP_ENV=production
-ENV APP_DEBUG=false
-
-RUN mkdir -p database/seeds
-RUN mkdir -p database/factories
-
-COPY --chown=composer:composer composer.json composer.json
-COPY --chown=composer:composer composer.lock composer.lock
-
-RUN composer install \
-    --no-interaction \
-    --no-plugins \
-    --no-scripts \
-    --no-dev \
-    --prefer-dist
-
 # Build JS/css assets
 FROM node:10 as frontend
 
@@ -42,8 +21,8 @@ RUN npm install && \
     npm run production && \
     npm cache clean --force
 
-# And build the app
-FROM uogsoe/soe-php-apache:${PHP_VERSION}
+# And build the prod app
+FROM uogsoe/soe-php-apache:${PHP_VERSION} as prod
 
 ENV APP_ENV=production
 ENV APP_DEBUG=0
@@ -56,10 +35,16 @@ RUN chmod u+x /usr/local/bin/start /usr/local/bin/app-healthcheck
 
 COPY --chown=www-data:www-data . /var/www/html
 RUN ln -sf /run/secrets/.env /var/www/html/.env
-COPY --from=vendor --chown=www-data:www-data /app/vendor/ /var/www/html/vendor/
 COPY --from=frontend --chown=www-data:www-data /app/public/js/ /var/www/html/public/js/
 COPY --from=frontend --chown=www-data:www-data /app/public/css/ /var/www/html/public/css/
 COPY --from=frontend --chown=www-data:www-data /app/mix-manifest.json /var/www/html/mix-manifest.json
+
+RUN composer install \
+    --no-interaction \
+    --no-plugins \
+    --no-scripts \
+    --no-dev \
+    --prefer-dist
 
 RUN rm -fr /var/www/html/bootstrap/cache/*.php
 RUN php /var/www/html/artisan storage:link
@@ -67,3 +52,12 @@ RUN php /var/www/html/artisan view:cache
 RUN php /var/www/html/artisan route:cache
 
 CMD ["/usr/local/bin/start"]
+
+# And build the ci version of the app
+FROM uogsoe/soe-php-apache:${PHP_VERSION} as ci
+
+RUN composer install \
+    --no-interaction \
+    --no-plugins \
+    --no-scripts \
+    --prefer-dist
