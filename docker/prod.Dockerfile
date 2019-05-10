@@ -4,6 +4,8 @@ ARG PHP_VERSION=7.2
 # Build JS/css assets
 FROM node:10 as frontend
 
+WORKDIR /app
+
 USER node:node
 
 RUN node --version
@@ -13,8 +15,6 @@ RUN mkdir /app/resources
 COPY --chown=node:node package.json webpack.mix.js package-lock.json /app/
 COPY --chown=node:node resources/ /app/resources/
 
-WORKDIR /app
-
 ENV NODE_ENV=production
 
 RUN npm install && \
@@ -23,6 +23,8 @@ RUN npm install && \
 
 # And build the prod app
 FROM uogsoe/soe-php-apache:${PHP_VERSION} as prod
+
+USER root:www-data
 
 ENV APP_ENV=production
 ENV APP_DEBUG=0
