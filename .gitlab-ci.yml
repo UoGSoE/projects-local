@@ -22,12 +22,6 @@ test:
     MYSQL_USER: homestead
     MYSQL_PASSWORD: secret
 
-  before_script:
-  - cp .env.gitlab .env
-  - php artisan key:generate
-  - php artisan config:clear
-  - php artisan migrate:fresh
-
   # If you need Node.js
   #- curl -sL https://deb.nodesource.com/setup_10.x | bash -
   #- apt-get install -y nodejs
@@ -36,6 +30,10 @@ test:
 
   script:
   # - php vendor/bin/phpunit --coverage-text --colors=never
+  - cp .env.gitlab .env
+  - php artisan key:generate
+  - php artisan config:clear
+  - php artisan migrate:fresh
   - php vendor/bin/phpunit --colors=never
 
 build-qa-tagged:
