@@ -35,7 +35,8 @@ test:
   #- npm run dev
 
   script:
-  - php vendor/bin/phpunit --coverage-text --colors=never
+  # - php vendor/bin/phpunit --coverage-text --colors=never
+  - php vendor/bin/phpunit --colors=never
 
 build-qa-tagged:
   stage: build
