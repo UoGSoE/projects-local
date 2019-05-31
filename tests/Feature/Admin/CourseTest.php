@@ -81,6 +81,7 @@ class CourseTest extends TestCase
             'code' => "ENG9999",
             'category' => 'undergrad',
             'application_deadline' => now()->addMonths(3)->format('d/m/Y'),
+            'allow_staff_accept' => true,
         ]);
 
         $response->assertStatus(302);
@@ -90,6 +91,7 @@ class CourseTest extends TestCase
         $this->assertEquals('A COURSE', $course->title);
         $this->assertEquals('ENG9999', $course->code);
         $this->assertEquals(now()->addMonths(3)->format('d/m/Y 23:59'), $course->application_deadline->format('d/m/Y H:i'));
+        $this->assertTrue($course->allow_staff_accept);
     }
 
     /** @test */
@@ -128,6 +130,7 @@ class CourseTest extends TestCase
             'code' => "ENG9999",
             'category' => 'undergrad',
             'application_deadline' => now()->addMonths(3)->format('d/m/Y'),
+            'allow_staff_accept' => true,
         ]);
 
         $response->assertStatus(302);
@@ -135,6 +138,7 @@ class CourseTest extends TestCase
         $this->assertEquals('A COURSE', $existingCourse->fresh()->title);
         $this->assertEquals('ENG9999', $existingCourse->fresh()->code);
         $this->assertEquals(now()->addMonths(3)->format('d/m/Y'), $existingCourse->fresh()->application_deadline->format('d/m/Y'));
+        $this->assertTrue($existingCourse->fresh()->allow_staff_accept);
     }
 
     /** @test */
@@ -176,6 +180,7 @@ class CourseTest extends TestCase
             'code' => $course->code,
             'category' => 'undergrad',
             'application_deadline' => now()->addMonths(3)->format('d/m/Y'),
+            'allow_staff_accept' => true,
         ]);
 
         $response->assertStatus(302);

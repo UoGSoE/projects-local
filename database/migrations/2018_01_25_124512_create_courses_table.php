@@ -18,6 +18,7 @@ class CreateCoursesTable extends Migration
             $table->string('code');
             $table->string('title');
             $table->string('category');
+            $table->boolean('allow_staff_accept')->default(false);
             $table->timestamps();
         });
     }

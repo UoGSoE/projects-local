@@ -48,6 +48,7 @@ class CourseController extends Controller
             'code' => 'required|unique:courses',
             'category' => 'required|in:undergrad,postgrad',
             'application_deadline' => 'required|date_format:d/m/Y',
+            'allow_staff_accept' => 'required|boolean',
         ]);
         $data['application_deadline'] = Carbon::createFromFormat(
             'd/m/Y',
@@ -101,6 +102,7 @@ class CourseController extends Controller
             'code' => ['required', Rule::unique('courses')->ignore($course->id)],
             'category' => 'required|in:undergrad,postgrad',
             'application_deadline' => 'required|date_format:d/m/Y',
+            'allow_staff_accept' => 'required|boolean',
         ]);
         $data['application_deadline'] = Carbon::createFromFormat(
             'd/m/Y',

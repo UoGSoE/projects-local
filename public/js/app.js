@@ -33002,18 +33002,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["students", "project", "studentList"],
@@ -33078,8 +33066,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       if (!!+this.user.isAdmin) {
         return true;
       }
-      // staff cannot choose anything for postgrad projects
-      if (this.project.category == "postgrad") {
+      // staff cannot choose anything unless the teaching office have flagged it
+      if (!this.project.staff_can_accept) {
         return false;
       }
       // if the student is already accepted, staff cannot change it
@@ -33140,31 +33128,13 @@ var render = function() {
                                 {
                                   attrs: { href: _vm.showUserUrl(student.id) }
                                 },
-                                [
-                                  _vm._v(
-                                    "\n                                " +
-                                      _vm._s(student.full_name) +
-                                      "\n                            "
-                                  )
-                                ]
+                                [_vm._v(_vm._s(student.full_name))]
                               )
                             ])
-                          : _c("span", [
-                              _vm._v(
-                                "\n                            " +
-                                  _vm._s(student.full_name) +
-                                  "\n                        "
-                              )
-                            ])
+                          : _c("span", [_vm._v(_vm._s(student.full_name))])
                       ]),
                       _vm._v(" "),
-                      _c("td", [
-                        _vm._v(
-                          "\n                        " +
-                            _vm._s(student.choice) +
-                            "\n                    "
-                        )
-                      ]),
+                      _c("td", [_vm._v(_vm._s(student.choice))]),
                       _vm._v(" "),
                       _c("td", { attrs: { id: "status-" + student.id } }, [
                         _vm.canAcceptStudent(student)
@@ -33217,11 +33187,7 @@ var render = function() {
                               })
                             ])
                           : _c("label", [
-                              _vm._v(
-                                "\n                            " +
-                                  _vm._s(student.is_accepted ? "Yes" : "No") +
-                                  "\n                        "
-                              )
+                              _vm._v(_vm._s(student.is_accepted ? "Yes" : "No"))
                             ])
                       ])
                     ])
@@ -33242,7 +33208,7 @@ var render = function() {
                         }
                       }
                     },
-                    [_vm._v("\n            Save Changes\n        ")]
+                    [_vm._v("Save Changes")]
                   )
                 : _vm._e()
             ]
@@ -33257,7 +33223,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("article", { staticClass: "message" }, [
       _c("div", { staticClass: "message-body" }, [
-        _vm._v("\n                No students have applied yet\n            ")
+        _vm._v("No students have applied yet")
       ])
     ])
   },

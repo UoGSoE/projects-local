@@ -1,66 +1,54 @@
 <template>
-    <div>
-        <div v-if="students.length <= 0">
-            <article class="message">
-                <div class="message-body">
-                    No students have applied yet
-                </div>
-            </article>
-        </div>
-        <div v-else>
-        <h3 class="title is-3">Student Applications</h3>
-        <form method="POST" action="" id="student-list-form">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Student</th>
-                        <th>Choice</th>
-                        <th>Accepted?</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="student in students" :key="student.id">
-                        <td>
-                            <span v-if="user.isAdmin">
-                                <a :href="showUserUrl(student.id)">
-                                    {{ student.full_name }}
-                                </a>
-                            </span>
-                            <span v-else>
-                                {{ student.full_name }}
-                            </span>
-                        </td>
-                        <td>
-                            {{ student.choice }}
-                        </td>
-                        <td :id="'status-' + student.id">
-                            <label v-if="canAcceptStudent(student)">
-                                <input
-                                    :id="'accept-' + student.id"
-                                    :name="'accept-' + student.id"
-                                    type="checkbox"
-                                    v-model="acceptedStudents"
-                                    :value="student.id"
-                                >
-                            </label>
-                            <label v-else>
-                                {{ student.is_accepted ? 'Yes' : 'No' }}
-                            </label>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <button
-                v-if="changesHaveBeenMade"
-                class="button"
-                name="accept"
-                @click.prevent="submit"
-            >
-                Save Changes
-            </button>
-        </form>
-        </div>
+  <div>
+    <div v-if="students.length <= 0">
+      <article class="message">
+        <div class="message-body">No students have applied yet</div>
+      </article>
     </div>
+    <div v-else>
+      <h3 class="title is-3">Student Applications</h3>
+      <form method="POST" action id="student-list-form">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Student</th>
+              <th>Choice</th>
+              <th>Accepted?</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="student in students" :key="student.id">
+              <td>
+                <span v-if="user.isAdmin">
+                  <a :href="showUserUrl(student.id)">{{ student.full_name }}</a>
+                </span>
+                <span v-else>{{ student.full_name }}</span>
+              </td>
+              <td>{{ student.choice }}</td>
+              <td :id="'status-' + student.id">
+                <label v-if="canAcceptStudent(student)">
+                  <input
+                    :id="'accept-' + student.id"
+                    :name="'accept-' + student.id"
+                    type="checkbox"
+                    v-model="acceptedStudents"
+                    :value="student.id"
+                  >
+                </label>
+                <label v-else>{{ student.is_accepted ? 'Yes' : 'No' }}</label>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <button
+          v-if="changesHaveBeenMade"
+          class="button"
+          name="accept"
+          @click.prevent="submit"
+        >Save Changes</button>
+      </form>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -123,8 +111,8 @@ export default {
       if (!!+this.user.isAdmin) {
         return true;
       }
-      // staff cannot choose anything for postgrad projects
-      if (this.project.category == "postgrad") {
+      // staff cannot choose anything unless the teaching office have flagged it
+      if (!this.project.staff_can_accept) {
         return false;
       }
       // if the student is already accepted, staff cannot change it

@@ -22,30 +22,30 @@
     </thead>
     <tbody>
         @foreach (auth()->user()->projects()->withCount([
-            'students',
-            'students as accepted_students_count' => function ($query) {
-                return $query->where('is_accepted', '=', true);
-            },
+        'students',
+        'students as accepted_students_count' => function ($query) {
+        return $query->where('is_accepted', '=', true);
+        },
         ])->orderBy('title')->get() as $project)
-            <tr>
-                <td>
-                    <a href="{{ route('project.show', $project->id) }}">
-                        @if ($project->isInactive())
-                            <span class="tag">Inactive</span>
-                        @endif
-                        {{ $project->title }}
-                    </a>
-                </td>
-                <td>
-                    {{ ucfirst($project->category) }}
-                </td>
-                <td>
-                    {{ $project->students_count }}
-                </td>
-                <td>
-                    {{ $project->accepted_students_count }}
-                </td>
-            </tr>
+        <tr>
+            <td>
+                <a href="{{ route('project.show', $project->id) }}">
+                    @if ($project->isInactive())
+                    <span class="tag">Inactive</span>
+                    @endif
+                    {{ $project->title }}
+                </a>
+            </td>
+            <td>
+                {{ ucfirst($project->category) }}
+            </td>
+            <td>
+                {{ $project->students_count }}
+            </td>
+            <td>
+                {{ $project->accepted_students_count }}
+            </td>
+        </tr>
         @endforeach
     </tbody>
 </table>

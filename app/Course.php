@@ -11,6 +11,7 @@ class Course extends Model
 
     protected $casts = [
         'application_deadline' => 'datetime',
+        'allow_staff_accept' => 'boolean',
     ];
 
     public function students()

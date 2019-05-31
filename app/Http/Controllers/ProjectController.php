@@ -19,8 +19,12 @@ class ProjectController extends Controller
                 return $query->where('is_accepted', '=', true);
             },
         ])->findOrFail($id);
+        $project->staff_can_accept = $project->allowsStaffToAcceptStudents();
+
         $this->authorize('view', $project);
+
         $students = User::students()->orderBy('surname')->get();
+
         return view('project.show', ['project' => $project, 'students' => $students]);
     }
 

@@ -39,7 +39,7 @@ class AuthServiceProvider extends ServiceProvider
             if ($project->students()->wherePivot('is_accepted', true)->count() >= $project->max_students) {
                 return false;
             }
-            if ($project->category == 'undergrad') {
+            if ($project->allowsStaffToAcceptStudents()) {
                 return true;
             }
             return false;

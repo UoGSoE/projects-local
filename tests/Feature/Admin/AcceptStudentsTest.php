@@ -86,7 +86,7 @@ class AcceptStudentsTest extends TestCase
     }
 
     /** @test */
-    public function an_admin_can_manuall_add_and_accept_any_student_on_a_given_project()
+    public function an_admin_can_manually_add_and_accept_any_student_on_a_given_project()
     {
         $this->withoutExceptionHandling();
         Mail::fake();

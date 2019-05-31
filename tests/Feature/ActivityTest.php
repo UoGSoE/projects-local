@@ -106,7 +106,6 @@ class ActivityTest extends TestCase
         $log = Activity::first();
         $this->assertTrue($log->causer->is($admin));
         $this->assertEquals("Deleted student {$student->matric}", $log->description);
-
     }
 
     /** @test */
@@ -194,6 +193,8 @@ class ActivityTest extends TestCase
         $staff = create(User::class, ['is_staff' => true]);
         $student = create(User::class, ['is_staff' => false]);
         $project = create(Project::class, ['staff_id' => $staff->id, 'category' => 'undergrad']);
+        $course = create(Course::class, ['allow_staff_accept' => true, 'category' => 'undergrad']);
+        $project->courses()->sync([$course->id]);
         $student->projects()->sync([$project->id => ['choice' => 1]]);
         Activity::all()->each->delete();
 

@@ -30,3 +30,15 @@
             <input class="input" name="application_deadline" type="text" value="{{ old('application_deadline', $course->application_deadline->format('d/m/Y')) }}" required v-pikaday>
         </div>
     </div>
+
+    <div class="field">
+        <div class="control">
+            <label class="label">Allow staff to accept 1st choices of students?</label>
+            <div class="select">
+                <select name="allow_staff_accept">
+                    <option value="1" @if (old('allow_staff_accept', $course->allow_staff_accept)) selected @endif>Yes</option>
+                    <option value="0" @if (!old('allow_staff_accept', $course->allow_staff_accept)) selected @endif>No</option>
+                </select>
+            </div>
+        </div>
+    </div>

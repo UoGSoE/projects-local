@@ -2,25 +2,27 @@
 
 namespace Tests\Feature\Staff;
 
-use App\Mail\AcceptedOntoProject;
-use App\Project;
 use App\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Mail;
+use App\Course;
+use App\Project;
 use Tests\TestCase;
+use App\Mail\AcceptedOntoProject;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AcceptingStudentsTest extends TestCase
 {
     use RefreshDatabase;
 
     /** @test */
-    public function staff_can_accept_first_choice_students_for_undergrad_projects()
+    public function staff_can_accept_first_choice_students_for_projects_where_the_course_is_flagged_as_such()
     {
         Mail::fake();
-        // given we have a member of staff with an undergrad project and a student has applied as their 1st choice
         $staff = create(User::class, ['is_staff' => true]);
         $student = create(User::class, ['is_staff' => false]);
         $project = create(Project::class, ['staff_id' => $staff->id, 'category' => 'undergrad']);
+        $course = create(Course::class, ['allow_staff_accept' => true, 'category' => 'undergrad']);
+        $project->courses()->sync([$course->id]);
         $student->projects()->sync([$project->id => ['choice' => 1]]);
         $this->assertFalse($project->students()->first()->isAccepted());
 
@@ -43,11 +45,13 @@ class AcceptingStudentsTest extends TestCase
     }
 
     /** @test */
-    public function staff_cant_accept_non_first_choice_students_for_undergrad_projects()
+    public function staff_cant_accept_non_first_choice_students_for_projects()
     {
         $staff = create(User::class, ['is_staff' => true]);
         $student = create(User::class, ['is_staff' => false]);
         $project = create(Project::class, ['staff_id' => $staff->id, 'category' => 'undergrad']);
+        $course = create(Course::class, ['allow_staff_accept' => true, 'category' => 'undergrad']);
+        $project->courses()->sync([$course->id]);
         $student->projects()->sync([$project->id => ['choice' => 2]]);
         $this->assertFalse($project->students()->first()->isAccepted());
 
@@ -61,11 +65,13 @@ class AcceptingStudentsTest extends TestCase
     }
 
     /** @test */
-    public function staff_cant_accept_students_for_postgrad_projects()
+    public function staff_cant_accept_students_for_projects_where_the_course_isnt_flagged_as_allowing_it()
     {
         $staff = create(User::class, ['is_staff' => true]);
         $student = create(User::class, ['is_staff' => false]);
-        $project = create(Project::class, ['staff_id' => $staff->id, 'category' => 'postgrad']);
+        $project = create(Project::class, ['staff_id' => $staff->id, 'category' => 'undergrad']);
+        $course = create(Course::class, ['allow_staff_accept' => false, 'category' => 'undergrad']);
+        $project->courses()->sync([$course->id]);
         $student->projects()->sync([$project->id => ['choice' => 1]]);
 
         $response = $this->actingAs($staff)->get(route('project.show', $project->id));
@@ -86,6 +92,8 @@ class AcceptingStudentsTest extends TestCase
         $student1 = create(User::class, ['is_staff' => false]);
         $student2 = create(User::class, ['is_staff' => false]);
         $project = create(Project::class, ['staff_id' => $staff->id, 'category' => 'undergrad', 'max_students' => 1]);
+        $course = create(Course::class, ['allow_staff_accept' => true, 'category' => 'undergrad']);
+        $project->courses()->sync([$course->id]);
         $student1->projects()->sync([$project->id => ['choice' => 1, 'is_accepted' => true]]);
         $student2->projects()->sync([$project->id => ['choice' => 1, 'is_accepted' => false]]);
 
@@ -109,6 +117,8 @@ class AcceptingStudentsTest extends TestCase
         $student1 = create(User::class, ['is_staff' => false]);
         $student2 = create(User::class, ['is_staff' => false]);
         $project = create(Project::class, ['category' => 'undergrad', 'max_students' => 5]);
+        $course = create(Course::class, ['allow_staff_accept' => true, 'category' => 'undergrad']);
+        $project->courses()->sync([$course->id]);
         $student1->projects()->sync([$project->id => ['choice' => 1, 'is_accepted' => true]]);
         $student2->projects()->sync([$project->id => ['choice' => 1, 'is_accepted' => true]]);
         $this->assertTrue($student1->isAccepted());
@@ -133,6 +143,8 @@ class AcceptingStudentsTest extends TestCase
         $student = create(User::class, ['is_staff' => false]);
         $project1 = create(Project::class, ['staff_id' => $staff->id, 'category' => 'undergrad']);
         $project2 = create(Project::class, ['staff_id' => $staff->id, 'category' => 'undergrad']);
+        $course = create(Course::class, ['allow_staff_accept' => true, 'category' => 'undergrad']);
+        $project1->courses()->sync([$course->id]);
         $student->projects()->sync([$project1->id => ['choice' => 1], $project2->id => ['choice' => 2]]);
         $this->assertEquals(2, $student->projects()->count());
 
@@ -154,6 +166,8 @@ class AcceptingStudentsTest extends TestCase
         $staff = create(User::class, ['is_staff' => true]);
         $student = create(User::class, ['is_staff' => false]);
         $project = create(Project::class, ['staff_id' => $staff->id, 'category' => 'undergrad']);
+        $course = create(Course::class, ['allow_staff_accept' => true, 'category' => 'undergrad']);
+        $project->courses()->sync([$course->id]);
         $student->projects()->sync([$project->id => ['choice' => 1]]);
 
         $response = $this->actingAs($staff)->post(route('project.accept_students', $project->id), [
