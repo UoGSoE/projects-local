@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\User;
+use App\Course;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -71,6 +72,12 @@ class UserController extends Controller
             'is_staff' => !$this->looksLikeMatric($ldapUser->username),
             'password' => bcrypt(Str::random(64)),
         ]);
+
+        if ($request->filled('course') and ($this->looksLikeMatric($ldapUser->username))) {
+            $course = Course::where('code', '=', strtoupper($request->course))->firstOrFail();
+            $user->course()->associate($course);
+            $user->save();
+        }
 
         event(new SomethingNoteworthyHappened(auth()->user(), "Created user {$user->full_name}"));
 

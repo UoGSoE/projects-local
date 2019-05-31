@@ -192,7 +192,7 @@ class StudentApplicationTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             $student = create(User::class, ['is_staff' => false]);
 
-            $course = create(Course::class, ['application_deadline' => now()->subWeeks(2)]);
+            $course = create(Course::class, ['application_deadline' => now()->subWeeks(2), 'category' => 'postgrad']);
             $course->students()->save($student);
 
             $project1 = create(Project::class);

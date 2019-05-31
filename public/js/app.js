@@ -33504,82 +33504,112 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: [],
+  props: [],
 
-    mounted: function mounted() {},
-    data: function data() {
-        return {
-            mode: 'button',
-            errorMessage: '',
-            username: '',
-            user: null,
-            searching: false,
-            saving: false
-        };
-    },
+  mounted: function mounted() {},
+  data: function data() {
+    return {
+      mode: "button",
+      errorMessage: "",
+      username: "",
+      user: null,
+      searching: false,
+      saving: false
+    };
+  },
 
 
-    computed: {
-        mainButtonClassList: function mainButtonClassList() {
-            if (this.searching) {
-                return 'is-info is-loading';
-            }
-            if (!this.user) {
-                return 'is-info';
-            }
-            return '';
-        }
-    },
-
-    methods: {
-        showInput: function showInput() {
-            this.mode = 'input';
-            this.$nextTick(this.$refs.search.focus());
-        },
-        findUser: function findUser() {
-            var _this = this;
-
-            console.log(this.username);
-            this.searching = true;
-            axios.post(route('api.user.find', { guid: this.username })).then(function (response) {
-                _this.user = response.data.data.user;
-                _this.searching = false;
-                _this.errorMessage = '';
-            }).catch(function (error) {
-                _this.searching = false;
-                if (error.response.data.message) {
-                    _this.errorMessage = error.response.data.message;
-                } else if (error.response.statusText) {
-                    _this.errorMessage = error.response.statusText;
-                } else {
-                    _this.errorMessage = error.message;
-                }
-            });
-        },
-        saveUser: function saveUser() {
-            var _this2 = this;
-
-            this.saving = true;
-            axios.post(route('api.user.store', { guid: this.username })).then(function (response) {
-                _this2.user = null;
-                console.log(response);
-                _this2.saving = false;
-                location.reload();
-            }).catch(function (error) {
-                _this2.saving = false;
-                _this2.user = null;
-                if (error.response.data.message) {
-                    _this2.errorMessage = error.response.data.message;
-                } else if (error.response.statusText) {
-                    _this2.errorMessage = error.response.statusText;
-                } else {
-                    _this2.errorMessage = error.message;
-                }
-            });
-        }
+  computed: {
+    mainButtonClassList: function mainButtonClassList() {
+      if (this.searching) {
+        return "is-info is-loading";
+      }
+      if (!this.user) {
+        return "is-info";
+      }
+      return "";
     }
+  },
+
+  methods: {
+    looksLikeMatric: function looksLikeMatric(username) {
+      return (/^[0-9]/.test(username)
+      );
+    },
+    showInput: function showInput() {
+      this.mode = "input";
+      //   this.$nextTick(this.$refs.search.focus());
+    },
+    findUser: function findUser() {
+      var _this = this;
+
+      console.log(this.username);
+      this.searching = true;
+      axios.post(route("api.user.find", { guid: this.username })).then(function (response) {
+        _this.user = response.data.data.user;
+        _this.user.course = "";
+        _this.searching = false;
+        _this.errorMessage = "";
+      }).catch(function (error) {
+        _this.searching = false;
+        if (error.response.data.message) {
+          _this.errorMessage = error.response.data.message;
+        } else if (error.response.statusText) {
+          _this.errorMessage = error.response.statusText;
+        } else {
+          _this.errorMessage = error.message;
+        }
+      });
+    },
+    saveUser: function saveUser() {
+      var _this2 = this;
+
+      this.saving = true;
+      axios.post(route("api.user.store", {
+        guid: this.username,
+        course: this.user.course
+      })).then(function (response) {
+        _this2.user = null;
+        console.log(response);
+        _this2.saving = false;
+        location.reload();
+      }).catch(function (error) {
+        _this2.saving = false;
+        _this2.user = null;
+        if (error.response.data.message) {
+          _this2.errorMessage = error.response.data.message;
+        } else if (error.response.statusText) {
+          _this2.errorMessage = error.response.statusText;
+        } else {
+          _this2.errorMessage = error.message;
+        }
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -33653,11 +33683,7 @@ var render = function() {
                             }
                           }
                         },
-                        [
-                          _vm._v(
-                            "\n                        Search\n                        "
-                          )
-                        ]
+                        [_vm._v("Search")]
                       )
                     ]),
                     _vm._v(" "),
@@ -33681,13 +33707,7 @@ var render = function() {
                             staticClass: "button is-danger",
                             attrs: { disabled: "" }
                           },
-                          [
-                            _vm._v(
-                              "\n                        " +
-                                _vm._s(_vm.errorMessage) +
-                                "\n                        "
-                            )
-                          ]
+                          [_vm._v(_vm._s(_vm.errorMessage))]
                         )
                       ]
                     )
@@ -33722,6 +33742,50 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("dd", [_vm._v(_vm._s(_vm.user.forenames))]),
+                  _vm._v(" "),
+                  _vm.looksLikeMatric(_vm.username)
+                    ? _c("span", [
+                        _c("dt", { staticClass: "has-text-weight-semibold" }, [
+                          _vm._v("Course")
+                        ]),
+                        _vm._v(" "),
+                        _c("dd", [
+                          _c("div", { staticClass: "field" }, [
+                            _c("div", { staticClass: "control" }, [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.user.course,
+                                    expression: "user.course"
+                                  }
+                                ],
+                                staticClass: "input",
+                                attrs: {
+                                  type: "text",
+                                  placeholder:
+                                    "Enter a course code (eg, ENG1234)"
+                                },
+                                domProps: { value: _vm.user.course },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.user,
+                                      "course",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ])
+                          ])
+                        ])
+                      ])
+                    : _vm._e(),
                   _vm._v(" "),
                   _c("hr"),
                   _vm._v(" "),
