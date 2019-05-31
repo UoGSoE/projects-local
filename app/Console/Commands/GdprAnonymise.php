@@ -51,12 +51,13 @@ class GdprAnonymise extends Command
                 return;
             }
 
-            Log::info('Anonymising ' . $user->username);
             if ($user->leftAgesAgo()) {
+                Log::info('Anonymising ' . $user->username);
                 $oldUsername = $user->username;
                 $anonUsername = $user->anonymise();
                 $anonymisedUsers->push(['originalName' => $oldUsername, 'anonName' => $anonUsername]);
             } else {
+                Log::info('User seems to have left ' . $user->username);
                 $user->markAsLeft();
             }
         });
