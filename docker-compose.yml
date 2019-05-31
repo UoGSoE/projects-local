@@ -1,11 +1,23 @@
-version: "3"
+version: "3.7"
+
+x-logging:
+  &default-logging
+  options:
+    max-size: '12m'
+    max-file: '5'
+  driver: json-file
+
 services:
   app:
-    image: localhost:5000/glasgow-projects-web
-    container_name: glasgow-projects-web
+    image: ${IMAGE_NAME}
+    logging: *default-logging
+    environment:
+      CONTAINER_ROLE: app
     build:
       context: .
-      dockerfile: docker/Dockerfile
+    secrets:
+      - source: dotenv
+        target: .env
     depends_on:
       - redis
       - mysql
@@ -15,132 +27,101 @@ services:
       - private
     expose:
       - "80"
-#    volumes:
-#      - .:/var/www/html
-    environment:
-      APP_ENV: local
-      CONTAINER_ROLE: app
-      DB_CONNECTION: mysql
-      DB_HOST: mysql
-      DB_DATABASE: glasgowprojects
-      DB_USERNAME: homestead
-      DB_PASSWORD: secret
-      CACHE_DRIVER: redis
-      SESSION_DRIVER: redis
-      QUEUE_DRIVER: redis
-      REDIS_HOST: redis
-      MAIL_HOST: mailhog
-      DEFAULT_DISK: images
     deploy:
-      replicas: 3
+      replicas: 1
       labels:
-        - "traefik.backend=glasgow-projects-web"
+        - "traefik.backend=${TRAEFIK_BACKEND}"
         - "traefik.docker.network=proxy"
-        - "traefik.frontend.rule=Host:glasgow.ultravixen.elec.gla.ac.uk"
+        - "traefik.frontend.rule=Host:${TRAEFIK_HOSTNAME}"
         - "traefik.enable=true"
         - "traefik.port=80"
         - "traefik.default.protocol=http"
-#        - "traefik.admin.frontend.rule=Host:admin-app.my-awesome-app.org"
-#        - "traefik.admin.protocol=https"
-#        - "traefik.admin.port=9443"
 
   scheduler:
-    image: localhost:5000/glasgow-projects-web
-    container_name: glasgow-projects-scheduler
+    image: ${IMAGE_NAME}
+    logging: *default-logging
+    environment:
+      CONTAINER_ROLE: scheduler
     depends_on:
       - app
-#    volumes:
-#      - .:/var/www/html
     deploy:
       labels:
         - "traefik.enable=false"
     networks:
       - private
-    environment:
-      APP_ENV: local
-      CONTAINER_ROLE: scheduler
-      DB_CONNECTION: mysql
-      DB_HOST: mysql
-      DB_DATABASE: glasgowprojects
-      DB_USERNAME: homestead
-      DB_PASSWORD: secret
-      CACHE_DRIVER: redis
-      SESSION_DRIVER: redis
-      QUEUE_DRIVER: redis
-      REDIS_HOST: redis
-      MAIL_HOST: mailhog
+    secrets:
+      - source: dotenv
+        target: .env
 
   queue:
-    image: localhost:5000/glasgow-projects-web
-    container_name: glasgow-projects-queue
+    image: ${IMAGE_NAME}
+    logging: *default-logging
+    environment:
+      CONTAINER_ROLE: queue
     depends_on:
       - app
-#    volumes:
-#      - .:/var/www/html
     deploy:
-      replicas: 2
+      replicas: 1
       labels:
         - "traefik.enable=false"
+    networks:
+      - private
+    secrets:
+      - source: dotenv
+        target: .env
+
+  migrations:
+    image: ${IMAGE_NAME}
+    logging: *default-logging
     networks:
       - private
     environment:
-      APP_ENV: local
-      CONTAINER_ROLE: queue
-      DB_CONNECTION: mysql
-      DB_HOST: mysql
-      DB_DATABASE: glasgowprojects
-      DB_USERNAME: homestead
-      DB_PASSWORD: secret
-      CACHE_DRIVER: redis
-      SESSION_DRIVER: redis
-      QUEUE_DRIVER: redis
-      REDIS_HOST: redis
-      MAIL_HOST: mailhog
+      CONTAINER_ROLE: migrations
+    depends_on:
+      - app
+    deploy:
+      replicas: 1
+      labels:
+        - "traefik.enable=false"
+    secrets:
+      - source: dotenv
+        target: .env
 
   redis:
-    container_name: glasgow-projects-redis
-    image: redis:4
+    image: redis:5.0.4
     deploy:
       labels:
         - "traefik.enable=false"
     networks:
       - private
-#    ports:
-#      - 16379:6379
     volumes:
       - redis:/data
 
   mysql:
-    container_name: glasgow-projects-mysql
     image: mysql:5.7
     deploy:
       labels:
         - "traefik.enable=false"
     networks:
       - private
-#    ports:
-#      - 13306:3306
     volumes:
       - mysql:/var/lib/mysql
     environment:
-      MYSQL_DATABASE: glasgowprojects
+      MYSQL_DATABASE: homestead
       MYSQL_ROOT_PASSWORD: root
       MYSQL_USER: homestead
       MYSQL_PASSWORD: secret
 
   mailhog:
-    container_name: glasgow-projects-mailhog
     image: mailhog/mailhog
     deploy:
       labels:
-        - "traefik.backend=jwnc-mailhog"
+        - "traefik.backend=${TRAEFIK_BACKEND}-mailhog"
         - "traefik.docker.network=proxy"
-        - "traefik.frontend.rule=Host:glasgow.ultravixen.elec.gla.ac.uk;PathPrefixStrip:/mailhog"
+        - "traefik.frontend.rule=Host:mail-${TRAEFIK_HOSTNAME}"
         - "traefik.enable=true"
         - "traefik.port=8025"
         - "traefik.default.protocol=http"
-#    ports:
-#      - 18025:8025
     expose:
       - "8025"
     networks:
@@ -157,3 +138,7 @@ networks:
   private:
   proxy:
     external: true
+
+secrets:
+  dotenv:
+    file: ./.env.qa
