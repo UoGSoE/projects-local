@@ -76,8 +76,8 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::post('/user/{user}/toggle-admin', 'Admin\UserController@toggleAdmin')->name('admin.users.toggle_admin');
 
-        Route::delete('/students/remove/undergrad', 'Admin\BulkRemovalController@undergrads')->name('students.remove_undergrads');
-        Route::delete('/students/remove/postgrad', 'Admin\BulkRemovalController@postgrads')->name('students.remove_postgrads');
+        Route::delete('/students/remove/undergrad', 'Admin\BulkRemovalController@undergrads')->name('students.remove_undergrad');
+        Route::delete('/students/remove/postgrad', 'Admin\BulkRemovalController@postgrads')->name('students.remove_postgrad');
         Route::delete('/students/remove-all', 'Admin\BulkRemovalController@all')->name('students.remove_all');
 
         Route::get('/export/projects-excel', 'Admin\ExportController@projects')->name('export.projects.excel');

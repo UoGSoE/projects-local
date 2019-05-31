@@ -59,7 +59,7 @@ class MaintenanceTest extends TestCase
         Activity::all()->each->delete();
 
         // when we make the call to remove all undergrads
-        $response = $this->actingAs($admin)->delete(route('students.remove_undergrads'));
+        $response = $this->actingAs($admin)->delete(route('students.remove_undergrad'));
 
         // the undergrad student should be gone but the postgrad & mystery student should remain
         $response->assertStatus(302);
@@ -75,7 +75,7 @@ class MaintenanceTest extends TestCase
         Activity::all()->each->delete();
 
         // when we call to remove all postgrads
-        $response = $this->actingAs($admin)->delete(route('students.remove_postgrads'));
+        $response = $this->actingAs($admin)->delete(route('students.remove_postgrad'));
 
         // the postgrad & mystery students should be gone too
         $response->assertStatus(302);
@@ -140,11 +140,11 @@ class MaintenanceTest extends TestCase
         $response->assertStatus(302);
         $response->assertRedirect('/');
 
-        $response = $this->actingAs($user)->delete(route('students.remove_undergrads'));
+        $response = $this->actingAs($user)->delete(route('students.remove_undergrad'));
         $response->assertStatus(302);
         $response->assertRedirect('/');
 
-        $response = $this->actingAs($user)->delete(route('students.remove_postgrads'));
+        $response = $this->actingAs($user)->delete(route('students.remove_postgrad'));
         $response->assertStatus(302);
         $response->assertRedirect('/');
 
