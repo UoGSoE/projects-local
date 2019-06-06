@@ -20,10 +20,10 @@ FROM uogsoe/soe-php-apache:${PHP_VERSION} as prod-composer
 
 USER www-data
 
-WORKDIR /workdir
+WORKDIR /var/www/html
 
-COPY composer.* /workdir/
-COPY database/ /workdir/database/
+COPY composer.* /var/www/html/
+COPY database/ /var/www/html/database/
 
 RUN composer install \
     --no-interaction \
@@ -37,10 +37,10 @@ FROM uogsoe/soe-php-apache:${PHP_VERSION} as qa-composer
 
 USER www-data
 
-WORKDIR /workdir
+WORKDIR /var/www/html
 
-COPY composer.* /workdir/
-COPY database/ /workdir/database/
+COPY composer.* /var/www/html/
+COPY database/ /var/www/html/database/
 
 RUN composer install \
     --no-interaction \
@@ -73,7 +73,7 @@ RUN ln -sf /run/secrets/.env /var/www/html/.env
 COPY --from=frontend /app/public/js /var/www/html/public/js
 COPY --from=frontend /app/public/css /var/www/html/public/css
 COPY --from=frontend /app/mix-manifest.json /var/www/html/mix-manifest.json
-COPY --from=prod-composer /workdir/vendor /var/www/html/vendor
+COPY --from=prod-composer /var/www/html/vendor /var/www/html/vendor
 
 #- Install all our php non-dev dependencies
 # RUN composer install \
@@ -103,5 +103,5 @@ ENV APP_ENV=local
 ENV APP_DEBUG=1
 
 #- Install our php dependencies including the dev ones
-COPY --from=qa-composer /workdir/vendor /var/www/html/vendor
+COPY --from=qa-composer /var/www/html/vendor /var/www/html/vendor
 
