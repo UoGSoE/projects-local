@@ -41,6 +41,7 @@ test:
   - php artisan key:generate
   - php artisan config:clear
   - php artisan migrate:fresh
+  - cat .env
   - php vendor/bin/phpunit --colors=never
 
 build-qa-tagged:
