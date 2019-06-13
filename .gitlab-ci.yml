@@ -35,6 +35,7 @@ test:
 
   script:
   # - php vendor/bin/phpunit --coverage-text --colors=never
+  - cd /var/www/html
   - cp .env.gitlab .env
   - php artisan key:generate
   - php artisan config:clear
