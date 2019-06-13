@@ -38,6 +38,7 @@ test:
   - cd /var/www/html
   - mkdir -p /run/secrets
   - cp -f .env.gitlab /run/secrets/.env
+  - export APP_ENV=testing
   - php artisan key:generate
   - php artisan config:clear
   - php artisan migrate:fresh

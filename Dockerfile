@@ -88,4 +88,3 @@ USER root
 RUN rm -fr /var/www/html/bootstrap/cache/*.php && \
     php /var/www/html/artisan view:clear && \
     php /var/www/html/artisan cache:clear
-
