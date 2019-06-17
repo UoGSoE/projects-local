@@ -1,16 +1,13 @@
 <?php
-
+// @codingStandardsIgnoreFile
 namespace Tests\Feature\Admin;
 
 use App\User;
 use App\Course;
 use App\Project;
 use Tests\TestCase;
-use Box\Spout\Common\Type;
-use Ohffs\SimpleSpout\ExcelSheet;
-use App\Exports\StaffListExporter;
-use Box\Spout\Reader\ReaderFactory;
-use App\Exports\StudentListExporter;
+use App\Exports\StaffExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class StaffExportTest extends TestCase
@@ -18,22 +15,10 @@ class StaffExportTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function an_admin_can_export_the_list_of_staff_as_excel_sheet()
+    public function the_staff_exporter_produces_the_expected_data()
     {
-        $this->withoutExceptionHandling();
-        $admin = create(User::class, ['is_admin' => true]);
-        $staff1 = create(User::class, ['is_staff' => true]);
-
-        $response = $this->actingAs($admin)->get(route('export.staff.excel'));
-
-        $response->assertOk();
-        $this->assertEquals('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', $response->headers->get('content-type'));
-        $this->assertEquals('attachment; filename=uog_project_staff.xlsx', $response->headers->get('content-disposition'));
-    }
-
-    /** @test */
-    public function the_student_exporter_produces_the_expected_data()
-    {
+        Excel::fake();
+        $admin = create(User::class, ['is_admin' => true, 'surname' => 'Ccc']);
         $course = create(Course::class);
         $student1 = create(User::class, ['is_staff' => false]);
         $student2 = create(User::class, ['is_staff' => false]);
@@ -54,51 +39,52 @@ class StaffExportTest extends TestCase
             $project5->id => ['choice' => 5],
         ]);
 
-        $staffList = User::staff()
-            ->with(['staffProjects.students', 'secondSupervisorProjects'])
-            ->orderBy('surname')
-            ->get()
-            ->map(function ($user) {
-                return $user->getProjectStats();
-            });
+        $this->actingAs($admin)->get(route('export.staff', 'xlsx'));
 
-        $filename = (new StaffListExporter($staffList))->create();
+        Excel::assertDownloaded('uog_project_staff.xlsx', function (StaffExport $export) use ($admin, $staff1, $staff2) {
+            //4 rows, headers, 2 staff and an admin
+            $this->assertCount(4, $export->collection());
 
-        $contents = (new ExcelSheet)->import($filename);
+            $this->assertEquals($staff1->username, $export->collection()[1]['username']);
+            $this->assertEquals($staff1->surname, $export->collection()[1]['surname']);
+            $this->assertEquals($staff1->forenames, $export->collection()[1]['forenames']);
+            $this->assertEquals($staff1->email, $export->collection()[1]['email']);
+            $this->assertEquals(2, $export->collection()[1]['ugrad_active']);
+            $this->assertEquals(2, $export->collection()[1]['ugrad_allocated']);
+            $this->assertEquals(1, $export->collection()[1]['pgrad_active']);
+            $this->assertEquals(0, $export->collection()[1]['pgrad_allocated']);
+            $this->assertEquals(0, $export->collection()[1]['2nd_ugrad_active']);
+            $this->assertEquals(0, $export->collection()[1]['2nd_ugrad_allocated']);
+            $this->assertEquals(0, $export->collection()[1]['2nd_pgrad_active']);
+            $this->assertEquals(0, $export->collection()[1]['2nd_pgrad_allocated']);
 
-        // we have 3 rows - two staffmembers + header
-        $this->assertCount(3, $contents);
-        // dd($contents);
-        // the first data row should be $staff1
-        tap($contents[1], function ($row) use ($staff1) {
-            $this->assertEquals($staff1->username, $row[0]);
-            $this->assertEquals($staff1->surname, $row[1]);
-            $this->assertEquals($staff1->forenames, $row[2]);
-            $this->assertEquals($staff1->email, $row[3]);
-            $this->assertEquals(2, $row[4]); // active undergrad
-            $this->assertEquals(2, $row[5]); // fully allocated undergrad
-            $this->assertEquals(1, $row[6]); // active postgrad
-            $this->assertEquals(0, $row[7]); // fully allocated postgrad
-            $this->assertEquals(0, $row[8]); // same for 2nd supervision but too lazy to set up test :-/
-            $this->assertEquals(0, $row[9]);
-            $this->assertEquals(0, $row[10]);
-            $this->assertEquals(0, $row[11]);
-        });
+            $this->assertEquals($staff2->username, $export->collection()[2]['username']);
+            $this->assertEquals($staff2->surname, $export->collection()[2]['surname']);
+            $this->assertEquals($staff2->forenames, $export->collection()[2]['forenames']);
+            $this->assertEquals($staff2->email, $export->collection()[2]['email']);
+            $this->assertEquals(2, $export->collection()[2]['ugrad_active']);
+            $this->assertEquals(1, $export->collection()[2]['ugrad_allocated']);
+            $this->assertEquals(0, $export->collection()[2]['pgrad_active']);
+            $this->assertEquals(0, $export->collection()[2]['pgrad_allocated']);
+            $this->assertEquals(0, $export->collection()[2]['2nd_ugrad_active']);
+            $this->assertEquals(0, $export->collection()[2]['2nd_ugrad_allocated']);
+            $this->assertEquals(0, $export->collection()[2]['2nd_pgrad_active']);
+            $this->assertEquals(0, $export->collection()[2]['2nd_pgrad_allocated']);
 
-        // the second data row should be $staff2
-        tap($contents[2], function ($row) use ($staff2) {
-            $this->assertEquals($staff2->username, $row[0]);
-            $this->assertEquals($staff2->surname, $row[1]);
-            $this->assertEquals($staff2->forenames, $row[2]);
-            $this->assertEquals($staff2->email, $row[3]);
-            $this->assertEquals(2, $row[4]);
-            $this->assertEquals(1, $row[5]);
-            $this->assertEquals(0, $row[6]);
-            $this->assertEquals(0, $row[7]);
-            $this->assertEquals(0, $row[8]);
-            $this->assertEquals(0, $row[9]);
-            $this->assertEquals(0, $row[10]);
-            $this->assertEquals(0, $row[11]);
+            $this->assertEquals($admin->username, $export->collection()[3]['username']);
+            $this->assertEquals($admin->surname, $export->collection()[3]['surname']);
+            $this->assertEquals($admin->forenames, $export->collection()[3]['forenames']);
+            $this->assertEquals($admin->email, $export->collection()[3]['email']);
+            $this->assertEquals(0, $export->collection()[3]['ugrad_active']);
+            $this->assertEquals(0, $export->collection()[3]['ugrad_allocated']);
+            $this->assertEquals(0, $export->collection()[3]['pgrad_active']);
+            $this->assertEquals(0, $export->collection()[3]['pgrad_allocated']);
+            $this->assertEquals(0, $export->collection()[3]['2nd_ugrad_active']);
+            $this->assertEquals(0, $export->collection()[3]['2nd_ugrad_allocated']);
+            $this->assertEquals(0, $export->collection()[3]['2nd_pgrad_active']);
+            $this->assertEquals(0, $export->collection()[3]['2nd_pgrad_allocated']);
+
+            return true;
         });
     }
 }

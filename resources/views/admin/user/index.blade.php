@@ -14,7 +14,7 @@
                 ⬇️ Export CSV
             </a>
         @else
-            <a class="button" href="{{ route('export.staff.excel') }}">
+            <a class="button" href="{{ route('export.staff', 'xlsx') }}">
                 ⬇️ Export Excel
             </a>
         @endif
