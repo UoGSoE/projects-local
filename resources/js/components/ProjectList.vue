@@ -1,4 +1,3 @@
-/* eslint-disable */
 <template>
   <div>
     <transition name="fade" mode="in-out">
