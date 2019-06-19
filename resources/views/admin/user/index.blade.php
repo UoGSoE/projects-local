@@ -8,41 +8,39 @@
             <h3 class="title is-3">
                 {{ ucfirst(str_plural($category)) }}
             </h3>
-            &nbsp;
-            @if ($category != 'staff')
-            <a class="button" href="{{ route('export.students.csv', $category) }}">
-                ⬇️ Export CSV
-            </a>
-            @else
-            <div class="dropdown is-hoverable">
+        </div>
+    </div>
+    <div class="level-right">
+        <div class="level-item">
+            <div class="dropdown is-hoverable is-right">
                 <div class="dropdown-trigger">
-                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu4">
-                        <span>Export</span>
+                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                        <span>More</span>
                         <span class="icon is-small">
                             <i class="fas fa-angle-down" aria-hidden="true"></i>
                         </span>
                     </button>
                 </div>
-                <div class="dropdown-menu" id="dropdown-menu4" role="menu">
+                <div class="dropdown-menu" id="dropdown-menu" role="menu">
                     <div class="dropdown-content">
-                        <div class="dropdown-item">
-                            <a class="button" href="{{ route('export.staff', 'xlsx') }}">
-                                Excel
-                            </a>
-                        </div>
+                        <a href="{{ route('export.'.$category, 'xlsx') }}" class="dropdown-item">
+                            <i class="fas fa-file-excel"></i>
+                            Export Excel
+                        </a>
+                        <a href="{{ route('export.'.$category, 'csv') }}" class="dropdown-item">
+                            <i class="fas fa-file-csv"></i>
+                            Export CSV
+                        </a>
+                        @if ($category !== 'staff')
+                        <hr class="dropdown-divider">
+                        <a class="dropdown-item has-text-danger has-text-weight-semibold" @click.prevent="showConfirmation = true">
+                            <i class="fas fa-trash"></i>
+                            Remove all {{ $category }} students
+                        </a>
+                        @endif
                     </div>
                 </div>
             </div>
-            @endif
-            &nbsp;
-            <new-user></new-user>
-        </div>
-    </div>
-    <div class="level-right">
-        <div class="level-item">
-            @if ($category !== 'staff')
-            <button class="button is-text is-pulled-right has-text-danger has-text-weight-semibold" @click.prevent="showConfirmation = true">Remove all {{ $category }} students</button>
-            @endif
         </div>
     </div>
 </nav>

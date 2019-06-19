@@ -273,7 +273,7 @@ class ActivityTest extends TestCase
         $project1 = create(Project::class, ['category' => 'postgrad']);
         Activity::all()->each->delete();
 
-        $response = $this->actingAs($admin)->get(route('export.projects.excel', ['category' => 'postgrad']));
+        $response = $this->actingAs($admin)->get(route('export.projects', ['category' => 'postgrad', 'format' => 'csv']));
 
         $logs = Activity::all();
         $this->assertTrue($logs[0]->causer->is($admin));

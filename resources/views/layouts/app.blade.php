@@ -41,11 +41,9 @@
 
                 @yield('content')
             </div>
-            <div>
-                @include('layouts.footer')
-            </div>
         </div>
     </section>
+    @include('layouts.footer')
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>

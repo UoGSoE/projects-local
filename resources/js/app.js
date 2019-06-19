@@ -4,12 +4,13 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-import Pikaday from 'pikaday';
-import 'pikaday/css/pikaday.css';
 
 require('./bootstrap');
 
 window.Vue = require('vue');
+
+import Pikaday from 'pikaday';
+import 'pikaday/css/pikaday.css';
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -33,33 +34,18 @@ Promise.prototype.takeAtLeast = function (time) {
   });
 };
 
-Vue.component(
-  'confirmation-dialog',
-  require('./components/ConfirmationDialog.vue'),
-);
-Vue.component('project-list', require('./components/ProjectList.vue'));
-Vue.component('student-list', require('./components/StudentList.vue'));
-Vue.component('admin-toggle', require('./components/AdminToggle.vue'));
-Vue.component('new-user', require('./components/NewUser.vue'));
-Vue.component('email-edit', require('./components/EmailEdit.vue'));
-Vue.component(
-  'manual-student-allocator',
-  require('./components/ManualStudentAllocator.vue'),
-);
-Vue.component(
-  'project-bulk-options',
-  require('./components/ProjectBulkOptions.vue'),
-);
-Vue.component(
-  'course-student-list',
-  require('./components/CourseStudentList.vue'),
-);
-Vue.component(
-  'research-area-admin',
-  require('./components/ResearchAreaAdmin.vue'),
-);
-Vue.component('deletable-list', require('./components/DeletableList.vue'));
-Vue.component('filterable-items', require('./components/FilterableItems.vue'));
+Vue.component('confirmation-dialog',require('./components/ConfirmationDialog.vue').default);
+Vue.component('project-list', require('./components/ProjectList.vue').default);
+Vue.component('student-list', require('./components/StudentList.vue').default);
+Vue.component('admin-toggle', require('./components/AdminToggle.vue').default);
+Vue.component('new-user', require('./components/NewUser.vue').default);
+Vue.component('email-edit', require('./components/EmailEdit.vue').default);
+Vue.component('manual-student-allocator', require('./components/ManualStudentAllocator.vue').default);
+Vue.component('project-bulk-options', require('./components/ProjectBulkOptions.vue').default);
+Vue.component('course-student-list', require('./components/CourseStudentList.vue').default);
+Vue.component('research-area-admin', require('./components/ResearchAreaAdmin.vue').default);
+Vue.component('deletable-list', require('./components/DeletableList.vue').default);
+Vue.component('filterable-items', require('./components/FilterableItems.vue').default);
 
 window.moment = require('moment');
 
@@ -83,7 +69,7 @@ Vue.directive('pikaday', {
   },
 });
 
-const app = new Vue({
+new Vue({
   el: '#app',
 
   data: {

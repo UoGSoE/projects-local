@@ -1,6 +1,6 @@
 <?php
 // @codingStandardsIgnoreFile
-namespace Tests\Feature\Admin;
+namespace Tests\Feature\Admin\Export;
 
 use App\User;
 use App\Course;

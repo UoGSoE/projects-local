@@ -2,21 +2,52 @@
 
 @section('content')
 
-<h3 class="title is-3">
-    All {{ ucfirst($category) }} Projects
-    <a href="{{ route('admin.project.bulk-options', ['category' => $category]) }}" class="button is-pulled-right">
-        Bulk Options
-    </a>
-    <a href="{{ route('export.projects.excel', ['category' => $category]) }}" class="button is-pulled-right">
-        Export
-    </a>
-    <a href="{{ route('admin.import.second_supervisors.show') }}" class="button is-pulled-right">
-        Import 2nd Supervisors
-    </a>
-    <a href="{{ route('admin.import.placements.show') }}" class="button is-pulled-right">
-        Import Placements
-    </a>
-</h3>
+<nav class="level">
+    <div class="level-left">
+        <div class="level-item">
+            <h3 class="title is-3">
+                All {{ ucfirst($category) }} Projects
+            </h3>
+        </div>
+    </div>
+    <div class="level-right">
+        <div class="level-item">
+            <div class="dropdown is-hoverable is-right">
+                <div class="dropdown-trigger">
+                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                        <span>More</span>
+                        <span class="icon is-small">
+                            <i class="fas fa-angle-down" aria-hidden="true"></i>
+                        </span>
+                    </button>
+                </div>
+                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                    <div class="dropdown-content">
+                        <a href="{{ route('admin.project.bulk-options', ['category' => $category]) }}" class="dropdown-item">
+                            Bulk Options
+                        </a>
+                        <hr class="dropdown-divider">
+                        <a href="{{ route('export.projects', ['category' => $category, 'format' => 'xlsx']) }}" class="dropdown-item">
+                            <i class="fas fa-file-excel"></i>
+                            Export Excel
+                        </a>
+                        <a href="{{ route('export.projects', ['category' => $category, 'format' => 'csv']) }}" class="dropdown-item">
+                            <i class="fas fa-file-csv"></i>
+                            Export CSV
+                        </a>
+                        <hr class="dropdown-divider">
+                        <a href="{{ route('admin.import.second_supervisors.show') }}" class="dropdown-item">
+                            Import 2nd Supervisors
+                        </a>
+                        <a href="{{ route('admin.import.placements.show') }}" class="dropdown-item">
+                            Import Placements
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
 
 <filterable-items :items='@json($projects)' searchables="title,course_codes,programe_titles,owner_name,student_names">
     <span  slot-scope="{ items: projects, inputAttrs, inputEvents, sortOn }">

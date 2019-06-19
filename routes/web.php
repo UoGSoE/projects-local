@@ -80,9 +80,12 @@ Route::group(['middleware' => 'auth'], function () {
         Route::delete('/students/remove/postgrad', 'Admin\BulkRemovalController@postgrads')->name('students.remove_postgrad');
         Route::delete('/students/remove-all', 'Admin\BulkRemovalController@all')->name('students.remove_all');
 
-        Route::get('/export/projects-excel', 'Admin\ExportController@projects')->name('export.projects.excel');
-        Route::get('/export/students/{category}', 'Admin\StudentExportController@export')->name('export.students.csv');
+        /** Exports */
+        Route::get('/export/projects/{category}/{format}', 'Admin\Exports\ProjectController@export')
+            ->name('export.projects');
         Route::get('/export/staff/{format}', 'Admin\Exports\StaffController@export')->name('export.staff');
+        Route::get('/export/undergrad/{format}', 'Admin\Exports\StudentController@undergrad')->name('export.undergrad');
+        Route::get('/export/postgrad/{format}', 'Admin\Exports\StudentController@postgrad')->name('export.postgrad');
 
         Route::get('/gdpr/user/{user}', 'Gdpr\UserExportController@show')->name('gdpr.export.user');
 

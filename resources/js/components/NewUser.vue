@@ -63,10 +63,6 @@
 
 <script>
 export default {
-  props: [],
-
-  mounted() {},
-
   data() {
     return {
       mode: "button",

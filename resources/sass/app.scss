@@ -1,11 +1,11 @@
-$body-background: whitesmoke;
-@import "./node_modules/bulma/bulma.sass";
-
-// Fonts
-
 // Variables
-//@import "variables";
+@import "variables";
+@import "~@fortawesome/fontawesome-free/css/all.min.css";
 
+
+.navbar-dropdown .navbar-item {
+  color: black;
+}
 #content-area {
   display: flex;
   min-height: 80vh;

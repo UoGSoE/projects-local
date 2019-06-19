@@ -7,17 +7,12 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 
 class StaffExport implements FromCollection
 {
-    public function __construct($format)
-    {
-        $this->format = $format;
-    }
-
     /**
     * @return \Illuminate\Support\Collection
     */
     public function collection()
     {
-        $staff = User::staff()
+        return User::staff()
             ->with(['staffProjects.students', 'secondSupervisorProjects'])
             ->orderBy('surname')
             ->get()
@@ -38,10 +33,8 @@ class StaffExport implements FromCollection
                     '2nd_pgrad_active' => $staffMember["2nd_pgrad_active"],
                     '2nd_pgrad_allocated' => $staffMember["2nd_pgrad_allocated"],
                 ];
-            });
-
-        if ($this->format == 'xlsx') {
-            $staff->prepend([
+            })
+            ->prepend([
                 'GUID',
                 'Surname',
                 'Forenames',
@@ -55,7 +48,5 @@ class StaffExport implements FromCollection
                 '2nd Pgrad Active',
                 '2nd Pgrad Allocated',
             ]);
-        }
-        return $staff;
     }
 }
