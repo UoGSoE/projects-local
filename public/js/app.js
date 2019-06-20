@@ -3086,9 +3086,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-var ResearchArea = __webpack_require__(/*! ./ResearchArea.vue */ "./resources/js/components/ResearchArea.vue");
+var ResearchArea = __webpack_require__(/*! ./ResearchArea.vue */ "./resources/js/components/ResearchArea.vue")["default"];
 
-var NewResearchArea = __webpack_require__(/*! ./NewResearchArea.vue */ "./resources/js/components/NewResearchArea.vue");
+var NewResearchArea = __webpack_require__(/*! ./NewResearchArea.vue */ "./resources/js/components/NewResearchArea.vue")["default"];
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["areas"],
