@@ -30,8 +30,8 @@
 </template>
 
 <script>
-let ResearchArea = require("./ResearchArea.vue");
-let NewResearchArea = require("./NewResearchArea.vue");
+let ResearchArea = require("./ResearchArea.vue").default;
+let NewResearchArea = require("./NewResearchArea.vue").default;
 
 export default {
   props: ["areas"],

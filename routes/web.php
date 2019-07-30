@@ -83,6 +83,10 @@ Route::group(['middleware' => 'auth'], function () {
         /** Exports */
         Route::get('/export/projects/{category}/{format}', 'Admin\Exports\ProjectController@export')
             ->name('export.projects');
+
+        Route::get('/export/courses/{format}', 'Admin\Exports\CourseController@export')->name('export.courses');
+        Route::get('/export/programmes/{format}', 'Admin\Exports\ProgrammeController@export')->name('export.programmes');
+
         Route::get('/export/staff/{format}', 'Admin\Exports\StaffController@export')->name('export.staff');
         Route::get('/export/undergrad/{format}', 'Admin\Exports\StudentController@undergrad')->name('export.undergrad');
         Route::get('/export/postgrad/{format}', 'Admin\Exports\StudentController@postgrad')->name('export.postgrad');

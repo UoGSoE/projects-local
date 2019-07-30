@@ -19,6 +19,7 @@ class ImportSecondSupervisorsTest extends TestCase
     /** @test */
     public function admins_can_import_a_spreadsheet_to_update_project_second_supervisors()
     {
+        $this->withoutExceptionHandling();
         // given we have an admin and two members of staff
         $admin = create(User::class, ['is_admin' => true]);
         $sup1 = create(User::class, ['is_staff' => true]);
@@ -28,7 +29,11 @@ class ImportSecondSupervisorsTest extends TestCase
         $project2 = create(Project::class, ['second_supervisor_id' => $sup1->id]);
         $project3 = create(Project::class, ['second_supervisor_id' => $sup2->id]);
         // and we generate the spreadsheet with those 2nd supervisors in
-        $filename = (new ProjectListExporter(Project::all()))->create();
+        $filename = (
+            new ProjectListExporter(
+                Project::all()
+            ))
+        ->create();
         // and we then clear out those 2nd supervisors from the projects
         $project1->update(['second_supervisor_id' => null]);
         $project2->update(['second_supervisor_id' => null]);
