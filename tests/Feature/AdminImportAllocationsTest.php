@@ -1,5 +1,5 @@
 <?php
-
+// @codingStandardsIgnoreFile
 namespace Tests\Feature;
 
 use App\Project;
@@ -11,8 +11,6 @@ use Tests\TestCase;
 
 class AdminImportAllocationsTest extends TestCase
 {
-    use RefreshDatabase;
-
     /** @test */
     public function regular_users_cant_bulk_import_student_allocations()
     {
@@ -49,10 +47,13 @@ class AdminImportAllocationsTest extends TestCase
         $project2 = create(Project::class);
         $data = [
             ['GUID', 'Name', 'Project ID'],
-            ['1234567a', 'Jenny Smith', $project1->id],
+            ['1234567A', 'Jenny Smith', $project1->id],
             ['7654321b', 'Emma Peel', $project1->id],
+            ['9191919d', 'Cathy Gale', $project2->id],
             ['9191919c', 'Cathy Gale', $project2->id],
+            ['9191919e', 'Cathy Gale', $project2->id],
         ];
+
         $filename = (new ExcelSheet)->generate($data);
 
         $response = $this->actingAs($admin)->post(route('project.import.allocations'), [
@@ -60,7 +61,6 @@ class AdminImportAllocationsTest extends TestCase
         ]);
 
         $response->assertStatus(302);
-        $response->assertSessionHas('success');
         $this->assertCount(2, $project1->students);
         $this->assertCount(1, $project2->students);
         $this->assertTrue($student1->isAcceptedOn($project1));
