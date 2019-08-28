@@ -2,15 +2,16 @@
 
 namespace Tests\Feature;
 
-use App\Course;
-use App\Programme;
-use App\Project;
-use App\ResearchArea;
 use App\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Course;
+use App\Project;
+use App\Programme;
+use Tests\TestCase;
+use App\ResearchArea;
+use Ohffs\Ldap\LdapUser;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Activitylog\Models\Activity;
-use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ActivityTest extends TestCase
 {
@@ -47,29 +48,30 @@ class ActivityTest extends TestCase
     /** @test */
     public function an_event_is_recorded_when_a_user_is_manually_created()
     {
-        // commented out while debugging gitlab CI
+        if (env('GITLAB')) {
+            $this->assertTrue(true);
+            return;
+        }
+        \Ldap::shouldReceive('findUser')->once()->andReturn(new LdapUser([
+            0 => [
+                'uid' => ['valid123x'],
+                'mail' => ['valid@example.org'],
+                'sn' => ['Valid'],
+                'givenname' => ['Miss'],
+                'telephonenumber' => ['12345'],
+            ]
+        ]));
+        $admin = create(User::class, ['is_admin' => true]);
 
-        // $this->withoutExceptionHandling();
-        // \Ldap::shouldReceive('findUser')->once()->andReturn(new LdapUser([
-        //     0 => [
-        //         'uid' => ['valid123x'],
-        //         'mail' => ['valid@example.org'],
-        //         'sn' => ['Valid'],
-        //         'givenname' => ['Miss'],
-        //         'telephonenumber' => ['12345'],
-        //     ]
-        // ]));
-        // $admin = create(User::class, ['is_admin' => true]);
+        $response = $this->actingAs($admin)->postJson(route('api.user.store'), [
+            'guid' => 'valid123x',
+        ]);
 
-        // $response = $this->actingAs($admin)->postJson(route('api.user.store'), [
-        //     'guid' => 'valid123x',
-        // ]);
-
-        // $response->assertSuccessful();
-        // $user = User::where('username', '=', 'valid123x')->first();
-        // $log = Activity::first();
-        // $this->assertTrue($log->causer->is($admin));
-        // $this->assertEquals('Created user Valid, Miss', $log->description);
+        $response->assertSuccessful();
+        $user = User::where('username', '=', 'valid123x')->first();
+        $log = Activity::first();
+        $this->assertTrue($log->causer->is($admin));
+        $this->assertEquals('Created user Valid, Miss', $log->description);
     }
 
     /** @test */
