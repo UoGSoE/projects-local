@@ -37,7 +37,7 @@
                 </a>
             </td>
             <td>
-                {{ ucfirst($project->category) }}
+                {{ ucfirst($project->category) }} @if($project->type) ({{ $project->type }}) @endif
             </td>
             <td>
                 {{ $project->students_count }}

@@ -20,6 +20,12 @@
                     <th>Title</th>
                     <td>{{ $project->title }}</td>
                 </tr>
+                @if ($project->type)
+                    <tr>
+                        <th>Type</th>
+                        <td>{{ $project->type }}</td>
+                    </tr>
+                @endif
                 <tr>
                     <th>Description</th>
                     <td>{{ $project->description }}</td>

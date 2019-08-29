@@ -35,7 +35,9 @@ class TestDataSeeder extends Seeder
         $ugradProgrammes = factory(Programme::class, 10)->create(['category' => 'undergrad']);
         $pgradProgrammes = factory(Programme::class, 10)->create(['category' => 'postgrad']);
 
-        $ugradProjects = factory(Project::class, 65)->create(['category' => 'undergrad']);
+        $ugradProjects = factory(Project::class, 65)->create(['category' => 'undergrad', 'type' => 'M.Eng']);
+        $ugradProjects = factory(Project::class, 25)->create(['category' => 'undergrad', 'type' => 'B.Eng']);
+        $ugradProjects = factory(Project::class, 25)->create(['category' => 'undergrad', 'type' => 'SIT/UESTC']);
         $pgradProjects = factory(Project::class, 65)->create(['category' => 'postgrad']);
 
         $ugradProjects->each(function ($project) use ($ugradCourses, $ugradProgrammes) {

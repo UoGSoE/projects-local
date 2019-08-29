@@ -71,6 +71,7 @@ class ProjectTest extends TestCase
 
         $response = $this->actingAs($staff)->post(route('project.store'), [
             'category' => 'undergrad',
+            'type' => 'M. Eng',
             'title' => 'My new project',
             'pre_req' => 'Some mad skillz',
             'description' => 'Doing something',
@@ -85,6 +86,69 @@ class ProjectTest extends TestCase
         $response->assertSessionMissing('errors');
         $project = Project::first();
         $this->assertEquals('undergrad', $project->category);
+        $this->assertEquals('My new project', $project->title);
+        $this->assertEquals('Some mad skillz', $project->pre_req);
+        $this->assertEquals('Doing something', $project->description);
+        $this->assertEquals(2, $project->max_students);
+        $this->assertEquals($staff->id, $project->staff_id);
+        $this->assertTrue($project->is_confidential);
+        $this->assertTrue($project->is_placement);
+        $this->assertEquals(2, $project->programmes()->count());
+        $this->assertEquals(1, $project->courses()->count());
+    }
+
+    /** @test */
+    public function project_type_is_required_if_it_is_an_undergrad_project()
+    {
+        $staff = create(User::class, ['is_staff' => true]);
+        $programme1 = create(Programme::class);
+        $programme2 = create(Programme::class);
+        $course = create(Course::class);
+
+        $response = $this->actingAs($staff)->post(route('project.store'), [
+            'category' => 'undergrad',
+            'type' => '',
+            'title' => 'My new project',
+            'pre_req' => 'Some mad skillz',
+            'description' => 'Doing something',
+            'max_students' => 2,
+            'courses' => [$course->id],
+            'programmes' => [$programme1->id, $programme2->id],
+            'is_confidential' => true,
+            'is_placement' => true,
+        ]);
+
+        $response->assertStatus(302);
+        $response->assertSessionHasErrors(['type']);
+        $this->assertCount(0, Project::all());
+    }
+
+    /** @test */
+    public function project_type_is_not_required_if_it_is_a_postgrad_project()
+    {
+        $staff = create(User::class, ['is_staff' => true]);
+        $programme1 = create(Programme::class);
+        $programme2 = create(Programme::class);
+        $course = create(Course::class);
+
+        $response = $this->actingAs($staff)->post(route('project.store'), [
+            'category' => 'postgrad',
+            'type' => '',
+            'title' => 'My new project',
+            'pre_req' => 'Some mad skillz',
+            'description' => 'Doing something',
+            'max_students' => 2,
+            'courses' => [$course->id],
+            'programmes' => [$programme1->id, $programme2->id],
+            'is_confidential' => true,
+            'is_placement' => true,
+        ]);
+
+        $response->assertStatus(302);
+        $response->assertSessionMissing('errors');
+        $project = Project::first();
+        $this->assertEquals('postgrad', $project->category);
+        $this->assertEquals('', $project->type);
         $this->assertEquals('My new project', $project->title);
         $this->assertEquals('Some mad skillz', $project->pre_req);
         $this->assertEquals('Doing something', $project->description);

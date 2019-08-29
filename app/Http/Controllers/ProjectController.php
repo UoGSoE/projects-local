@@ -52,6 +52,7 @@ class ProjectController extends Controller
         $data = $request->validate([
             'title' => 'required',
             'category' => 'required',
+            'type' => 'required_if:category,undergrad',
             'pre_req' => 'nullable',
             'description' => 'required',
             'max_students' => 'required|integer',

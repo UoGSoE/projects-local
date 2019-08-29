@@ -121,6 +121,7 @@ class ActivityTest extends TestCase
 
         $response = $this->actingAs($staff)->post(route('project.store'), [
             'category' => 'undergrad',
+            'type' => 'B.Eng',
             'title' => 'My new project',
             'pre_req' => 'Some mad skillz',
             'description' => 'Doing something',
@@ -140,6 +141,7 @@ class ActivityTest extends TestCase
 
         $response = $this->actingAs($staff)->post(route('project.update', $project->id), [
             'category' => 'undergrad',
+            'type' => 'B.Eng',
             'title' => 'NEW TITLE',
             'pre_req' => 'Some mad skillz',
             'description' => 'Doing something',

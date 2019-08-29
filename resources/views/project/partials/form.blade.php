@@ -5,6 +5,26 @@
         </div>
     </div>
 
+    @if ($project->category == 'undergrad')
+        <div class="field">
+            <div class="control">
+                <label class="label">Type</label>
+                <label class="radio">
+                    <input type="radio" name="type" value="B.Eng" required>
+                    B.Eng
+                </label>
+                <label class="radio">
+                    <input type="radio" name="type" value="M.Eng">
+                    M.Eng
+                </label>
+                <label class="radio">
+                    <input type="radio" name="type" value="SIT/UESTC">
+                    SIT/UESTC
+                </label>
+            </div>
+        </div>
+    @endif
+
     <div class="field">
         <div class="control">
             <label class="label">Description</label>

@@ -12278,3 +12278,26 @@ body {
   min-height: 100vh !important;
 }
 
+.bottom-header {
+  vertical-align: bottom !important;
+}
+
+.rotate-header {
+  text-align: center !important;
+  border-top: 0;
+  padding: 3px 0;
+  height: 250px;
+  max-width: 20px;
+  vertical-align: bottom;
+}
+
+.rotate-header-text {
+  white-space: nowrap;
+  width: 5px;
+  display: inline-block;
+  -webkit-transform: rotate(-90deg);
+          transform: rotate(-90deg);
+  -webkit-transform-origin: left;
+          transform-origin: left;
+}
+

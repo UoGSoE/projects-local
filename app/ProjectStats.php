@@ -24,42 +24,50 @@ class ProjectStats
     public function forAdminIndex()
     {
         $user = $this->staffMember->toArray();
-        $user['ugrad_active'] = $this->ugradActive();
-        $user['ugrad_allocated'] = $this->ugradAllocated();
+        $user['ugrad_beng_active'] = $this->ugradActive('B.Eng');
+        $user['ugrad_beng_allocated'] = $this->ugradAllocated('B.Eng');
+        $user['ugrad_meng_active'] = $this->ugradActive('M.Eng');
+        $user['ugrad_meng_allocated'] = $this->ugradAllocated('M.Eng');
+        $user['ugrad_etc_active'] = $this->ugradActive('SIT/UESTC');
+        $user['ugrad_etc_allocated'] = $this->ugradAllocated('SIT/UESTC');
         $user['pgrad_active'] = $this->pgradActive();
         $user['pgrad_allocated'] = $this->pgradAllocated();
-        $user['2nd_ugrad_active'] = $this->secondUgradActive();
-        $user['2nd_ugrad_allocated'] = $this->secondUgradAllocated();
-        $user['2nd_pgrad_active'] = $this->secondPgradActive();
-        $user['2nd_pgrad_allocated'] = $this->secondPgradAllocated();
+        $user['second_ugrad_beng_active'] = $this->secondUgradActive('B.Eng');
+        $user['second_ugrad_beng_allocated'] = $this->secondUgradAllocated('B.Eng');
+        $user['second_ugrad_meng_active'] = $this->secondUgradActive('M.Eng');
+        $user['second_ugrad_meng_allocated'] = $this->secondUgradAllocated('M.Eng');
+        $user['second_ugrad_etc_active'] = $this->secondUgradActive('SIT/UESTC');
+        $user['second_ugrad_etc_allocated'] = $this->secondUgradAllocated('SIT/UESTC');
+        $user['second_pgrad_active'] = $this->secondPgradActive();
+        $user['second_pgrad_allocated'] = $this->secondPgradAllocated();
         return $user;
     }
 
-    public function ugradActive()
+    public function ugradActive($type)
     {
-        return $this->staffMember->staffProjects->filter(function ($project) {
-            return $project->isUndergrad() && $project->isActive();
+        return $this->staffMember->staffProjects->filter(function ($project, $type) {
+            return $project->isUndergrad() && $project->isType($type) && $project->isActive();
         })->count();
     }
 
-    public function ugradInactive()
+    public function ugradInactive($type)
     {
-        return $this->staffMember->staffProjects->filter(function ($project) {
-            return $project->isUndergrad() && $project->isInactive();
+        return $this->staffMember->staffProjects->filter(function ($project, $type) {
+            return $project->isUndergrad() && $project->isType($type) && $project->isInactive();
         })->count();
     }
 
-    public function ugradAllocated()
+    public function ugradAllocated($type)
     {
-        return $this->staffMember->staffProjects->filter(function ($project) {
-            return $project->isUndergrad() && $project->isFullyAllocated();
+        return $this->staffMember->staffProjects->filter(function ($project, $type) {
+            return $project->isUndergrad() && $project->isType($type) && $project->isFullyAllocated();
         })->count();
     }
 
-    public function secondUgradAllocated()
+    public function secondUgradAllocated($type)
     {
-        return $this->staffMember->secondSupervisorProjects->filter(function ($project) {
-            return $project->isUndergrad() && $project->isFullyAllocated();
+        return $this->staffMember->secondSupervisorProjects->filter(function ($project, $type) {
+            return $project->isUndergrad() && $project->isType($type) && $project->isFullyAllocated();
         })->count();
     }
 
@@ -91,10 +99,10 @@ class ProjectStats
         })->count();
     }
 
-    public function secondUgradActive()
+    public function secondUgradActive($type)
     {
-        return $this->staffMember->secondSupervisorProjects->filter(function ($project) {
-            return $project->isUndergrad() && $project->isActive();
+        return $this->staffMember->secondSupervisorProjects->filter(function ($project, $type) {
+            return $project->isUndergrad() && $project->isType($type) && $project->isActive();
         })->count();
     }
 

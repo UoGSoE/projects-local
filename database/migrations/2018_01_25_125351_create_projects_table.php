@@ -17,6 +17,7 @@ class CreateProjectsTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->string('category');
+            $table->string('type')->nullable();
             $table->unsignedInteger('staff_id');
             $table->foreign('staff_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedInteger('second_supervisor_id')->nullable();

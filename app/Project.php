@@ -158,6 +158,14 @@ class Project extends Model
         return $this->category === 'postgrad';
     }
 
+    public function isType($type = null)
+    {
+        if ($type) {
+            return $type == $this->type;
+        }
+        return true;
+    }
+
     public function allowsStaffToAcceptStudents()
     {
         return $this->courses()->where('allow_staff_accept', '=', true)->count() > 0;
