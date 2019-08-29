@@ -2445,6 +2445,7 @@ __webpack_require__.r(__webpack_exports__);
         _this.searching = false;
         _this.errorMessage = "";
       })["catch"](function (error) {
+        _this.user = null;
         _this.searching = false;
 
         if (error.response.data.message) {

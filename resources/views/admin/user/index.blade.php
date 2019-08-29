@@ -9,6 +9,9 @@
                 {{ ucfirst(str_plural($category)) }}
             </h3>
         </div>
+        <div class="level-item">
+            <new-user></new-user>
+        </div>
     </div>
     <div class="level-right">
         <div class="level-item">

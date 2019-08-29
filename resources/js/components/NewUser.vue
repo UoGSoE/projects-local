@@ -107,6 +107,7 @@ export default {
           this.errorMessage = "";
         })
         .catch(error => {
+          this.user = null;
           this.searching = false;
           if (error.response.data.message) {
             this.errorMessage = error.response.data.message;
