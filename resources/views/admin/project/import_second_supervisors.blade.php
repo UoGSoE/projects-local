@@ -6,6 +6,14 @@
     Import Second Supervisors
 </h3>
 
+<!-- TODO -->
+<pre>
+    Project ID | Project Name    | Col 2 | Col 3 | Supervisor GUID
+    4          | Amazing project | Col 2 | Col 3 | abc1x
+</pre>
+
+<hr>
+
 <form id="form" method="POST" action="{{ route('admin.import.second_supervisors') }}" enctype="multipart/form-data">
     @csrf
     <div class="file">

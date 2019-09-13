@@ -108,6 +108,14 @@ class Project extends Model
         return $this->owner->full_name;
     }
 
+    public function getSecondSupervisorNameAttribute()
+    {
+        if ($this->hasSecondSupervisor()) {
+            return $this->secondSupervisor->full_name;
+        }
+        return '';
+    }
+
     public function getStudentNamesAttribute()
     {
         return $this->students->implode('full_name', ' ');

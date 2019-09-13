@@ -5,6 +5,12 @@
 <h3 class="title is-3">
     Import placement projects
 </h3>
+<!-- TODO -->
+<pre>
+    Category | Title | Description | Pre Req | Active | Placement | Confidential | GUID | Max Students | Course Code | Programme Name | Student Matric | Student Surname
+</pre>
+
+<hr>
 
 <form id="form" method="POST" action="{{ route('admin.import.placements') }}" enctype="multipart/form-data">
     @csrf

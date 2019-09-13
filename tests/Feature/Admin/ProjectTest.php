@@ -59,6 +59,7 @@ class ProjectTest extends TestCase
         $response = $this->actingAs($admin)->post(route('project.store'), [
             'staff_id' => $staff2->id,
             'category' => 'undergrad',
+            'type' => 'B.Eng',
             'title' => 'My new project',
             'pre_req' => 'Some mad skillz',
             'description' => 'Doing something',

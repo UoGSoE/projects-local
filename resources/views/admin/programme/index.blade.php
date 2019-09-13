@@ -2,14 +2,46 @@
 
 @section('content')
 
-<h3 class="title is-3">
-	Programmes
-	<a id="add-programme" href="{{ route('admin.programme.create') }}" class="button is-text" title="Add new programme">
-		<span class="icon">
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M11 9h4v2h-4v4H9v-4H5V9h4V5h2v4zm-1 11a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16z"/></svg>
-		</span>
-	</a>
-</h3>
+<nav class="level">
+    <div class="level-left">
+        <div class="level-item">
+            <h3 class="title is-3">
+                Programmes
+            </h3>
+        </div>
+    </div>
+    <div class="level-right">
+        <div class="level-item">
+            <div class="dropdown is-hoverable is-right">
+                <div class="dropdown-trigger">
+                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                        <span>More</span>
+                        <span class="icon is-small">
+                            <i class="fas fa-angle-down" aria-hidden="true"></i>
+                        </span>
+                    </button>
+                </div>
+                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                    <div class="dropdown-content">
+                        <a href="{{ route('admin.programme.create') }}" class="dropdown-item">
+							<i class="fas fa-plus"></i>
+							Add new programme
+                        </a>
+                        <hr class="dropdown-divider">
+                        <a href="{{ route('export.programmes', 'xlsx') }}" class="dropdown-item">
+                            <i class="fas fa-file-excel"></i>
+                            Export Excel
+                        </a>
+                        <a href="{{ route('export.programmes', 'csv') }}" class="dropdown-item">
+                            <i class="fas fa-file-csv"></i>
+                            Export CSV
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
 
 <filterable-items :items='@json($programmes)'>
     <span  slot-scope="{ items: programmes, inputAttrs, inputEvents, sortOn }">
@@ -19,9 +51,9 @@
                 <tr>
                     <th @click.prevent="sortOn('title')" class="cursor-pointer">Name</th>
                     <th @click.prevent="sortOn('category')" class="cursor-pointer">Category</th>
-                    <th @click.prevent="sortOn('projects_count')" class="cursor-pointer">Projects</th>
-                    <th @click.prevent="sortOn('places_count')" class="cursor-pointer">Places</th>
-                    <th @click.prevent="sortOn('accepted_count')" class="cursor-pointer">Accepted</th>
+                    <th @click.prevent="sortOn('projects_count')" class="cursor-pointer has-text-centered">Projects</th>
+                    <th @click.prevent="sortOn('places_count')" class="cursor-pointer has-text-centered">Places</th>
+                    <th @click.prevent="sortOn('accepted_count')" class="cursor-pointer has-text-centered">Accepted</th>
                 </tr>
             </thead>
             <tbody>
@@ -30,9 +62,9 @@
                         <a :href="editProgrammeUrl(programme.id)">@{{ programme.title }}</a>
                     </td>
                     <td>@{{ programme.category }}</td>
-                    <td>@{{ programme.projects_count }}</td>
-                    <td>@{{ programme.places_count }}</td>
-                    <td>@{{ programme.accepted_count }}</td>
+                    <td class="has-text-centered">@{{ programme.projects_count }}</td>
+                    <td class="has-text-centered">@{{ programme.places_count }}</td>
+                    <td class="has-text-centered">@{{ programme.accepted_count }}</td>
                 </tr>
             </tbody>
         </table>

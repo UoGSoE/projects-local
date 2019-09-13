@@ -55,12 +55,12 @@
         <table class="table is-fullwidth is-striped is-hover">
             <thead>
                 <tr>
-                    <th @click.prevent="sortOn('title')" class="cursor-pointer">Title</th>
-                    <th @click.prevent="sortOn('owner_name')" class="cursor-pointer">Owner</th>
-                    <th class="cursor-pointer">2nd</th>
-                    <th @click.prevent="sortOn('max_students')" class="cursor-pointer">Max Students</th>
-                    <th @click.prevent="sortOn('students_count')" class="cursor-pointer">Students Applied</th>
-                    <th @click.prevent="sortOn('accepted_students_count')" class="cursor-pointer">Accepted</th>
+                    <th @click.prevent="sortOn('title')" class="cursor-pointer" width="30%">Title</th>
+                    <th @click.prevent="sortOn('owner_name')" class="cursor-pointer" width="15%">Owner</th>
+                    <th class="cursor-pointer" width="5%">2nd</th>
+                    <th @click.prevent="sortOn('max_students')" class="cursor-pointer has-text-centered" width="10%">Max Students</th>
+                    <th @click.prevent="sortOn('students_count')" class="cursor-pointer has-text-centered" width="15%">Students Applied</th>
+                    <th @click.prevent="sortOn('accepted_students_count')" class="cursor-pointer has-text-centered" width="5%">Accepted</th>
                     <th>Students</th>
                 </tr>
             </thead>
@@ -87,9 +87,9 @@
                     </td>
                     <td>@{{ project.owner.full_name }}</td>
                     <td>@{{ project.second_supervisor ? project.second_supervisor.full_name : '' }}</td>
-                    <td>@{{ project.max_students }}</td>
-                    <td>@{{ project.students_count }}</td>
-                    <td>@{{ project.accepted_students_count }}</td>
+                    <td class="has-text-centered">@{{ project.max_students }}</td>
+                    <td class="has-text-centered">@{{ project.students_count }}</td>
+                    <td class="has-text-centered">@{{ project.accepted_students_count }}</td>
                     <td>
                         <span v-for="student in project.students">
                             <span class="tag" :class="{ 'is-success': student.pivot.is_accepted }">@{{ student.pivot.choice }}</span>

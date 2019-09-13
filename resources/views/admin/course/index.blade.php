@@ -2,15 +2,46 @@
 
 @section('content')
 
-<h3 class="title is-3">
-	Courses
-	<a href="{{ route('admin.course.create') }}" class="button is-text" title="Add new course">
-		<span class="icon">
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-				<path d="M11 9h4v2h-4v4H9v-4H5V9h4V5h2v4zm-1 11a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16z" /></svg>
-		</span>
-	</a>
-</h3>
+<nav class="level">
+    <div class="level-left">
+        <div class="level-item">
+            <h3 class="title is-3">
+                Courses
+            </h3>
+        </div>
+    </div>
+    <div class="level-right">
+        <div class="level-item">
+            <div class="dropdown is-hoverable is-right">
+                <div class="dropdown-trigger">
+                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                        <span>More</span>
+                        <span class="icon is-small">
+                            <i class="fas fa-angle-down" aria-hidden="true"></i>
+                        </span>
+                    </button>
+                </div>
+                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                    <div class="dropdown-content">
+                        <a href="{{ route('admin.course.create') }}" class="dropdown-item">
+							<i class="fas fa-plus"></i>
+							Add new course
+                        </a>
+                        <hr class="dropdown-divider">
+                        <a href="{{ route('export.courses', 'xlsx') }}" class="dropdown-item">
+                            <i class="fas fa-file-excel"></i>
+                            Export Excel
+                        </a>
+                        <a href="{{ route('export.courses', 'csv') }}" class="dropdown-item">
+                            <i class="fas fa-file-csv"></i>
+                            Export CSV
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
 
 <table class="table is-striped is-fullwidth">
 	<thead>
@@ -19,8 +50,8 @@
 			<th>Title</th>
 			<th>Type</th>
 			<th>Deadline</th>
-			<th>No. Projects</th>
-			<th>No. Students</th>
+			<th class="has-text-centered">No. Projects</th>
+			<th class="has-text-centered">No. Students</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -35,8 +66,8 @@
 			<td>{{ $course->title }}</td>
 			<td>{{ ucfirst($course->category) }}</td>
 			<td>{{ $course->application_deadline->format('d/m/Y') }}</td>
-			<td>{{ $course->projects_count }}</td>
-			<td>{{ $course->students_count }}</td>
+			<td class="has-text-centered">{{ $course->projects_count }}</td>
+			<td class="has-text-centered">{{ $course->students_count }}</td>
 		</tr>
 		@endforeach
 	</tbody>

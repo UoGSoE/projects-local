@@ -39,26 +39,26 @@ class UserAdminTest extends TestCase
         $student5 = create(User::class, ['is_staff' => false, 'course_id' => $ugradCourse->id]);
         $student6 = create(User::class, ['is_staff' => false, 'course_id' => $ugradCourse->id]);
 
-        $staff1UgradActiveProjects = create(Project::class, ['staff_id' => $staff1->id, 'category' => 'undergrad', 'is_active' => true], 2);
-        $staff1UgradAllocatedProjects = create(Project::class, ['staff_id' => $staff1->id, 'category' => 'undergrad', 'is_active' => true, 'max_students' => 1], 1);
+        $staff1UgradActiveProjects = create(Project::class, ['staff_id' => $staff1->id, 'category' => 'undergrad', 'type' => 'B.Eng', 'is_active' => true], 2);
+        $staff1UgradAllocatedProjects = create(Project::class, ['staff_id' => $staff1->id, 'category' => 'undergrad', 'type' => 'B.Eng', 'is_active' => true, 'max_students' => 1], 1);
         $staff1UgradAllocatedProjects->each->addAndAccept($student1);
 
         $staff1PgradActiveProjects = create(Project::class, ['staff_id' => $staff1->id, 'category' => 'postgrad', 'is_active' => true], 1);
         $staff1PgradAllocatedProjects = create(Project::class, ['staff_id' => $staff1->id, 'category' => 'postgrad', 'is_active' => true, 'max_students' => 1], 1);
         $staff1PgradAllocatedProjects->each->addAndAccept($student2);
 
-        $staff2UgradActiveProjects = create(Project::class, ['staff_id' => $staff2->id, 'category' => 'undergrad', 'is_active' => true], 3);
+        $staff2UgradActiveProjects = create(Project::class, ['staff_id' => $staff2->id, 'category' => 'undergrad', 'type' => 'B.Eng', 'is_active' => true], 3);
         $staff2PgradActiveProjects = create(Project::class, ['staff_id' => $staff2->id, 'category' => 'postgrad', 'is_active' => true], 3);
 
-        $staff1SecondUgradActiveProjects = create(Project::class, ['staff_id' => $admin->id, 'second_supervisor_id' => $staff1->id, 'category' => 'undergrad', 'is_active' => true], 1);
-        $staff1SecondUgradAllocatedProjects = create(Project::class, ['staff_id' => $admin->id, 'second_supervisor_id' => $staff1->id, 'category' => 'undergrad', 'is_active' => true, 'max_students' => 1], 1);
+        $staff1SecondUgradActiveProjects = create(Project::class, ['staff_id' => $admin->id, 'second_supervisor_id' => $staff1->id, 'category' => 'undergrad', 'type' => 'B.Eng', 'is_active' => true], 1);
+        $staff1SecondUgradAllocatedProjects = create(Project::class, ['staff_id' => $admin->id, 'second_supervisor_id' => $staff1->id, 'category' => 'undergrad', 'type' => 'B.Eng', 'is_active' => true, 'max_students' => 1], 1);
         $staff1SecondUgradAllocatedProjects->each->addAndAccept($student3);
 
         $staff1SecondPgradActiveProjects = create(Project::class, ['staff_id' => $admin->id, 'second_supervisor_id' => $staff1->id, 'category' => 'postgrad', 'is_active' => true], 2);
         $staff1SecondPgradAllocatedProjects = create(Project::class, ['staff_id' => $admin->id, 'second_supervisor_id' => $staff1->id, 'category' => 'postgrad', 'is_active' => true, 'max_students' => 1], 1);
         $staff1SecondPgradAllocatedProjects->each->addAndAccept($student4);
 
-        $staff2SecondUgradActiveProjects = create(Project::class, ['staff_id' => $admin->id, 'second_supervisor_id' => $staff2->id, 'category' => 'undergrad', 'is_active' => true], 3);
+        $staff2SecondUgradActiveProjects = create(Project::class, ['staff_id' => $admin->id, 'second_supervisor_id' => $staff2->id, 'category' => 'undergrad', 'type' => 'B.Eng', 'is_active' => true], 3);
         $staff2SecondPgradActiveProjects = create(Project::class, ['staff_id' => $admin->id, 'second_supervisor_id' => $staff2->id, 'category' => 'postgrad', 'is_active' => true], 2);
 
         $response = $this->actingAs($admin)->get(route('admin.users', 'staff'));
@@ -71,31 +71,31 @@ class UserAdminTest extends TestCase
         $this->assertEquals(3, $response->data('users')->count());
         // check primary project totals for $staff1
         tap($response->data('users')[1], function ($staff) {
-            $this->assertEquals(3, $staff['ugrad_active']);
-            $this->assertEquals(1, $staff['ugrad_allocated']);
+            $this->assertEquals(3, $staff['ugrad_beng_active']);
+            $this->assertEquals(1, $staff['ugrad_beng_allocated']);
             $this->assertEquals(2, $staff['pgrad_active']);
             $this->assertEquals(1, $staff['pgrad_allocated']);
         });
         // check 2nd supervisor project totals for $staff1
         tap($response->data('users')[1], function ($staff) {
-            $this->assertEquals(2, $staff['2nd_ugrad_active']);
-            $this->assertEquals(1, $staff['2nd_ugrad_allocated']);
-            $this->assertEquals(3, $staff['2nd_pgrad_active']);
-            $this->assertEquals(1, $staff['2nd_pgrad_allocated']);
+            $this->assertEquals(2, $staff['second_ugrad_beng_active']);
+            $this->assertEquals(1, $staff['second_ugrad_beng_allocated']);
+            $this->assertEquals(3, $staff['second_pgrad_active']);
+            $this->assertEquals(1, $staff['second_pgrad_allocated']);
         });
         // check primary project totals for $staff2
         tap($response->data('users')[2], function ($staff) {
-            $this->assertEquals(3, $staff['ugrad_active']);
-            $this->assertEquals(0, $staff['ugrad_allocated']);
+            $this->assertEquals(3, $staff['ugrad_beng_active']);
+            $this->assertEquals(0, $staff['ugrad_beng_allocated']);
             $this->assertEquals(3, $staff['pgrad_active']);
             $this->assertEquals(0, $staff['pgrad_allocated']);
         });
         // check 2nd supervisor project totals for $staff2
         tap($response->data('users')[2], function ($staff) {
-            $this->assertEquals(3, $staff['2nd_ugrad_active']);
-            $this->assertEquals(0, $staff['2nd_ugrad_allocated']);
-            $this->assertEquals(2, $staff['2nd_pgrad_active']);
-            $this->assertEquals(0, $staff['2nd_pgrad_allocated']);
+            $this->assertEquals(3, $staff['second_ugrad_beng_active']);
+            $this->assertEquals(0, $staff['second_ugrad_beng_allocated']);
+            $this->assertEquals(2, $staff['second_pgrad_active']);
+            $this->assertEquals(0, $staff['second_pgrad_allocated']);
         });
     }
 

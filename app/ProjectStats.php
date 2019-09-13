@@ -45,28 +45,28 @@ class ProjectStats
 
     public function ugradActive($type)
     {
-        return $this->staffMember->staffProjects->filter(function ($project, $type) {
+        return $this->staffMember->staffProjects->filter(function ($project) use ($type) {
             return $project->isUndergrad() && $project->isType($type) && $project->isActive();
         })->count();
     }
 
     public function ugradInactive($type)
     {
-        return $this->staffMember->staffProjects->filter(function ($project, $type) {
+        return $this->staffMember->staffProjects->filter(function ($project) use ($type) {
             return $project->isUndergrad() && $project->isType($type) && $project->isInactive();
         })->count();
     }
 
     public function ugradAllocated($type)
     {
-        return $this->staffMember->staffProjects->filter(function ($project, $type) {
+        return $this->staffMember->staffProjects->filter(function ($project) use ($type) {
             return $project->isUndergrad() && $project->isType($type) && $project->isFullyAllocated();
         })->count();
     }
 
     public function secondUgradAllocated($type)
     {
-        return $this->staffMember->secondSupervisorProjects->filter(function ($project, $type) {
+        return $this->staffMember->secondSupervisorProjects->filter(function ($project) use ($type) {
             return $project->isUndergrad() && $project->isType($type) && $project->isFullyAllocated();
         })->count();
     }
@@ -101,7 +101,7 @@ class ProjectStats
 
     public function secondUgradActive($type)
     {
-        return $this->staffMember->secondSupervisorProjects->filter(function ($project, $type) {
+        return $this->staffMember->secondSupervisorProjects->filter(function ($project) use ($type) {
             return $project->isUndergrad() && $project->isType($type) && $project->isActive();
         })->count();
     }
