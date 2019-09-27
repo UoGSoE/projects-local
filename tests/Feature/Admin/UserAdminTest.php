@@ -213,7 +213,7 @@ class UserAdminTest extends TestCase
     /** @test */
     public function admins_can_add_a_new_user()
     {
-        if (env('GITLAB')) {
+        if (env('CI')) {
             $this->assertTrue(true);
             return;
         }

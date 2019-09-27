@@ -48,7 +48,7 @@ class ActivityTest extends TestCase
     /** @test */
     public function an_event_is_recorded_when_a_user_is_manually_created()
     {
-        if (env('GITLAB')) {
+        if (env('CI')) {
             $this->assertTrue(true);
             return;
         }
