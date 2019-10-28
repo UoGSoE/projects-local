@@ -6,7 +6,7 @@
     <div class="level-left">
         <div class="level-item">
             <h3 class="title is-3">
-                {{ ucfirst(str_plural($category)) }}
+                {{ ucfirst(Illuminate\Support\Str::plural($category)) }}
             </h3>
         </div>
         <div class="level-item">

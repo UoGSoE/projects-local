@@ -28,8 +28,8 @@ class ConfirmationEmailTest extends TestCase
         $mail = new ChoiceConfirmation($student);
 
         $contents = $mail->render();
-        $this->assertContains($project1->title, $contents);
-        $this->assertContains($project2->title, $contents);
-        $this->assertNotContains($project3->title, $contents);
+        $this->assertStringContainsString($project1->title, $contents);
+        $this->assertStringContainsString($project2->title, $contents);
+        $this->assertStringNotContainsString($project3->title, $contents);
     }
 }
