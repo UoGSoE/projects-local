@@ -41,7 +41,7 @@ class CourseEnrollmentTest extends TestCase
 
         // and we upload a test spreadsheet with two students details
         $response = $this->actingAs($admin)->post(route('admin.course.enroll', $course->id), [
-            'sheet' => new UploadedFile($filename, 'course_students.xlsx', 'application/octet-stream', filesize($filename), UPLOAD_ERR_OK, true),
+            'sheet' => new UploadedFile($filename, 'course_students.xlsx', 'application/octet-stream', null, true),
         ]);
 
         // the course should have two students attached
@@ -72,7 +72,7 @@ class CourseEnrollmentTest extends TestCase
 
         // and we upload a test spreadsheet with new students details
         $response = $this->actingAs($admin)->post(route('admin.course.enroll', $course->id), [
-            'sheet' => new UploadedFile($filename, 'course_students.xlsx', 'application/octet-stream', filesize($filename), UPLOAD_ERR_OK, true),
+            'sheet' => new UploadedFile($filename, 'course_students.xlsx', 'application/octet-stream', UPLOAD_ERR_OK, true),
         ]);
 
         // the course should have only the new students students

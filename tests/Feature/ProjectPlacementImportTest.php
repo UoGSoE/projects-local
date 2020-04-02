@@ -53,7 +53,7 @@ class ProjectPlacementImportTest extends TestCase
         $filename = './tests/Feature/data/placement_projects.xlsx';
 
         $response = $this->actingAs($admin)->post(route('admin.import.placements'), [
-            'sheet' => new UploadedFile($filename, 'placements.xlsx', 'application/octet-stream', filesize($filename), UPLOAD_ERR_OK, true),
+            'sheet' => new UploadedFile($filename, 'placements.xlsx', 'application/octet-stream', UPLOAD_ERR_OK, true),
         ]);
 
         $response->assertStatus(302);
@@ -88,7 +88,7 @@ class ProjectPlacementImportTest extends TestCase
         Mail::fake();
 
         $response = $this->actingAs($admin)->post(route('admin.import.placements'), [
-            'sheet' => new UploadedFile($filename, 'placements.xlsx', 'application/octet-stream', filesize($filename), UPLOAD_ERR_OK, true),
+            'sheet' => new UploadedFile($filename, 'placements.xlsx', 'application/octet-stream', UPLOAD_ERR_OK, true),
         ]);
 
         Mail::assertQueued(AcceptedOntoProject::class, function ($mail) use ($student) {
@@ -98,7 +98,7 @@ class ProjectPlacementImportTest extends TestCase
         Mail::fake();
 
         $response = $this->actingAs($admin)->post(route('admin.import.placements'), [
-            'sheet' => new UploadedFile($filename, 'placements.xlsx', 'application/octet-stream', filesize($filename), UPLOAD_ERR_OK, true),
+            'sheet' => new UploadedFile($filename, 'placements.xlsx', 'application/octet-stream', UPLOAD_ERR_OK, true),
         ]);
 
         Mail::assertNotQueued(AcceptedOntoProject::class);
@@ -118,13 +118,13 @@ class ProjectPlacementImportTest extends TestCase
         $filename = './tests/Feature/data/placement_projects.xlsx';
 
         $response = $this->actingAs($admin)->post(route('admin.import.placements'), [
-            'sheet' => new UploadedFile($filename, 'placements.xlsx', 'application/octet-stream', filesize($filename), UPLOAD_ERR_OK, true),
+            'sheet' => new UploadedFile($filename, 'placements.xlsx', 'application/octet-stream', UPLOAD_ERR_OK, true),
         ]);
 
         $this->assertCount(1, Project::all());
 
         $response = $this->actingAs($admin)->post(route('admin.import.placements'), [
-            'sheet' => new UploadedFile($filename, 'placements.xlsx', 'application/octet-stream', filesize($filename), UPLOAD_ERR_OK, true),
+            'sheet' => new UploadedFile($filename, 'placements.xlsx', 'application/octet-stream', UPLOAD_ERR_OK, true),
         ]);
 
         $this->assertCount(1, Project::all());
@@ -143,7 +143,7 @@ class ProjectPlacementImportTest extends TestCase
         $filename = './tests/Feature/data/placement_projects.xlsx';
 
         $response = $this->actingAs($admin)->post(route('admin.import.placements'), [
-            'sheet' => new UploadedFile($filename, 'placements.xlsx', 'application/octet-stream', filesize($filename), UPLOAD_ERR_OK, true),
+            'sheet' => new UploadedFile($filename, 'placements.xlsx', 'application/octet-stream', UPLOAD_ERR_OK, true),
         ]);
 
         $response->assertStatus(302);
@@ -165,7 +165,7 @@ class ProjectPlacementImportTest extends TestCase
         $filename = './tests/Feature/data/placement_projects.xlsx';
 
         $response = $this->actingAs($admin)->post(route('admin.import.placements'), [
-            'sheet' => new UploadedFile($filename, 'placements.xlsx', 'application/octet-stream', filesize($filename), UPLOAD_ERR_OK, true),
+            'sheet' => new UploadedFile($filename, 'placements.xlsx', 'application/octet-stream', UPLOAD_ERR_OK, true),
         ]);
 
         $response->assertStatus(302);
@@ -187,7 +187,7 @@ class ProjectPlacementImportTest extends TestCase
         $filename = './tests/Feature/data/placement_projects.xlsx';
 
         $response = $this->actingAs($admin)->post(route('admin.import.placements'), [
-            'sheet' => new UploadedFile($filename, 'placements.xlsx', 'application/octet-stream', filesize($filename), UPLOAD_ERR_OK, true),
+            'sheet' => new UploadedFile($filename, 'placements.xlsx', 'application/octet-stream', UPLOAD_ERR_OK, true),
         ]);
 
         $response->assertStatus(302);
@@ -209,7 +209,7 @@ class ProjectPlacementImportTest extends TestCase
         $filename = './tests/Feature/data/placement_projects.xlsx';
 
         $response = $this->actingAs($admin)->post(route('admin.import.placements'), [
-            'sheet' => new UploadedFile($filename, 'placements.xlsx', 'application/octet-stream', filesize($filename), UPLOAD_ERR_OK, true),
+            'sheet' => new UploadedFile($filename, 'placements.xlsx', 'application/octet-stream', UPLOAD_ERR_OK, true),
         ]);
 
         $response->assertStatus(302);

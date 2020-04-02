@@ -59,7 +59,7 @@ class AdminImportAllocationsTest extends TestCase
         $filename = (new ExcelSheet)->generate($data);
 
         $response = $this->actingAs($admin)->post(route('project.import.allocations'), [
-            'sheet' => new UploadedFile($filename, 'project_allocations.xlsx', 'application/octet-stream', filesize($filename), UPLOAD_ERR_OK, true),
+            'sheet' => new UploadedFile($filename, 'project_allocations.xlsx', 'application/octet-stream', UPLOAD_ERR_OK, true),
         ]);
 
         $response->assertStatus(302);
@@ -86,7 +86,7 @@ class AdminImportAllocationsTest extends TestCase
         $filename = (new ExcelSheet)->generate($data);
 
         $response = $this->actingAs($admin)->post(route('project.import.allocations'), [
-            'sheet' => new UploadedFile($filename, 'project_allocations.xlsx', 'application/octet-stream', filesize($filename), UPLOAD_ERR_OK, true),
+            'sheet' => new UploadedFile($filename, 'project_allocations.xlsx', 'application/octet-stream', UPLOAD_ERR_OK, true),
         ]);
 
         $response->assertStatus(302);
@@ -110,7 +110,7 @@ class AdminImportAllocationsTest extends TestCase
         $filename = (new ExcelSheet)->generate($data);
 
         $response = $this->actingAs($admin)->post(route('project.import.allocations'), [
-            'sheet' => new UploadedFile($filename, 'project_allocations.xlsx', 'application/octet-stream', filesize($filename), UPLOAD_ERR_OK, true),
+            'sheet' => new UploadedFile($filename, 'project_allocations.xlsx', 'application/octet-stream', UPLOAD_ERR_OK, true),
         ]);
 
         $response->assertStatus(302);

@@ -42,7 +42,7 @@ class ImportSecondSupervisorsTest extends TestCase
 
         // then if we upload the spreadsheet with the supervisors guids in place
         $response = $this->actingAs($admin)->post(route('admin.import.second_supervisors'), [
-            'sheet' => new UploadedFile($filename, 'project_list.xlsx', 'application/octet-stream', filesize($filename), UPLOAD_ERR_OK, true),
+            'sheet' => new UploadedFile($filename, 'project_list.xlsx', 'application/octet-stream', UPLOAD_ERR_OK, true),
         ]);
 
         // they should get added back in as 2nd supervisors
@@ -74,7 +74,7 @@ class ImportSecondSupervisorsTest extends TestCase
 
         // then if we upload the spreadsheet with the deleted supervisors guid & project id in place
         $response = $this->actingAs($admin)->post(route('admin.import.second_supervisors'), [
-            'sheet' => new UploadedFile($filename, 'project_list.xlsx', 'application/octet-stream', filesize($filename), UPLOAD_ERR_OK, true),
+            'sheet' => new UploadedFile($filename, 'project_list.xlsx', 'application/octet-stream', UPLOAD_ERR_OK, true),
         ]);
 
         // we should have errors about the missing project and 2nd supervisor
