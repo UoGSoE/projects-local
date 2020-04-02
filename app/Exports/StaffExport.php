@@ -8,8 +8,8 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 class StaffExport implements FromCollection
 {
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Collection
+     */
     public function collection()
     {
         return User::staff()
@@ -20,26 +20,26 @@ class StaffExport implements FromCollection
                 return $user->getProjectStats();
             })->map(function ($staffMember, $key) {
                 return [
-                    'username' => $staffMember["username"],
-                    'surname' => $staffMember["surname"],
-                    'forenames' => $staffMember["forenames"],
-                    'email' => $staffMember["email"],
+                    'username' => $staffMember['username'],
+                    'surname' => $staffMember['surname'],
+                    'forenames' => $staffMember['forenames'],
+                    'email' => $staffMember['email'],
                     'ugrad_beng_active' => $staffMember['ugrad_beng_active'],
                     'ugrad_beng_allocated' => $staffMember['ugrad_beng_allocated'],
                     'ugrad_meng_active' => $staffMember['ugrad_meng_active'],
                     'ugrad_meng_allocated' => $staffMember['ugrad_meng_allocated'],
                     'ugrad_etc_active' => $staffMember['ugrad_etc_active'],
                     'ugrad_etc_allocated' => $staffMember['ugrad_etc_allocated'],
-                    'pgrad_active' => $staffMember["pgrad_active"],
-                    'pgrad_allocated' => $staffMember["pgrad_allocated"],
+                    'pgrad_active' => $staffMember['pgrad_active'],
+                    'pgrad_allocated' => $staffMember['pgrad_allocated'],
                     'second_ugrad_beng_active' => $staffMember['second_ugrad_beng_active'],
                     'second_ugrad_beng_allocated' => $staffMember['second_ugrad_beng_allocated'],
                     'second_ugrad_meng_active' => $staffMember['second_ugrad_meng_active'],
                     'second_ugrad_meng_allocated' => $staffMember['second_ugrad_meng_allocated'],
                     'second_ugrad_etc_active' => $staffMember['second_ugrad_etc_active'],
                     'second_ugrad_etc_allocated' => $staffMember['second_ugrad_etc_allocated'],
-                    'second_pgrad_active' => $staffMember["second_pgrad_active"],
-                    'second_pgrad_allocated' => $staffMember["second_pgrad_allocated"],
+                    'second_pgrad_active' => $staffMember['second_pgrad_active'],
+                    'second_pgrad_allocated' => $staffMember['second_pgrad_allocated'],
                 ];
             })
             ->prepend([

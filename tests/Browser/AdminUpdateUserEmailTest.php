@@ -3,9 +3,9 @@
 namespace Tests\Browser;
 
 use App\User;
-use Tests\DuskTestCase;
-use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Laravel\Dusk\Browser;
+use Tests\DuskTestCase;
 
 class AdminUpdateUserEmailTest extends DuskTestCase
 {
@@ -31,8 +31,7 @@ class AdminUpdateUserEmailTest extends DuskTestCase
                 ->assertSee('invalid')
                 ->type('#email-input', 'valid-email@example.com')
                 ->press('Save')
-                ->pause(300)
-            ;
+                ->pause(300);
 
             $this->assertEquals('valid-email@example.com', $user->fresh()->email);
         });

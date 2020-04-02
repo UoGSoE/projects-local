@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Support\Str;
 use Faker\Generator as Faker;
+use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +30,6 @@ $factory->define(App\User::class, function (Faker $faker) {
 $factory->state(App\User::class, 'student', function ($faker) {
     return [
         'is_staff' => false,
-        'username' => $faker->numberBetween(1000000, 9999999) . $faker->randomLetter,
+        'username' => $faker->numberBetween(1000000, 9999999).$faker->randomLetter,
     ];
 });

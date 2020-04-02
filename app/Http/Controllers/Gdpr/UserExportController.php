@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Gdpr;
 
+use App\Events\SomethingNoteworthyHappened;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\StaffMember;
+use App\Http\Resources\Student;
 use App\User;
 use Illuminate\Http\Request;
-use App\Http\Resources\Student;
-use App\Http\Resources\StaffMember;
-use App\Http\Controllers\Controller;
-use App\Events\SomethingNoteworthyHappened;
 
 class UserExportController extends Controller
 {
@@ -18,6 +18,7 @@ class UserExportController extends Controller
         if ($user->isStudent()) {
             return new Student($user);
         }
+
         return new StaffMember($user);
     }
 }

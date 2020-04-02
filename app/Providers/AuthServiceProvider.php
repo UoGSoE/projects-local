@@ -16,7 +16,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         'App\Model' => 'App\Policies\ModelPolicy',
-        'App\Project' => ProjectPolicy::class,
+        \App\Project::class => ProjectPolicy::class,
     ];
 
     /**
@@ -42,6 +42,7 @@ class AuthServiceProvider extends ServiceProvider
             if ($project->allowsStaffToAcceptStudents()) {
                 return true;
             }
+
             return false;
         });
 
@@ -52,6 +53,7 @@ class AuthServiceProvider extends ServiceProvider
             if ($student->isFirstChoice($project)) {
                 return true;
             }
+
             return false;
         });
     }

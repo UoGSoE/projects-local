@@ -2,9 +2,9 @@
 
 namespace App\Imports;
 
-use App\User;
 use App\Course;
 use App\Programme;
+use App\User;
 use Illuminate\Support\MessageBag;
 
 class PlacementDataExtractor
@@ -55,43 +55,48 @@ class PlacementDataExtractor
         $data['student'] = $this->findStudent($data['matric'], $data['surname']);
         $data['course'] = $this->findCourse($data['courseCode'], $data['category']);
         $data['programme'] = $this->findProgramme($data['programmeName'], $data['category']);
+
         return $data;
     }
 
     protected function findStaff($guid)
     {
         $staff = User::where('username', '=', $guid)->first();
-        if (!$staff) {
+        if (! $staff) {
             $this->errors->add("staffnotfound-{$guid}", "Staff Not Found : {$guid}");
         }
+
         return $staff;
     }
 
     protected function findStudent($matric, $surname)
     {
-        $studentGuid = $matric . strtolower(substr($surname, 0, 1));
+        $studentGuid = $matric.strtolower(substr($surname, 0, 1));
         $student = User::where('username', '=', $studentGuid)->first();
-        if (!$student) {
+        if (! $student) {
             $this->errors->add("studentnotfound-{$studentGuid}", "Student Not Found : {$studentGuid}");
         }
+
         return $student;
     }
 
     protected function findCourse($code, $category)
     {
         $course = Course::where('code', '=', $code)->where('category', '=', $category)->first();
-        if (!$course) {
+        if (! $course) {
             $this->errors->add("coursenotfound-{$code}", "Course Not Found : {$code}");
         }
+
         return $course;
     }
 
     protected function findProgramme($title, $category)
     {
         $programme = Programme::where('title', '=', $title)->where('category', '=', $category)->first();
-        if (!$programme) {
+        if (! $programme) {
             $this->errors->add("programmenotfound-{$title}", "Programme Not Found : {$title}");
         }
+
         return $programme;
     }
 }

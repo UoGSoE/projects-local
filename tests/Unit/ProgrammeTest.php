@@ -2,12 +2,12 @@
 
 namespace Tests\Unit;
 
-use App\User;
-use App\Project;
 use App\Programme;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Project;
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
 class ProgrammeTest extends TestCase
 {

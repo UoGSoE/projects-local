@@ -35,7 +35,7 @@ class CourseTest extends TestCase
         $response = $this->actingAs($admin)->get(route('admin.course.show', $course->id));
 
         $response->assertSuccessful();
-        $response->assertSee('Course ' . $course->code);
+        $response->assertSee('Course '.$course->code);
         $response->assertSee($course->title);
         $response->assertSee($course->application_deadline->format('d/m/Y'));
         $response->assertSee($student1->full_name);
@@ -77,8 +77,8 @@ class CourseTest extends TestCase
         $admin = create(User::class, ['is_admin' => true]);
 
         $response = $this->actingAs($admin)->post(route('admin.course.store'), [
-            'title' => "A COURSE",
-            'code' => "ENG9999",
+            'title' => 'A COURSE',
+            'code' => 'ENG9999',
             'category' => 'undergrad',
             'application_deadline' => now()->addMonths(3)->format('d/m/Y'),
             'allow_staff_accept' => true,
@@ -105,7 +105,7 @@ class CourseTest extends TestCase
         ]);
 
         $response = $this->actingAs($admin)->post(route('admin.course.store'), [
-            'title' => "",
+            'title' => '',
             'code' => $existingCourse->code,
             'category' => 'undergrad',
             'application_deadline' => '',
@@ -126,8 +126,8 @@ class CourseTest extends TestCase
         $existingCourse = create(Course::class);
 
         $response = $this->actingAs($admin)->post(route('admin.course.update', $existingCourse->id), [
-            'title' => "A COURSE",
-            'code' => "ENG9999",
+            'title' => 'A COURSE',
+            'code' => 'ENG9999',
             'category' => 'undergrad',
             'application_deadline' => now()->addMonths(3)->format('d/m/Y'),
             'allow_staff_accept' => true,
@@ -153,7 +153,7 @@ class CourseTest extends TestCase
         ]);
 
         $response = $this->actingAs($admin)->post(route('admin.course.update', $course->id), [
-            'title' => "",
+            'title' => '',
             'code' => $otherCourse->code,
             'category' => 'undergrad',
             'application_deadline' => '',
@@ -176,7 +176,7 @@ class CourseTest extends TestCase
         ]);
 
         $response = $this->actingAs($admin)->post(route('admin.course.update', $course->id), [
-            'title' => "Whatever",
+            'title' => 'Whatever',
             'code' => $course->code,
             'category' => 'undergrad',
             'application_deadline' => now()->addMonths(3)->format('d/m/Y'),

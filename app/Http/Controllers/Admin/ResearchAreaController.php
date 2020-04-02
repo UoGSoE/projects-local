@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\SomethingNoteworthyHappened;
+use App\Http\Controllers\Controller;
 use App\ResearchArea;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Events\SomethingNoteworthyHappened;
 
 class ResearchAreaController extends Controller
 {

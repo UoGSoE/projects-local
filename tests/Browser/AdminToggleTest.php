@@ -3,9 +3,9 @@
 namespace Tests\Browser;
 
 use App\User;
-use Tests\DuskTestCase;
-use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Laravel\Dusk\Browser;
+use Tests\DuskTestCase;
 
 class AdminToggleTest extends DuskTestCase
 {
@@ -24,13 +24,13 @@ class AdminToggleTest extends DuskTestCase
                     ->assertSee($user->username)
                     ->clickLink($user->username)
                     ->assertSee('Give Admin Rights')
-                    ->click('#admintoggle-' . $user->id)
+                    ->click('#admintoggle-'.$user->id)
                     ->waitForReload()
                     ->assertSee('Remove Admin Rights')
-                    ->click('#admintoggle-' . $user->id)
+                    ->click('#admintoggle-'.$user->id)
                     ->waitForReload()
                     ->assertSee('Give Admin Rights')
-                    ->click('#admintoggle-' . $user->id)
+                    ->click('#admintoggle-'.$user->id)
                     ->waitForReload();
             $this->assertTrue($user->fresh()->isAdmin());
         });

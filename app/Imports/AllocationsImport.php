@@ -2,17 +2,17 @@
 
 namespace App\Imports;
 
-use App\User;
 use App\Project;
-use Maatwebsite\Excel\Concerns\ToModel;
-use Maatwebsite\Excel\Events\BeforeSheet;
+use App\User;
 use Maatwebsite\Excel\Concerns\Importable;
-use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Concerns\RegistersEventListeners;
 use Maatwebsite\Excel\Concerns\SkipsFailures;
 use Maatwebsite\Excel\Concerns\SkipsOnFailure;
+use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
-use Maatwebsite\Excel\Concerns\RegistersEventListeners;
+use Maatwebsite\Excel\Events\BeforeSheet;
 
 class AllocationsImport implements ToModel, WithValidation, WithHeadingRow, SkipsOnFailure, WithEvents
 {
@@ -33,6 +33,7 @@ class AllocationsImport implements ToModel, WithValidation, WithHeadingRow, Skip
         $project->unsetEventDispatcher();   // disable the project events being logged so we don't spam the activity log
         $student = User::students()->where('username', '=', $row['guid'])->first();
         $project->addAndAccept($student);
+
         return $project;
     }
 
@@ -40,7 +41,7 @@ class AllocationsImport implements ToModel, WithValidation, WithHeadingRow, Skip
     {
         return [
             'guid' => 'exists:users,username',
-            'project_id' => 'exists:projects,id'
+            'project_id' => 'exists:projects,id',
         ];
     }
 
@@ -49,12 +50,12 @@ class AllocationsImport implements ToModel, WithValidation, WithHeadingRow, Skip
         return[
             'guid.exists' => [
                 'usernotfound-:input',
-                'Student Not Found : :input'
+                'Student Not Found : :input',
             ],
             'project_id.exists' => [
                 'projectnotfound-:input',
-                'Project Not Found : :input'
-            ]
+                'Project Not Found : :input',
+            ],
         ];
     }
 }

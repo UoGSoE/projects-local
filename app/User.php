@@ -35,6 +35,7 @@ class User extends Authenticatable
         if ($this->is_staff) {
             return $this->hasMany(Project::class, 'staff_id');
         }
+
         return $this->belongsToMany(Project::class, 'project_students', 'student_id')->withPivot(['choice', 'is_accepted']);
     }
 
@@ -98,6 +99,7 @@ class User extends Authenticatable
         if ($this->isImpersonating()) {
             return false;
         }
+
         return $this->course->application_deadline->lt(now());
     }
 
@@ -106,6 +108,7 @@ class User extends Authenticatable
         if (session('original_id')) {
             return true;
         }
+
         return false;
     }
 
@@ -114,6 +117,7 @@ class User extends Authenticatable
         if ($this->isntOnACourse()) {
             return collect([]);
         }
+
         return $this->course->projects()->with('owner', 'programmes')->active()->get()->reject(function ($project) {
             return $project->students()->wherePivot('is_accepted', true)->count() >= $project->max_students;
         });
@@ -124,6 +128,7 @@ class User extends Authenticatable
         if ($this->isntOnACourse()) {
             return collect([]);
         }
+
         return Programme::where('category', '=', $this->course->category)->orderBy('title')->get();
     }
 
@@ -134,7 +139,7 @@ class User extends Authenticatable
 
     public function getFullNameAttribute()
     {
-        return $this->surname . ', ' . $this->forenames;
+        return $this->surname.', '.$this->forenames;
     }
 
     public function isAccepted()
@@ -144,12 +149,12 @@ class User extends Authenticatable
 
     public function isAcceptedOn($project)
     {
-        return (bool)$this->projects()->findOrFail($project->id)->pivot->is_accepted;
+        return (bool) $this->projects()->findOrFail($project->id)->pivot->is_accepted;
     }
 
     public function isntAcceptedOn($project)
     {
-        return !$this->isAcceptedOn($project);
+        return ! $this->isAcceptedOn($project);
     }
 
     public function isAdmin()
@@ -164,7 +169,7 @@ class User extends Authenticatable
 
     public function isStudent()
     {
-        return !$this->isStaff();
+        return ! $this->isStaff();
     }
 
     public function isUndergrad()
@@ -172,6 +177,7 @@ class User extends Authenticatable
         if ($this->isStaff()) {
             return false;
         }
+
         return optional($this->course)->category == 'undergrad';
     }
 
@@ -180,12 +186,13 @@ class User extends Authenticatable
         if ($this->projects()->where('project_id', '=', $project->id)->wherePivot('choice', '=', 1)->first()) {
             return true;
         }
+
         return false;
     }
 
     public function toggleAdmin()
     {
-        $this->update(['is_admin' => !$this->is_admin]);
+        $this->update(['is_admin' => ! $this->is_admin]);
     }
 
     public function makeAdmin()
@@ -201,6 +208,7 @@ class User extends Authenticatable
         if ($this->isStaff()) {
             return 'Staff';
         }
+
         return 'Student';
     }
 
@@ -226,8 +234,9 @@ class User extends Authenticatable
             'username' => $anonInfo,
             'surname' => $anonInfo,
             'forenames' => $anonInfo,
-            'email' => $anonInfo . '@glasgow.ac.uk',
+            'email' => $anonInfo.'@glasgow.ac.uk',
         ]);
+
         return $anonInfo;
     }
 
@@ -247,12 +256,12 @@ class User extends Authenticatable
 
     public function wasMarkedAsLeft()
     {
-        return !!$this->left_at;
+        return (bool) $this->left_at;
     }
 
     public function leftAgesAgo()
     {
-        if (!$this->wasMarkedAsLeft()) {
+        if (! $this->wasMarkedAsLeft()) {
             return false;
         }
 

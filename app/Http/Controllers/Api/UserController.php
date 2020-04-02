@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\User;
 use App\Course;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Events\SomethingNoteworthyHappened;
+use App\Http\Controllers\Controller;
+use App\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -27,17 +27,17 @@ class UserController extends Controller
 
         $ldapUser = \Ldap::findUser($request->guid);
 
-        if (!$ldapUser) {
+        if (! $ldapUser) {
             return response()->json([
                 'data' => [],
-                'message' => 'Not Found'
+                'message' => 'Not Found',
             ], 404);
         }
 
         return response()->json([
             'data' => [
                 'user' => $ldapUser->toArray(),
-            ]
+            ],
         ]);
     }
 
@@ -57,10 +57,10 @@ class UserController extends Controller
 
         $ldapUser = \Ldap::findUser($request->guid);
 
-        if (!$ldapUser) {
+        if (! $ldapUser) {
             return response()->json([
                 'data' => [],
-                'message' => 'Not Found'
+                'message' => 'Not Found',
             ], 404);
         }
 
@@ -69,7 +69,7 @@ class UserController extends Controller
             'email' => $ldapUser->email,
             'surname' => $ldapUser->surname,
             'forenames' => $ldapUser->forenames,
-            'is_staff' => !$this->looksLikeMatric($ldapUser->username),
+            'is_staff' => ! $this->looksLikeMatric($ldapUser->username),
             'password' => bcrypt(Str::random(64)),
         ]);
 
@@ -83,7 +83,7 @@ class UserController extends Controller
 
         return response()->json([
             'data' => $user->toArray(),
-            'message' => 'Saved'
+            'message' => 'Saved',
         ]);
     }
 
@@ -105,6 +105,7 @@ class UserController extends Controller
         if (preg_match('/^[0-9]/', $username) === 1) {
             return true;
         }
+
         return false;
     }
 }

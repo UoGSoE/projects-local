@@ -2,8 +2,8 @@
 
 namespace App\Observers;
 
-use App\Project;
 use App\Events\SomethingNoteworthyHappened;
+use App\Project;
 
 class ProjectObserver
 {
@@ -18,5 +18,4 @@ class ProjectObserver
     public function deleting(Project $project)
     {
     }
-
 }

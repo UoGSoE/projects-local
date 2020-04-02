@@ -2,11 +2,11 @@
 
 namespace Tests\Browser;
 
-use App\User;
 use App\Project;
-use Tests\DuskTestCase;
-use Laravel\Dusk\Browser;
+use App\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Laravel\Dusk\Browser;
+use Tests\DuskTestCase;
 
 class ProjectBulkOptionsTest extends DuskTestCase
 {
@@ -28,9 +28,9 @@ class ProjectBulkOptionsTest extends DuskTestCase
                 ->assertSee($project2->title)
                 ->assertSee($project3->title)
                 ->assertSee($project4->title)
-                ->uncheck('#active' . $project1->id)
-                ->check('#active' . $project2->id)
-                ->check('#delete' . $project4->id)
+                ->uncheck('#active'.$project1->id)
+                ->check('#active'.$project2->id)
+                ->check('#delete'.$project4->id)
                 ->press('Save Changes')
                 ->waitFor('.modal')
                 ->press('Confirm')

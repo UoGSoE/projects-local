@@ -1,5 +1,7 @@
 <?php
+
 // @codingStandardsIgnoreFile
+
 namespace Tests\Feature;
 
 use App\Project;

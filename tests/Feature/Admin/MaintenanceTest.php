@@ -2,13 +2,13 @@
 
 namespace Tests\Feature\Admin;
 
-use App\User;
 use App\Course;
 use App\Project;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
 use Spatie\Activitylog\Models\Activity;
+use Tests\TestCase;
 
 class MaintenanceTest extends TestCase
 {
@@ -70,7 +70,7 @@ class MaintenanceTest extends TestCase
 
         $logs = Activity::all();
         $this->assertTrue($logs[0]->causer->is($admin));
-        $this->assertEquals("Removed all undergrad students", $logs[0]->description);
+        $this->assertEquals('Removed all undergrad students', $logs[0]->description);
 
         Activity::all()->each->delete();
 
@@ -85,7 +85,7 @@ class MaintenanceTest extends TestCase
 
         $logs = Activity::all();
         $this->assertTrue($logs[0]->causer->is($admin));
-        $this->assertEquals("Removed all postgrad students", $logs[0]->description);
+        $this->assertEquals('Removed all postgrad students', $logs[0]->description);
     }
 
     /** @test */

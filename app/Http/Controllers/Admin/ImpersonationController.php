@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Events\SomethingNoteworthyHappened;
+use App\Http\Controllers\Controller;
 use App\User;
+use Illuminate\Http\Request;
 
 class ImpersonationController extends Controller
 {
@@ -24,7 +24,7 @@ class ImpersonationController extends Controller
     public function destroy()
     {
         $admin = User::findOrFail(session('original_id'));
-        event(new SomethingNoteworthyHappened($admin, "Stopped impersonating " . auth()->user()->full_name));
+        event(new SomethingNoteworthyHappened($admin, 'Stopped impersonating '.auth()->user()->full_name));
 
         auth()->login($admin);
 

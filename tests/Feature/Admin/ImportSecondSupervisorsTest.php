@@ -2,15 +2,15 @@
 
 namespace Tests\Feature\Admin;
 
-use App\User;
-use App\Project;
-use Tests\TestCase;
 use App\Exports\ProjectListExporter;
-use Illuminate\Support\Facades\Ldap;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Project;
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Ldap;
 use Spatie\Activitylog\Models\Activity;
+use Tests\TestCase;
 
 class ImportSecondSupervisorsTest extends TestCase
 {
@@ -52,7 +52,7 @@ class ImportSecondSupervisorsTest extends TestCase
         $this->assertEquals($sup2->id, $project3->fresh()->second_supervisor_id);
         $log = Activity::first();
         $this->assertTrue($log->causer->is($admin));
-        $this->assertEquals("Imported 2nd supervisors", $log->description);
+        $this->assertEquals('Imported 2nd supervisors', $log->description);
     }
 
     /** @test */

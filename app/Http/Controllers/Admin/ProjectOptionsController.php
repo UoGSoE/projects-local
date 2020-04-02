@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\SomethingNoteworthyHappened;
+use App\Http\Controllers\Controller;
 use App\Project;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Events\SomethingNoteworthyHappened;
 
 class ProjectOptionsController extends Controller
 {
@@ -40,7 +40,7 @@ class ProjectOptionsController extends Controller
             if ($project->is_active != $obj['is_active']) {
                 event(new SomethingNoteworthyHappened(
                     $request->user(),
-                    "Set project {$project->title} as " . ($obj['is_active'] ? 'active' : 'inactive')
+                    "Set project {$project->title} as ".($obj['is_active'] ? 'active' : 'inactive')
                 ));
                 $project->update(['is_active' => $obj['is_active']]);
             }
@@ -59,7 +59,7 @@ class ProjectOptionsController extends Controller
 
         if ($request->wantsJson()) {
             return response()->json([
-                'message' => "Updated",
+                'message' => 'Updated',
             ]);
         }
 

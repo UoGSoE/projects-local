@@ -2,12 +2,12 @@
 
 namespace Tests\Feature\Admin;
 
-use App\User;
 use App\Course;
 use App\Project;
-use Tests\TestCase;
-use Ohffs\Ldap\LdapUser;
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Ohffs\Ldap\LdapUser;
+use Tests\TestCase;
 
 class UserAdminTest extends TestCase
 {
@@ -215,6 +215,7 @@ class UserAdminTest extends TestCase
     {
         if (env('CI')) {
             $this->assertTrue(true);
+
             return;
         }
         \Ldap::shouldReceive('findUser')->once()->andReturn(new LdapUser([
@@ -224,7 +225,7 @@ class UserAdminTest extends TestCase
                 'sn' => ['Valid'],
                 'givenname' => ['Miss'],
                 'telephonenumber' => ['12345'],
-            ]
+            ],
         ]));
 
         $admin = create(User::class, ['is_admin' => true]);

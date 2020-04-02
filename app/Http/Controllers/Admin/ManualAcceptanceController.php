@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\User;
-use App\Project;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Events\SomethingNoteworthyHappened;
+use App\Http\Controllers\Controller;
+use App\Project;
+use App\User;
+use Illuminate\Http\Request;
 
 class ManualAcceptanceController extends Controller
 {
     public function store(Project $project, Request $request)
     {
         $request->validate([
-            'student_id' => 'required|integer'
+            'student_id' => 'required|integer',
         ]);
 
         $student = User::findOrFail($request->student_id);

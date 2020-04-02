@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\User;
-use App\Project;
-use Illuminate\Http\Request;
-use Ohffs\SimpleSpout\ExcelSheet;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\MessageBag;
 use App\Events\SomethingNoteworthyHappened;
+use App\Http\Controllers\Controller;
+use App\Project;
+use App\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\MessageBag;
+use Ohffs\SimpleSpout\ExcelSheet;
 
 class SecondSupervisorController extends Controller
 {
@@ -35,19 +35,22 @@ class SecondSupervisorController extends Controller
             $projectId = $row[0];
             $guid = $row[4];
             $project = Project::find($projectId);
-            if (!$project) {
+            if (! $project) {
                 $this->errors->add("projectnotfound-{$projectId}", "Project Not Found : {$projectId} / {$row[1]}");
+
                 return;
             }
             // disable the project events being logged so we don't spam the activity log
             $project->unsetEventDispatcher();
-            if (!$guid) {
+            if (! $guid) {
                 $project->update(['second_supervisor_id' => null]);
+
                 return;
             }
             $user = User::where('username', '=', $guid)->first();
-            if (!$user) {
+            if (! $user) {
                 $this->errors->add("usernotfound-{$guid}", "User Not Found : {$guid}");
+
                 return;
             }
             $project->update(['second_supervisor_id' => $user->id]);

@@ -2,17 +2,17 @@
 
 namespace Tests\Feature;
 
-use App\User;
 use App\Course;
-use App\Project;
-use Tests\TestCase;
-// use Facades\Ohffs\Ldap\LdapService;
-use Ohffs\Ldap\LdapService;
 use App\Mail\GdprAnonymisedUsers;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Project;
+use App\User;
+// use Facades\Ohffs\Ldap\LdapService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Mail;
+use Ohffs\Ldap\LdapService;
+use Tests\TestCase;
 
 class GdprTest extends TestCase
 {
@@ -45,9 +45,9 @@ class GdprTest extends TestCase
                         'title' => $project->title,
                         'choice' => 1,
                         'accepted' => true,
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ]);
 
         $response = $this->actingAs($admin)->get(route('gdpr.export.user', $staff->id));
@@ -64,9 +64,9 @@ class GdprTest extends TestCase
                         'title' => $project->title,
                         'category' => $project->category,
                         'active' => $project->is_active,
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ]);
     }
 
@@ -96,12 +96,13 @@ class GdprTest extends TestCase
         $this->assertEquals("ANON{$staff1->id}", $staff1->fresh()->forenames);
         $this->assertEquals('JENNY', $staff2->fresh()->forenames);
         $this->assertEquals('ANNE', $staff3->fresh()->forenames);
-        $this->assertEquals("CAROL", $student->fresh()->forenames);
+        $this->assertEquals('CAROL', $student->fresh()->forenames);
 
         Mail::assertQueued(GdprAnonymisedUsers::class, function ($mail) use ($staff1, $staff1Username) {
             $this->assertCount(1, $mail->users);
             $this->assertEquals("ANON{$staff1->id}", $mail->users->first()['anonName']);
             $this->assertEquals($staff1Username, $mail->users->first()['originalName']);
+
             return true;
         });
     }

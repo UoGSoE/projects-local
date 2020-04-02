@@ -2,12 +2,12 @@
 
 namespace App\Imports;
 
-use App\User;
 use App\Course;
-use App\Project;
 use App\Programme;
-use Illuminate\Support\Str;
+use App\Project;
+use App\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class OldDataImporter
 {
@@ -33,18 +33,20 @@ class OldDataImporter
                 $project->courses()->sync($courses->pluck('id')->toArray());
             }
         });
+
         return true;
     }
 
     protected function extractStaffInfo($jsonProject)
     {
         $jsonStaff = array_shift($jsonProject['Staff']);
+
         return User::updateOrCreate(['username' => $jsonStaff['GUID']], [
             'username' => $jsonStaff['GUID'],
             'surname' => $jsonStaff['Surname'],
             'forenames' => $jsonStaff['Forenames'],
             'is_staff' => true,
-            'email' => $jsonStaff['GUID'] . '@campus.gla.ac.uk',
+            'email' => $jsonStaff['GUID'].'@campus.gla.ac.uk',
             'password' => bcrypt(Str::random(64)),
         ]);
     }
@@ -70,7 +72,7 @@ class OldDataImporter
         return $codes->map(function ($code) use ($newCategory) {
             return Course::updateOrCreate(['code' => $code, 'category' => $newCategory], [
                 'code' => $code,
-                'title' => "CHANGEME",
+                'title' => 'CHANGEME',
                 'category' => $newCategory,
                 'application_deadline' => now(),
             ]);

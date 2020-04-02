@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Database\Seeder;
-use App\User;
 use App\Course;
 use App\Programme;
 use App\Project;
+use App\User;
+use Illuminate\Database\Seeder;
 
 class TestDataSeeder extends Seeder
 {

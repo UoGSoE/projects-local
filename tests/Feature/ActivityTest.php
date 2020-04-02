@@ -2,16 +2,16 @@
 
 namespace Tests\Feature;
 
-use App\User;
 use App\Course;
-use App\Project;
 use App\Programme;
-use Tests\TestCase;
+use App\Project;
 use App\ResearchArea;
-use Ohffs\Ldap\LdapUser;
-use Illuminate\Support\Facades\Mail;
-use Spatie\Activitylog\Models\Activity;
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
+use Ohffs\Ldap\LdapUser;
+use Spatie\Activitylog\Models\Activity;
+use Tests\TestCase;
 
 class ActivityTest extends TestCase
 {
@@ -50,6 +50,7 @@ class ActivityTest extends TestCase
     {
         if (env('CI')) {
             $this->assertTrue(true);
+
             return;
         }
         \Ldap::shouldReceive('findUser')->once()->andReturn(new LdapUser([
@@ -59,7 +60,7 @@ class ActivityTest extends TestCase
                 'sn' => ['Valid'],
                 'givenname' => ['Miss'],
                 'telephonenumber' => ['12345'],
-            ]
+            ],
         ]));
         $admin = create(User::class, ['is_admin' => true]);
 
@@ -134,7 +135,7 @@ class ActivityTest extends TestCase
 
         $log = Activity::first();
         $this->assertTrue($log->causer->is($staff));
-        $this->assertEquals("Created project My new project", $log->description);
+        $this->assertEquals('Created project My new project', $log->description);
 
         Activity::all()->each->delete();
         $project = Project::first();
@@ -154,7 +155,7 @@ class ActivityTest extends TestCase
 
         $log = Activity::first();
         $this->assertTrue($log->causer->is($staff));
-        $this->assertEquals("Updated project NEW TITLE", $log->description);
+        $this->assertEquals('Updated project NEW TITLE', $log->description);
 
         Activity::all()->each->delete();
         $originalTitle = $project->fresh()->title;
@@ -262,7 +263,7 @@ class ActivityTest extends TestCase
 
         $logs = Activity::all();
         $this->assertTrue($logs[0]->causer->is($admin));
-        $this->assertEquals("Bulk updated project options", $logs[0]->description);
+        $this->assertEquals('Bulk updated project options', $logs[0]->description);
         $this->assertTrue($logs[1]->causer->is($admin));
         $this->assertEquals("Set project {$ugProject1->title} as inactive", $logs[1]->description);
         $this->assertTrue($logs[2]->causer->is($admin));
@@ -281,7 +282,7 @@ class ActivityTest extends TestCase
 
         $logs = Activity::all();
         $this->assertTrue($logs[0]->causer->is($admin));
-        $this->assertEquals("Exported the list of projects", $logs[0]->description);
+        $this->assertEquals('Exported the list of projects', $logs[0]->description);
     }
 
     /** @test */
@@ -330,7 +331,7 @@ class ActivityTest extends TestCase
 
         $logs = Activity::all();
         $this->assertTrue($logs[0]->causer->is($admin));
-        $this->assertEquals("Updated programme Lasers on Sharks", $logs[0]->description);
+        $this->assertEquals('Updated programme Lasers on Sharks', $logs[0]->description);
 
         Activity::all()->each->delete();
         $programme->delete();
@@ -389,7 +390,7 @@ class ActivityTest extends TestCase
 
         $logs = Activity::all();
         $this->assertTrue($logs[0]->causer->is($admin));
-        $this->assertEquals("Bulk accepted 1 students", $logs[0]->description);
+        $this->assertEquals('Bulk accepted 1 students', $logs[0]->description);
     }
 
     /** @test */
@@ -444,7 +445,7 @@ class ActivityTest extends TestCase
 
         $logs = Activity::all();
         $this->assertTrue($logs[0]->causer->is($admin));
-        $this->assertEquals("Created new research area Fred", $logs[0]->description);
+        $this->assertEquals('Created new research area Fred', $logs[0]->description);
 
         Activity::all()->each->delete();
         $area = ResearchArea::first();
@@ -455,7 +456,7 @@ class ActivityTest extends TestCase
 
         $logs = Activity::all();
         $this->assertTrue($logs[0]->causer->is($admin));
-        $this->assertEquals("Updated research area Updated Title", $logs[0]->description);
+        $this->assertEquals('Updated research area Updated Title', $logs[0]->description);
 
         Activity::all()->each->delete();
         $area = ResearchArea::first();
@@ -464,6 +465,6 @@ class ActivityTest extends TestCase
 
         $logs = Activity::all();
         $this->assertTrue($logs[0]->causer->is($admin));
-        $this->assertEquals("Deleted research area Updated Title", $logs[0]->description);
+        $this->assertEquals('Deleted research area Updated Title', $logs[0]->description);
     }
 }

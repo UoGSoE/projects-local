@@ -135,6 +135,7 @@ class CourseController extends Controller
         if ($request->wantsJson()) {
             return response()->json(['status' => 'deleted']);
         }
+
         return redirect()->route('admin.course.index')->with('success', 'Course Deleted');
     }
 }

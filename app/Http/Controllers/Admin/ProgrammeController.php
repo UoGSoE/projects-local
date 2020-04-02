@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\SomethingNoteworthyHappened;
+use App\Http\Controllers\Controller;
 use App\Programme;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use App\Http\Controllers\Controller;
-use App\Events\SomethingNoteworthyHappened;
 
 class ProgrammeController extends Controller
 {
@@ -63,7 +63,6 @@ class ProgrammeController extends Controller
         Programme::findOrFail($id)->update($data);
 
         event(new SomethingNoteworthyHappened(auth()->user(), "Updated programme {$request->title}"));
-
 
         return redirect()->route('admin.programme.index')->with('success', 'Programme updated');
     }

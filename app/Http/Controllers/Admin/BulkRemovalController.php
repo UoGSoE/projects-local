@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\User;
 use App\Course;
-use App\Project;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Events\SomethingNoteworthyHappened;
+use App\Http\Controllers\Controller;
+use App\Project;
+use App\User;
+use Illuminate\Http\Request;
 
 class BulkRemovalController extends Controller
 {
@@ -21,6 +21,7 @@ class BulkRemovalController extends Controller
         if (request()->wantsJson()) {
             return response()->json(['message' => 'removed']);
         }
+
         return redirect()->back()->with('success', 'Undergrads removed');
     }
 
@@ -34,6 +35,7 @@ class BulkRemovalController extends Controller
         if (request()->wantsJson()) {
             return response()->json(['message' => 'removed']);
         }
+
         return redirect()->back()->with('success', 'Postgrads removed');
     }
 
@@ -44,6 +46,7 @@ class BulkRemovalController extends Controller
         if (request()->wantsJson()) {
             return response()->json(['message' => 'removed']);
         }
+
         return redirect()->back()->with('success', 'All students removed');
     }
 }

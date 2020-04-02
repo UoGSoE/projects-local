@@ -2,14 +2,14 @@
 
 namespace Tests\Feature\Admin;
 
-use App\User;
 use App\Course;
 use App\Project;
-use Tests\TestCase;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\UploadedFile;
 use Spatie\Activitylog\Models\Activity;
+use Tests\TestCase;
 
 class CourseEnrollmentTest extends TestCase
 {

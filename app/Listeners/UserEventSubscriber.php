@@ -26,5 +26,4 @@ class UserEventSubscriber
             'App\Listeners\UserEventSubscriber@onUserLogin'
         );
     }
-
 }

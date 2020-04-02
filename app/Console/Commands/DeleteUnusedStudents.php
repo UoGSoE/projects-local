@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\User;
+use Illuminate\Console\Command;
 
 class DeleteUnusedStudents extends Command
 {
@@ -47,7 +47,7 @@ class DeleteUnusedStudents extends Command
                 return;
             }
 
-            \Log::info('Auto-removed student account : ' . $student->username);
+            \Log::info('Auto-removed student account : '.$student->username);
             $student->delete();
         });
     }

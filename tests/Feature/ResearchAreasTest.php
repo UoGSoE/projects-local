@@ -2,11 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\User;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\ResearchArea;
+use App\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
 class ResearchAreasTest extends TestCase
 {
@@ -41,7 +41,7 @@ class ResearchAreasTest extends TestCase
         $admin = create(User::class, ['is_admin' => true]);
 
         $response = $this->actingAs($admin)->postJson(route('researcharea.store'), [
-            'title' => 'SHARKS WITH LASERS'
+            'title' => 'SHARKS WITH LASERS',
         ]);
 
         $response->assertStatus(201);
@@ -71,7 +71,7 @@ class ResearchAreasTest extends TestCase
         $area2 = create(ResearchArea::class);
 
         $response = $this->actingAs($admin)->postJson(route('researcharea.update', $area1->id), [
-            'title' => 'TROUT MASK REPLICA'
+            'title' => 'TROUT MASK REPLICA',
         ]);
 
         $response->assertStatus(200);
@@ -85,14 +85,14 @@ class ResearchAreasTest extends TestCase
         $area1 = create(ResearchArea::class, ['title' => 'HELLO']);
 
         $response = $this->actingAs($admin)->postJson(route('researcharea.store'), [
-            'title' => ''
+            'title' => '',
         ]);
 
         $response->assertStatus(422);
         $this->assertCount(1, ResearchArea::all());
 
         $response = $this->actingAs($admin)->postJson(route('researcharea.update', $area1->id), [
-            'title' => ''
+            'title' => '',
         ]);
 
         $response->assertStatus(422);

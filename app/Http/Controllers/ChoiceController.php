@@ -16,7 +16,7 @@ class ChoiceController extends Controller
         }
 
         $data = $request->validate([
-            'choices' => 'required|array|size:' . config('projects.required_choices'),
+            'choices' => 'required|array|size:'.config('projects.required_choices'),
             'research_area' => 'required',
         ]);
 
@@ -34,13 +34,14 @@ class ChoiceController extends Controller
             return $project->title;
         })->implode(', ');
 
-        event(new SomethingNoteworthyHappened($request->user(), 'Applied for projects ' . $titles));
+        event(new SomethingNoteworthyHappened($request->user(), 'Applied for projects '.$titles));
 
         if ($request->wantsJson()) {
             return response()->json([
                 'message' => 'Choices submitted',
             ]);
         }
+
         return redirect()->route('thank_you');
     }
 
