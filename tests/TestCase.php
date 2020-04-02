@@ -2,11 +2,11 @@
 
 namespace Tests;
 
-use PHPUnit\Framework\Assert;
-use Illuminate\Foundation\Testing\TestResponse;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
-use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use Illuminate\Foundation\Testing\TestResponse;
+use PHPUnit\Framework\Assert;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -20,10 +20,10 @@ abstract class TestCase extends BaseTestCase
             return $this->original->getData()[$key];
         });
         EloquentCollection::macro('assertContains', function ($value) {
-            Assert::assertTrue($this->contains($value), "Failed asserting that the collection contains the specified value.");
+            Assert::assertTrue($this->contains($value), 'Failed asserting that the collection contains the specified value.');
         });
         EloquentCollection::macro('assertNotContains', function ($value) {
-            Assert::assertFalse($this->contains($value), "Failed asserting that the collection does not contain the specified value.");
+            Assert::assertFalse($this->contains($value), 'Failed asserting that the collection does not contain the specified value.');
         });
         EloquentCollection::macro('assertEquals', function ($items) {
             Assert::assertEquals(count($this), count($items));

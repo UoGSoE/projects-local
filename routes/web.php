@@ -34,7 +34,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('/impersonate', 'Admin\ImpersonationController@destroy')->name('impersonate.stop');
 
     Route::group(['middleware' => 'admin', 'prefix' => '/admin'], function () {
-
         Route::post('/api/user/find', 'Api\UserController@show')->name('api.user.find');
         Route::post('/api/user', 'Api\UserController@store')->name('api.user.store');
         Route::post('/api/user/{id}', 'Api\UserController@update')->name('api.user.update');
@@ -80,7 +79,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::delete('/students/remove/postgrad', 'Admin\BulkRemovalController@postgrads')->name('students.remove_postgrad');
         Route::delete('/students/remove-all', 'Admin\BulkRemovalController@all')->name('students.remove_all');
 
-        /** Exports */
+        /* Exports */
         Route::get('/export/projects/{category}/{format}', 'Admin\Exports\ProjectController@export')
             ->name('export.projects');
 

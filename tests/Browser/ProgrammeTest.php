@@ -2,12 +2,12 @@
 
 namespace Tests\Browser;
 
-use App\User;
 use App\Programme;
 use App\Project;
-use Tests\DuskTestCase;
-use Laravel\Dusk\Browser;
+use App\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Laravel\Dusk\Browser;
+use Tests\DuskTestCase;
 
 class ProgrammeTest extends DuskTestCase
 {
@@ -40,7 +40,7 @@ class ProgrammeTest extends DuskTestCase
                     ->assertSee('UPDATED PROGRAMME')
                     ->click('#add-programme')
                     ->assertSee('Create new programme')
-                    ->type('title', "NEW PROGRAMME")
+                    ->type('title', 'NEW PROGRAMME')
                     ->select('category', 'postgrad')
                     ->press('Create Programme')
                     ->assertUrlIs(route('admin.programme.index'))
@@ -55,8 +55,7 @@ class ProgrammeTest extends DuskTestCase
                     ->press('Confirm')
                     ->pause(200)
                     ->assertUrlIs(route('admin.programme.index'))
-                    ->assertDontSee('NEW PROGRAMME')
-                    ;
+                    ->assertDontSee('NEW PROGRAMME');
         });
     }
 }

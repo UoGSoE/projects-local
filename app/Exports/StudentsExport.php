@@ -13,8 +13,8 @@ class StudentsExport implements FromCollection
     }
 
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Collection
+     */
     public function collection()
     {
         return User::ofType($this->type)
@@ -28,6 +28,7 @@ class StudentsExport implements FromCollection
                 $choice3 = $student->projects->where('pivot.choice', 3)->first();
                 $choice4 = $student->projects->where('pivot.choice', 4)->first();
                 $choice5 = $student->projects->where('pivot.choice', 5)->first();
+
                 return [
                     'matric' => $student->matric,
                     'surname' => $student->surname,
@@ -46,7 +47,7 @@ class StudentsExport implements FromCollection
                     'choice_4' => optional($choice4)->id,
                     'choice_4_title' => optional($choice4)->title,
                     'choice_5' => optional($choice5)->id,
-                    'choice_5_title' => optional($choice5)->title
+                    'choice_5_title' => optional($choice5)->title,
                 ];
             })
             ->prepend([

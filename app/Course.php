@@ -2,8 +2,8 @@
 
 namespace App;
 
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Course extends Model
 {
@@ -46,7 +46,7 @@ class Course extends Model
         })->map(function ($row) {
             $username = $this->joinMatricAndFirstInitial($row);
             $user = User::where('username', '=', $username)->first();
-            if (!$user) {
+            if (! $user) {
                 $user = new User([
                     'username' => $username,
                     'password' => bcrypt(Str::random(64)),
@@ -54,9 +54,10 @@ class Course extends Model
             }
             $user->surname = $row[1];
             $user->forenames = $row[2];
-            $user->email = $username . '@student.gla.ac.uk';
+            $user->email = $username.'@student.gla.ac.uk';
             $user->course_id = $this->id;
             $user->save();
+
             return $user->id;
         });
     }
@@ -68,6 +69,6 @@ class Course extends Model
 
     protected function joinMatricAndFirstInitial($row)
     {
-        return $row[0] . strtolower(substr($row[1], 0, 1));
+        return $row[0].strtolower(substr($row[1], 0, 1));
     }
 }

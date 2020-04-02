@@ -14,13 +14,14 @@ class ProgrammesExport implements FromCollection
             ->withCount('projects')
             ->get()
             ->each->append('places_count', 'accepted_count');
+
         return $programmes->map(function ($programme, $key) {
             return [
-                'title' => $programme["title"],
-                'category' => $programme["category"],
-                'projects_count' => $programme["projects_count"],
-                'places_count' => $programme["places_count"],
-                'accepted_count' => $programme["accepted_count"],
+                'title' => $programme['title'],
+                'category' => $programme['category'],
+                'projects_count' => $programme['projects_count'],
+                'places_count' => $programme['places_count'],
+                'accepted_count' => $programme['accepted_count'],
             ];
         })
         ->prepend([
@@ -28,7 +29,7 @@ class ProgrammesExport implements FromCollection
             'Category',
             'Projects',
             'Places',
-            'Accepted'
+            'Accepted',
         ]);
     }
 }

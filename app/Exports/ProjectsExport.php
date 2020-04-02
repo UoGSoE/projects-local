@@ -13,8 +13,8 @@ class ProjectsExport implements FromCollection
     }
 
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Collection
+     */
     public function collection()
     {
         return Project::where('category', '=', $this->category)
@@ -39,8 +39,9 @@ class ProjectsExport implements FromCollection
                     'pre_req' => $project->pre_req,
                 ];
                 foreach ($acceptedStudents as $key => $student) {
-                    $row["student_". ($key+1)] = $student->full_name;
+                    $row['student_'.($key + 1)] = $student->full_name;
                 }
+
                 return $row;
             })
             ->prepend([

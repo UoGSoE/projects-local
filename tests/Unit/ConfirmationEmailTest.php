@@ -2,12 +2,12 @@
 
 namespace Tests\Unit;
 
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Mail\ChoiceConfirmation;
-use App\User;
 use App\Project;
+use App\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
 class ConfirmationEmailTest extends TestCase
 {
@@ -22,7 +22,7 @@ class ConfirmationEmailTest extends TestCase
         $project3 = create(Project::class);
         $student->projects()->sync([
             $project1->id => ['choice' => 2],
-            $project2->id => ['choice' => 1]
+            $project2->id => ['choice' => 1],
         ]);
 
         $mail = new ChoiceConfirmation($student);

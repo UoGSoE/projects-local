@@ -60,7 +60,7 @@ return [
         'redis' => [
             'driver' => 'redis',
             'connection' => 'default',
-            'queue' => env("QUEUE_NAME", 'glasgow-projects'),
+            'queue' => env('QUEUE_NAME', 'glasgow-projects'),
             'retry_after' => 90,
         ],
 

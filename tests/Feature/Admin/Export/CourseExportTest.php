@@ -1,14 +1,16 @@
 <?php
+
 // @codingStandardsIgnoreFile
+
 namespace Tests\Feature\Admin\Export;
 
-use App\User;
 use App\Course;
-use Tests\TestCase;
-use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Exports\CoursesExport;
+use App\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Maatwebsite\Excel\Facades\Excel;
+use Tests\TestCase;
 
 class CourseExportTest extends TestCase
 {
@@ -45,7 +47,7 @@ class CourseExportTest extends TestCase
         });
     }
 
-        /** @test */
+    /** @test */
     public function an_admin_can_download_an_xlsx_of_all_courses()
     {
         Excel::fake();

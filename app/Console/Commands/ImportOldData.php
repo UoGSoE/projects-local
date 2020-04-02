@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Imports\OldDataImporter;
+use Illuminate\Console\Command;
 
 class ImportOldData extends Command
 {
@@ -38,8 +38,8 @@ class ImportOldData extends Command
      */
     public function handle()
     {
-        if (!file_exists($this->argument('filename'))) {
-            $this->error('File does not exist: ' . $this->argument('filename'));
+        if (! file_exists($this->argument('filename'))) {
+            $this->error('File does not exist: '.$this->argument('filename'));
             exit(1);
         }
 

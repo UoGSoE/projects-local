@@ -2,12 +2,12 @@
 
 namespace Tests\Browser;
 
-use App\User;
 use App\Course;
 use App\Project;
-use Tests\DuskTestCase;
-use Laravel\Dusk\Browser;
+use App\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Laravel\Dusk\Browser;
+use Tests\DuskTestCase;
 
 class AcceptingStudentsTest extends DuskTestCase
 {
@@ -35,8 +35,8 @@ class AcceptingStudentsTest extends DuskTestCase
                 ->assertSee($student2->full_name)
                 ->assertDontSee($student3->full_name)
                 // check we have the correct html form elements
-                ->assertSourceHas("accept-" . $student1->id)
-                ->assertSourceMissing("accept-" . $student2->id)
+                ->assertSourceHas('accept-'.$student1->id)
+                ->assertSourceMissing('accept-'.$student2->id)
                 ->assertDontSeeIn("#status-{$student1->id}", 'Yes')
                 ->assertSeeIn("#status-{$student2->id}", 'No')
                 // check making changes then undoing them effects the save button
@@ -75,8 +75,8 @@ class AcceptingStudentsTest extends DuskTestCase
                 ->assertSee($project->title)
                 ->assertSee($student1->full_name)
                 ->assertSee($student2->full_name)
-                ->assertSourceMissing("accept-" . $student1->id)
-                ->assertSourceMissing("accept-" . $student2->id)
+                ->assertSourceMissing('accept-'.$student1->id)
+                ->assertSourceMissing('accept-'.$student2->id)
                 ->assertSeeIn("#status-{$student1->id}", 'Yes')
                 ->assertSeeIn("#status-{$student2->id}", 'No')
                 ->assertDontSee('Save Changes');
@@ -106,8 +106,8 @@ class AcceptingStudentsTest extends DuskTestCase
                 ->assertSeeIn('#student-list-form', $student2->full_name)
                 ->assertDontSeeIn('#student-list-form', $student3->full_name)
                 // check we have the correct html form elements
-                ->assertSourceHas("accept-" . $student1->id)
-                ->assertSourceHas("accept-" . $student2->id)
+                ->assertSourceHas('accept-'.$student1->id)
+                ->assertSourceHas('accept-'.$student2->id)
                 // check making changes then undoing them effects the save button
                 ->assertDontSee('Save Changes')
                 ->check("accept-{$student1->id}")
@@ -119,8 +119,8 @@ class AcceptingStudentsTest extends DuskTestCase
                 ->press('Save Changes')
                 ->pause(200)
                 ->visit(route('project.show', $project->id))
-                ->assertSourceHas("accept-" . $student1->id)
-                ->assertSourceHas("accept-" . $student2->id);
+                ->assertSourceHas('accept-'.$student1->id)
+                ->assertSourceHas('accept-'.$student2->id);
             $this->assertTrue($student2->isAccepted());
             $this->assertFalse($student1->isAccepted());
         });
@@ -138,15 +138,15 @@ class AcceptingStudentsTest extends DuskTestCase
 
             $browser->loginAs($admin)
                 ->visit(route('project.show', $project->id))
-                ->assertSourceMissing("accept-" . $student1->id)
-                ->assertSourceHas("accept-" . $student2->id)
+                ->assertSourceMissing('accept-'.$student1->id)
+                ->assertSourceHas('accept-'.$student2->id)
                 ->assertSeeIn('.select', $student1->full_name)
                 ->select('student_id', $student1->id)
                 ->press('Allocate & Accept')
                 ->pause(200)
                 ->visit(route('project.show', $project->id))
-                ->assertSourceHas("accept-" . $student1->id)
-                ->assertSourceHas("accept-" . $student2->id);
+                ->assertSourceHas('accept-'.$student1->id)
+                ->assertSourceHas('accept-'.$student2->id);
             $this->assertTrue($student1->isAccepted());
             $this->assertFalse($student2->isAccepted());
         });

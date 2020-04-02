@@ -17,7 +17,7 @@ class ProjectStats
     }
 
     /**
-     * Used to json-ify all the extra columns admins need to see in the staff list :'-/
+     * Used to json-ify all the extra columns admins need to see in the staff list :'-/.
      *
      * @return void
      */
@@ -40,6 +40,7 @@ class ProjectStats
         $user['second_ugrad_etc_allocated'] = $this->secondUgradAllocated('SIT/UESTC');
         $user['second_pgrad_active'] = $this->secondPgradActive();
         $user['second_pgrad_allocated'] = $this->secondPgradAllocated();
+
         return $user;
     }
 

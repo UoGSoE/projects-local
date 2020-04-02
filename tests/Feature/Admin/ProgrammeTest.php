@@ -2,12 +2,12 @@
 
 namespace Tests\Feature\Admin;
 
-use App\User;
-use App\Project;
 use App\Programme;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Project;
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 
 class ProgrammeTest extends TestCase
 {
@@ -52,7 +52,7 @@ class ProgrammeTest extends TestCase
         $response = $this->actingAs($admin)->get(route('admin.programme.create'));
 
         $response->assertSuccessful();
-        $response->assertSee("Create new programme");
+        $response->assertSee('Create new programme');
     }
 
     /** @test */
@@ -61,7 +61,7 @@ class ProgrammeTest extends TestCase
         $admin = create(User::class, ['is_admin' => true]);
 
         $response = $this->actingAs($admin)->post(route('admin.programme.store'), [
-            'title' => "NEW PROGRAMME",
+            'title' => 'NEW PROGRAMME',
             'category' => 'undergrad',
         ]);
 
@@ -81,7 +81,7 @@ class ProgrammeTest extends TestCase
         $response = $this->actingAs($admin)->get(route('admin.programme.edit', $programme->id));
 
         $response->assertSuccessful();
-        $response->assertSee("Edit programme");
+        $response->assertSee('Edit programme');
     }
 
     /** @test */
@@ -91,7 +91,7 @@ class ProgrammeTest extends TestCase
         $programme = create(Programme::class);
 
         $response = $this->actingAs($admin)->post(route('admin.programme.update', $programme->id), [
-            'title' => "UPDATED PROGRAMME",
+            'title' => 'UPDATED PROGRAMME',
             'category' => 'undergrad',
         ]);
 
@@ -119,7 +119,6 @@ class ProgrammeTest extends TestCase
         $this->assertCount(1, Programme::all());
         $this->assertEquals($programme->title, $programme->fresh()->title);
     }
-
 
     /** @test */
     public function admins_can_delete_an_existing_programme()

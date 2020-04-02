@@ -2,10 +2,10 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Resources\Project;
 use App\Http\Resources\ActivityLog;
-use Spatie\Activitylog\Models\Activity;
+use App\Http\Resources\Project;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Spatie\Activitylog\Models\Activity;
 
 class StaffMember extends JsonResource
 {
@@ -19,7 +19,7 @@ class StaffMember extends JsonResource
             'created' => $this->created_at->format('Y-m-d H:i'),
             'updated' => $this->updated_at->format('Y-m-d H:i'),
             'projects' => Project::collection($this->staffProjects),
-            'logs' => ActivityLog::collection(Activity::where('causer_id', '=', $this->id)->get())
+            'logs' => ActivityLog::collection(Activity::where('causer_id', '=', $this->id)->get()),
         ];
     }
 
@@ -27,7 +27,7 @@ class StaffMember extends JsonResource
     {
         $response->withHeaders([
             'Content-Type' => 'application/json',
-            'Content-Disposition' => 'attachment; filename="project_staff_' . $this->username . '.json"',
+            'Content-Disposition' => 'attachment; filename="project_staff_'.$this->username.'.json"',
         ]);
     }
 }

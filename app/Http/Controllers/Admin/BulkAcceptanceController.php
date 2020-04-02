@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\User;
-use App\Project;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Events\SomethingNoteworthyHappened;
+use App\Http\Controllers\Controller;
+use App\Project;
+use App\User;
+use Illuminate\Http\Request;
 
 class BulkAcceptanceController extends Controller
 {
@@ -24,7 +24,7 @@ class BulkAcceptanceController extends Controller
 
         event(new SomethingNoteworthyHappened(
             $request->user(),
-            "Bulk accepted " . count($request->students) . " students"
+            'Bulk accepted '.count($request->students).' students'
         ));
 
         return redirect()->back()->with('success', 'Students Accepted');

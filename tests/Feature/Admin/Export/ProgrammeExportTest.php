@@ -1,12 +1,14 @@
 <?php
+
 // @codingStandardsIgnoreFile
+
 namespace Tests\Feature\Admin\Export;
 
-use App\User;
-use App\Programme;
-use Tests\TestCase;
 use App\Exports\ProgrammesExport;
+use App\Programme;
+use App\User;
 use Maatwebsite\Excel\Facades\Excel;
+use Tests\TestCase;
 
 class ProgrammeExportTest extends TestCase
 {
@@ -41,7 +43,7 @@ class ProgrammeExportTest extends TestCase
         });
     }
 
-        /** @test */
+    /** @test */
     public function an_admin_can_download_an_xlsx_of_all_programmes()
     {
         Excel::fake();

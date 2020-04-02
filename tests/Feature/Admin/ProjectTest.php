@@ -2,15 +2,15 @@
 
 namespace Tests\Feature\Admin;
 
-use App\User;
 use App\Course;
-use App\Project;
-use App\Programme;
-use Tests\TestCase;
 use App\Mail\AcceptedOntoProject;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Programme;
+use App\Project;
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Mail;
+use Tests\TestCase;
 
 class ProjectTest extends TestCase
 {
@@ -156,7 +156,7 @@ class ProjectTest extends TestCase
             ],
             'delete' => [
                 $ugProject3->id,
-            ]
+            ],
         ]);
 
         $response->assertRedirect(route('admin.project.index', ['category' => 'undergrad']));

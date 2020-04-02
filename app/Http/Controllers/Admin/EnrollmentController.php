@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\User;
 use App\Course;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use Ohffs\SimpleSpout\ExcelSheet;
-use App\Http\Controllers\Controller;
 use App\Events\SomethingNoteworthyHappened;
+use App\Http\Controllers\Controller;
+use App\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Ohffs\SimpleSpout\ExcelSheet;
 
 class EnrollmentController extends Controller
 {
@@ -45,7 +45,7 @@ class EnrollmentController extends Controller
 
         if (request()->wantsJson()) {
             return response()->json([
-                'message' => 'Students Removed'
+                'message' => 'Students Removed',
             ]);
         }
 

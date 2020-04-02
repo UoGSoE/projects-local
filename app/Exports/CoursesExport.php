@@ -14,12 +14,12 @@ class CoursesExport implements FromCollection
             ->get()
             ->map(function ($course, $key) {
                 return [
-                    'code' => $course["code"],
-                    'title' => $course["title"],
-                    'type' => $course["type"],
-                    'application_deadline' => $course["application_deadline"]->format('d/m/Y'),
-                    'projects_count' => $course["projects_count"],
-                    'students_count' => $course["students_count"],
+                    'code' => $course['code'],
+                    'title' => $course['title'],
+                    'type' => $course['type'],
+                    'application_deadline' => $course['application_deadline']->format('d/m/Y'),
+                    'projects_count' => $course['projects_count'],
+                    'students_count' => $course['students_count'],
                 ];
             })
             ->prepend([
@@ -28,7 +28,7 @@ class CoursesExport implements FromCollection
                 'Type',
                 'Deadline',
                 'No. Projects',
-                'No. Students'
+                'No. Students',
             ]);
     }
 }

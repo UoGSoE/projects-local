@@ -1,14 +1,16 @@
 <?php
+
 // @codingStandardsIgnoreFile
+
 namespace Tests\Feature\Admin\Export;
 
-use App\User;
 use App\Course;
-use App\Project;
-use Tests\TestCase;
 use App\Exports\StaffExport;
-use Maatwebsite\Excel\Facades\Excel;
+use App\Project;
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Maatwebsite\Excel\Facades\Excel;
+use Tests\TestCase;
 
 class StaffExportTest extends TestCase
 {

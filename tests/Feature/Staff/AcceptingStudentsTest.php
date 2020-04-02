@@ -2,13 +2,13 @@
 
 namespace Tests\Feature\Staff;
 
-use App\User;
 use App\Course;
-use App\Project;
-use Tests\TestCase;
 use App\Mail\AcceptedOntoProject;
-use Illuminate\Support\Facades\Mail;
+use App\Project;
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
+use Tests\TestCase;
 
 class AcceptingStudentsTest extends TestCase
 {

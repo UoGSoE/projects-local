@@ -18,6 +18,7 @@ class Administrator
         if ($request->user()->isAdmin()) {
             return $next($request);
         }
+
         return redirect('/');
     }
 }

@@ -2,17 +2,17 @@
 
 namespace Tests\Feature;
 
-use App\User;
 use App\Course;
-use App\Project;
-use App\Programme;
-use Tests\TestCase;
-use Illuminate\Http\UploadedFile;
-use Spatie\Activitylog\Models\Activity;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Mail;
 use App\Mail\AcceptedOntoProject;
+use App\Programme;
+use App\Project;
+use App\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Mail;
+use Spatie\Activitylog\Models\Activity;
+use Tests\TestCase;
 
 class ProjectPlacementImportTest extends TestCase
 {
@@ -26,7 +26,7 @@ class ProjectPlacementImportTest extends TestCase
         $response = $this->actingAs($admin)->get(route('admin.import.placements.show'));
 
         $response->assertOk();
-        $response->assertSee("Import placement projects");
+        $response->assertSee('Import placement projects');
     }
 
     /** @test */
@@ -60,7 +60,7 @@ class ProjectPlacementImportTest extends TestCase
         $response->assertRedirect(route('admin.import.placements.show'));
         $log = Activity::first();
         $this->assertTrue($log->causer->is($admin));
-        $this->assertEquals("Imported placement projects", $log->description);
+        $this->assertEquals('Imported placement projects', $log->description);
         $project = Project::first();
         $this->assertEquals('3D Printed Scaffolds for Bone Regeneration', $project->title);
         $this->assertEquals('For XXXXX  XXXXX ONLY - MEng Placement', $project->description);

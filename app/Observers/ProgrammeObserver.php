@@ -2,8 +2,8 @@
 
 namespace App\Observers;
 
-use App\Programme;
 use App\Events\SomethingNoteworthyHappened;
+use App\Programme;
 
 class ProgrammeObserver
 {

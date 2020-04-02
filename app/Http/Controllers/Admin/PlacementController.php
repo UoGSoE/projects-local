@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\User;
 use App\Course;
-use App\Project;
-use App\Programme;
-use Illuminate\Http\Request;
-use Ohffs\SimpleSpout\ExcelSheet;
-use Illuminate\Support\MessageBag;
-use App\Http\Controllers\Controller;
 use App\Events\SomethingNoteworthyHappened;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Http\Controllers\Controller;
 use App\Imports\PlacementDataExtractor;
+use App\Programme;
+use App\Project;
+use App\User;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
+use Illuminate\Support\MessageBag;
+use Ohffs\SimpleSpout\ExcelSheet;
 
 class PlacementController extends Controller
 {
@@ -40,6 +40,7 @@ class PlacementController extends Controller
             $data = $extractor->extract();
             if ($extractor->hasErrors()) {
                 $this->errors->merge($extractor->getErrors());
+
                 return;
             }
 

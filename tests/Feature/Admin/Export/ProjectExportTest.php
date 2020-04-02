@@ -1,16 +1,18 @@
 <?php
+
 // @codingStandardsIgnoreFile
+
 namespace Tests\Feature\Admin\Export;
 
-use App\User;
-use App\Project;
-use Tests\TestCase;
-use App\Exports\ProjectsExport;
-use Ohffs\SimpleSpout\ExcelSheet;
 use App\Exports\ProjectListExporter;
-use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Exports\ProjectsExport;
+use App\Project;
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Maatwebsite\Excel\Facades\Excel;
+use Ohffs\SimpleSpout\ExcelSheet;
+use Tests\TestCase;
 
 class ProjectExportTest extends TestCase
 {

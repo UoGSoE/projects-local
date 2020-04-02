@@ -46,6 +46,5 @@ class ProjectAcceptanceController extends Controller
         $students->each(function ($student) use ($project) {
             $project->unAccept($student);
         });
-        return;
     }
 }

@@ -64,7 +64,7 @@ class Project extends Model
 
     public function hasSecondSupervisor()
     {
-        return !is_null($this->second_supervisor_id);
+        return ! is_null($this->second_supervisor_id);
     }
 
     public function doesntHaveAcceptedStudent($student)
@@ -90,6 +90,7 @@ class Project extends Model
         if ($project->doesntHaveAcceptedStudent($data['student'])) {
             $project->addAndAccept($data['student']);
         }
+
         return $project;
     }
 
@@ -98,7 +99,8 @@ class Project extends Model
         return $this->students->map(function ($student) {
             $base = $student->toArray();
             $base['choice'] = intval($student->pivot->choice);
-            $base['is_accepted'] = (boolean)$student->pivot->is_accepted;
+            $base['is_accepted'] = (bool) $student->pivot->is_accepted;
+
             return $base;
         })->toJson();
     }
@@ -113,6 +115,7 @@ class Project extends Model
         if ($this->hasSecondSupervisor()) {
             return $this->secondSupervisor->full_name;
         }
+
         return '';
     }
 
@@ -133,12 +136,12 @@ class Project extends Model
 
     public function isInactive()
     {
-        return !$this->is_active;
+        return ! $this->is_active;
     }
 
     public function isActive()
     {
-        return !$this->isInactive();
+        return ! $this->isInactive();
     }
 
     public function markActive()
@@ -171,6 +174,7 @@ class Project extends Model
         if ($type) {
             return $type == $this->type;
         }
+
         return true;
     }
 

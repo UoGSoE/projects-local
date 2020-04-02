@@ -2,15 +2,15 @@
 
 namespace Tests\Feature;
 
-use App\User;
 use App\Course;
-use App\Project;
-use App\Programme;
-use Tests\TestCase;
 use App\Imports\OldDataImporter;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Programme;
+use App\Project;
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Artisan;
+use Tests\TestCase;
 
 class ImportOldDataTest extends TestCase
 {
@@ -19,7 +19,7 @@ class ImportOldDataTest extends TestCase
     /** @test */
     public function we_can_import_old_project_data_from_json_data()
     {
-        $jsonString = file_get_contents(__DIR__ . '/data/old_undergrad_projects.json');
+        $jsonString = file_get_contents(__DIR__.'/data/old_undergrad_projects.json');
 
         (new OldDataImporter($jsonString))->import();
 
@@ -78,7 +78,7 @@ class ImportOldDataTest extends TestCase
     /** @test */
     public function we_can_run_an_artisan_command_to_import_the_data()
     {
-        $filename = __DIR__ . '/data/old_undergrad_projects.json';
+        $filename = __DIR__.'/data/old_undergrad_projects.json';
 
         Artisan::call('projects:import-old', ['filename' => $filename]);
 

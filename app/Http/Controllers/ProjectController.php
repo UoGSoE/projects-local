@@ -80,6 +80,7 @@ class ProjectController extends Controller
     public function edit($id)
     {
         $project = Project::findOrFail($id);
+
         return view('project.edit', [
             'project' => $project,
             'programmes' => Programme::where('category', '=', $project->category)->orderBy('title')->get(),

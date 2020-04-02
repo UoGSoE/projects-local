@@ -2,11 +2,11 @@
 
 namespace Tests\Browser;
 
-use Tests\DuskTestCase;
-use Laravel\Dusk\Browser;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use App\User;
 use App\Course;
+use App\User;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Laravel\Dusk\Browser;
+use Tests\DuskTestCase;
 
 class RemoveStudentTest extends DuskTestCase
 {
@@ -33,10 +33,10 @@ class RemoveStudentTest extends DuskTestCase
                 ->press("#remove-student-{$student1->id}")
                 ->pause(400)
                 ->assertDontSee($student1->full_name)
-                ->press("Remove All Students")
+                ->press('Remove All Students')
                 ->pause(100)
-                ->assertSee("Do you really want to remove all students")
-                ->press("Confirm")
+                ->assertSee('Do you really want to remove all students')
+                ->press('Confirm')
                 ->pause(300)
                 ->assertDontSee($student2->full_name)
                 ->assertDontSee($student3->full_name);

@@ -41,6 +41,7 @@ class ProjectListExporter
             foreach ($acceptedStudents as $student) {
                 $row[] = $student->full_name;
             }
+
             return $row;
         })->prepend([
             'ID',

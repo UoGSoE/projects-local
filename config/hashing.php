@@ -18,4 +18,3 @@ return [
     'driver' => 'bcrypt',
 
 ];
-
