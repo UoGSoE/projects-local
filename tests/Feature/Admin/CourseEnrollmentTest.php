@@ -18,6 +18,7 @@ class CourseEnrollmentTest extends TestCase
     /** @test */
     public function an_admin_can_see_the_page_to_import_students_to_a_course()
     {
+        $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_admin' => true]);
         $course = create(Course::class);
 
