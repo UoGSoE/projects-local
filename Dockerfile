@@ -42,7 +42,11 @@ WORKDIR /var/www/html
 USER nobody
 
 #- make paths that the laravel composer.json expects to exist
-RUN mkdir -p database/seeds database/factories
+RUN mkdir -p database
+#- copy the seeds and factories so that composer generates autoload entries for them
+COPY database/seeds database/seeds
+COPY database/factories database/factories
+
 
 COPY composer.* ./
 
@@ -52,7 +56,6 @@ RUN composer install \
     --no-scripts \
     --no-dev \
     --prefer-dist
-
 
 ### QA php dependencies
 FROM prod-composer as qa-composer
@@ -64,7 +67,6 @@ RUN composer install \
     --no-plugins \
     --no-scripts \
     --prefer-dist
-
 
 ### And build the prod app
 FROM dev as prod
@@ -94,7 +96,7 @@ COPY . /var/www/html
 RUN rm -fr /var/www/html/bootstrap/cache/*.php
 
 #- If horizon is installed force it to rebuild it's public assets
-RUN if grep -q horizon composer.json; then php /var/www/html/artisan horizon:publish; fi
+RUN if grep -q horizon composer.json; then php /var/www/html/artisan horizon:publish ; fi
 
 #- Symlink the docker secret to the local .env so Laravel can see it
 RUN ln -sf /run/secrets/.env /var/www/html/.env
