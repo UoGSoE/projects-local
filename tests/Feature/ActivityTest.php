@@ -31,6 +31,7 @@ class ActivityTest extends TestCase
     /** @test */
     public function admins_can_see_the_activity_log()
     {
+        $this->withoutExceptionHandling();
         $user = create(User::class);
         $admin = create(User::class, ['is_admin' => true]);
 
