@@ -297,7 +297,12 @@ export default {
           window.location = route("thank_you");
         })
         .catch(error => {
-          this.submitButtonText = "Error submitting choices - sorry";
+          let message = "Error submitting choices - sorry";
+          console.log('hey', error.response.data);
+          if (error.response.data.errors.hasOwnProperty('supervisor')) {
+            message = 'You cannot choose more than three projects from the same supervisor';
+          }
+          this.submitButtonText = message;
           this.submissionError = true;
           console.log(error);
         });

@@ -191,6 +191,53 @@ class ApplicationTest extends TestCase
     }
 
     /** @test */
+    public function students_cant_apply_for_more_than_three_projects_from_the_same_supervisor()
+    {
+        Mail::fake();
+        // given we have a student on a course
+        $student = create(User::class, ['is_staff' => false]);
+        $supervisor = create(User::class, ['is_staff' => true]);
+        $course = create(Course::class);
+        $course->students()->save($student);
+
+        $area1 = create(ResearchArea::class);
+        $area2 = create(ResearchArea::class);
+
+        $project1 = create(Project::class, ['staff_id' => $supervisor->id]);
+        $project2 = create(Project::class, ['staff_id' => $supervisor->id]);
+        $project3 = create(Project::class, ['staff_id' => $supervisor->id]);
+        $project4 = create(Project::class, ['staff_id' => $supervisor->id]);
+        $project5 = create(Project::class);
+        $course->projects()->sync([$project1->id, $project2->id, $project3->id, $project4->id, $project5->id]);
+        // and given that the required number to apply for is 2
+        config(['projects.required_choices' => 5]);
+
+        // then if they apply for 2
+        $response = $this->actingAs($student)->postJson(route('projects.choose'), [
+            'choices' => [
+                1 => $project3->id,
+                2 => $project1->id,
+                3 => $project2->id,
+                4 => $project5->id,
+                5 => $project4->id,
+            ],
+            'research_area' => $area2->title,
+        ]);
+
+        // then they get told they have chosen too many for $supervisor
+        $response->assertStatus(422);
+        $response->assertJson([
+            'message' => 'The given data was invalid.',
+            'errors' => [
+                'supervisor' => [
+                    'You cannot choose more than three projects with the same supervisor',
+                ],
+            ],
+        ]);
+        $this->assertCount(0, $student->projects);
+    }
+
+    /** @test */
     public function postgrad_students_must_give_a_research_area_alongside_their_choices()
     {
         Mail::fake();

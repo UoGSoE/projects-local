@@ -8,6 +8,7 @@
 <p class="subtitle">
     Some blurb about choosing things
 </p>
+<p><strong>Note:</strong> you cannot choose more than three projects from the same supervisor.</p>
 
 @if (Auth::user()->isntOnACourse())
 <div class="notification is-info">

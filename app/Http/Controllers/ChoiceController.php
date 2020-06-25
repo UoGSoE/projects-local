@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\SomethingNoteworthyHappened;
-use App\Mail\ChoiceConfirmation;
+use App\Project;
 use Illuminate\Http\Request;
+use App\Mail\ChoiceConfirmation;
 use Illuminate\Support\Facades\Mail;
+use App\Events\SomethingNoteworthyHappened;
+use Illuminate\Validation\ValidationException;
 
 class ChoiceController extends Controller
 {
@@ -21,10 +23,23 @@ class ChoiceController extends Controller
         ]);
 
         $choices = [];
+        $projectList = collect([]);
         foreach ($request->choices as $choice => $projectId) {
             $choices[$projectId] = ['choice' => $choice];
+            $projectList->push(Project::find($projectId));
         }
 
+        // check that they aren't trying to choose more than three projects with the same supervisor
+        $nooneHasMoreThanThreeProjects = $projectList->pluck('staff_id')
+                ->countBy()
+                ->every(function ($total, $supervisorId) {
+                    return $total < 4;
+                });
+        if (! $nooneHasMoreThanThreeProjects) {
+            throw ValidationException::withMessages([
+                'supervisor' => 'You cannot choose more than three projects with the same supervisor',
+            ]);
+        }
         $request->user()->projects()->sync($choices);
         $request->user()->update(['research_area' => $data['research_area']]);
 
