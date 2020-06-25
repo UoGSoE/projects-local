@@ -141,3 +141,6 @@ networks:
   default:
   proxy:
     external: true
+
+volumes:
+  mysql:
