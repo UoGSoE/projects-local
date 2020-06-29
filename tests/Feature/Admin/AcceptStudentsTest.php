@@ -138,6 +138,7 @@ class AcceptStudentsTest extends TestCase
         $response->assertSuccessful();
         $response->assertSee($ugProject1->title);
         $response->assertSee($ugProject2->title);
+        $response->assertSee($ugProject1->owner->full_name);
         $response->assertDontSee($pgProject1->title);
         $response->assertDontSee($pgProject2->title);
         $response->assertSee($student1->full_name);

@@ -38,6 +38,7 @@
                     @endif
                     {{ $student->projects->where('pivot.choice', $choice)->first()->title }}
                     (max {{ $student->projects->where('pivot.choice', $choice)->first()->max_students }})
+                    ({{ $student->projects->where('pivot.choice', $choice)->first()->owner->full_name }})
                     @endif
                 </td>
                 @endforeach
