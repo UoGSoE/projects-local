@@ -19,7 +19,7 @@
         "sentry/sentry-laravel": "^1.7",
         "spatie/laravel-activitylog": "^3.11",
         "tightenco/ziggy": "^0.8.1",
-        "uogsoe/ldap-laravel": "^1.0",
+        "uogsoe/ldap-laravel": "^2.0",
         "laravel/ui": "^2.0",
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^6.3"
