@@ -10,6 +10,11 @@
     Note: This will <b>add</b> students to the course. Any students currently on
     the course will be left in place.
 </p>
+<p>
+    Format should be :
+    <pre>|Matric Number|Surname|Forenames|</pre> eg,
+    <pre>|1234567|Smith|Jenny|</pre>
+</p>
 
 <form method="POST" action="{{ route('admin.course.enroll', $course->id) }}" enctype="multipart/form-data">
     @csrf

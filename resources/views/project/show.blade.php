@@ -21,10 +21,16 @@
                     <td>{{ $project->title }}</td>
                 </tr>
                 @if ($project->type)
-                    <tr>
-                        <th>Type</th>
-                        <td>{{ $project->type }}</td>
-                    </tr>
+                <tr>
+                    <th>Type</th>
+                    <td>{{ $project->type }}</td>
+                </tr>
+                @endif
+                @if (auth()->user()->isAdmin())
+                <tr>
+                    <th>Last Updated</th>
+                    <td>{{ $project->updated_at->format('d/m/Y H:i') }}</td>
+                </tr>
                 @endif
                 <tr>
                     <th>Description</th>
@@ -50,27 +56,27 @@
                     <th>Owner</th>
                     <td>
                         @if (Auth::user()->isAdmin())
-                            <a href="{{ route('admin.user.show', $project->owner->id) }}">
-                                {{ $project->owner->full_name }}
-                            </a>
-                        @else
+                        <a href="{{ route('admin.user.show', $project->owner->id) }}">
                             {{ $project->owner->full_name }}
+                        </a>
+                        @else
+                        {{ $project->owner->full_name }}
                         @endif
                     </td>
                 </tr>
                 @if ($project->hasSecondSupervisor())
-                    <tr>
-                        <th>Second Supervisor</th>
-                        <td>
-                            @if (Auth::user()->isAdmin())
-                                <a href="{{ route('admin.user.show', $project->secondSupervisor->id) }}">
-                                    {{ $project->secondSupervisor->full_name }}
-                                </a>
-                            @else
-                                {{ $project->secondSupervisor->full_name }}
-                            @endif
-                        </td>
-                    </tr>
+                <tr>
+                    <th>Second Supervisor</th>
+                    <td>
+                        @if (Auth::user()->isAdmin())
+                        <a href="{{ route('admin.user.show', $project->secondSupervisor->id) }}">
+                            {{ $project->secondSupervisor->full_name }}
+                        </a>
+                        @else
+                        {{ $project->secondSupervisor->full_name }}
+                        @endif
+                    </td>
+                </tr>
                 @endif
                 <tr>
                     <th>Type</th>
@@ -84,17 +90,17 @@
                     <th>Courses</th>
                     <td>
                         <ul class="is-inline">
-                        @foreach ($project->courses as $course)
+                            @foreach ($project->courses as $course)
                             <li>
                                 @if (Auth::user()->isAdmin())
-                                    <a href="{{ route('admin.course.show', $course->id) }}">
-                                        {{ $course->code }} {{ $course->title }}
-                                    </a>
-                                @else
+                                <a href="{{ route('admin.course.show', $course->id) }}">
                                     {{ $course->code }} {{ $course->title }}
+                                </a>
+                                @else
+                                {{ $course->code }} {{ $course->title }}
                                 @endif
                             </li>
-                        @endforeach
+                            @endforeach
                         </ul>
                     </td>
                 </tr>
@@ -102,17 +108,17 @@
                     <th>Programmes</th>
                     <td>
                         <ul class="is-inline">
-                        @foreach ($project->programmes as $programme)
+                            @foreach ($project->programmes as $programme)
                             <li>
                                 @if (Auth::user()->isAdmin())
-                                    <a href="{{ route('admin.programme.edit', $programme->id) }}">
-                                        {{ $programme->title }}
-                                    </a>
-                                @else
+                                <a href="{{ route('admin.programme.edit', $programme->id) }}">
                                     {{ $programme->title }}
+                                </a>
+                                @else
+                                {{ $programme->title }}
                                 @endif
                             </li>
-                        @endforeach
+                            @endforeach
                         </ul>
                     </td>
                 </tr>
@@ -124,8 +130,8 @@
         <student-list :project='@json($project)' :students='{{ $project->studentsAsJson() }}' v-on:showprofile="selectedStudent = $event"></student-list>
 
         @if (Auth::user()->isAdmin())
-            <hr />
-            <manual-student-allocator :students='@json($students)' :project='@json($project)'></manual-student-allocator>
+        <hr />
+        <manual-student-allocator :students='@json($students)' :project='@json($project)'></manual-student-allocator>
         @endif
     </div>
 </div>

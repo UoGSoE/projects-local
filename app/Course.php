@@ -44,7 +44,7 @@ class Course extends Model
         return collect($spreadsheetRows)->filter(function ($row) {
             return $this->firstColumnIsAMatric($row);
         })->map(function ($row) {
-            $username = $this->joinMatricAndFirstInitial($row);
+            $username = strtolower($this->joinMatricAndFirstInitial($row));
             $user = User::where('username', '=', $username)->first();
             if (! $user) {
                 $user = new User([
