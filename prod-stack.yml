@@ -119,18 +119,18 @@ services:
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
 
-  mysql:
-    image: mysql:5.7
-    deploy: *default-deploy
-    networks:
-      - default
-    volumes:
-      - mysql:/var/lib/mysql
-    environment:
-      MYSQL_DATABASE: ${PROD_DB_DATABASE}
-      MYSQL_ROOT_PASSWORD: ${PROD_DB_ROOT_PASSWORD}
-      MYSQL_USER: ${PROD_DB_USERNAME}
-      MYSQL_PASSWORD: ${PROD_DB_PASSWORD}
+  # mysql:
+  #   image: mysql:5.7
+  #   deploy: *default-deploy
+  #   networks:
+  #     - default
+  #   volumes:
+  #     - mysql:/var/lib/mysql
+  #   environment:
+  #     MYSQL_DATABASE: ${PROD_DB_DATABASE}
+  #     MYSQL_ROOT_PASSWORD: ${PROD_DB_ROOT_PASSWORD}
+  #     MYSQL_USER: ${PROD_DB_USERNAME}
+  #     MYSQL_PASSWORD: ${PROD_DB_PASSWORD}
 
 secrets:
   dotenv:
@@ -142,5 +142,5 @@ networks:
   proxy:
     external: true
 
-volumes:
-  mysql:
+# volumes:
+#   mysql:
