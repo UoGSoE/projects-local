@@ -203,7 +203,7 @@ class UserAdminTest extends TestCase
         $user = create(User::class);
 
         $response = $this->actingAs($admin)->postJson(route('api.user.update', $user->id), [
-            'email' => 'fred@example.com',
+            'email' => 'FRED@example.com',
         ]);
 
         $response->assertSuccessful();
@@ -220,8 +220,8 @@ class UserAdminTest extends TestCase
         }
         \Ldap::shouldReceive('findUser')->once()->andReturn(new LdapUser([
             0 => [
-                'uid' => ['valid123x'],
-                'mail' => ['valid@example.org'],
+                'uid' => ['valid123X'],
+                'mail' => ['VALID@example.org'],
                 'sn' => ['Valid'],
                 'givenname' => ['Miss'],
                 'telephonenumber' => ['12345'],
@@ -231,7 +231,7 @@ class UserAdminTest extends TestCase
         $admin = create(User::class, ['is_admin' => true]);
 
         $response = $this->actingAs($admin)->postJson(route('api.user.store'), [
-            'guid' => 'valid123x',
+            'guid' => 'valid123X',
         ]);
 
         $response->assertSuccessful();

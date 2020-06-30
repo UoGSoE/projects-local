@@ -65,8 +65,8 @@ class UserController extends Controller
         }
 
         $user = User::create([
-            'username' => $ldapUser->username,
-            'email' => $ldapUser->email,
+            'username' => strtolower($ldapUser->username),
+            'email' => strtolower($ldapUser->email),
             'surname' => $ldapUser->surname,
             'forenames' => $ldapUser->forenames,
             'is_staff' => ! $this->looksLikeMatric($ldapUser->username),
@@ -93,7 +93,7 @@ class UserController extends Controller
             'email' => 'required|email',
         ]);
 
-        User::findOrFail($id)->update(['email' => $request->email]);
+        User::findOrFail($id)->update(['email' => strtolower($request->email)]);
 
         return response()->json([
             'message' => 'Updated',
