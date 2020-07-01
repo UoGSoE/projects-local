@@ -162,7 +162,13 @@ export default {
   ],
 
   data() {
+    let theProjects = this.projects;
+    if (typeof theProjects === 'object') {
+      theProjects = Object.values(this.projects);
+    }
+
     return {
+      theProjects: theProjects,
       showConfirmation: false,
       openProjects: [],
       selectedStudent: null,
@@ -179,12 +185,6 @@ export default {
       },
       research_area: this.undergrad ? "N/A" : ""
     };
-  },
-
-  mounted() {
-    if (typeof this.projects === 'object') {
-
-    }
   },
 
   computed: {

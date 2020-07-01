@@ -2659,6 +2659,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 //
 //
 //
@@ -2814,7 +2816,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["projects", "programmes", "toolate", "research_areas", "user", "undergrad"],
   data: function data() {
+    var theProjects = this.projects;
+
+    if (_typeof(theProjects) === 'object') {
+      theProjects = Object.values(this.projects);
+    }
+
     return {
+      theProjects: theProjects,
       showConfirmation: false,
       openProjects: [],
       selectedStudent: null,

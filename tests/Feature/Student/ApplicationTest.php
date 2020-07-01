@@ -438,7 +438,6 @@ class ApplicationTest extends TestCase
         // they see the warning
         $response->assertSuccessful();
         $response->assertSee('email address');
-        // TODO put this back in - disabled while debugging JS
-        // $response->assertDontSee($project1->title);
+        $response->assertDontSee($project1->title);
     }
 }

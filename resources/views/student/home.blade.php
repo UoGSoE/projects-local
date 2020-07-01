@@ -32,7 +32,4 @@
 </project-list>
 @endif
 
-<div style="display:none">
-{{ $projects->toJson() }}
-</div>
 @endsection
