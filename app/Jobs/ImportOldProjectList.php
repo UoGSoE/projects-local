@@ -31,9 +31,6 @@ class ImportOldProjectList implements ShouldQueue
     public function __construct($oldProjectData)
     {
         $this->oldProjectData = $oldProjectData;
-        $this->oldProjects = Cache::remember('oldprojects', 3600, function () {
-            return Http::get(config('projects.wlm_api_url') . '/getallprojects')->json()['Data'];
-        });
     }
 
     /**
@@ -43,6 +40,10 @@ class ImportOldProjectList implements ShouldQueue
      */
     public function handle()
     {
+        $this->oldProjects = Cache::remember('oldprojects', 3600, function () {
+            return Http::get(config('projects.wlm_api_url') . '/getallprojects')->json()['Data'];
+        });
+
         collect($this->oldProjectData)->each(function ($row) {
             if (! $row) {
                 return;
