@@ -77,7 +77,7 @@ class ImportOldProjectListTest extends TestCase
     public function admins_can_upload_a_spreadsheet_which_kicks_off_the_import()
     {
         $this->withoutExceptionHandling();
-        Queue::fake();
+        Bus::fake();
         $admin = create(User::class, ['is_staff' => true, 'is_admin' => true]);
         $fakeSheetData = [
             [],
@@ -92,7 +92,7 @@ class ImportOldProjectListTest extends TestCase
         ]);
 
         $response->assertRedirect();
-        Queue::assertPushed(ImportOldProjectList::class);
+        Bus::assertDispatched(ImportOldProjectList::class);
     }
 
     /** @test */
