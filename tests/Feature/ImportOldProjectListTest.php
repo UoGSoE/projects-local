@@ -23,6 +23,10 @@ class ImportOldProjectListTest extends TestCase
     /** @test */
     public function we_can_import_old_data_from_the_wlm_based_on_an_array_of_data()
     {
+        if (env("CI")) {
+            $this->markTestSkipped('Not running in CI');
+            return;
+        }
         Http::fake([
             config('projects.wlm_api_url').'*' => Http::response([
                 'Data' => [
