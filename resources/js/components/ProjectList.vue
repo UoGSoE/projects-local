@@ -181,6 +181,12 @@ export default {
     };
   },
 
+  mounted() {
+    if (typeof this.projects === 'object') {
+
+    }
+  },
+
   computed: {
     anyProjectsChosen() {
       return (

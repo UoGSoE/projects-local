@@ -28,7 +28,7 @@
     You cannot choose any projects as the application deadline has passed.
 </div>
 @endif
-<project-list :projects='@json($projects)' :programmes='@json($programmes)' :toolate='@json(Auth::user()->isTooLate())' :research_areas='@json($researchAreas)' :user='@json(Auth::user())' :undergrad='@json(Auth::user()->isUndergrad())'>
+<project-list :projects='{{ $projects->toJson() }}' :programmes='{{ $programmes->toJson() }}' :toolate='@json(Auth::user()->isTooLate())' :research_areas='@json($researchAreas)' :user='@json(Auth::user())' :undergrad='@json(Auth::user()->isUndergrad())'>
 </project-list>
 @endif
 
