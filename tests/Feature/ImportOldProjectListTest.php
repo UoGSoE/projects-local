@@ -2,14 +2,19 @@
 
 namespace Tests\Feature;
 
+use App\Course;
 use App\User;
 use App\Project;
 use Tests\TestCase;
-use Ohffs\SimpleSpout\ExcelSheet;
 use App\Jobs\ImportOldProjectList;
+use App\Programme;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\Queue;
+use Ohffs\SimpleSpout\ExcelSheet;
 
 class ImportOldProjectListTest extends TestCase
 {
@@ -22,62 +27,92 @@ class ImportOldProjectListTest extends TestCase
             config('projects.wlm_api_url').'*' => Http::response([
                 'Data' => [
                     [
-                        "ItemType" => "Project",
-                        "AcademicSession" => "2019/2020",
-                        "Code" => "PROJ310020",
                         "Title" => "Autophage launch vehicle structures",
-                        "Submitter" => [
-                            "GUID" => "pgh6x",
-                            "Surname" => "Harkness",
-                            "Forenames" => "Patrick",
-                        ],
-                        "Courses" => [
-                            0 => "ENG4110P",
-                            1 => "ENG5041P",
-                        ],
-                        "Staff" => [
-                            "pgh6x" => [
-                                "GUID" => "pgh6x",
-                                "Surname" => "Harkness",
-                                "Forenames" => "Patrick",
-                            ],
-                        ],
-                        "Students" => [],
-                        "Approved" => "Yes",
-                        "ApprovedBy" => "",
-                        "Type" => "",
-                        "ProjectType" => "FYP",
-                        "ConfidentialFlag" => null,
                         "Programme" => "Mechanical Engineering [MEng]|Mechanical Engineering with Aeronautics [MEng]",
-                        "Description" => "
-                            Autophage rockets offer the possibility of more efficient access to space because the fuselage is used as propellant, with no dry mass left over.\r\n,
-                            \r\n,
-                            This means that the fuel must have good physical (for strength) and chemical (for energy) properties, with the structure being driven by combustion, not mechanical optimisation. The entire vehicle must withstand acceleration, vibration, and aerodynamic loads.\r\n,
-                            \r\n,
-                            This vehicle type has been proposed, but no one knows if it is possible. Would you like to start to explore this, in a blend of chemical and FE packages?,
-                        ",
+                        "Description" => "Blah de blah",
                         "Prereq" => "",
-                        "NumStudents" => 1,
-                        "Placement" => null,
-                        "StartDate" => "",
-                        "EndDate" => "",
-                        "_id" => [
-                            "\$id" => "5eea00b2e17578477b0001a6",
-                        ],
-                    ]
+                    ],
+                    [
+                        "Title" => "22Autophage launch vehicle structures",
+                        "Programme" => "22Mechanical Engineering [MEng]|Mechanical Engineering with Aeronautics [MEng]",
+                        "Description" => "22Blah de blah",
+                        "Prereq" => "22",
+                    ],
                 ]
             ], 200, []),
         ]);
         $admin = create(User::class, ['is_staff' => true, 'is_admin' => true]);
         $fakeSheetData = [
             [],
-            ['Autophage launch vehicle structures', 'pgh6x Patrick Harkness /', 'pgh6x', 'Patrick Harkness /', '1', 'ENG4110P / ENG5041P /', 'Biomedical Engineering [MEng]|Biomedical Engineering [BEng]|Electronic & Software Engineering [MEng]|Electronic & Software Engineering [BEng]|Electronics & Electrical Engineering [MEng]|Electronics & Electrical Engineering [BEng]|Mechatronics [MEng]|Mechatronics [BEng]'],
+            ['Autophage launch vehicle structures', 'pgh6x Patrick Harkness /', 'pgh6x', 'Patrick Harkness /', '1', '', 'ENG4110P / ENG5041P /', 'Biomedical Engineering [MEng]|Biomedical Engineering [BEng]|Electronic & Software Engineering [MEng]|Electronic & Software Engineering [BEng]|Electronics & Electrical Engineering [MEng]|Electronics & Electrical Engineering [BEng]|Mechatronics [MEng]|Mechatronics [BEng]'],
+            ['22Autophage launch vehicle structures', 'pgh6x Patrick Harkness /', 'pgh6x', 'Patrick Harkness /', '1', '', 'ENG4110P / ENG5041P / ENG1234', '22Biomedical Engineering [MEng]|Biomedical Engineering [BEng]|Electronic & Software Engineering [MEng]|Electronic & Software Engineering [BEng]|Electronics & Electrical Engineering [MEng]|Electronics & Electrical Engineering [BEng]|Mechatronics [MEng]|Mechatronics [BEng]'],
         ];
 
         ImportOldProjectList::dispatch($fakeSheetData);
 
-        tap(Project::first(), function ($project) {
-            $this->assertEquals('Development of Brain Computer Interface with Functctional Electrical Stimulation system', $project->title);
+        tap(Project::find(1), function ($project) {
+            $this->assertEquals('Autophage launch vehicle structures', $project->title);
+            $this->assertEquals('Blah de blah', $project->description);
+            $this->assertEquals('pgh6x', $project->owner->username);
+            $this->assertEquals(2, $project->courses()->count());
+            $this->assertEquals(8, $project->programmes()->count());
         });
+        tap(Project::find(2), function ($project) {
+            $this->assertEquals('22Autophage launch vehicle structures', $project->title);
+            $this->assertEquals('22Blah de blah', $project->description);
+            $this->assertEquals('pgh6x', $project->owner->username);
+            $this->assertEquals(3, $project->courses()->count());
+            $this->assertEquals(8, $project->programmes()->count());
+        });
+        $this->assertEquals(3, Course::count());
+        // ENG4110P / ENG5041P / ENG1234
+        $this->assertDatabaseHas('courses', ['code' => 'ENG4110P']);
+        $this->assertDatabaseHas('courses', ['code' => 'ENG5041P']);
+        $this->assertDatabaseHas('courses', ['code' => 'ENG1234']);
+        $this->assertEquals(9, Programme::count());
+        $this->assertEquals(2, User::count());
+    }
+
+    /** @test */
+    public function admins_can_upload_a_spreadsheet_which_kicks_off_the_import()
+    {
+        $this->withoutExceptionHandling();
+        Queue::fake();
+        $admin = create(User::class, ['is_staff' => true, 'is_admin' => true]);
+        $fakeSheetData = [
+            [],
+            ['Autophage launch vehicle structures', 'pgh6x Patrick Harkness /', 'pgh6x', 'Patrick Harkness /', '1', 'ENG4110P / ENG5041P /', 'Biomedical Engineering [MEng]|Biomedical Engineering [BEng]|Electronic & Software Engineering [MEng]|Electronic & Software Engineering [BEng]|Electronics & Electrical Engineering [MEng]|Electronics & Electrical Engineering [BEng]|Mechatronics [MEng]|Mechatronics [BEng]'],
+            ['22Autophage launch vehicle structures', 'pgh6x Patrick Harkness /', 'pgh6x', 'Patrick Harkness /', '1', 'ENG4110P / ENG5041P / ENG1234', '22Biomedical Engineering [MEng]|Biomedical Engineering [BEng]|Electronic & Software Engineering [MEng]|Electronic & Software Engineering [BEng]|Electronics & Electrical Engineering [MEng]|Electronics & Electrical Engineering [BEng]|Mechatronics [MEng]|Mechatronics [BEng]'],
+        ];
+        $tmpSheet = (new ExcelSheet)->generate($fakeSheetData);
+        $fakeSheet = new UploadedFile($tmpSheet, 'test.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', null, true);
+
+        $response = $this->actingAs($admin)->post(route('import.oldprojects'), [
+            'sheet' => $fakeSheet,
+        ]);
+
+        $response->assertRedirect();
+        Queue::assertPushed(ImportOldProjectList::class);
+    }
+
+    /** @test */
+    public function admins_can_see_the_page_to_import_the_projects()
+    {
+        $admin = create(User::class, ['is_staff' => true, 'is_admin' => true]);
+
+        $response = $this->actingAs($admin)->get(route('import.show_importoldprojects'));
+
+        $response->assertOk();
+        $response->assertSee('Import');
+    }
+
+    /** @test */
+    public function regular_users_cant_see_the_page_to_import_the_projects()
+    {
+        $admin = create(User::class, ['is_staff' => true, 'is_admin' => false]);
+
+        $response = $this->actingAs($admin)->get(route('import.show_importoldprojects'));
+
+        $response->assertRedirect(route('home'));
     }
 }

@@ -42,6 +42,9 @@
                         <a href="{{ route('admin.import.placements.show') }}" class="dropdown-item">
                             Import Placements
                         </a>
+                        <a href="{{ route('import.show_importoldprojects') }}" class="dropdown-item">
+                            Import Old Projects Spreadsheet
+                        </a>
                     </div>
                 </div>
             </div>
@@ -50,7 +53,7 @@
 </nav>
 
 <filterable-items :items='@json($projects)' searchables="title,course_codes,programe_titles,owner_name,student_names">
-    <span  slot-scope="{ items: projects, inputAttrs, inputEvents, sortOn }">
+    <span slot-scope="{ items: projects, inputAttrs, inputEvents, sortOn }">
         <input class="input" type="text" v-bind="inputAttrs" v-on="inputEvents" placeholder="Filter table..." autofocus>
         <table class="table is-fullwidth is-striped is-hover">
             <thead>
@@ -67,21 +70,19 @@
             <tbody>
                 <tr v-for="project in projects" :key="project.id">
                     <td>
-                    <a
-                        :href="getProjectUrl(project.id)"
-                        :class="{ 'has-text-grey-light': !project.is_active }"
-                        :title="project.is_active ? '' : 'Inactive'"
-                    >
-                        @{{ project.title }}
-                    </a>
+                        <a :href="getProjectUrl(project.id)" :class="{ 'has-text-grey-light': !project.is_active }" :title="project.is_active ? '' : 'Inactive'">
+                            @{{ project.title }}
+                        </a>
                         <span v-if="project.is_confidential" class="icon is-small" title="Confidential">
                             <i>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M4 8V6a6 6 0 1 1 12 0v2h1a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-8c0-1.1.9-2 2-2h1zm5 6.73V17h2v-2.27a2 2 0 1 0-2 0zM7 6v2h6V6a3 3 0 0 0-6 0z"/></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                    <path d="M4 8V6a6 6 0 1 1 12 0v2h1a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-8c0-1.1.9-2 2-2h1zm5 6.73V17h2v-2.27a2 2 0 1 0-2 0zM7 6v2h6V6a3 3 0 0 0-6 0z" /></svg>
                             </i>
                         </span>
                         <span v-if="project.is_placement" class="icon is-small" title="Placement">
                             <i>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M10 20S3 10.87 3 7a7 7 0 1 1 14 0c0 3.87-7 13-7 13zm0-11a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                    <path d="M10 20S3 10.87 3 7a7 7 0 1 1 14 0c0 3.87-7 13-7 13zm0-11a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" /></svg>
                             </i>
                         </span>
                     </td>

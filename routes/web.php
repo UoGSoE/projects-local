@@ -38,6 +38,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/api/user', 'Api\UserController@store')->name('api.user.store');
         Route::post('/api/user/{id}', 'Api\UserController@update')->name('api.user.update');
 
+        Route::get('/projects/import', 'Admin\ImportOldProjectsController@show')->name('import.show_importoldprojects');
+        Route::post('/projects/import', 'Admin\ImportOldProjectsController@store')->name('import.oldprojects');
+
         Route::get('/projects/{category}', 'Admin\ProjectController@index')->name('admin.project.index');
         Route::get('/projects/{category}/options', 'Admin\ProjectOptionsController@index')->name('admin.project.bulk-options');
         Route::post('/projects/{category}/options', 'Admin\ProjectOptionsController@update')->name('admin.project.bulk-options.update');

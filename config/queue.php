@@ -62,8 +62,8 @@ return [
         'redis' => [
             'driver' => 'redis',
             'connection' => 'default',
-            'queue' => env('REDIS_QUEUE', 'glasgow_projects'),
-            'retry_after' => 90,
+            'queue' => env('REDIS_QUEUE', 'default'),
+            'retry_after' => 390,
             'block_for' => null,
         ],
 
