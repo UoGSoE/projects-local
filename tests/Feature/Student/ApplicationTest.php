@@ -37,8 +37,8 @@ class ApplicationTest extends TestCase
 
         // they should only see the projects for course1
         $response->assertSuccessful();
-        $response->data('projects')->assertContains($project1);
-        $response->data('projects')->assertNotContains($project2);
+        $this->assertCount(1, $response->data('projects'));
+        $this->assertTrue($response->data('projects')[0]['id'] == $project1->id);
     }
 
     /** @test */
@@ -61,8 +61,8 @@ class ApplicationTest extends TestCase
 
         // they should only see the active project
         $response->assertSuccessful();
-        $response->data('projects')->assertContains($activeProject);
-        $response->data('projects')->assertNotContains($inactiveProject);
+        $this->assertCount(1, $response->data('projects'));
+        $this->assertTrue($response->data('projects')[0]['id'] == $activeProject->id);
     }
 
     /** @test */
@@ -93,8 +93,12 @@ class ApplicationTest extends TestCase
 
         // they should only see the allocated project
         $response->assertSuccessful();
-        $response->data('projects')->assertNotContains($allocatedProject);
-        $response->data('projects')->assertContains($unallocatedProject);
+        // dd($response->data('projects'));
+        $this->assertCount(1, $response->data('projects'));
+        $this->assertTrue($response->data('projects')[1]['id'] == $unallocatedProject->id);
+
+        // $response->data('projects')->assertNotContains($allocatedProject);
+        // $response->data('projects')->assertContains($unallocatedProject);
     }
 
     /** @test */

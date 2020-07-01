@@ -26,8 +26,8 @@ class HomeController extends Controller
     {
         if (Auth::user()->isStudent()) {
             return view('student.home', [
-                'projects' => Auth::user()->applicableProjects(),
-                'programmes' => Auth::user()->applicableProgrammes(),
+                'projects' => Auth::user()->applicableProjects()->toArray(),
+                'programmes' => Auth::user()->applicableProgrammes()->toArray(),
                 'researchAreas' => ResearchArea::orderBy('title')->get(),
             ]);
         }
