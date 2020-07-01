@@ -2862,10 +2862,10 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       var _this = this;
 
       if (this.selectedProgramme == -1) {
-        return this.projects;
+        return this.theProjects;
       }
 
-      return this.projects.filter(function (project) {
+      return this.theProjects.filter(function (project) {
         return project.programmes.find(function (programme) {
           if (programme.title == _this.selectedProgramme) {
             return true;
@@ -2879,7 +2879,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       return this.findProject(this.choices[choice]);
     },
     findProject: function findProject(projectId) {
-      var project = this.projects.find(function (project) {
+      var project = this.theProjects.find(function (project) {
         return project.id === projectId;
       });
 

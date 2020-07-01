@@ -210,9 +210,9 @@ export default {
     },
     availableProjects() {
       if (this.selectedProgramme == -1) {
-        return this.projects;
+        return this.theProjects;
       }
-      return this.projects.filter(project => {
+      return this.theProjects.filter(project => {
         return project.programmes.find(programme => {
           if (programme.title == this.selectedProgramme) {
             return true;
@@ -228,7 +228,7 @@ export default {
     },
 
     findProject: function(projectId) {
-      var project = this.projects.find(project => project.id === projectId);
+      var project = this.theProjects.find(project => project.id === projectId);
       if (!project) {
         return "";
       }
