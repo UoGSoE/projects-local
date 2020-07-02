@@ -62,7 +62,7 @@
           <p class="subtitle has-text-grey-light">Run by {{ project.owner.full_name }}</p>
           <div v-if="isExpanded(project.id)">
             <h5 class="title is-5 has-text-grey">Description</h5>
-            <p>{{ project.description }}</p>
+            <p v-text="getDescriptionText(project)"></p>
             <span v-if="project.pre_req">
               <br>
               <h5 class="title is-5 has-text-grey">Prerequisite Skills</h5>
@@ -280,6 +280,13 @@ export default {
         }
       });
       this.choices[choice] = projectId;
+    },
+
+    getDescriptionText(project) {
+      if (project.description != 'NOT FOUND') {
+        return project.description;
+      }
+      return 'Project description not available on database.  Please contact the supervisor via e-mail for details.';
     },
 
     submitChoices() {

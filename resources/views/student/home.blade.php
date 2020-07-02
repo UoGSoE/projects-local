@@ -6,9 +6,9 @@
     Available Projects
 </h3>
 <p class="subtitle">
-    Some blurb about choosing things
+    Please follow the instructions on using the project database that have been circulated by the Teaching Office.
 </p>
-<p><strong>Note:</strong> you cannot choose more than three projects from the same supervisor.</p>
+<p><strong>Note:</strong> When making your project choices, please ensure that your selection meets the constraints outlined in the instruction document.</p>
 
 @if (Auth::user()->isntOnACourse())
 <div class="notification is-info">

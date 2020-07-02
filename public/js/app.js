@@ -2941,6 +2941,13 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
       });
       this.choices[choice] = projectId;
     },
+    getDescriptionText: function getDescriptionText(project) {
+      if (project.description != 'NOT FOUND') {
+        return project.description;
+      }
+
+      return 'Project description not available on database.  Please contact the supervisor via e-mail for details.';
+    },
     submitChoices: function submitChoices() {
       var _this3 = this;
 
@@ -24588,7 +24595,11 @@ var render = function() {
                         _vm._v("Description")
                       ]),
                       _vm._v(" "),
-                      _c("p", [_vm._v(_vm._s(project.description))]),
+                      _c("p", {
+                        domProps: {
+                          textContent: _vm._s(_vm.getDescriptionText(project))
+                        }
+                      }),
                       _vm._v(" "),
                       project.pre_req
                         ? _c("span", [
