@@ -70,6 +70,8 @@
             <tbody>
                 <tr v-for="project in projects" :key="project.id">
                     <td>
+                        <span v-if="project.description == 'NOT FOUND'" class="icon has-text-danger is-small" style="border-left: 16px solid red" title="Missing Description">
+                        </span>
                         <a :href="getProjectUrl(project.id)" :class="{ 'has-text-grey-light': !project.is_active }" :title="project.is_active ? '' : 'Inactive'">
                             @{{ project.title }}
                         </a>
