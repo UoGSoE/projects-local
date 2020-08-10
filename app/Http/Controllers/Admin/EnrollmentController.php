@@ -27,7 +27,6 @@ class EnrollmentController extends Controller
 
         $data = (new ExcelSheet)->trimmedImport($request->file('sheet')->path());
 
-        $course->removeAllStudents();
         $students = $course->enrollStudents($data);
 
         event(new SomethingNoteworthyHappened($request->user(), "Enrolled students onto {$course->code}"));
