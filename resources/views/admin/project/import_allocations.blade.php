@@ -6,7 +6,7 @@
     Import Student Project Allocations
 </h3>
 <pre>
-    Student GUID | Student Name | Project ID | Anything else you want
+    GUID         | Student Name | Project ID | Anything else you want
     1234567p     | Emma Peel    | 4          | Amazing project
 </pre>
 
