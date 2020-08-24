@@ -236,6 +236,22 @@ class ProjectTest extends TestCase
     }
 
     /** @test */
+    public function staff_cant_update_their_own_projects_if_the_admins_have_disabled_editing()
+    {
+        $staff = create(User::class, ['is_staff' => true]);
+        $project = create(Project::class, ['staff_id' => $staff->id, 'category' => 'undergrad']);
+        $programme1 = create(Programme::class);
+        $programme2 = create(Programme::class);
+        $course = create(Course::class);
+
+        option(['undergrad_editing_disabled' => now()->format('Y-m-d H:i')]);
+
+        $response = $this->actingAs($staff)->get(route('project.edit', $project->id));
+
+        $response->assertStatus(403);
+    }
+
+    /** @test */
     public function staff_can_make_their_project_unavailable()
     {
         $this->withoutExceptionHandling();

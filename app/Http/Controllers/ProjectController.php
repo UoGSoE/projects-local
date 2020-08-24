@@ -81,6 +81,11 @@ class ProjectController extends Controller
     {
         $project = Project::findOrFail($id);
 
+        $optionName = $project->category . '_editing_disabled';
+        if (option($optionName) && ! request()->user()->isAdmin()) {
+            abort(403, 'Editing of projects is disabled by the teaching office');
+        }
+
         return view('project.edit', [
             'project' => $project,
             'programmes' => Programme::where('category', '=', $project->category)->orderBy('title')->get(),

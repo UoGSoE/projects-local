@@ -9,6 +9,15 @@
                 All {{ ucfirst($category) }} Projects
             </h3>
         </div>
+        <div class="level-item">
+            <form action="{{ route('admin.project.toggle_editing') }}" method="POST">
+                @csrf
+                <input type="hidden" name="category" value="{{ $category }}">
+                <button class="button">
+                    {{ option("{$category}_editing_disabled") ? 'Enable' : 'Disable' }} Editing
+                </button>
+            </form>
+        </div>
     </div>
     <div class="level-right">
         <div class="level-item">

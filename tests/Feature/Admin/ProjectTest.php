@@ -118,6 +118,27 @@ class ProjectTest extends TestCase
     }
 
     /** @test */
+    public function an_admin_can_edit_a_project_even_if_editing_is_disabled()
+    {
+        // see 'an_admin_can_stop_academics_from_editing_projects' test and
+        // Feature\Staff\ProjectTest@staff_cant_update_their_own_projects_if_the_admins_have_disabled_editing
+        $this->withoutExceptionHandling();
+        $admin = create(User::class, ['is_admin' => true]);
+        $staff1 = create(User::class, ['is_staff' => true]);
+        $staff2 = create(User::class, ['is_staff' => true]);
+        $programme1 = create(Programme::class);
+        $programme2 = create(Programme::class);
+        $course = create(Course::class);
+        $project = create(Project::class, ['staff_id' => $staff1->id, 'category' => 'undergrad']);
+
+        option(['undergrad_editing_disabled' => now()->format('Y-m-d H:i')]);
+
+        $response = $this->actingAs($admin)->get(route('project.edit', $project->id));
+
+        $response->assertOk();
+    }
+
+    /** @test */
     public function an_admin_can_see_the_bulk_edit_project_options_page()
     {
         $this->withoutExceptionHandling();
@@ -163,5 +184,47 @@ class ProjectTest extends TestCase
         $this->assertFalse($ugProject1->fresh()->isActive());
         $this->assertTrue($ugProject2->fresh()->isActive());
         $this->assertDatabaseMissing('projects', ['id' => $ugProject3->id]);
+    }
+
+    /** @test */
+    public function an_admin_can_stop_academics_from_editing_projects()
+    {
+        $this->withoutExceptionHandling();
+        $admin = create(User::class, ['is_admin' => true]);
+        $ugProject1 = create(Project::class, ['category' => 'undergrad', 'is_active' => true]);
+        $ugProject2 = create(Project::class, ['category' => 'undergrad', 'is_active' => false]);
+        $ugProject3 = create(Project::class, ['category' => 'undergrad', 'is_active' => true]);
+
+        $this->assertNull(option('undergrad_editing_disabled'));
+
+        $response = $this->actingAs($admin)->post(route('admin.project.toggle_editing'), [
+            'category' => 'undergrad',
+        ]);
+
+        $response->assertRedirect(route('admin.project.index', ['category' => 'undergrad']));
+        $this->assertNotNull(option('undergrad_editing_disabled'));
+
+        $response = $this->actingAs($admin)->post(route('admin.project.toggle_editing'), [
+            'category' => 'undergrad',
+        ]);
+
+        $response->assertRedirect(route('admin.project.index', ['category' => 'undergrad']));
+        $this->assertNull(option('undergrad_editing_disabled'));
+
+        $this->assertNull(option('postgrad_editing_disabled'));
+
+        $response = $this->actingAs($admin)->post(route('admin.project.toggle_editing'), [
+            'category' => 'postgrad',
+        ]);
+
+        $response->assertRedirect(route('admin.project.index', ['category' => 'postgrad']));
+        $this->assertNotNull(option('postgrad_editing_disabled'));
+
+        $response = $this->actingAs($admin)->post(route('admin.project.toggle_editing'), [
+            'category' => 'postgrad',
+        ]);
+
+        $response->assertRedirect(route('admin.project.index', ['category' => 'postgrad']));
+        $this->assertNull(option('postgrad_editing_disabled'));
     }
 }

@@ -45,6 +45,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/projects/{category}/options', 'Admin\ProjectOptionsController@index')->name('admin.project.bulk-options');
         Route::post('/projects/{category}/options', 'Admin\ProjectOptionsController@update')->name('admin.project.bulk-options.update');
 
+        Route::post('/projects/toggle-editing', 'Admin\ProjectEditingToggleController@update')->name('admin.project.toggle_editing');
+
         Route::get('/choices/{category}', 'Admin\ChoiceController@index')->name('admin.student.choices');
 
         Route::get('/course', 'Admin\CourseController@index')->name('admin.course.index');

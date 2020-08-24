@@ -7,9 +7,11 @@
         <h3 class="title is-3">
             Details of project <em>{{ $project->title }}</em>
         </h3>
+        @can('edit-project', $project)
         <a href="{{ route('project.edit', $project->id) }}" class="button">
             Edit
         </a>
+        @endcan
         <a href="{{ route('project.copy', $project->id) }}" class="button">
             Make {{ $project->isUndergrad() ? 'a postgrad' : 'an undergrad' }} copy
         </a>
