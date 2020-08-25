@@ -82,4 +82,29 @@ class CourseEnrollmentTest extends TestCase
         // and the previously enrolled student too
         $this->assertDatabaseHas('users', ['username' => 'EXISTINGSTUDENT']);
     }
+
+    /** @test */
+    public function students_can_be_identified_by_a_full_guid_or_guessed_at_from_a_matric_number()
+    {
+        // given we have an admin, a student and a course with that student on it
+        $admin = create(User::class, ['is_admin' => true]);
+        $course = create(Course::class);
+        $filename = './tests/Feature/data/course_students_with_guids.xlsx';
+
+        // and we upload a test spreadsheet with new students details
+        $response = $this->actingAs($admin)->post(route('admin.course.enroll', $course->id), [
+            'sheet' => new UploadedFile($filename, 'course_students.xlsx', 'application/octet-stream', UPLOAD_ERR_OK, true),
+        ]);
+
+        // the course should have the new students students
+        $response->assertStatus(302);
+        $response->assertSessionMissing('errors');
+        $this->assertEquals(5, $course->students()->count());
+        // and check their usernames have the correct manual guid or guessed at ones
+        $this->assertDatabaseHas('users', ['username' => '2349804q']);
+        $this->assertDatabaseHas('users', ['username' => '2383616s']);
+        $this->assertDatabaseHas('users', ['username' => '2352733p']);
+        $this->assertDatabaseHas('users', ['username' => '2354455v']);
+        $this->assertDatabaseHas('users', ['username' => '2279698z']);
+    }
 }

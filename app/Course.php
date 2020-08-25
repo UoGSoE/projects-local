@@ -42,9 +42,13 @@ class Course extends Model
     public function enrollStudents($spreadsheetRows)
     {
         return collect($spreadsheetRows)->filter(function ($row) {
-            return $this->firstColumnIsAMatric($row);
+            return $this->firstColumnIsMatricLike($row);
         })->map(function ($row) {
-            $username = strtolower($this->joinMatricAndFirstInitial($row));
+            if ($this->isAFullGuid($row[0])) {
+                $username = strtolower($row[0]);
+            } else {
+                $username = strtolower($this->joinMatricAndFirstInitial($row));
+            }
             $user = User::where('username', '=', $username)->first();
             if (! $user) {
                 $user = new User([
@@ -62,12 +66,17 @@ class Course extends Model
         });
     }
 
-    protected function firstColumnIsAMatric($row)
+    protected function firstColumnIsMatricLike(array $row): bool
     {
-        return preg_match('/^[0-9]{7}$/', $row[0]) === 1;
+        return preg_match('/^[0-9]{7}[a-zA-Z]*/', $row[0]) === 1;
     }
 
-    protected function joinMatricAndFirstInitial($row)
+    protected function isAFullGuid(string $username): bool
+    {
+        return preg_match('/^[0-9]{7}[a-zA-Z]$/', $username) === 1;
+    }
+
+    protected function joinMatricAndFirstInitial($row): string
     {
         return $row[0].strtolower(substr($row[1], 0, 1));
     }
