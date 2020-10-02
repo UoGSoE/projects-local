@@ -1,19 +1,25 @@
 <?php
 
-use Faker\Generator as Faker;
+namespace Database\Factories;
 
-$factory->define(App\Project::class, function (Faker $faker) {
-    return [
-        'title' => $faker->text(50),
-        'category' => 'undergrad',
-        'pre_req' => $faker->text(30),
-        'description' => $faker->text(30),
-        'max_students' => $faker->numberBetween(1, 5),
-        'staff_id' => function () {
-            return factory(App\User::class)->create(['is_staff' => true])->id;
-        },
-        'is_active' => true,
-        'is_confidential' => false,
-        'is_placement' => false,
-    ];
-});
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+class ProjectFactory extends Factory
+{
+    protected $model = \App\Project::class;
+
+    public function definition()
+    {
+        return [
+            'title' => $this->faker->text(50),
+            'category' => 'undergrad',
+            'pre_req' => $this->faker->text(30),
+            'description' => $this->faker->text(30),
+            'max_students' => $this->faker->numberBetween(1, 5),
+            'staff_id' => \App\User::factory(),
+            'is_active' => true,
+            'is_confidential' => false,
+            'is_placement' => false,
+        ];
+    }
+}

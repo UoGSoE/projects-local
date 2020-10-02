@@ -4,9 +4,12 @@ namespace App;
 
 use App\Project;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Programme extends Model
 {
+    use HasFactory;
+
     protected $guarded = [];
 
     public function projects()

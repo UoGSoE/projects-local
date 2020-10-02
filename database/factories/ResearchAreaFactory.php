@@ -1,10 +1,17 @@
 <?php
 
-use App\ResearchArea;
-use Faker\Generator as Faker;
+namespace Database\Factories;
 
-$factory->define(ResearchArea::class, function (Faker $faker) {
-    return [
-        'title' => $faker->text(15),
-    ];
-});
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+class ResearchAreaFactory extends Factory
+{
+    protected $model = \App\ResearchArea::class;
+
+    public function definition()
+    {
+        return [
+            'title' => $this->faker->text(15),
+        ];
+    }
+}

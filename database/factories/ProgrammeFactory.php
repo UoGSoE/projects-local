@@ -1,10 +1,18 @@
 <?php
 
-use Faker\Generator as Faker;
+namespace Database\Factories;
 
-$factory->define(App\Programme::class, function (Faker $faker) {
-    return [
-        'title' => $faker->text(30),
-        'category' => $faker->randomElement(['undergrad', 'postgrad']),
-    ];
-});
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+class ProgrammeFactory extends Factory
+{
+    protected $model = \App\Programme::class;
+
+    public function definition()
+    {
+        return [
+            'title' => $this->faker->text(30),
+            'category' => $this->faker->randomElement(['undergrad', 'postgrad']),
+        ];
+    }
+}
