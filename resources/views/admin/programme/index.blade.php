@@ -14,16 +14,16 @@
         <div class="level-item">
             <div class="dropdown is-hoverable is-right">
                 <div class="dropdown-trigger">
-                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                    <button class="button" id="dropdown-trigger" aria-haspopup="true" aria-controls="dropdown-menu">
                         <span>More</span>
                         <span class="icon is-small">
                             <i class="fas fa-angle-down" aria-hidden="true"></i>
                         </span>
                     </button>
                 </div>
-                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                <div class="dropdown-menu" role="menu">
                     <div class="dropdown-content">
-                        <a href="{{ route('admin.programme.create') }}" class="dropdown-item">
+                        <a href="{{ route('admin.programme.create') }}" id="add-programme" class="dropdown-item">
 							<i class="fas fa-plus"></i>
 							Add new programme
                         </a>
