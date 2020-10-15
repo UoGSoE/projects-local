@@ -3,8 +3,8 @@
 namespace App;
 
 use App\Project;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Programme extends Model
 {

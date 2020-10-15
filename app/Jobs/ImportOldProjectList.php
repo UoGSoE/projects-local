@@ -2,18 +2,18 @@
 
 namespace App\Jobs;
 
-use App\User;
 use App\Course;
-use App\Project;
 use App\Programme;
-use Illuminate\Support\Str;
+use App\Project;
+use App\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 
 class ImportOldProjectList implements ShouldQueue
 {
@@ -41,7 +41,7 @@ class ImportOldProjectList implements ShouldQueue
     public function handle()
     {
         $this->oldProjects = Cache::remember('oldprojects', 3600, function () {
-            return Http::get(config('projects.wlm_api_url') . '/getallprojects')->json()['Data'];
+            return Http::get(config('projects.wlm_api_url').'/getallprojects')->json()['Data'];
         });
 
         collect($this->oldProjectData)->each(function ($row) {
@@ -82,7 +82,8 @@ class ImportOldProjectList implements ShouldQueue
 
         $ldapUser = $this->findLdapUser($guid);
         if (! $ldapUser) {
-            info('Could not find ldap user ' . $guid);
+            info('Could not find ldap user '.$guid);
+
             return;
         }
 
@@ -91,7 +92,7 @@ class ImportOldProjectList implements ShouldQueue
             'email' => strtolower($ldapUser->email),
             'surname' => $ldapUser->surname,
             'forenames' => $ldapUser->forenames,
-            'is_staff' => !$this->looksLikeMatric($ldapUser->username),
+            'is_staff' => ! $this->looksLikeMatric($ldapUser->username),
             'password' => bcrypt(Str::random(64)),
         ]);
     }
@@ -103,6 +104,7 @@ class ImportOldProjectList implements ShouldQueue
                 return trim($project['Description']);
             }
         }
+
         return 'NOT FOUND';
     }
 
@@ -113,16 +115,19 @@ class ImportOldProjectList implements ShouldQueue
                 return trim($project['Prereq']);
             }
         }
+
         return '';
     }
 
     protected function findCourses($courses)
     {
         $codes = explode('/', $courses);
+
         return collect($codes)->filter(function ($code) {
             return trim($code);
         })->map(function ($code) {
             $code = trim($code);
+
             return Course::firstOrCreate(['code' => $code], [
                 'code' => $code,
                 'title' => $code,
@@ -134,10 +139,12 @@ class ImportOldProjectList implements ShouldQueue
     protected function findProgrammes($programmes)
     {
         $programmeNames = explode('|', $programmes);
+
         return collect($programmeNames)->filter(function ($name) {
             return trim($name);
         })->map(function ($name) {
             $name = trim($name);
+
             return Programme::firstOrCreate(['title' => $name], [
                 'title' => $name,
                 'category' => 'undergrad',
@@ -145,13 +152,12 @@ class ImportOldProjectList implements ShouldQueue
         });
     }
 
-
-
     protected function createNewProjectFromOld($oldProject)
     {
         $ldapUser = $this->findLdapUser($oldProject['Staff'][0]['GUID']);
         if (! $ldapUser) {
-            info('Could not find ldap user ' . $oldProject['Staff'][0]['GUID']);
+            info('Could not find ldap user '.$oldProject['Staff'][0]['GUID']);
+
             return;
         }
 
@@ -197,7 +203,7 @@ class ImportOldProjectList implements ShouldQueue
             'email' => strtolower($ldapUser->email),
             'surname' => $ldapUser->surname,
             'forenames' => $ldapUser->forenames,
-            'is_staff' => !$this->looksLikeMatric($ldapUser->username),
+            'is_staff' => ! $this->looksLikeMatric($ldapUser->username),
             'password' => bcrypt(Str::random(64)),
         ]);
     }
@@ -205,16 +211,18 @@ class ImportOldProjectList implements ShouldQueue
     protected function createMissingCourses($courses)
     {
         $courses = explode('/', $courses);
+
         return collect($courses)->map(function ($code) {
             $code = trim($code);
             $course = Course::where('code', '=', $code)->first();
-            if (!$course) {
+            if (! $course) {
                 $course = Course::create([
                     'code' => $code,
                     'title' => 'NAME OF COURSE',
                     'category' => 'undergrad',
                 ]);
             }
+
             return $course;
         });
     }

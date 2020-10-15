@@ -62,7 +62,7 @@ class AuthServiceProvider extends ServiceProvider
                 return true;
             }
 
-            $optionName = $project->category . '_editing_disabled';
+            $optionName = $project->category.'_editing_disabled';
             if (option($optionName)) {
                 return false;
             }

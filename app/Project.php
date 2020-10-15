@@ -3,9 +3,9 @@
 namespace App;
 
 use App\Mail\AcceptedOntoProject;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Mail;
 
 class Project extends Model
 {

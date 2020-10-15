@@ -81,7 +81,7 @@ class ProjectController extends Controller
     {
         $project = Project::findOrFail($id);
 
-        $optionName = $project->category . '_editing_disabled';
+        $optionName = $project->category.'_editing_disabled';
         if (option($optionName) && ! request()->user()->isAdmin()) {
             abort(403, 'Editing of projects is disabled by the teaching office');
         }
