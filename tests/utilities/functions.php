@@ -2,17 +2,20 @@
 
 function create($class, $attributes = [], $times = null)
 {
-    return factory($class, $times)->create($attributes);
+    return $class::factory()->count($times)->create($attributes);
 }
+
 function make($class, $attributes = [], $times = null)
 {
-    return factory($class, $times)->make($attributes);
+    return $class::factory()->count($times)->make($attributes);
 }
+
 function login($user = null)
 {
     if (! $user) {
-        $user = factory(\App\User::class)->create();
+        $user = \App\User::factory()->create();
     }
+
     auth()->login($user);
 
     return $user;

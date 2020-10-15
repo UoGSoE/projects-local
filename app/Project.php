@@ -3,11 +3,14 @@
 namespace App;
 
 use App\Mail\AcceptedOntoProject;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Project extends Model
 {
+    use HasFactory;
+
     protected $guarded = [];
 
     protected $casts = [

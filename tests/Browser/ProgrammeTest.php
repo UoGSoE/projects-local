@@ -38,6 +38,7 @@ class ProgrammeTest extends DuskTestCase
                     ->press('Update Programme')
                     ->assertUrlIs(route('admin.programme.index'))
                     ->assertSee('UPDATED PROGRAMME')
+                    ->press('#dropdown-trigger')
                     ->click('#add-programme')
                     ->assertSee('Create new programme')
                     ->type('title', 'NEW PROGRAMME')
