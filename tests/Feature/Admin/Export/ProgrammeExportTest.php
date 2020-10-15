@@ -5,8 +5,8 @@
 namespace Tests\Feature\Admin\Export;
 
 use App\Exports\ProgrammesExport;
-use App\Programme;
-use App\User;
+use App\Models\Programme;
+use App\Models\User;
 use Maatwebsite\Excel\Facades\Excel;
 use Tests\TestCase;
 

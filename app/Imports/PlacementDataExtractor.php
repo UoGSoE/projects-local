@@ -2,9 +2,9 @@
 
 namespace App\Imports;
 
-use App\Course;
-use App\Programme;
-use App\User;
+use App\Models\Course;
+use App\Models\Programme;
+use App\Models\User;
 use Illuminate\Support\MessageBag;
 
 class PlacementDataExtractor

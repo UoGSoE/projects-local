@@ -3,8 +3,8 @@
 namespace Tests\Feature\Admin;
 
 use App\Mail\AcceptedOntoProject;
-use App\Project;
-use App\User;
+use App\Models\Project;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;

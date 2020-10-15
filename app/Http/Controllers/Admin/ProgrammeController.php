@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Events\SomethingNoteworthyHappened;
 use App\Http\Controllers\Controller;
-use App\Programme;
+use App\Models\Programme;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 

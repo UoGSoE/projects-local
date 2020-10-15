@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProgrammeFactory extends Factory
 {
-    protected $model = \App\Programme::class;
+    protected $model = \App\Models\Programme::class;
 
     public function definition()
     {

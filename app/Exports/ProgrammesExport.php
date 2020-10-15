@@ -2,7 +2,7 @@
 
 namespace App\Exports;
 
-use App\Programme;
+use App\Models\Programme;
 use Maatwebsite\Excel\Concerns\FromCollection;
 
 class ProgrammesExport implements FromCollection

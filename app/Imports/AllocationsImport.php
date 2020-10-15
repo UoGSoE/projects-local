@@ -2,8 +2,8 @@
 
 namespace App\Imports;
 
-use App\Project;
-use App\User;
+use App\Models\Project;
+use App\Models\User;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\RegistersEventListeners;
 use Maatwebsite\Excel\Concerns\SkipsFailures;

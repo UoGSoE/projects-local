@@ -6,7 +6,7 @@ use App\Events\SomethingNoteworthyHappened;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\StaffMember;
 use App\Http\Resources\Student;
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class UserExportController extends Controller

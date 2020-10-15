@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Events\SomethingNoteworthyHappened;
 use App\Http\Controllers\Controller;
-use App\Project;
+use App\Models\Project;
 use Illuminate\Http\Request;
 
 class ProjectOptionsController extends Controller

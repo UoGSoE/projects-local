@@ -3,8 +3,8 @@
 namespace Tests\Unit;
 
 use App\Mail\ChoiceConfirmation;
-use App\Project;
-use App\User;
+use App\Models\Project;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;

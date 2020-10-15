@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Course;
+use App\Models\Course;
 use App\Events\SomethingNoteworthyHappened;
 use App\Http\Controllers\Controller;
-use App\Project;
-use App\User;
+use App\Models\Project;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class BulkRemovalController extends Controller

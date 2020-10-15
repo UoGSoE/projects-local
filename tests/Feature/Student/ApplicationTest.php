@@ -2,11 +2,11 @@
 
 namespace Tests\Feature\Student;
 
-use App\Course;
+use App\Models\Course;
 use App\Mail\ChoiceConfirmation;
-use App\Project;
-use App\ResearchArea;
-use App\User;
+use App\Models\Project;
+use App\Models\ResearchArea;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;

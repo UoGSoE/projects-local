@@ -2,10 +2,10 @@
 
 namespace App\Jobs;
 
-use App\Course;
-use App\Programme;
-use App\Project;
-use App\User;
+use App\Models\Course;
+use App\Models\Programme;
+use App\Models\Project;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;

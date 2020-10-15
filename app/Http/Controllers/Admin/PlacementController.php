@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Course;
+use App\Models\Course;
 use App\Events\SomethingNoteworthyHappened;
 use App\Http\Controllers\Controller;
 use App\Imports\PlacementDataExtractor;
-use App\Programme;
-use App\Project;
-use App\User;
+use App\Models\Programme;
+use App\Models\Project;
+use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\MessageBag;

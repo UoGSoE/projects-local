@@ -4,9 +4,9 @@
 
 namespace Tests\Feature\Admin\Export;
 
-use App\Course;
+use App\Models\Course;
 use App\Exports\CoursesExport;
-use App\User;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Maatwebsite\Excel\Facades\Excel;
