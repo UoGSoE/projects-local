@@ -2,19 +2,19 @@
 
 namespace Tests\Feature;
 
-use App\Course;
-use App\User;
-use App\Project;
-use Tests\TestCase;
+use App\Models\Course;
 use App\Jobs\ImportOldProjectList;
-use App\Programme;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Models\Programme;
+use App\Models\Project;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Queue;
 use Ohffs\SimpleSpout\ExcelSheet;
+use Tests\TestCase;
 
 class ImportOldProjectListTest extends TestCase
 {
@@ -23,26 +23,27 @@ class ImportOldProjectListTest extends TestCase
     /** @test */
     public function we_can_import_old_data_from_the_wlm_based_on_an_array_of_data()
     {
-        if (env("CI")) {
+        if (env('CI')) {
             $this->markTestSkipped('Not running in CI');
+
             return;
         }
         Http::fake([
             config('projects.wlm_api_url').'*' => Http::response([
                 'Data' => [
                     [
-                        "Title" => "Autophage launch vehicle structures",
-                        "Programme" => "Mechanical Engineering [MEng]|Mechanical Engineering with Aeronautics [MEng]",
-                        "Description" => "Blah de blah",
-                        "Prereq" => "",
+                        'Title' => 'Autophage launch vehicle structures',
+                        'Programme' => 'Mechanical Engineering [MEng]|Mechanical Engineering with Aeronautics [MEng]',
+                        'Description' => 'Blah de blah',
+                        'Prereq' => '',
                     ],
                     [
-                        "Title" => "22Autophage launch vehicle structures",
-                        "Programme" => "22Mechanical Engineering [MEng]|Mechanical Engineering with Aeronautics [MEng]",
-                        "Description" => "22Blah de blah",
-                        "Prereq" => "22",
+                        'Title' => '22Autophage launch vehicle structures',
+                        'Programme' => '22Mechanical Engineering [MEng]|Mechanical Engineering with Aeronautics [MEng]',
+                        'Description' => '22Blah de blah',
+                        'Prereq' => '22',
                     ],
-                ]
+                ],
             ], 200, []),
         ]);
         $admin = create(User::class, ['is_staff' => true, 'is_admin' => true]);

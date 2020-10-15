@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\ResearchArea;
+use App\Models\ResearchArea;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller

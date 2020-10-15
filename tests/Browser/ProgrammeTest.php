@@ -2,9 +2,9 @@
 
 namespace Tests\Browser;
 
-use App\Programme;
-use App\Project;
-use App\User;
+use App\Models\Programme;
+use App\Models\Project;
+use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;

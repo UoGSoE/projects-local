@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Mail\GdprAnonymisedUsers;
-use App\User;
+use App\Models\User;
 use Facades\Ohffs\Ldap\LdapService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;

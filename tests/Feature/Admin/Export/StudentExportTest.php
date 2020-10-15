@@ -4,10 +4,10 @@
 
 namespace Tests\Feature\Admin\Export;
 
-use App\Course;
+use App\Models\Course;
 use App\Exports\StudentsExport;
-use App\Project;
-use App\User;
+use App\Models\Project;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Maatwebsite\Excel\Facades\Excel;
 use Tests\TestCase;

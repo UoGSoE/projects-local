@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Course;
+use App\Models\Course;
 use App\Events\SomethingNoteworthyHappened;
-use App\Programme;
-use App\Project;
-use App\User;
+use App\Models\Programme;
+use App\Models\Project;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -81,7 +81,7 @@ class ProjectController extends Controller
     {
         $project = Project::findOrFail($id);
 
-        $optionName = $project->category . '_editing_disabled';
+        $optionName = $project->category.'_editing_disabled';
         if (option($optionName) && ! request()->user()->isAdmin()) {
             abort(403, 'Editing of projects is disabled by the teaching office');
         }

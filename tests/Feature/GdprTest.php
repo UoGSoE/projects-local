@@ -2,10 +2,10 @@
 
 namespace Tests\Feature;
 
-use App\Course;
+use App\Models\Course;
 use App\Mail\GdprAnonymisedUsers;
-use App\Project;
-use App\User;
+use App\Models\Project;
+use App\Models\User;
 // use Facades\Ohffs\Ldap\LdapService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;

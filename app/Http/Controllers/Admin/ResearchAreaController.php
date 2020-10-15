@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Events\SomethingNoteworthyHappened;
 use App\Http\Controllers\Controller;
-use App\ResearchArea;
+use App\Models\ResearchArea;
 use Illuminate\Http\Request;
 
 class ResearchAreaController extends Controller

@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Admin;
 
-use App\Course;
-use App\Project;
-use App\User;
+use App\Models\Course;
+use App\Models\Project;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Ohffs\Ldap\LdapUser;
 use Tests\TestCase;

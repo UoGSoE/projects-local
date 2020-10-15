@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Admin;
 
-use App\Programme;
-use App\Project;
-use App\User;
+use App\Models\Programme;
+use App\Models\Project;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;

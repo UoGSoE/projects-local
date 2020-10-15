@@ -3,7 +3,7 @@
 namespace App\Observers;
 
 use App\Events\SomethingNoteworthyHappened;
-use App\Programme;
+use App\Models\Programme;
 
 class ProgrammeObserver
 {

@@ -2,12 +2,12 @@
 
 namespace App\Providers;
 
-use App\Course;
+use App\Models\Course;
 use App\Observers\CourseObserver;
 use App\Observers\ProgrammeObserver;
 use App\Observers\ProjectObserver;
-use App\Programme;
-use App\Project;
+use App\Models\Programme;
+use App\Models\Project;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
