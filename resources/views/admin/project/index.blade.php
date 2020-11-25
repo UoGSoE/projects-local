@@ -51,7 +51,7 @@
                         <a href="{{ route('admin.import.placements.show') }}" class="dropdown-item">
                             Import Placements
                         </a>
-                        <a href="{{ route('import.show_importoldprojects') }}" class="dropdown-item">
+                        <a href="{{ route('import.show_importoldprojects', ['category' => $category]) }}" class="dropdown-item">
                             Import Old Projects Spreadsheet
                         </a>
                     </div>

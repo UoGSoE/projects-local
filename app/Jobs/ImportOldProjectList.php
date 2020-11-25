@@ -22,15 +22,17 @@ class ImportOldProjectList implements ShouldQueue
     public $oldProjectData = [];
     public $oldProjects = [];
     public $ldapUsers = [];
+    public $category = '';
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($oldProjectData)
+    public function __construct($oldProjectData, string $category)
     {
         $this->oldProjectData = $oldProjectData;
+        $this->category = $category;
     }
 
     /**
@@ -63,7 +65,7 @@ class ImportOldProjectList implements ShouldQueue
             $newProject = Project::firstOrCreate(['title' => $title], [
                 'title' => $title,
                 'max_students' => $row[4],
-                'category' => 'undergrad',
+                'category' => $this->category,
                 'staff_id' => $staff->id,
                 'description' => $description,
                 'pre_req' => $preReq,
@@ -131,7 +133,7 @@ class ImportOldProjectList implements ShouldQueue
             return Course::firstOrCreate(['code' => $code], [
                 'code' => $code,
                 'title' => $code,
-                'category' => 'undergrad',
+                'category' => $this->category,
             ]);
         });
     }
@@ -147,7 +149,7 @@ class ImportOldProjectList implements ShouldQueue
 
             return Programme::firstOrCreate(['title' => $name], [
                 'title' => $name,
-                'category' => 'undergrad',
+                'category' => $this->category,
             ]);
         });
     }
@@ -219,7 +221,7 @@ class ImportOldProjectList implements ShouldQueue
                 $course = Course::create([
                     'code' => $code,
                     'title' => 'NAME OF COURSE',
-                    'category' => 'undergrad',
+                    'category' => $this->category,
                 ]);
             }
 
