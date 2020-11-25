@@ -24,6 +24,7 @@ class TestDataSeeder extends Seeder
             'is_admin' => true,
         ]);
 
+        return;
         $ugradCourses = Course::factory()->count(3)->create(['category' => 'undergrad']);
         $ugradCourses->each(function ($course) {
             $course->students()->saveMany(User::factory()->count(20)->student()->create());

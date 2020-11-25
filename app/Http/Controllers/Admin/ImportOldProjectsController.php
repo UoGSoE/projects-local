@@ -11,19 +11,26 @@ class ImportOldProjectsController extends Controller
 {
     public function show()
     {
-        return view('admin.import.oldprojects');
+        request()->validate([
+            'category' => 'required|in:undergrad,postgrad',
+        ]);
+
+        return view('admin.import.oldprojects', [
+            'category' => request()->category,
+        ]);
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'sheet' => 'required|file',
+            'category' => 'required|in:undergrad,postgrad',
         ]);
 
         $filename = $request->sheet->store('tmp');
         $sheetData = (new ExcelSheet)->import(storage_path("app/${filename}"));
 
-        ImportOldProjectList::dispatch($sheetData);
+        ImportOldProjectList::dispatch($sheetData, $request->category);
 
         return redirect(route('home'));
     }
