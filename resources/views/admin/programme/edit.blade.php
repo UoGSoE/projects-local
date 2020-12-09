@@ -22,8 +22,18 @@
 
 </form>
 
+<hr>
+
+<h3 class="title is-3">Projects using this programme</h3>
+@foreach ($programme->projects as $project)
+    <li>
+        <a href="{{ route('project.show', $project->id) }}">{{ $project->title }}</a>
+    </li>
+@endforeach
+
 <confirmation-dialog :show="showConfirmation" @cancel="showConfirmation = false" @confirm="deleteProgramme({{ $programme->id }})">
     Do you really want to delete this programme?
 </confirmation-dialog>
+
 
 @endsection
