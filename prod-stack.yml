@@ -65,13 +65,12 @@ services:
         - "traefik.http.routers.${TRAEFIK_BACKEND}-secured.rule=Host(`${TRAEFIK_PROD_HOSTNAME}`)"
         - "traefik.http.routers.${TRAEFIK_BACKEND}-secured.entrypoints=web-secured"
         - "traefik.http.routers.${TRAEFIK_BACKEND}-secured.tls.certresolver=mytlschallenge"
-    stop_grace_period: 2m
     logging: *default-logging
 
   scheduler:
     image: ${IMAGE_NAME}
     deploy: *default-php-deploy
-    stop_grace_period: 5m
+    stop_grace_period: 1m
     networks:
       - default
     environment:
@@ -84,7 +83,7 @@ services:
   queue:
     image: ${IMAGE_NAME}
     deploy: *default-php-deploy
-    stop_grace_period: 5m
+    stop_grace_period: 1m
     networks:
       - default
     environment:
@@ -97,7 +96,6 @@ services:
   migrations:
     image: ${IMAGE_NAME}
     deploy: *default-php-deploy
-    stop_grace_period: 5m
     networks:
       - default
     environment:
