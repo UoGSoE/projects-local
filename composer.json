@@ -27,6 +27,7 @@
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",
+        "brianium/paratest": "^6.2",
         "facade/ignition": "^2.3.6",
         "fzaninotto/faker": "^1.4",
         "laravel/dusk": "^6.0",
