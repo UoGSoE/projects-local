@@ -6,6 +6,7 @@ namespace Tests\Feature\Admin\Export;
 
 use App\Exports\ProjectListExporter;
 use App\Exports\ProjectsExport;
+use App\Models\Programme;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -22,9 +23,13 @@ class ProjectExportTest extends TestCase
         Excel::fake();
         $admin = create(User::class, ['is_admin' => true]);
         $secondSupervisor = create(User::class, ['is_staff' => true]);
+        $programme1 = create(Programme::class);
+        $programme2 = create(Programme::class);
         $project1 = create(Project::class, ['title' => 'Aaa', 'category' => 'undergrad', 'second_supervisor_id' => $secondSupervisor->id]);
         $project2 = create(Project::class, ['title' => 'Bbb', 'category' => 'undergrad', 'second_supervisor_id' => $secondSupervisor->id]);
         $postgradProject = create(Project::class, ['title' => 'Ccc', 'category' => 'postgrad', 'second_supervisor_id' => $secondSupervisor->id]);
+        $project1->programmes()->sync([$programme1->id, $programme2->id]);
+        $project2->programmes()->sync([$programme2->id]);
         $student1 = create(User::class, ['is_staff' => false]);
         $student2 = create(User::class, ['is_staff' => false]);
         $project1->students()->sync([$student1->id => ['choice' => 1, 'is_accepted' => true]]);
@@ -33,7 +38,7 @@ class ProjectExportTest extends TestCase
         $response = $this->actingAs($admin)->get(route('export.projects', ['category' => 'undergrad', 'format' => 'csv']));
 
         $response->assertOk();
-        Excel::assertDownloaded('uog_undergrad_project_data.csv', function (ProjectsExport $export) use ($student1, $student2, $project1, $project2) {
+        Excel::assertDownloaded('uog_undergrad_project_data.csv', function (ProjectsExport $export) use ($student1, $student2, $project1, $project2, $programme1, $programme2) {
             //3 rows, 2 projects + headers
             $this->assertCount(3, $export->collection());
 
@@ -51,8 +56,8 @@ class ProjectExportTest extends TestCase
             $this->assertEquals($project1->is_placement ? 'Y' : 'N', $export->collection()[1]['is_placement']);
             $this->assertEquals($project1->description, $export->collection()[1]['description']);
             $this->assertEquals($project1->pre_req, $export->collection()[1]['pre_req']);
+            $this->assertEquals($programme1->title . '|' . $programme2->title, $export->collection()[1]['programmes']);
             $this->assertEquals($student1->full_name, $export->collection()[1]['student_1']);
-
             $this->assertEquals($project2->id, $export->collection()[2]['id']);
             $this->assertEquals($project2->title, $export->collection()[2]['title']);
             $this->assertEquals($project2->owner->username, $export->collection()[2]['owner_guid']);
@@ -67,6 +72,7 @@ class ProjectExportTest extends TestCase
             $this->assertEquals($project2->is_placement ? 'Y' : 'N', $export->collection()[2]['is_placement']);
             $this->assertEquals($project2->description, $export->collection()[2]['description']);
             $this->assertEquals($project2->pre_req, $export->collection()[2]['pre_req']);
+            $this->assertEquals($programme2->title, $export->collection()[2]['programmes']);
 
             return true;
         });

@@ -129,7 +129,7 @@ class Project extends Model
 
     public function getCourseCodesAttribute()
     {
-        return $this->courses->implode('code', ' ');
+        return $this->courses->implode('code', '|');
     }
 
     public function getProgrammeTitlesAttribute()

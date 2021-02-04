@@ -37,6 +37,7 @@ class ProjectsExport implements FromCollection
                     'is_placement' => $project->is_placement ? 'Y' : 'N',
                     'description' => $project->description,
                     'pre_req' => $project->pre_req,
+                    'programmes' => $project->programmes->pluck('title')->implode('|'),
                 ];
                 foreach ($acceptedStudents as $key => $student) {
                     $row['student_'.($key + 1)] = $student->full_name;
@@ -59,6 +60,7 @@ class ProjectsExport implements FromCollection
             'Placement?',
             'Description',
             'Pre-reqs',
+            'Programmes',
             ]);
     }
 }
