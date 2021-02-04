@@ -65,7 +65,8 @@ unit-tests:
   - php artisan config:clear
   - php artisan migrate:fresh
   - cat .env
-  - php vendor/bin/phpunit --colors=never --testdox
+  - composer dump-autoload
+  - php artisan test
   - egrep -r '[^a-zA-Z](dd\(|dump\()' app || exit 0
 
 php-security-scan:
