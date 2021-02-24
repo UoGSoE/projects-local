@@ -2838,7 +2838,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
         fourth: null,
         fifth: null
       },
-      research_area: this.undergrad ? "N/A" : ""
+      research_area: "N/A" // this.undergrad ? "N/A" : ""
+
     };
   },
   computed: {

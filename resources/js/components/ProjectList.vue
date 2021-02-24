@@ -183,7 +183,7 @@ export default {
         fourth: null,
         fifth: null
       },
-      research_area: this.undergrad ? "N/A" : ""
+      research_area: "N/A" // this.undergrad ? "N/A" : ""
     };
   },
 
