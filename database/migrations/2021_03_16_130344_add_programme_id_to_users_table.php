@@ -14,7 +14,7 @@ class AddProgrammeIdToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->unsignedBigInteger('programme_id')->nullable();
+            $table->unsignedInteger('programme_id')->nullable();
             $table->foreign('programme_id')->references('id')->on('programmes');
         });
     }
