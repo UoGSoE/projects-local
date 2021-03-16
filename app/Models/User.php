@@ -70,6 +70,11 @@ class User extends Authenticatable
         return $this->belongsTo(Course::class);
     }
 
+    public function programme()
+    {
+        return $this->belongsTo(Programme::class);
+    }
+
     public function scopeStaff($query)
     {
         return $query->where('is_staff', '=', true);

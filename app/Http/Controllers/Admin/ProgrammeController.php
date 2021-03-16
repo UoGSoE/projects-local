@@ -34,6 +34,7 @@ class ProgrammeController extends Controller
         $data = $request->validate([
             'title' => 'required|unique:programmes',
             'category' => 'required|in:undergrad,postgrad',
+            'plan_code' => 'nullable|string',
         ]);
 
         $programme = Programme::create($data);
@@ -58,6 +59,7 @@ class ProgrammeController extends Controller
                 Rule::unique('programmes')->ignore($id),
             ],
             'category' => 'required|in:undergrad,postgrad',
+            'plan_code' => 'nullable|string',
         ]);
 
         Programme::findOrFail($id)->update($data);

@@ -12,8 +12,8 @@
 </p>
 <p>
     Format should be :
-    <pre>|Matric Number|Surname|Forenames|</pre> eg,
-    <pre>|1234567|Smith|Jenny|</pre>
+    <pre>|Matric Number|Surname|Forenames|Subject|Catalog|Acad Prog|Short Desc|Acad Plan|Desc</pre> eg,
+    <pre>|1234567|Smith|Jenny|ENG|5044|5200|MSc(SE)|H4N1-5200|Aerospace Eng & Mgt,MSc</pre>
 </p>
 
 <form method="POST" action="{{ route('admin.course.enroll', $course->id) }}" enctype="multipart/form-data">
