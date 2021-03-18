@@ -7,6 +7,13 @@
 
     <div class="field">
         <div class="control">
+            <label class="label">Plan Code</label>
+            <input class="input" name="plan_code" type="text" value="{{ old('plan_code', $programme->plan_code) }}">
+        </div>
+    </div>
+
+    <div class="field">
+        <div class="control">
             <label class="label">Type</label>
             <div class="select">
                 <select name="category">

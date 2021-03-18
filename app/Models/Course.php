@@ -59,10 +59,31 @@ class Course extends Model
                     'password' => bcrypt(Str::random(64)),
                 ]);
             }
+
+            // in a try/catch as I'm too lazy to do a check to see if these columns exist
+            // (different T.O people use different formats)
+            try {
+                $programmePlanCode = strtoupper($row[7]);
+                $programmeTitle = $row[8];
+                $programme = Programme::where('plan_code', '=', $programmePlanCode)
+                            ->orWhere('title', '=', $programmeTitle)
+                            ->first();
+                if (! $programme) {
+                    $programme = Programme::create([
+                        'title' => $programmeTitle,
+                        'plan_code' => $programmePlanCode,
+                        'category' => $this->category,
+                    ]);
+                }
+            } catch (\Exception $e) {
+                $programme = new Programme;
+            }
+
             $user->surname = $row[1];
             $user->forenames = $row[2];
             $user->email = $username.'@student.gla.ac.uk';
             $user->course_id = $this->id;
+            $user->programme_id = $programme->id;
             $user->save();
 
             return $user->id;

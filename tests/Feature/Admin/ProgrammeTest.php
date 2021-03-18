@@ -28,8 +28,8 @@ class ProgrammeTest extends TestCase
     public function admins_can_see_the_programmes_page()
     {
         $admin = create(User::class, ['is_admin' => true]);
-        $programme1 = create(Programme::class);
-        $programme2 = create(Programme::class);
+        $programme1 = create(Programme::class, ['plan_code' => 'HH123-456']);
+        $programme2 = create(Programme::class, ['plan_code' => 'HH999-911']);
         $project1 = create(Project::class);
         $project2 = create(Project::class);
         $project1->programmes()->sync([$programme1->id]);
@@ -40,6 +40,8 @@ class ProgrammeTest extends TestCase
         $response->assertSuccessful();
         $response->assertSee($programme1->title);
         $response->assertSee($programme2->title);
+        $response->assertSee($programme1->plan_code);
+        $response->assertSee($programme2->plan_code);
         $response->assertSee("$project1->max_students");
         $response->assertSee("$project2->max_students");
     }
@@ -63,13 +65,14 @@ class ProgrammeTest extends TestCase
         $response = $this->actingAs($admin)->post(route('admin.programme.store'), [
             'title' => 'NEW PROGRAMME',
             'category' => 'undergrad',
+            'plan_code' => 'HH123-456',
         ]);
 
         $response->assertStatus(302);
         $response->assertRedirect(route('admin.programme.index'));
         $response->assertSessionHas('success');
         $this->assertCount(1, Programme::all());
-        $this->assertDatabaseHas('programmes', ['title' => 'NEW PROGRAMME']);
+        $this->assertDatabaseHas('programmes', ['title' => 'NEW PROGRAMME', 'plan_code' => 'HH123-456']);
     }
 
     /** @test */
@@ -93,6 +96,7 @@ class ProgrammeTest extends TestCase
         $response = $this->actingAs($admin)->post(route('admin.programme.update', $programme->id), [
             'title' => 'UPDATED PROGRAMME',
             'category' => 'undergrad',
+            'plan_code' => 'HH999-765',
         ]);
 
         $response->assertStatus(302);
@@ -100,6 +104,7 @@ class ProgrammeTest extends TestCase
         $response->assertSessionHas('success');
         $this->assertCount(1, Programme::all());
         $this->assertEquals('UPDATED PROGRAMME', $programme->fresh()->title);
+        $this->assertEquals('HH999-765', $programme->fresh()->plan_code);
     }
 
     /** @test */

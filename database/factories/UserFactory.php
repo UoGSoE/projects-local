@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Programme;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -29,6 +30,7 @@ class UserFactory extends Factory
             return [
                 'is_staff' => false,
                 'username' => $this->faker->numberBetween(1000000, 9999999).$this->faker->randomLetter,
+                'programme_id' => Programme::factory(),
             ];
         });
     }

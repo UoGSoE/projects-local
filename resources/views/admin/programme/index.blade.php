@@ -50,6 +50,7 @@
             <thead>
                 <tr>
                     <th @click.prevent="sortOn('title')" class="cursor-pointer">Name</th>
+                    <th @click.prevent="sortOn('plan_code')" class="cursor-pointer">Plan Code</th>
                     <th @click.prevent="sortOn('category')" class="cursor-pointer">Category</th>
                     <th @click.prevent="sortOn('projects_count')" class="cursor-pointer has-text-centered">Projects</th>
                     <th @click.prevent="sortOn('places_count')" class="cursor-pointer has-text-centered">Places</th>
@@ -61,6 +62,7 @@
                     <td>
                         <a :href="editProgrammeUrl(programme.id)">@{{ programme.title }}</a>
                     </td>
+                    <td>@{{ programme.plan_code }}</td>
                     <td>@{{ programme.category }}</td>
                     <td class="has-text-centered">@{{ programme.projects_count }}</td>
                     <td class="has-text-centered">@{{ programme.places_count }}</td>

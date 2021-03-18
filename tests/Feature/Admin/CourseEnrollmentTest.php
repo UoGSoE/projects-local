@@ -2,14 +2,15 @@
 
 namespace Tests\Feature\Admin;
 
+use Tests\TestCase;
+use App\Models\User;
 use App\Models\Course;
 use App\Models\Project;
-use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use App\Models\Programme;
 use Illuminate\Http\UploadedFile;
 use Spatie\Activitylog\Models\Activity;
-use Tests\TestCase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CourseEnrollmentTest extends TestCase
 {
@@ -53,10 +54,16 @@ class CourseEnrollmentTest extends TestCase
         $this->assertEquals('Sham', $student->surname);
         $this->assertEquals('Allan', $student->forenames);
         $this->assertTrue($student->isStudent());
+        $this->assertNotNull($student->programme_id);
+        $programme = Programme::where('plan_code', '=', 'H4N1-5200')->firstOrFail();
+        $this->assertTrue($student->programme->is($programme));
+        $this->assertEquals($course->category, $programme->category);
 
         $logs = Activity::all();
-        $this->assertTrue($logs[0]->causer->is($admin));
-        $this->assertEquals("Enrolled students onto {$course->code}", $logs[0]->description);
+        $this->assertTrue($logs[1]->causer->is($admin));
+        $this->assertEquals("Created programme Aerospace Eng & Mgt,MSc", $logs[0]->description);
+        $this->assertTrue($logs[1]->causer->is($admin));
+        $this->assertEquals("Enrolled students onto {$course->code}", $logs[1]->description);
     }
 
     /** @test */
