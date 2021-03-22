@@ -15,6 +15,11 @@
             </a>
         </span>
         <span class="level-item">
+            <a href="{{ route('admin.user.edit', $user->id) }}" class="button">
+                <span>Edit</span>
+            </a>
+        </span>
+        <span class="level-item">
             <form method="POST" action="{{ route('impersonate.start', $user->id) }}">
                 @csrf
                 <button class="button">Impersonate</button>
@@ -38,15 +43,7 @@
     </tr>
     <tr>
         <th>Email</th>
-        <td>
-            <div class="level">
-                <div class="level-left">
-                    <div class="level-item">
-                        <email-edit :user='@json($user)'></email-edit>
-                    </div>
-                </div>
-            </div>
-        </td>
+        <td>{{ $user->email }}</td>
     </tr>
     <tr>
         <th>Type</th>

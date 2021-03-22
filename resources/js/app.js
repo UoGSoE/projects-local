@@ -39,7 +39,6 @@ Vue.component('project-list', require('./components/ProjectList.vue').default);
 Vue.component('student-list', require('./components/StudentList.vue').default);
 Vue.component('admin-toggle', require('./components/AdminToggle.vue').default);
 Vue.component('new-user', require('./components/NewUser.vue').default);
-Vue.component('email-edit', require('./components/EmailEdit.vue').default);
 Vue.component('manual-student-allocator', require('./components/ManualStudentAllocator.vue').default);
 Vue.component('project-bulk-options', require('./components/ProjectBulkOptions.vue').default);
 Vue.component('course-student-list', require('./components/CourseStudentList.vue').default);
