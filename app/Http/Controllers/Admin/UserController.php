@@ -32,6 +32,38 @@ class UserController extends Controller
         ]);
     }
 
+    public function edit(User $user)
+    {
+        return view('admin.user.edit', [
+            'user' => $user,
+        ]);
+    }
+
+    public function update(Request $request, User $user)
+    {
+        $request->validate([
+            'forenames' => 'required|string',
+            'surname' => 'required|string',
+            'username' => "required|string|unique:users,username,$user->id",
+            'email' => "required|email|unique:users,email,$user->id"
+        ]);
+
+        $user->forenames = $request->forenames;
+        $user->surname = $request->surname;
+        $user->username = $request->username;
+        $user->email = $request->email;
+
+        if ($user->isStudent()) {
+            $emailDomain = app('env') == 'production' ? 'student.gla.ac.uk' : 'example.com';
+            $user->email = $user->username . "@$emailDomain";
+        }
+        $user->save();
+
+        event(new SomethingNoteworthyHappened(auth()->user(), "Updated user {$user->username}"));
+
+        return redirect(route('admin.user.show', $user))->with('success', 'User Updated');
+    }
+
     public function destroy(User $user)
     {
         event(new SomethingNoteworthyHappened(auth()->user(), $this->getDeleteMessageFor($user)));

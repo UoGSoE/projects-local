@@ -67,6 +67,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/user/{user}', [\App\Http\Controllers\Admin\UserController::class, 'show'])->name('admin.user.show');
         Route::delete('/user/{user}', [\App\Http\Controllers\Admin\UserController::class, 'destroy'])->name('admin.user.delete');
 
+        Route::get('/user/{user}/edit', [\App\Http\Controllers\Admin\UserController::class, 'edit'])->name('admin.user.edit');
+        Route::post('/user/{user}/edit', [\App\Http\Controllers\Admin\UserController::class, 'update'])->name('admin.user.update');
+
+
         Route::post('/user/{user}/toggle-admin', [\App\Http\Controllers\Admin\UserController::class, 'toggleAdmin'])->name('admin.users.toggle_admin');
 
         Route::delete('/students/remove/undergrad', [\App\Http\Controllers\Admin\BulkRemovalController::class, 'undergrads'])->name('students.remove_undergrad');
