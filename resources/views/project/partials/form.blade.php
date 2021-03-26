@@ -34,7 +34,7 @@
 
     <div class="field">
         <div class="control">
-            <label class="label">Pre-requisit skills</label>
+            <label class="label">Prerequisite skills</label>
             <textarea class="textarea" name="pre_req">{{ old('pre_req', $project->pre_req) }}</textarea>
         </div>
     </div>

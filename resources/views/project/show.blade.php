@@ -39,7 +39,7 @@
                     <td>{{ $project->description }}</td>
                 </tr>
                 <tr>
-                    <th>Pre-requisit Skills</th>
+                    <th>Prerequisite Skills</th>
                     <td>{{ $project->pre_req }}</td>
                 </tr>
                 <tr>
