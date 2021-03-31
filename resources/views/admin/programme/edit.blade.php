@@ -28,6 +28,7 @@
 @foreach ($programme->projects as $project)
     <li>
         <a href="{{ route('project.show', $project->id) }}">{{ $project->title }}</a>
+        - run by <a href="{{ route('admin.user.show', optional($project->owner)->id) }}">{{ optional($project->owner)->full_name }}</a>
     </li>
 @endforeach
 
