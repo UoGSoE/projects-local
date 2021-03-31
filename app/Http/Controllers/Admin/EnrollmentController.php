@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Course;
 use App\Events\SomethingNoteworthyHappened;
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Jobs\ImportStudents;
+use App\Models\Course;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Ohffs\SimpleSpout\ExcelSheet;
 
 class EnrollmentController extends Controller
@@ -27,12 +26,12 @@ class EnrollmentController extends Controller
 
         $data = (new ExcelSheet)->trimmedImport($request->file('sheet')->path());
 
-        $students = $course->enrollStudents($data);
+        ImportStudents::dispatch($data, $course, auth()->user());
 
-        event(new SomethingNoteworthyHappened($request->user(), "Enrolled students onto {$course->code}"));
+        event(new SomethingNoteworthyHappened($request->user(), "Uploaded students to be enrolled on {$course->code} spreadsheet"));
 
         return redirect()->route('admin.course.show', $course->id)
-            ->with('success', "Imported {$students->count()} Students");
+            ->with('success', 'Importing students. This may take some time. You will be emailed once it is finished.');
     }
 
     public function destroy($id)
