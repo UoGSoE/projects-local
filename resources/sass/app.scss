@@ -91,3 +91,7 @@ body {
   transform: rotate(-90deg);
   transform-origin: left;
 }
+
+[v-cloak] {
+    display: none;
+}

@@ -44,6 +44,7 @@ Vue.component('project-bulk-options', require('./components/ProjectBulkOptions.v
 Vue.component('course-student-list', require('./components/CourseStudentList.vue').default);
 Vue.component('research-area-admin', require('./components/ResearchAreaAdmin.vue').default);
 Vue.component('deletable-list', require('./components/DeletableList.vue').default);
+Vue.component('programme-filter', require('./components/ProgrammeFilter.vue').default);
 Vue.component('filterable-items', require('./components/FilterableItems.vue').default);
 
 window.moment = require('moment');

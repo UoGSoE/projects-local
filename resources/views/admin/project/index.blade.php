@@ -6,7 +6,7 @@
     <div class="level-left">
         <div class="level-item">
             <h3 class="title is-3">
-                All {{ ucfirst($category) }} Projects
+                All {{ $type }} {{ ucfirst($category) }} Projects @if($programmeFilter) for {{$programmeFilter}} @endif
             </h3>
         </div>
         <div class="level-item">
@@ -60,6 +60,38 @@
         </div>
     </div>
 </nav>
+
+<div class="field has-addons">
+    <p class="control">
+        <span class="button is-static">Type:</span>
+    </p>
+    <p class="control">
+        <a href="{{ route('admin.project.index', ['category' => $category, 'programme' => $programmeFilter] ) }}" class="button @if(!$type) is-info @endif">
+            <span>All</span>
+        </a>
+    </p>
+    <p class="control">
+        <a href="{{ route('admin.project.index', ['category' => $category, 'type' => 'B.Eng', 'programme' => $programmeFilter]) }}" class="button @if($type=='B.Eng') is-info @endif">
+            <span>B.Eng</span>
+        </a>
+    </p>
+    <p class="control">
+        <a href="{{ route('admin.project.index', ['category' => $category, 'type' => 'M.Eng', 'programme' => $programmeFilter]) }}" class="button @if($type=='M.Eng') is-info @endif">
+            <span>M.Eng</span>
+        </a>
+    </p>
+    <p class="control">
+        <a href="{{ route('admin.project.index', ['category' => $category, 'type' => 'SIT/UESTC', 'programme' => $programmeFilter]) }}" class="button @if($type=='SIT/UESTC') is-info @endif">
+            <span>SIT/UESTC</span>
+        </a>
+    </p>
+</div>
+
+<programme-filter
+    category="{{ $category }}"
+    type="{{ $type }}"
+    programme="{{ $programmeFilter }}"
+    :programmes='@json($programmes)'></programme-filter>
 
 <filterable-items :items='@json($projects)' searchables="title,course_codes,programe_titles,owner_name,student_names">
     <span slot-scope="{ items: projects, inputAttrs, inputEvents, sortOn }">
