@@ -25,7 +25,7 @@
     @include('layouts.navbar')
     <section id="app" class="section">
         <div class="container" id="content-area">
-            <div id="content-main">
+            <div v-cloak id="content-main">
                 <noscript>
                     This website requires javascript to function. Please turn it on.
                 </noscript>

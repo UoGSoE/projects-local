@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Admin;
 
-use App\Models\Course;
 use App\Mail\AcceptedOntoProject;
+use App\Models\Course;
 use App\Models\Programme;
 use App\Models\Project;
 use App\Models\User;
@@ -15,6 +15,69 @@ use Tests\TestCase;
 class ProjectTest extends TestCase
 {
     use RefreshDatabase;
+
+    /** @test */
+    public function admin_can_filter_index_page_by_type()
+    {
+        $this->withoutExceptionHandling();
+        $admin = create(User::class, ['is_admin' => true, 'is_staff' => true]);
+        $project = create(Project::class, ['category' => 'undergrad', 'type' => 'B.Eng']);
+        $project2 = create(Project::class, ['category' => 'undergrad', 'type' => 'M.Eng']);
+        $project3 = create(Project::class, ['category' => 'postgrad', 'type' => 'B.Eng']);
+
+        $response = $this->actingAs($admin)->get(route('admin.project.index', ['category' => 'undergrad', 'type' => 'B.Eng']));
+
+        $response->assertSuccessful();
+        $response->assertSee($project->title);
+        $response->assertDontSee($project2->title);
+        $response->assertDontSee($project3->title);
+    }
+
+    /** @test */
+    public function admin_can_filter_index_page_by_programme()
+    {
+        $this->withoutExceptionHandling();
+        $admin = create(User::class, ['is_admin' => true, 'is_staff' => true]);
+        $project = create(Project::class, ['category' => 'undergrad', 'type' => 'B.Eng']);
+        $project2 = create(Project::class, ['category' => 'undergrad', 'type' => 'M.Eng']);
+        $programme = create(Programme::class);
+        $programme2 = create(Programme::class);
+
+        $project->programmes()->sync($programme);
+        $project2->programmes()->sync($programme2);
+
+        $response = $this->actingAs($admin)->get(route('admin.project.index', ['category' => 'undergrad', 'programme' => $programme->title]));
+
+        $response->assertSuccessful();
+        $response->assertSee($project->title);
+        $response->assertDontSee($project2->title);
+    }
+
+    /** @test */
+    public function admin_can_filter_index_page_by_programme_and_type()
+    {
+        $this->withoutExceptionHandling();
+        $admin = create(User::class, ['is_admin' => true, 'is_staff' => true]);
+        $project = create(Project::class, ['category' => 'undergrad', 'type' => 'B.Eng']);
+        $project2 = create(Project::class, ['category' => 'undergrad', 'type' => 'M.Eng']);
+        $project3 = create(Project::class, ['category' => 'undergrad', 'type' => 'B.Eng']);
+        $project4 = create(Project::class, ['category' => 'undergrad', 'type' => 'M.Eng']);
+        $programme = create(Programme::class);
+        $programme2 = create(Programme::class);
+
+        $project->programmes()->sync($programme);
+        $project2->programmes()->sync($programme2);
+        $project3->programmes()->sync($programme2);
+        $project4->programmes()->sync($programme);
+
+        $response = $this->actingAs($admin)->get(route('admin.project.index', ['category' => 'undergrad', 'programme' => $programme->title, 'type' => 'B.Eng']));
+
+        $response->assertSuccessful();
+        $response->assertSee($project->title);
+        $response->assertDontSee($project2->title);
+        $response->assertDontSee($project3->title);
+        $response->assertDontSee($project4->title);
+    }
 
     /** @test */
     public function an_admin_can_view_a_project()

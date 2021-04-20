@@ -29,6 +29,7 @@
     <li>
         <a href="{{ route('project.show', $project->id) }}">{{ $project->title }}</a>
         - run by <a href="{{ route('admin.user.show', optional($project->owner)->id) }}">{{ optional($project->owner)->full_name }}</a>
+        - {{ $project->max_students }} max students
     </li>
 @endforeach
 

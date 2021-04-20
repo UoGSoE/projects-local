@@ -12277,3 +12277,7 @@ body {
           transform-origin: left;
 }
 
+[v-cloak] {
+  display: none;
+}
+
