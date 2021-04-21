@@ -10,15 +10,24 @@
             <div class="control">
                 <label class="label">Type</label>
                 <label class="radio">
-                    <input type="radio" name="type" value="B.Eng" required>
+                    <input type="radio" name="type" value="B.Eng" required
+                    @if($project->type == 'B.Eng')
+                        checked
+                    @endif>
                     B.Eng
                 </label>
                 <label class="radio">
-                    <input type="radio" name="type" value="M.Eng">
+                    <input type="radio" name="type" value="M.Eng"
+                    @if($project->type == 'M.Eng')
+                        checked
+                    @endif>
                     M.Eng
                 </label>
                 <label class="radio">
-                    <input type="radio" name="type" value="SIT/UESTC">
+                    <input type="radio" name="type" value="SIT/UESTC"
+                    @if($project->type == 'SIT/UESTC')
+                        checked
+                    @endif>
                     SIT/UESTC
                 </label>
             </div>

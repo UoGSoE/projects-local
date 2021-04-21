@@ -36,11 +36,21 @@
                             Bulk Options
                         </a>
                         <hr class="dropdown-divider">
-                        <a href="{{ route('export.projects', ['category' => $category, 'format' => 'xlsx']) }}" class="dropdown-item">
+                        <a href="{{ route('export.projects', [
+                            'category' => $category,
+                            'format' => 'xlsx',
+                            'type' => $type,
+                            'programme' => $programmeFilter
+                            ]) }}" class="dropdown-item">
                             <i class="fas fa-file-excel"></i>
                             Export Excel
                         </a>
-                        <a href="{{ route('export.projects', ['category' => $category, 'format' => 'csv']) }}" class="dropdown-item">
+                        <a href="{{ route('export.projects', [
+                            'category' => $category,
+                            'format' => 'csv',
+                            'type' => $type,
+                            'programme' => $programmeFilter
+                            ]) }}" class="dropdown-item">
                             <i class="fas fa-file-csv"></i>
                             Export CSV
                         </a>
@@ -61,6 +71,7 @@
     </div>
 </nav>
 
+@if ($category == 'undergrad')
 <div class="field has-addons">
     <p class="control">
         <span class="button is-static">Type:</span>
@@ -86,6 +97,7 @@
         </a>
     </p>
 </div>
+@endif
 
 <programme-filter
     category="{{ $category }}"
@@ -93,17 +105,18 @@
     programme="{{ $programmeFilter }}"
     :programmes='@json($programmes)'></programme-filter>
 
-<filterable-items :items='@json($projects)' searchables="title,course_codes,programe_titles,owner_name,student_names">
+<filterable-items :items='@json($projects)' searchables="title,course_codes,programme_titles,owner_name,student_names">
     <span slot-scope="{ items: projects, inputAttrs, inputEvents, sortOn }">
         <input class="input" type="text" v-bind="inputAttrs" v-on="inputEvents" placeholder="Filter table..." autofocus>
         <table class="table is-fullwidth is-striped is-hover">
             <thead>
                 <tr>
-                    <th @click.prevent="sortOn('title')" class="cursor-pointer" width="30%">Title</th>
-                    <th @click.prevent="sortOn('owner_name')" class="cursor-pointer" width="15%">Owner</th>
+                    <th @click.prevent="sortOn('title')" class="cursor-pointer" width="25%">Title</th>
+                    <th @click.prevent="sortOn('owner_name')" class="cursor-pointer" width="10%">Owner</th>
                     <th class="cursor-pointer" width="5%">2nd</th>
+                    <th class="cursor-pointer" width="20%">Programmes</th>
                     <th @click.prevent="sortOn('max_students')" class="cursor-pointer has-text-centered" width="10%">Max Students</th>
-                    <th @click.prevent="sortOn('students_count')" class="cursor-pointer has-text-centered" width="15%">Students Applied</th>
+                    <th @click.prevent="sortOn('students_count')" class="cursor-pointer has-text-centered" width="5%">Applied</th>
                     <th @click.prevent="sortOn('accepted_students_count')" class="cursor-pointer has-text-centered" width="5%">Accepted</th>
                     <th>Students</th>
                 </tr>
@@ -131,6 +144,11 @@
                     </td>
                     <td>@{{ project.owner.full_name }}</td>
                     <td>@{{ project.second_supervisor ? project.second_supervisor.full_name : '' }}</td>
+                    <td>
+                        <span v-for="programme in project.programmes">
+                            @{{ programme.title }}<br>
+                        </span>
+                    </td>
                     <td class="has-text-centered">@{{ project.max_students }}</td>
                     <td class="has-text-centered">@{{ project.students_count }}</td>
                     <td class="has-text-centered">@{{ project.accepted_students_count }}</td>

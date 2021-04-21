@@ -11,8 +11,11 @@ class ProjectController extends Controller
 {
     public function export($category, $format)
     {
+        $type = request()->type ?: null;
+        $programmeFilter = request()->programme ?: '';
+
         event(new SomethingNoteworthyHappened(auth()->user(), 'Exported the list of projects'));
 
-        return Excel::download(new ProjectsExport($category), "uog_{$category}_project_data.{$format}");
+        return Excel::download(new ProjectsExport($category, $type, $programmeFilter), "uog_{$category}_project_data.{$format}");
     }
 }

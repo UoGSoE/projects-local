@@ -12,6 +12,7 @@ class ProjectController extends Controller
     {
         $type = request()->type ?: null;
         $programmeFilter = request()->programme ?: '';
+
         $projects = Project::where('category', '=', $category)
             ->orderBy('title')
             ->with(['owner', 'secondSupervisor', 'courses', 'programmes', 'students'])

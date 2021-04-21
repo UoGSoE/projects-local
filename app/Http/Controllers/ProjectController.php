@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Course;
 use App\Events\SomethingNoteworthyHappened;
+use App\Models\Course;
 use App\Models\Programme;
 use App\Models\Project;
 use App\Models\User;
@@ -98,6 +98,7 @@ class ProjectController extends Controller
     {
         $validationRules = [
             'title' => 'required',
+            'type' => 'string',
             'category' => 'required',
             'pre_req' => 'nullable',
             'description' => 'required',
