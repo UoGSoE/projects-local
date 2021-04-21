@@ -7,9 +7,11 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 
 class ProjectsExport implements FromCollection
 {
-    public function __construct($category)
+    public function __construct($category, $type, $programmeFilter)
     {
-        $this->category = $category;
+        $this->category = $category; //Undergrad or Postgrad
+        $this->type = $type; // B.Eng, M.Eng or UESTC
+        $this->programmeFilter = $programmeFilter;
     }
 
     /**
@@ -17,7 +19,18 @@ class ProjectsExport implements FromCollection
      */
     public function collection()
     {
-        return Project::where('category', '=', $this->category)
+        $type = $this->type;
+        $programmeFilter = $this->programmeFilter;
+
+        $projects = Project::where('category', '=', $this->category)
+            ->when($type, function ($query, $type) {
+                return $query->where('type', $type);
+            })
+            ->when($programmeFilter, function ($query, $programmeFilter) {
+                return $query->whereHas('programmes', function ($query) use ($programmeFilter) {
+                    $query->where('title', $programmeFilter);
+                });
+            })
             ->orderBy('title')
             ->get()
             ->map(function ($project, $key) {
@@ -62,5 +75,7 @@ class ProjectsExport implements FromCollection
             'Pre-reqs',
             'Programmes',
             ]);
+
+        return $projects;
     }
 }
