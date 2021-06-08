@@ -49,7 +49,7 @@ unit-tests:
     MYSQL_ROOT_PASSWORD: secret
     MYSQL_USER: homestead
     MYSQL_PASSWORD: secret
-
+    REDIS_PORT: 6379
   # If you need Node.js
   #- curl -sL https://deb.nodesource.com/setup_10.x | bash -
   #- apt-get install -y nodejs
