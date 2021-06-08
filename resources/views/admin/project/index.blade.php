@@ -64,6 +64,10 @@
                         <a href="{{ route('import.show_importoldprojects', ['category' => $category]) }}" class="dropdown-item">
                             Import Old Projects Spreadsheet
                         </a>
+                        <hr class="dropdown-divider">
+                        <a href="{{ route('import.show_moran_importer') }}" class="dropdown-item">
+                            Import Dave Morans MEng Spreadsheet
+                        </a>
                     </div>
                 </div>
             </div>

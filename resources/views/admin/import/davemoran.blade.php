@@ -8,8 +8,6 @@
 
 <!-- TODO -->
 <pre>
-    Project ID | Project Name    | Col 2 | Col 3 | Supervisor GUID
-    4          | Amazing project | Col 2 | Col 3 | abc1x
 </pre>
 
 <hr>
