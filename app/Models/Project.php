@@ -45,6 +45,11 @@ class Project extends Model
         return $this->belongsTo(User::class, 'second_supervisor_id');
     }
 
+    public function scopeActiveMeng($query)
+    {
+        return $query->active()->where('type', '=', 'M.Eng');
+    }
+
     public function scopeUndergrad($query)
     {
         return $query->where('category', '=', 'undergrad');

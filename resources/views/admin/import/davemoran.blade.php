@@ -3,7 +3,7 @@
 @section('content')
 
 <h3 class="title is-3">
-    Import Second Supervisors
+    Import custom project spreadsheet
 </h3>
 
 <!-- TODO -->
@@ -14,7 +14,7 @@
 
 <hr>
 
-<form id="form" method="POST" action="{{ route('admin.import.second_supervisors') }}" enctype="multipart/form-data">
+<form id="form" method="POST" action="{{ route('import.moran_importer') }}" enctype="multipart/form-data">
     @csrf
     <div class="file">
         <label class="file-label">

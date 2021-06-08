@@ -30,6 +30,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/projects/import', [\App\Http\Controllers\Admin\ImportOldProjectsController::class, 'show'])->name('import.show_importoldprojects');
         Route::post('/projects/import', [\App\Http\Controllers\Admin\ImportOldProjectsController::class, 'store'])->name('import.oldprojects');
 
+        Route::get('/projects/dmoran_import', [\App\Http\Controllers\Admin\DaveMoranImportController::class, 'show'])->name('import.show_moran_importer');
+        Route::post('/projects/dmoran_import', [\App\Http\Controllers\Admin\DaveMoranImportController::class, 'store'])->name('import.moran_importer');
+
         Route::get('/projects/{category}', [\App\Http\Controllers\Admin\ProjectController::class, 'index'])->name('admin.project.index');
         Route::get('/projects/{category}/options', [\App\Http\Controllers\Admin\ProjectOptionsController::class, 'index'])->name('admin.project.bulk-options');
         Route::post('/projects/{category}/options', [\App\Http\Controllers\Admin\ProjectOptionsController::class, 'update'])->name('admin.project.bulk-options.update');

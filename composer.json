@@ -22,6 +22,7 @@
         "ohffs/simple-spout": "dev-master",
         "sentry/sentry-laravel": "^2.3",
         "spatie/laravel-activitylog": "^3.11",
+        "spatie/laravel-ray": "^1.19",
         "tightenco/ziggy": "^0.8.1",
         "uogsoe/ldap-laravel": "^3.0"
     },
