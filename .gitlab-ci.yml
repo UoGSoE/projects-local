@@ -42,6 +42,7 @@ unit-tests:
 
   services:
   - mysql:5.7
+  - redis:6.2
 
   variables:
     MYSQL_DATABASE: homestead
