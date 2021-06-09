@@ -42,13 +42,14 @@ unit-tests:
 
   services:
   - mysql:5.7
+  - redis:6.2
 
   variables:
     MYSQL_DATABASE: homestead
     MYSQL_ROOT_PASSWORD: secret
     MYSQL_USER: homestead
     MYSQL_PASSWORD: secret
-
+    REDIS_PORT: 6379
   # If you need Node.js
   #- curl -sL https://deb.nodesource.com/setup_10.x | bash -
   #- apt-get install -y nodejs
