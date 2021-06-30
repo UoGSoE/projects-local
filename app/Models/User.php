@@ -38,7 +38,8 @@ class User extends Authenticatable
             return $this->hasMany(Project::class, 'staff_id');
         }
 
-        return $this->belongsToMany(Project::class, 'project_students', 'student_id')->withPivot(['choice', 'is_accepted']);
+        return $this->belongsToMany(Project::class, 'project_students', 'student_id')->withPivot(['choice', 'is_accepted'])
+        ->orderByPivot('choice');
     }
 
     /**
