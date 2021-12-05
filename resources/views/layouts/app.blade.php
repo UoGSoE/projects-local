@@ -19,6 +19,8 @@
         window.user = @json(Auth::user());
     </script>
 
+    @livewireStyles
+
     @routes
 </head>
 <body>
@@ -46,6 +48,7 @@
     @include('layouts.footer')
 
     <!-- Scripts -->
+    @livewireScripts
     <script src="{{ asset('js/app.js') }}"></script>
     <script>
         (function() {

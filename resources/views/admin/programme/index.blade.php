@@ -36,6 +36,10 @@
                             <i class="fas fa-file-csv"></i>
                             Export CSV
                         </a>
+                        <hr class="dropdown-divider">
+                        <a href="{{ route('admin.programmes.merge') }}" class="dropdown-item">
+                            Merge &amp; Remove Programmes
+                        </a>
                     </div>
                 </div>
             </div>

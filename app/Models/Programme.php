@@ -17,6 +17,11 @@ class Programme extends Model
         return $this->belongsToMany(Project::class, 'project_programmes');
     }
 
+    public function students()
+    {
+        return $this->hasMany(User::class);
+    }
+
     public function getPlacesCountAttribute()
     {
         return $this->projects->sum('max_students');
@@ -29,5 +34,16 @@ class Programme extends Model
                 return intval($student->pivot->is_accepted);
             });
         });
+    }
+
+    public function transferProjectsToProgramme(Programme $programme): void
+    {
+        $programme->projects()->syncWithoutDetaching($this->projects->pluck('id'));
+        $this->projects()->detach();
+    }
+
+    public function transferStudentsToProgramme(Programme $programme): void
+    {
+        $this->students->each->update(['programme_id' => $programme->id]);
     }
 }

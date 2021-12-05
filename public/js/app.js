@@ -3387,6 +3387,23 @@ module.exports = function isBuffer (obj) {
 
 /***/ }),
 
+/***/ "./node_modules/livewire-vue/dist/livewire-vue.js":
+/*!********************************************************!*\
+  !*** ./node_modules/livewire-vue/dist/livewire-vue.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;!function(e){ true?!(__WEBPACK_AMD_DEFINE_FACTORY__ = (e),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) :
+				__WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)):undefined}((function(){"use strict";if(void 0===window.livewire)throw"Livewire Vue Plugin: window.livewire is undefined. Make sure @livewireScripts is placed above this script include";window.livewire.hook("message.received",(e,i)=>{if(!window.Vue)return;if(!e.response.effects.html)return;const n=document.createElement("div");n.innerHTML=e.response.effects.html,(new window.Vue).$mount(n.firstElementChild),e.response.effects.html=n.firstElementChild.outerHTML}),window.livewire.hook("element.initialized",e=>{e.__vue__&&(e.__livewire_ignore=!0)}),window.livewire.hook("interceptWireModelSetValue",(e,i)=>{if(!i.__vue__)return;const n=window.Vue.config.silent;window.Vue.config.silent=!0,i.__vue__.$props.value=e,window.Vue.config.silent=n}),window.livewire.hook("interceptWireModelAttachListener",(e,i,n,t)=>{if(!e.__vue__)return;const o=i.modifiers.includes("debounce"),r=i.modifiers.includes("lazy");e.__vue__.$on("input",t(o||!r,e=>{const t=i.value,o=e;n.set(t,o)},i.durationOr(150)))})}));
+//# sourceMappingURL=livewire-vue.js.map
+
+
+/***/ }),
+
 /***/ "./node_modules/moment/locale sync recursive ^\\.\\/.*$":
 /*!**************************************************!*\
   !*** ./node_modules/moment/locale sync ^\.\/.*$ ***!
@@ -37213,10 +37230,12 @@ module.exports = function(module) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var pikaday__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! pikaday */ "./node_modules/pikaday/pikaday.js");
-/* harmony import */ var pikaday__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(pikaday__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var pikaday_css_pikaday_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! pikaday/css/pikaday.css */ "./node_modules/pikaday/css/pikaday.css");
-/* harmony import */ var pikaday_css_pikaday_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(pikaday_css_pikaday_css__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var livewire_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! livewire-vue */ "./node_modules/livewire-vue/dist/livewire-vue.js");
+/* harmony import */ var livewire_vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(livewire_vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var pikaday__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! pikaday */ "./node_modules/pikaday/pikaday.js");
+/* harmony import */ var pikaday__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(pikaday__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var pikaday_css_pikaday_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! pikaday/css/pikaday.css */ "./node_modules/pikaday/css/pikaday.css");
+/* harmony import */ var pikaday_css_pikaday_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(pikaday_css_pikaday_css__WEBPACK_IMPORTED_MODULE_2__);
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
@@ -37233,6 +37252,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+
 
 
 /**
@@ -37277,7 +37297,7 @@ Vue.component('filterable-items', __webpack_require__(/*! ./components/Filterabl
 window.moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 Vue.directive('pikaday', {
   bind: function bind(el, binding) {
-    el.pikadayInstance = new pikaday__WEBPACK_IMPORTED_MODULE_0___default.a({
+    el.pikadayInstance = new pikaday__WEBPACK_IMPORTED_MODULE_1___default.a({
       field: el,
       format: 'DD/MM/YYYY',
       onSelect: function onSelect() {
@@ -38357,8 +38377,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/finlay/Code/glasgow_projects/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/finlay/Code/glasgow_projects/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/billy/Documents/code/glasgow_projects/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/billy/Documents/code/glasgow_projects/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
