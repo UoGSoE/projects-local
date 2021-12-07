@@ -60,6 +60,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/programme/{id}', [\App\Http\Controllers\Admin\ProgrammeController::class, 'update'])->name('admin.programme.update');
         Route::delete('/programme/{id}', [\App\Http\Controllers\Admin\ProgrammeController::class, 'destroy'])->name('admin.programme.destroy');
 
+        Route::get('/programme-merge', [\App\Http\Controllers\Admin\ProgrammeMergeController::class, 'index'])->name('admin.programmes.merge');
+
         Route::post('/bulk-accept', [\App\Http\Controllers\Admin\BulkAcceptanceController::class, 'store'])->name('project.bulk_accept');
         Route::get('/import-allocations', [\App\Http\Controllers\Admin\ImportAllocationController::class, 'show'])->name('project.import.allocations-page');
         Route::post('/import-allocations', [\App\Http\Controllers\Admin\ImportAllocationController::class, 'store'])->name('project.import.allocations');

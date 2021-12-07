@@ -39,7 +39,7 @@ class DaveMoranImportController extends Controller
             if ($sheet->getIndex() === 0) { // index is 0-based
                 $rowNumber = 1;
                 foreach ($sheet->getRowIterator() as $row) {
-                    $batch->add(new ImportDmoranSheetRow($row->toArray(), $rowNumber));
+                    $batch->add([new ImportDmoranSheetRow($row->toArray(), $rowNumber)]);
                     $rowNumber = $rowNumber + 1;
                 }
                 break; // no need to read more sheets
