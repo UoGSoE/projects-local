@@ -1,0 +1,22 @@
+name: glasgow-projects
+recipe: laravel
+config:
+  webroot: public
+  php: '7.4'
+  cache: 'redis'
+services:
+  mail:
+    type: mailhog
+    portforward: true
+    hogfrom:
+      - appserver
+tooling:
+  mfs:
+    service: appserver
+    cmd: php artisan migrate:fresh && php artisan db:seed --class=TestDataSeeder
+  phpunit:
+    service: appserver
+    cmd: php ./vendor/bin/phpunit
+  puf:
+    service: appserver
+    cmd: php ./vendor/bin/phpunit --filter
