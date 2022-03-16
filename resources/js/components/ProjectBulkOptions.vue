@@ -16,7 +16,11 @@
               <th @click.prevent="sortOn('title')" class="cursor-pointer">Title</th>
               <th @click.prevent="sortOn('owner_name')" class="cursor-pointer">Owner</th>
               <th class="cursor-pointer">2nd</th>
-              <th class="cursor-pointer">Active?</th>
+              <th class="cursor-pointer">
+                  Active?<br />
+                  <button @click.prevent="makeAllActive()">All</button>
+                  <button @click.prevent="makeAllInactive()">None</button>
+                </th>
               <th class="cursor-pointer">Delete?</th>
             </tr>
           </thead>
@@ -113,6 +117,16 @@ export default {
     });
   },
   methods: {
+    makeAllActive() {
+        this.actives.forEach(project => {
+            project.is_active = true;
+        });
+    },
+    makeAllInactive() {
+        this.actives.forEach(project => {
+            project.is_active = false;
+        });
+    },
     submit() {
       if (this.numberToDelete > 0) {
         this.showConfirmation = true;

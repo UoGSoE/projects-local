@@ -2544,6 +2544,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["projects"],
   data: function data() {
@@ -2569,6 +2573,16 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
+    makeAllActive: function makeAllActive() {
+      this.actives.forEach(function (project) {
+        project.is_active = true;
+      });
+    },
+    makeAllInactive: function makeAllInactive() {
+      this.actives.forEach(function (project) {
+        project.is_active = false;
+      });
+    },
     submit: function submit() {
       if (this.numberToDelete > 0) {
         this.showConfirmation = true;
@@ -24079,7 +24093,34 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("th", { staticClass: "cursor-pointer" }, [
-                          _vm._v("Active?")
+                          _vm._v("\n                Active?"),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  return _vm.makeAllActive()
+                                }
+                              }
+                            },
+                            [_vm._v("All")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  return _vm.makeAllInactive()
+                                }
+                              }
+                            },
+                            [_vm._v("None")]
+                          )
                         ]),
                         _vm._v(" "),
                         _c("th", { staticClass: "cursor-pointer" }, [
