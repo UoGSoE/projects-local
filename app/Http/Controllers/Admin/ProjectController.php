@@ -43,7 +43,7 @@ class ProjectController extends Controller
             'projects' => $projects,
             'type' => $type,
             'programmes' => $programmes,
-            'programmeFilter' => $programmeFilter
+            'programmeFilter' => $programmeFilter,
         ]);
     }
 }

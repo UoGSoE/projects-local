@@ -59,21 +59,21 @@ class ProjectsExport implements FromCollection
                 return $row;
             })
             ->prepend([
-            'ID',
-            'Title',
-            'Owner GUID',
-            'Owner Name',
-            '2nd Sup GUID',
-            '2nd Sup Name',
-            'Courses',
-            'Category',
-            'Max Students',
-            'Active?',
-            'Confidential?',
-            'Placement?',
-            'Description',
-            'Pre-reqs',
-            'Programmes',
+                'ID',
+                'Title',
+                'Owner GUID',
+                'Owner Name',
+                '2nd Sup GUID',
+                '2nd Sup Name',
+                'Courses',
+                'Category',
+                'Max Students',
+                'Active?',
+                'Confidential?',
+                'Placement?',
+                'Description',
+                'Pre-reqs',
+                'Programmes',
             ]);
 
         return $projects;

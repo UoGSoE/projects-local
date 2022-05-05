@@ -13,7 +13,7 @@ class ProgrammeFactory extends Factory
         return [
             'title' => $this->faker->text(30),
             'category' => $this->faker->randomElement(['undergrad', 'postgrad']),
-            'plan_code' => 'HH' . $this->faker->numberBetween(100, 999) . '-' . $this->faker->numberBetween(1000, 9999),
+            'plan_code' => 'HH'.$this->faker->numberBetween(100, 999).'-'.$this->faker->numberBetween(1000, 9999),
         ];
     }
 }

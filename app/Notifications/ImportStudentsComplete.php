@@ -46,7 +46,7 @@ class ImportStudentsComplete extends Notification
             ->subject('Glasgow Projects - Students Import Complete')
             ->markdown('emails.students_import_complete', [
                 'notifiable' => $notifiable,
-                'course' => $this->course
+                'course' => $this->course,
             ]);
     }
 

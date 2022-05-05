@@ -36,13 +36,13 @@ class Programme extends Model
         });
     }
 
-    public function transferProjectsToProgramme(Programme $programme): void
+    public function transferProjectsToProgramme(self $programme): void
     {
         $programme->projects()->syncWithoutDetaching($this->projects->pluck('id'));
         $this->projects()->detach();
     }
 
-    public function transferStudentsToProgramme(Programme $programme): void
+    public function transferStudentsToProgramme(self $programme): void
     {
         $this->students->each->update(['programme_id' => $programme->id]);
     }

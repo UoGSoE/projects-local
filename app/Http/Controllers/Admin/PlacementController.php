@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Course;
 use App\Events\SomethingNoteworthyHappened;
 use App\Http\Controllers\Controller;
 use App\Imports\PlacementDataExtractor;
+use App\Models\Course;
 use App\Models\Programme;
 use App\Models\Project;
 use App\Models\User;

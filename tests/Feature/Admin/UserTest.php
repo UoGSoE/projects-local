@@ -27,25 +27,25 @@ class UserTest extends TestCase
         $staff = create(User::class, [
             'forenames' => 'Jane',
             'surname' => 'Doe',
-            'is_staff' => true
+            'is_staff' => true,
         ]);
 
         $response = $this->actingAs($admin)->post(route('admin.user.update', $staff->id), [
             'forenames' => 'John',
             'surname' => 'Smith',
             'username' => $staff->username,
-            'email' => $staff->email
+            'email' => $staff->email,
         ]);
 
         $response->assertStatus(302);
         $response->assertSessionMissing('errors');
         $this->assertDatabaseMissing('users', [
             'forenames' => 'Jane',
-            'surname' => 'Doe'
+            'surname' => 'Doe',
         ]);
         $this->assertDatabaseHas('users', [
             'forenames' => 'John',
-            'surname' => 'Smith'
+            'surname' => 'Smith',
         ]);
     }
 
@@ -57,25 +57,25 @@ class UserTest extends TestCase
         $student = create(User::class, [
             'is_staff' => false,
             'username' => '123456789',
-            'email' => '123456789@example.com'
+            'email' => '123456789@example.com',
         ]);
 
         $response = $this->actingAs($admin)->post(route('admin.user.update', $student->id), [
             'forenames' => $student->forenames,
             'surname' => $student->surname,
             'username' => '999999999',
-            'email' => $student->email
+            'email' => $student->email,
         ]);
 
         $response->assertStatus(302);
         $response->assertSessionMissing('errors');
         $this->assertDatabaseMissing('users', [
             'username' => '123456789',
-            'email' => '123456789@example.com'
+            'email' => '123456789@example.com',
         ]);
         $this->assertDatabaseHas('users', [
             'username' => '999999999',
-            'email' => '999999999@example.com'
+            'email' => '999999999@example.com',
         ]);
     }
 
@@ -86,19 +86,19 @@ class UserTest extends TestCase
         $student1 = create(User::class, [
             'is_staff' => false,
             'username' => '123456789',
-            'email' => '123456789@example.com'
+            'email' => '123456789@example.com',
         ]);
         $student2 = create(User::class, [
             'is_staff' => false,
             'username' => '999999999',
-            'email' => '999999999@example.com'
+            'email' => '999999999@example.com',
         ]);
 
         $response = $this->actingAs($admin)->post(route('admin.user.update', $student1->id), [
             'forenames' => $student1->forenames,
             'surname' => $student1->surname,
             'username' => '999999999',
-            'email' => $student1->email
+            'email' => $student1->email,
         ]);
 
         $response->assertStatus(302);
@@ -107,12 +107,12 @@ class UserTest extends TestCase
         $this->assertDatabaseHas('users', [
             'id' => $student1->id,
             'username' => '123456789',
-            'email' => '123456789@example.com'
+            'email' => '123456789@example.com',
         ]);
         $this->assertDatabaseHas('users', [
             'id' => $student2->id,
             'username' => '999999999',
-            'email' => '999999999@example.com'
+            'email' => '999999999@example.com',
         ]);
     }
 
@@ -123,19 +123,19 @@ class UserTest extends TestCase
         $student1 = create(User::class, [
             'is_staff' => false,
             'username' => '123456789',
-            'email' => '123456789@example.com'
+            'email' => '123456789@example.com',
         ]);
         $student2 = create(User::class, [
             'is_staff' => false,
             'username' => '999999999',
-            'email' => '999999999@example.com'
+            'email' => '999999999@example.com',
         ]);
 
         $response = $this->actingAs($admin)->post(route('admin.user.update', $student1->id), [
             'forenames' => $student1->forenames,
             'surname' => $student1->surname,
             'username' => $student1->username,
-            'email' => $student2->email
+            'email' => $student2->email,
         ]);
 
         $response->assertStatus(302);
@@ -144,12 +144,12 @@ class UserTest extends TestCase
         $this->assertDatabaseHas('users', [
             'id' => $student1->id,
             'username' => '123456789',
-            'email' => '123456789@example.com'
+            'email' => '123456789@example.com',
         ]);
         $this->assertDatabaseHas('users', [
             'id' => $student2->id,
             'username' => '999999999',
-            'email' => '999999999@example.com'
+            'email' => '999999999@example.com',
         ]);
     }
 }

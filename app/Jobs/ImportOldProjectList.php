@@ -20,8 +20,11 @@ class ImportOldProjectList implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public $oldProjectData = [];
+
     public $oldProjects = [];
+
     public $ldapUsers = [];
+
     public $category = '';
 
     /**
