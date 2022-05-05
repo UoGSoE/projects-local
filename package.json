@@ -16,12 +16,13 @@
         "laravel-mix": "^6.0.12",
         "livewire-vue": "^0.3.1",
         "lodash": "^4.17.15",
+        "postcss": "^8.2.8",
         "resolve-url-loader": "^2.3.1",
         "sass": "^1.22.12",
         "sass-loader": "^7.3.1",
         "vue": "^2.5.17",
-        "vue-template-compiler": "^2.5.17",
-        "postcss": "^8.2.8"
+        "vue-loader": "^15.9.7",
+        "vue-template-compiler": "^2.5.17"
     },
     "dependencies": {
         "bulma": "^0.7.5",

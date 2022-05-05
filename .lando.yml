@@ -2,7 +2,7 @@ name: glasgow-projects
 recipe: laravel
 config:
   webroot: public
-  php: '7.4'
+  php: '8.1'
   cache: 'redis'
 services:
   mail:
@@ -16,7 +16,7 @@ tooling:
     cmd: php artisan migrate:fresh && php artisan db:seed --class=TestDataSeeder
   test:
     service: appserver
-    cmd: CI=1 php ./vendor/bin/phpunit
+    cmd: CI=1 php artisan test
   testf:
     service: appserver
-    cmd: CI=1 php ./vendor/bin/phpunit --filter
+    cmd: CI=1 php artisan test --filter

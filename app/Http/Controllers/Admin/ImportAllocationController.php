@@ -27,7 +27,11 @@ class ImportAllocationController extends Controller
         $import->import($request->file('sheet'));
         $errors = new MessageBag();
         foreach ($import->failures() as $failure) {
-            $errors->add($failure->errors()[0][0], $failure->errors()[0][1]." / row {$failure->row()}");
+            if ($failure->attribute() === 'guid') {
+                $errors->add("usernotfound-" . $failure->values()['guid'], 'Student Not Found : ' . $failure->values()['guid'] . ' / row ' . $failure->row());
+            } elseif ($failure->attribute() === 'project_id') {
+                $errors->add("projectnotfound-" . $failure->values()['project_id'], 'Project Not Found : ' . $failure->values()['project_id'] . ' / row ' . $failure->row());
+            }
         }
 
         event(new SomethingNoteworthyHappened($request->user(), 'Imported project allocations'));

@@ -50,9 +50,6 @@ class StudentApplicationTest extends DuskTestCase
             $browser->loginAs($student)
                 ->visit('/')
                 ->assertSee('Available Projects')
-                ->assertDontSee('Now choose your projects')
-                ->select('research_area', $area1->title)
-                ->pause(100)
                 ->assertSee('Now choose your projects')
                 ->assertDontSee('you can now submit your choices')
                 ->assertDontSee('1 project')
@@ -85,7 +82,7 @@ class StudentApplicationTest extends DuskTestCase
                 ->assertSee('Your project choices have been submitted');
 
             $this->assertEquals(5, $student->projects()->count());
-            $this->assertEquals($area1->title, $student->fresh()->research_area);
+            $this->assertEquals('N/A', $student->fresh()->research_area); // students don't have to pick a research area so this is just placeholder
         });
     }
 
@@ -208,8 +205,6 @@ class StudentApplicationTest extends DuskTestCase
                 ->visit('/')
                 ->assertSee('Available Projects')
                 ->assertSee('the application deadline has passed')
-                ->select('research_area', $area1->title)
-                ->pause(100)
                 ->click("#expand-{$project1->id}")
                 ->click("#project-{$project1->id}-first")
                 ->pause(300)
@@ -241,8 +236,6 @@ class StudentApplicationTest extends DuskTestCase
                 ->press('Impersonate')
                 ->pause(300)
                 ->assertSee('Available Projects')
-                ->select('research_area', $area1->title)
-                ->pause(100)
                 ->click("#expand-{$project1->id}")
                 ->click("#project-{$project1->id}-first")
                 ->waitFor('.message-body')

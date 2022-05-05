@@ -37,7 +37,7 @@
             @if ($user->isStudent())
                 <input class="input has-background-light" name="email" type="text" value="{{ old('email', $user->email) }}" required readonly>
             @else
-                <input class="input" name="email" type="text" value="{{ old('email', $user->email) }}" required>
+                <input dusk="email-input" class="input" name="email" type="text" value="{{ old('email', $user->email) }}" required>
             @endif
         </div>
     </div>

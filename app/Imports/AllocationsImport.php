@@ -16,7 +16,9 @@ use Maatwebsite\Excel\Events\BeforeSheet;
 
 class AllocationsImport implements ToModel, WithValidation, WithHeadingRow, SkipsOnFailure, WithEvents
 {
-    use Importable, SkipsFailures, RegistersEventListeners;
+    use Importable;
+    use SkipsFailures;
+    use RegistersEventListeners;
 
     public static function beforeSheet(BeforeSheet $event)
     {
@@ -42,20 +44,6 @@ class AllocationsImport implements ToModel, WithValidation, WithHeadingRow, Skip
         return [
             'guid' => 'exists:users,username',
             'project_id' => 'exists:projects,id',
-        ];
-    }
-
-    public function customValidationMessages()
-    {
-        return[
-            'guid.exists' => [
-                'usernotfound-:input',
-                'Student Not Found : :input',
-            ],
-            'project_id.exists' => [
-                'projectnotfound-:input',
-                'Project Not Found : :input',
-            ],
         ];
     }
 }

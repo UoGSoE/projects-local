@@ -231,7 +231,7 @@ class ApplicationTest extends TestCase
         // then they get told they have chosen too many for $supervisor
         $response->assertStatus(422);
         $response->assertJson([
-            'message' => 'The given data was invalid.',
+            'message' => 'You cannot choose more than three projects with the same supervisor',
             'errors' => [
                 'supervisor' => [
                     'You cannot choose more than three projects with the same supervisor',
