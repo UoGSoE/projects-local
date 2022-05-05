@@ -8,8 +8,6 @@ use Illuminate\Support\Str;
 
 class UserFactory extends Factory
 {
-    protected $model = \App\Models\User::class;
-
     public function definition()
     {
         return [
