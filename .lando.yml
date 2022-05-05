@@ -14,9 +14,9 @@ tooling:
   mfs:
     service: appserver
     cmd: php artisan migrate:fresh && php artisan db:seed --class=TestDataSeeder
-  phpunit:
+  test:
     service: appserver
-    cmd: php ./vendor/bin/phpunit
-  puf:
+    cmd: CI=1 php ./vendor/bin/phpunit
+  testf:
     service: appserver
-    cmd: php ./vendor/bin/phpunit --filter
+    cmd: CI=1 php ./vendor/bin/phpunit --filter
