@@ -20,8 +20,8 @@
         @foreach ($logs as $entry)
             <tr>
                 <td>
-                    <a href="{{ optional($entry->causer)->show_url }}">
-                        {{ optional($entry->causer)->full_name }}
+                    <a href="{{ $entry->causer?->show_url }}">
+                        {{ $entry->causer?->full_name }}
                     </a>
                 </td>
                 <td>

@@ -43,7 +43,7 @@ class ImportDmoranSheetRow implements ShouldQueue
      */
     public function handle()
     {
-        $this->errorSetName = optional($this->batch())->id.'-errors';
+        $this->errorSetName = $this->batch()?->id.'-errors';
 
         $title = $this->row[0];
         $guid = $this->row[1];
