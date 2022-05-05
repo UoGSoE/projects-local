@@ -15,6 +15,7 @@ class SomethingNoteworthyHappened
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $who;
+
     public $what;
 
     /**

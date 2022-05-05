@@ -4,8 +4,8 @@
 
 namespace Tests\Feature\Admin\Export;
 
-use App\Models\Course;
 use App\Exports\CoursesExport;
+use App\Models\Course;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;

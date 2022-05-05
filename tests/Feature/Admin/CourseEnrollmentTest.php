@@ -44,7 +44,7 @@ class CourseEnrollmentTest extends TestCase
 
         // and we upload a test spreadsheet with two students details
         $response = $this->actingAs($admin)->post(route('admin.course.enroll', $course->id), [
-            'sheet' => $sheet
+            'sheet' => $sheet,
         ]);
 
         // the course should have two students attached
@@ -75,7 +75,7 @@ class CourseEnrollmentTest extends TestCase
         $this->assertTrue($logs[0]->causer->is($admin));
         $this->assertEquals("Uploaded students to be enrolled on {$course->code} spreadsheet", $logs[0]->description);
         $this->assertTrue($logs[1]->causer->is($admin));
-        $this->assertEquals("Created programme Aerospace Eng & Mgt,MSc", $logs[1]->description);
+        $this->assertEquals('Created programme Aerospace Eng & Mgt,MSc', $logs[1]->description);
     }
 
     /** @test */
@@ -93,7 +93,7 @@ class CourseEnrollmentTest extends TestCase
 
         // and we upload a test spreadsheet with new students details
         $response = $this->actingAs($admin)->post(route('admin.course.enroll', $course->id), [
-            'sheet' => $sheet
+            'sheet' => $sheet,
         ]);
 
         $response->assertStatus(302);
@@ -126,7 +126,7 @@ class CourseEnrollmentTest extends TestCase
 
         // and we upload a test spreadsheet with new students details
         $response = $this->actingAs($admin)->post(route('admin.course.enroll', $course->id), [
-            'sheet' => $sheet
+            'sheet' => $sheet,
         ]);
 
         // the course should have the new students students

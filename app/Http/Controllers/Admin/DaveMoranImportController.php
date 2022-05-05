@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Jobs\BatchImportDmoranSheet;
 use App\Jobs\ImportDmoranSheetRow;
@@ -11,6 +10,7 @@ use App\Models\Project;
 use App\Models\User;
 use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
 use Illuminate\Bus\Batch;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Mail;
 
@@ -49,9 +49,8 @@ class DaveMoranImportController extends Controller
         $batch->allowFailures()->finally(function ($batch) use ($userId) {
             // send email to User::find($userId)
             $user = User::find($userId);
-            Mail::to($user)->queue(new DMoranSpreadsheetImportCompleteMail($batch->id . '-errors'));
+            Mail::to($user)->queue(new DMoranSpreadsheetImportCompleteMail($batch->id.'-errors'));
         })->dispatch();
-
 
         $reader->close();
 

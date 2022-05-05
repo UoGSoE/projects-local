@@ -2,15 +2,15 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
-use App\Models\User;
-use Livewire\Livewire;
-use App\Models\Programme;
 use App\Http\Livewire\ProgrammeMerger;
+use App\Models\Programme;
 use App\Models\Project;
-use Illuminate\Foundation\Testing\WithFaker;
-use Symfony\Component\Console\Helper\ProgressBar;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Livewire\Livewire;
+use Symfony\Component\Console\Helper\ProgressBar;
+use Tests\TestCase;
 
 class MergeAndRemoveProgrammesTest extends TestCase
 {

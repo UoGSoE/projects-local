@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Staff;
 
-use App\Models\Course;
 use App\Mail\AcceptedOntoProject;
+use App\Models\Course;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;

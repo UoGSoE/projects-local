@@ -10,8 +10,11 @@ class ProgrammeMerger extends Component
     public $category = '';
 
     public $mergeFrom = [];
+
     public $mergeTo = null;
+
     public $showProjectLists = [];
+
     public $showStudentLists = [];
 
     protected $rules = [
@@ -31,7 +34,7 @@ class ProgrammeMerger extends Component
         return Programme::with([
             'projects' => fn ($query) => $query->orderBy('title'),
             'students' => fn ($query) => $query->orderBy('surname'),
-            ])
+        ])
             ->orderBy('title')
             ->when($this->category, fn ($query) => $query->where('category', '=', $this->category))
             ->get();
@@ -66,6 +69,7 @@ class ProgrammeMerger extends Component
     {
         if (in_array($programmeId, $this->showProjectLists)) {
             $this->showProjectLists = array_diff($this->showProjectLists, [$programmeId]);
+
             return;
         }
 
@@ -76,6 +80,7 @@ class ProgrammeMerger extends Component
     {
         if (in_array($programmeId, $this->showStudentLists)) {
             $this->showStudentLists = array_diff($this->showStudentLists, [$programmeId]);
+
             return;
         }
 

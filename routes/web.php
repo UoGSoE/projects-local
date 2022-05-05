@@ -2,7 +2,7 @@
 
 Auth::routes();
 
-Route::group(['middleware' => 'auth'], function () {
+Route::middleware('auth')->group(function () {
     Route::redirect('/home', '/', 301);
 
     Route::get('/', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -22,7 +22,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::delete('/impersonate', [\App\Http\Controllers\Admin\ImpersonationController::class, 'destroy'])->name('impersonate.stop');
 
-    Route::group(['middleware' => 'admin', 'prefix' => '/admin'], function () {
+    Route::middleware('admin')->prefix('/admin')->group(function () {
         Route::post('/api/user/find', [\App\Http\Controllers\Api\UserController::class, 'show'])->name('api.user.find');
         Route::post('/api/user', [\App\Http\Controllers\Api\UserController::class, 'store'])->name('api.user.store');
         Route::post('/api/user/{id}', [\App\Http\Controllers\Api\UserController::class, 'update'])->name('api.user.update');
@@ -74,7 +74,6 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('/user/{user}/edit', [\App\Http\Controllers\Admin\UserController::class, 'edit'])->name('admin.user.edit');
         Route::post('/user/{user}/edit', [\App\Http\Controllers\Admin\UserController::class, 'update'])->name('admin.user.update');
-
 
         Route::post('/user/{user}/toggle-admin', [\App\Http\Controllers\Admin\UserController::class, 'toggleAdmin'])->name('admin.users.toggle_admin');
 

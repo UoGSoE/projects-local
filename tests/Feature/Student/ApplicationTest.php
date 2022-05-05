@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Student;
 
-use App\Models\Course;
 use App\Mail\ChoiceConfirmation;
+use App\Models\Course;
 use App\Models\Project;
 use App\Models\ResearchArea;
 use App\Models\User;

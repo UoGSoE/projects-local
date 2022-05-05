@@ -56,7 +56,7 @@ class ProjectExportTest extends TestCase
             $this->assertEquals($project1->is_placement ? 'Y' : 'N', $export->collection()[1]['is_placement']);
             $this->assertEquals($project1->description, $export->collection()[1]['description']);
             $this->assertEquals($project1->pre_req, $export->collection()[1]['pre_req']);
-            $this->assertEquals($programme1->title . '|' . $programme2->title, $export->collection()[1]['programmes']);
+            $this->assertEquals($programme1->title.'|'.$programme2->title, $export->collection()[1]['programmes']);
             $this->assertEquals($student1->full_name, $export->collection()[1]['student_1']);
             $this->assertEquals($project2->id, $export->collection()[2]['id']);
             $this->assertEquals($project2->title, $export->collection()[2]['title']);

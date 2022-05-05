@@ -3,11 +3,11 @@
 namespace App\Providers;
 
 use App\Models\Course;
+use App\Models\Programme;
+use App\Models\Project;
 use App\Observers\CourseObserver;
 use App\Observers\ProgrammeObserver;
 use App\Observers\ProjectObserver;
-use App\Models\Programme;
-use App\Models\Project;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
