@@ -2,8 +2,8 @@
 
 namespace App\Observers;
 
-use App\Models\Course;
 use App\Events\SomethingNoteworthyHappened;
+use App\Models\Course;
 
 class CourseObserver
 {

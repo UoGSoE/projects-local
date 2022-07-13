@@ -19,19 +19,16 @@ class AdminUpdateUserEmailTest extends DuskTestCase
             $user = create(User::class, ['is_admin' => false, 'is_staff' => true]);
 
             $browser->loginAs($admin)
-                ->visit(route('admin.user.show', $user->id))
-                ->assertSee($user->email)
-                ->pause(100)
-                ->click('#change-email-button')
+                ->visit(route('admin.user.edit', $user->id))
+                ->assertValue('@email-input', $user->email)
+                ->type('email', 'not-a-valid-email')
+                ->press('Update user')
                 ->pause(300)
-                ->waitFor('#email-input')
-                ->type('#email-input', 'not-a-valid-email')
-                ->press('Save')
+                ->assertSee('The email must be a valid email address')
+                ->type('email', 'valid-email@example.com')
+                ->press('Update user')
                 ->pause(300)
-                ->assertSee('invalid')
-                ->type('#email-input', 'valid-email@example.com')
-                ->press('Save')
-                ->pause(300);
+                ->assertDontSee('The email must be a valid email address');
 
             $this->assertEquals('valid-email@example.com', $user->fresh()->email);
         });

@@ -45,7 +45,7 @@ class UserController extends Controller
             'forenames' => 'required|string',
             'surname' => 'required|string',
             'username' => "required|string|unique:users,username,$user->id",
-            'email' => "required|email|unique:users,email,$user->id"
+            'email' => "required|email|unique:users,email,$user->id",
         ]);
 
         $user->forenames = $request->forenames;
@@ -55,7 +55,7 @@ class UserController extends Controller
 
         if ($user->isStudent()) {
             $emailDomain = app('env') == 'production' ? 'student.gla.ac.uk' : 'example.com';
-            $user->email = $user->username . "@$emailDomain";
+            $user->email = $user->username."@$emailDomain";
         }
         $user->save();
 

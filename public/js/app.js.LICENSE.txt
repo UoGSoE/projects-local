@@ -1,0 +1,15 @@
+/*!
+ * Pikaday
+ *
+ * Copyright © 2014 David Bushell | BSD & MIT license | https://github.com/Pikaday/Pikaday
+ */
+
+/*!
+ * Vue.js v2.7.5
+ * (c) 2014-2022 Evan You
+ * Released under the MIT License.
+ */
+
+//! moment.js
+
+//! moment.js locale configuration

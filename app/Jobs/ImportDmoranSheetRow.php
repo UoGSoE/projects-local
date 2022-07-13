@@ -20,7 +20,9 @@ class ImportDmoranSheetRow implements ShouldQueue
     use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public $row;
+
     public $rowNumber;
+
     public $errorSetName;
 
     /**
@@ -41,7 +43,7 @@ class ImportDmoranSheetRow implements ShouldQueue
      */
     public function handle()
     {
-        $this->errorSetName = optional($this->batch())->id . '-errors';
+        $this->errorSetName = $this->batch()?->id.'-errors';
 
         $title = $this->row[0];
         $guid = $this->row[1];
@@ -63,7 +65,8 @@ class ImportDmoranSheetRow implements ShouldQueue
 
         $staff = User::where('username', '=', $guid)->first();
         if (! $staff) {
-            Redis::sadd($this->errorSetName, 'Invalid GUID ' . $guid . ' on row ' . $this->rowNumber);
+            Redis::sadd($this->errorSetName, 'Invalid GUID '.$guid.' on row '.$this->rowNumber);
+
             return;
         }
 
@@ -86,9 +89,11 @@ class ImportDmoranSheetRow implements ShouldQueue
         $courseIds = collect($courses)->map(function ($courseCode) {
             $course = Course::where('code', '=', trim($courseCode))->first();
             if (! $course) {
-                Redis::sadd($this->errorSetName, 'Invalid course code ' . $courseCode . ' on row ' . $this->rowNumber);
+                Redis::sadd($this->errorSetName, 'Invalid course code '.$courseCode.' on row '.$this->rowNumber);
+
                 return;
             }
+
             return $course->id;
         })->filter();
 
@@ -97,9 +102,11 @@ class ImportDmoranSheetRow implements ShouldQueue
         $programmeIds = collect($programmes)->map(function ($programmeTitle) {
             $programme = Programme::where('title', '=', trim($programmeTitle))->first();
             if (! $programme) {
-                Redis::sadd($this->errorSetName, 'Invalid programme title ' . $programmeTitle . ' on row ' . $this->rowNumber);
+                Redis::sadd($this->errorSetName, 'Invalid programme title '.$programmeTitle.' on row '.$this->rowNumber);
+
                 return;
             }
+
             return $programme->id;
         })->filter();
 

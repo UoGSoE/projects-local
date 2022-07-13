@@ -67,7 +67,7 @@ unit-tests:
   - php artisan migrate:fresh
   - cat .env
   - composer dump-autoload
-  - php artisan test --parallel
+  - php artisan test -c phpunit.gitlab.xml
   - egrep -r '[^a-zA-Z](dd\(|dump\()' app || exit 0
 
 php-security-scan:

@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Models\Course;
 use App\Mail\GdprAnonymisedUsers;
+use App\Models\Course;
 use App\Models\Project;
 use App\Models\User;
 // use Facades\Ohffs\Ldap\LdapService;

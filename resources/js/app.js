@@ -7,8 +7,9 @@
 
 require('./bootstrap');
 
-window.Vue = require('vue');
+import Vue from 'vue';
 import 'livewire-vue'
+window.Vue = Vue;
 
 import Pikaday from 'pikaday';
 import 'pikaday/css/pikaday.css';

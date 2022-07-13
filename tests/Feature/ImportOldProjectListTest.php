@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Models\Course;
 use App\Jobs\ImportOldProjectList;
+use App\Models\Course;
 use App\Models\Programme;
 use App\Models\Project;
 use App\Models\User;

@@ -186,7 +186,7 @@ class User extends Authenticatable
             return false;
         }
 
-        return optional($this->course)->category == 'undergrad';
+        return $this->course?->category == 'undergrad';
     }
 
     public function isFirstChoice(Project $project)
