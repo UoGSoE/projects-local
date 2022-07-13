@@ -1,5 +1,5 @@
 ### PHP version we are targetting
-ARG PHP_VERSION=7.4
+ARG PHP_VERSION=8.1
 
 
 ### Placeholder for basic dev stage for use with docker-compose
@@ -11,7 +11,7 @@ CMD ["tini", "--", "/usr/local/bin/app-start"]
 
 
 ### Build JS/css assets
-FROM node:10 as frontend
+FROM node:16.16.0 as frontend
 
 # workaround for mix.version() webpack bug
 RUN ln -s /home/node/public /public
@@ -125,4 +125,3 @@ RUN composer global require enlightn/security-checker && \
     curl -OL -o /usr/local/bin/phpcs https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar && \
     php /var/www/html/artisan view:clear && \
     php /var/www/html/artisan cache:clear
-
