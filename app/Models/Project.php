@@ -198,7 +198,7 @@ class Project extends Model
         }
 
         $student->projects()->sync([$this->id => ['is_accepted' => true]]);
-        Mail::to($student)->later(now()->addSeconds(rand(0, 300)), new AcceptedOntoProject($this));
+        // Mail::to($student)->later(now()->addSeconds(rand(0, 300)), new AcceptedOntoProject($this));
     }
 
     public function addAndAccept(User $student)
