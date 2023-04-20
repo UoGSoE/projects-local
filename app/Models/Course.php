@@ -52,6 +52,7 @@ class Course extends Model
             } else {
                 $username = strtolower($this->joinMatricAndFirstInitial($row));
             }
+            $username = trim($username);
             $user = User::where('username', '=', $username)->first();
             if (! $user) {
                 $user = new User([
@@ -76,7 +77,7 @@ class Course extends Model
                     ]);
                 }
             } catch (\Exception $e) {
-                $programme = new Programme;
+                $programme = new Programme();
             }
 
             $user->surname = $row[1];

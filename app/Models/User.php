@@ -26,6 +26,7 @@ class User extends Authenticatable
         'is_staff' => 'boolean',
         'is_admin' => 'boolean',
         'left_at' => 'date',
+        'is_tier4' => 'boolean',
     ];
 
     protected $appends = [
@@ -178,6 +179,11 @@ class User extends Authenticatable
     public function isStudent()
     {
         return ! $this->isStaff();
+    }
+
+    public function isTier4(): bool
+    {
+        return (bool) $this->is_tier4;
     }
 
     public function isUndergrad()

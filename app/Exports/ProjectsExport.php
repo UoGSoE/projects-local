@@ -51,6 +51,7 @@ class ProjectsExport implements FromCollection
                     'description' => $project->description,
                     'pre_req' => $project->pre_req,
                     'programmes' => $project->programmes->pluck('title')->implode('|'),
+                    'created_at' => $project->created_at->format('d/m/Y'),
                 ];
                 foreach ($acceptedStudents as $key => $student) {
                     $row['student_'.($key + 1)] = $student->full_name;
@@ -74,6 +75,7 @@ class ProjectsExport implements FromCollection
                 'Description',
                 'Pre-reqs',
                 'Programmes',
+                'Created',
             ]);
 
         return $projects;

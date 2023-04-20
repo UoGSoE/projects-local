@@ -131,6 +131,7 @@ class ProgrammeTest extends TestCase
         $admin = create(User::class, ['is_admin' => true]);
         $programme1 = create(Programme::class);
         $programme2 = create(Programme::class);
+        $student = create(User::class, ['programme_id' => $programme1->id, 'is_admin' => false, 'is_staff' => false]);
 
         $response = $this->actingAs($admin)->delete(route('admin.programme.destroy', $programme1->id));
 
