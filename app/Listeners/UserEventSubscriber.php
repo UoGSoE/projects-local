@@ -2,8 +2,8 @@
 
 namespace App\Listeners;
 
-use Illuminate\Events\Dispatcher;
 use App\Events\SomethingNoteworthyHappened;
+use Illuminate\Events\Dispatcher;
 
 class UserEventSubscriber
 {

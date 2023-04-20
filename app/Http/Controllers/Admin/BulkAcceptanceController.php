@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\RedirectResponse;
 use App\Events\SomethingNoteworthyHappened;
 use App\Http\Controllers\Controller;
 use App\Models\Project;
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class BulkAcceptanceController extends Controller

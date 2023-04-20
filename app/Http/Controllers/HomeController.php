@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\View\View;
 use App\Models\ResearchArea;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class HomeController extends Controller
 {

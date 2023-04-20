@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\View\View;
 use App\Events\SomethingNoteworthyHappened;
 use App\Mail\ChoiceConfirmation;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
+use Illuminate\View\View;
 
 class ChoiceController extends Controller
 {

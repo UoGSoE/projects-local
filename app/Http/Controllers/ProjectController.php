@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\View\View;
-use Illuminate\Http\RedirectResponse;
 use App\Events\SomethingNoteworthyHappened;
 use App\Models\Course;
 use App\Models\Programme;
 use App\Models\Project;
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class ProjectController extends Controller
 {

@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\View\View;
-use Illuminate\Http\RedirectResponse;
 use App\Events\SomethingNoteworthyHappened;
 use App\Http\Controllers\Controller;
 use App\Jobs\ImportStudents;
 use App\Models\Course;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 use Ohffs\SimpleSpout\ExcelSheet;
 
 class EnrollmentController extends Controller

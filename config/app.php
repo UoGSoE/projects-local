@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Facade;
+use Illuminate\Support\ServiceProvider;
 
 return [
 
@@ -154,7 +154,6 @@ return [
         App\Providers\HorizonServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-    
     ])->toArray(),
 
     /*

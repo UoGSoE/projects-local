@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\JsonResponse;
 use App\Events\SomethingNoteworthyHappened;
 use App\Http\Controllers\Controller;
 use App\Models\Project;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ManualAcceptanceController extends Controller

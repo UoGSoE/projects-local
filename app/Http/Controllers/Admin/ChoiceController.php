@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\View\View;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\View\View;
 
 class ChoiceController extends Controller
 {

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\View\View;
 use App\Events\SomethingNoteworthyHappened;
 use App\Http\Controllers\Controller;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class ProjectOptionsController extends Controller
 {

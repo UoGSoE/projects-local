@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\View\View;
-use Illuminate\Http\RedirectResponse;
 use App\Events\SomethingNoteworthyHappened;
 use App\Http\Controllers\Controller;
 use App\Imports\AllocationsImport;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\MessageBag;
+use Illuminate\View\View;
 
 class ImportAllocationController extends Controller
 {
