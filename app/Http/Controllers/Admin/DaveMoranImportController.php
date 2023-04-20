@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
 use App\Jobs\ImportDmoranSheetRow;
 use App\Mail\DMoranSpreadsheetImportCompleteMail;
@@ -14,12 +16,12 @@ use Illuminate\Support\Facades\Mail;
 
 class DaveMoranImportController extends Controller
 {
-    public function show()
+    public function show(): View
     {
         return view('admin.import.davemoran');
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $request->validate([
             'sheet' => 'required|file',

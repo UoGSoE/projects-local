@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\View\View;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 
 class ChoiceController extends Controller
 {
-    public function index($category)
+    public function index($category): View
     {
         return view('admin.student.choices', [
             'category' => $category,

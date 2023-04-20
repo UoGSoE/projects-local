@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 use App\Events\SomethingNoteworthyHappened;
 use App\Http\Controllers\Controller;
 use App\Models\Course;
@@ -16,7 +18,7 @@ class CourseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): View
     {
         return view('admin.course.index', [
             'courses' => Course::orderBy('title')->withCount(['projects', 'students'])->get(),
@@ -28,7 +30,7 @@ class CourseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(): View
     {
         return view('admin.course.create', [
             'course' => new Course(['application_deadline' => now()->addMonths(3)]),
@@ -40,7 +42,7 @@ class CourseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $data = $request->validate([
             'title' => 'required',
@@ -66,7 +68,7 @@ class CourseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show(Course $course)
+    public function show(Course $course): View
     {
         return view('admin.course.show', [
             'course' => $course,
@@ -78,7 +80,7 @@ class CourseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit(Course $course)
+    public function edit(Course $course): View
     {
         return view('admin.course.edit', [
             'course' => $course,
@@ -90,7 +92,7 @@ class CourseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Course $course)
+    public function update(Request $request, Course $course): RedirectResponse
     {
         $data = $request->validate([
             'title' => 'required',

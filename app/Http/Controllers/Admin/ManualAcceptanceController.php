@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Http\JsonResponse;
 use App\Events\SomethingNoteworthyHappened;
 use App\Http\Controllers\Controller;
 use App\Models\Project;
@@ -10,7 +11,7 @@ use Illuminate\Http\Request;
 
 class ManualAcceptanceController extends Controller
 {
-    public function store(Project $project, Request $request)
+    public function store(Project $project, Request $request): JsonResponse
     {
         $request->validate([
             'student_id' => 'required|integer',

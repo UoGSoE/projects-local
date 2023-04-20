@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\JsonResponse;
 use App\Events\SomethingNoteworthyHappened;
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -25,21 +28,21 @@ class UserController extends Controller
         ]);
     }
 
-    public function show(User $user)
+    public function show(User $user): View
     {
         return view('admin.user.show', [
             'user' => $user,
         ]);
     }
 
-    public function edit(User $user)
+    public function edit(User $user): View
     {
         return view('admin.user.edit', [
             'user' => $user,
         ]);
     }
 
-    public function update(Request $request, User $user)
+    public function update(Request $request, User $user): RedirectResponse
     {
         $request->validate([
             'forenames' => 'required|string',
@@ -76,7 +79,7 @@ class UserController extends Controller
         return redirect('/')->with('success', 'User deleted');
     }
 
-    public function toggleAdmin(User $user)
+    public function toggleAdmin(User $user): JsonResponse
     {
         if (\Auth::user()->id == $user->id) {
             return response()->json(['message' => 'Cannot change your own status'], 422);

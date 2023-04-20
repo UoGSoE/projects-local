@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\View\View;
 use App\Models\Course;
 use App\Models\Programme;
 use App\Models\Project;
@@ -9,7 +10,7 @@ use App\Models\User;
 
 class ProjectCopyController extends Controller
 {
-    public function create($id)
+    public function create($id): View
     {
         $project = Project::findOrFail($id);
 

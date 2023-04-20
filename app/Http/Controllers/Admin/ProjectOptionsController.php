@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\View\View;
 use App\Events\SomethingNoteworthyHappened;
 use App\Http\Controllers\Controller;
 use App\Models\Project;
@@ -9,7 +10,7 @@ use Illuminate\Http\Request;
 
 class ProjectOptionsController extends Controller
 {
-    public function index($category)
+    public function index($category): View
     {
         $projects = Project::where('category', '=', $category)
             ->orderBy('title')

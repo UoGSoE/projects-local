@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 use App\Events\SomethingNoteworthyHappened;
 use App\Http\Controllers\Controller;
 use App\Jobs\ImportStudents;
@@ -11,14 +13,14 @@ use Ohffs\SimpleSpout\ExcelSheet;
 
 class EnrollmentController extends Controller
 {
-    public function create(Course $course)
+    public function create(Course $course): View
     {
         return view('admin.course.enrollment', [
             'course' => $course,
         ]);
     }
 
-    public function store(Course $course, Request $request)
+    public function store(Course $course, Request $request): RedirectResponse
     {
         $request->validate([
             'sheet' => 'required|file',

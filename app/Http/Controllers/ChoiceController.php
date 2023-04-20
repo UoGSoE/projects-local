@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\View\View;
 use App\Events\SomethingNoteworthyHappened;
 use App\Mail\ChoiceConfirmation;
 use App\Models\Project;
@@ -60,7 +61,7 @@ class ChoiceController extends Controller
         return redirect()->route('thank_you');
     }
 
-    public function thankYou()
+    public function thankYou(): View
     {
         return view('student.thankyou');
     }

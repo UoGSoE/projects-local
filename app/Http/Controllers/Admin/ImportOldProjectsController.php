@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
 use App\Jobs\ImportOldProjectList;
 use Illuminate\Http\Request;
@@ -9,7 +11,7 @@ use Ohffs\SimpleSpout\ExcelSheet;
 
 class ImportOldProjectsController extends Controller
 {
-    public function show()
+    public function show(): View
     {
         request()->validate([
             'category' => 'required|in:undergrad,postgrad',
@@ -20,7 +22,7 @@ class ImportOldProjectsController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $request->validate([
             'sheet' => 'required|file',

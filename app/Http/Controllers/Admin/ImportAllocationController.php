@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 use App\Events\SomethingNoteworthyHappened;
 use App\Http\Controllers\Controller;
 use App\Imports\AllocationsImport;
@@ -12,12 +14,12 @@ class ImportAllocationController extends Controller
 {
     protected $errors;
 
-    public function show()
+    public function show(): View
     {
         return view('admin.project.import_allocations');
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $request->validate([
             'sheet' => 'required|file',

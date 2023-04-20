@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Admin\Reports;
 
+use Illuminate\View\View;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 
 class ChoicesReportController extends Controller
 {
-    public function show(string $category)
+    public function show(string $category): View
     {
         $students = User::ofType($category)
             ->with('projects')

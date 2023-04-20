@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 use App\Events\SomethingNoteworthyHappened;
 use App\Http\Controllers\Controller;
 use App\Models\Programme;
@@ -10,7 +12,7 @@ use Illuminate\Validation\Rule;
 
 class ProgrammeController extends Controller
 {
-    public function index()
+    public function index(): View
     {
         return view('admin.programme.index', [
             'programmes' => Programme::with('projects.students', 'projects.courses', 'projects.owner')
@@ -22,14 +24,14 @@ class ProgrammeController extends Controller
         ]);
     }
 
-    public function create()
+    public function create(): View
     {
         return view('admin.programme.create', [
             'programme' => new Programme,
         ]);
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $data = $request->validate([
             'title' => 'required|unique:programmes',
@@ -44,14 +46,14 @@ class ProgrammeController extends Controller
         return redirect()->route('admin.programme.index')->with('success', 'Programme created');
     }
 
-    public function edit($id)
+    public function edit($id): View
     {
         return view('admin.programme.edit', [
             'programme' => Programme::findOrFail($id),
         ]);
     }
 
-    public function update($id, Request $request)
+    public function update($id, Request $request): RedirectResponse
     {
         $data = $request->validate([
             'title' => [

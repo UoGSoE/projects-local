@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 use App\Events\SomethingNoteworthyHappened;
 use App\Models\Course;
 use App\Models\Programme;
@@ -28,7 +30,7 @@ class ProjectController extends Controller
         return view('project.show', ['project' => $project, 'students' => $students]);
     }
 
-    public function create(Request $request)
+    public function create(Request $request): View
     {
         $request->validate([
             'type' => 'required|in:undergrad,postgrad',
@@ -47,7 +49,7 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $data = $request->validate([
             'title' => 'required',
@@ -77,7 +79,7 @@ class ProjectController extends Controller
         return redirect(route('project.show', $project->id));
     }
 
-    public function edit($id)
+    public function edit($id): View
     {
         $project = Project::findOrFail($id);
 
@@ -94,7 +96,7 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function update($id, Request $request)
+    public function update($id, Request $request): RedirectResponse
     {
         $validationRules = [
             'title' => 'required',

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Illuminate\Http\JsonResponse;
 use App\Events\SomethingNoteworthyHappened;
 use App\Http\Controllers\Controller;
 use App\Models\Course;
@@ -11,7 +12,7 @@ use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
-    public function show(Request $request)
+    public function show(Request $request): JsonResponse
     {
         $request->validate([
             'guid' => 'required',
@@ -41,7 +42,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         $request->validate([
             'guid' => 'required',
@@ -87,7 +88,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function update($id, Request $request)
+    public function update($id, Request $request): JsonResponse
     {
         $request->validate([
             'email' => 'required|email',

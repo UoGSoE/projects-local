@@ -29,7 +29,7 @@ class ChoiceConfirmation extends Mailable implements ShouldQueue
      *
      * @return $this
      */
-    public function build()
+    public function build(): static
     {
         return $this->subject('Engineering Project Choices')
             ->markdown('emails.choice_confirmation');

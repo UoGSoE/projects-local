@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use Illuminate\Support\Collection;
 use App\Models\Project;
 use Maatwebsite\Excel\Concerns\FromCollection;
 
@@ -17,7 +18,7 @@ class ProjectsExport implements FromCollection
     /**
      * @return \Illuminate\Support\Collection
      */
-    public function collection()
+    public function collection(): Collection
     {
         $type = $this->type;
         $programmeFilter = $this->programmeFilter;

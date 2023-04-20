@@ -21,7 +21,7 @@ class ProjectStats
      *
      * @return void
      */
-    public function forAdminIndex()
+    public function forAdminIndex(): void
     {
         $user = $this->staffMember->toArray();
         $user['ugrad_beng_active'] = $this->ugradActive('B.Eng');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\View\View;
 use App\Events\SomethingNoteworthyHappened;
 use App\Http\Controllers\Controller;
 use App\Models\Project;
@@ -14,7 +15,7 @@ class SecondSupervisorController extends Controller
 {
     protected $errors;
 
-    public function show()
+    public function show(): View
     {
         return view('admin.project.import_second_supervisors');
     }
