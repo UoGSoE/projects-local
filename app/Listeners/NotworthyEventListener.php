@@ -18,8 +18,6 @@ class NotworthyEventListener
 
     /**
      * Handle the event.
-     *
-     * @return void
      */
     public function handle(SomethingNoteworthyHappened $event): void
     {

@@ -19,8 +19,6 @@ class ProjectPolicy
 
     /**
      * Determine whether the user can view the project.
-     *
-     * @return mixed
      */
     public function view(User $user, Project $project): bool
     {
@@ -29,8 +27,6 @@ class ProjectPolicy
 
     /**
      * Determine whether the user can create projects.
-     *
-     * @return mixed
      */
     public function create(User $user): bool
     {
@@ -39,8 +35,6 @@ class ProjectPolicy
 
     /**
      * Determine whether the user can update the project.
-     *
-     * @return mixed
      */
     public function update(User $user, Project $project): bool
     {
@@ -49,8 +43,6 @@ class ProjectPolicy
 
     /**
      * Determine whether the user can delete the project.
-     *
-     * @return mixed
      */
     public function delete(User $user, Project $project): bool
     {

@@ -15,9 +15,6 @@ class ProjectsExport implements FromCollection
         $this->programmeFilter = $programmeFilter;
     }
 
-    /**
-     * @return \Illuminate\Support\Collection
-     */
     public function collection(): Collection
     {
         $type = $this->type;

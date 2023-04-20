@@ -18,8 +18,6 @@ class ProjectStats
 
     /**
      * Used to json-ify all the extra columns admins need to see in the staff list :'-/.
-     *
-     * @return void
      */
     public function forAdminIndex(): void
     {
