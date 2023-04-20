@@ -119,7 +119,7 @@ class ImportMoranSpreadsheetTest extends TestCase
             'Aeronautical Engineering [MEng]|Aerospace Systems [MEng]',
         ];
 
-        ImportDmoranSheetRow::dispatchNow($row, 1);
+        ImportDmoranSheetRow::dispatchSync($row, 1);
 
         tap(Project::first(), function ($project) use ($fakeStaff, $fakeCourse, $fakeProgramme1, $fakeProgramme2) {
             $this->assertEquals('An amazing project', $project->title);
@@ -162,7 +162,7 @@ class ImportMoranSpreadsheetTest extends TestCase
             'Not a real programme|Also not a real programme',
         ];
 
-        ImportDmoranSheetRow::dispatchNow($row, 1);
+        ImportDmoranSheetRow::dispatchSync($row, 1);
     }
 
     /** @test */
