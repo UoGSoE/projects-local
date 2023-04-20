@@ -25,8 +25,6 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->registerPolicies();
-
         \Horizon::auth(function ($request) {
             return $request->user()->isAdmin();
         });
