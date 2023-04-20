@@ -12,7 +12,7 @@ class CourseTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function regular_users_cant_view_a_course()
+    public function regular_users_cant_view_a_course(): void
     {
         $user = create(User::class);
         $course = create(Course::class);
@@ -23,7 +23,7 @@ class CourseTest extends TestCase
     }
 
     /** @test */
-    public function admins_can_view_a_course()
+    public function admins_can_view_a_course(): void
     {
         $admin = create(User::class, ['is_admin' => true]);
         $course = create(Course::class);
@@ -43,7 +43,7 @@ class CourseTest extends TestCase
     }
 
     /** @test */
-    public function admins_can_see_a_list_of_all_courses()
+    public function admins_can_see_a_list_of_all_courses(): void
     {
         $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_admin' => true]);
@@ -60,7 +60,7 @@ class CourseTest extends TestCase
     }
 
     /** @test */
-    public function admins_can_see_the_page_to_create_a_new_course()
+    public function admins_can_see_the_page_to_create_a_new_course(): void
     {
         $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_admin' => true]);
@@ -72,7 +72,7 @@ class CourseTest extends TestCase
     }
 
     /** @test */
-    public function admins_can_create_a_new_course()
+    public function admins_can_create_a_new_course(): void
     {
         $admin = create(User::class, ['is_admin' => true]);
 
@@ -95,7 +95,7 @@ class CourseTest extends TestCase
     }
 
     /** @test */
-    public function a_title_and_application_deadline_and_a_unique_code_are_required_to_create_a_new_course()
+    public function a_title_and_application_deadline_and_a_unique_code_are_required_to_create_a_new_course(): void
     {
         $admin = create(User::class, ['is_admin' => true]);
         $existingCourse = create(Course::class, [
@@ -120,7 +120,7 @@ class CourseTest extends TestCase
     }
 
     /** @test */
-    public function admins_can_update_an_existing_course()
+    public function admins_can_update_an_existing_course(): void
     {
         $admin = create(User::class, ['is_admin' => true]);
         $existingCourse = create(Course::class);
@@ -142,7 +142,7 @@ class CourseTest extends TestCase
     }
 
     /** @test */
-    public function a_title_and_an_application_deadline_and_a_unique_code_are_required_when_updating_a_course()
+    public function a_title_and_an_application_deadline_and_a_unique_code_are_required_when_updating_a_course(): void
     {
         $admin = create(User::class, ['is_admin' => true]);
         $course = create(Course::class);
@@ -166,7 +166,7 @@ class CourseTest extends TestCase
     }
 
     /** @test */
-    public function the_same_code_can_be_used_when_updating_a_course()
+    public function the_same_code_can_be_used_when_updating_a_course(): void
     {
         $admin = create(User::class, ['is_admin' => true]);
         $course = create(Course::class, [
@@ -188,7 +188,7 @@ class CourseTest extends TestCase
     }
 
     /** @test */
-    public function an_admin_can_delete_a_course()
+    public function an_admin_can_delete_a_course(): void
     {
         $admin = create(User::class, ['is_admin' => true]);
         $course = create(Course::class);
@@ -201,7 +201,7 @@ class CourseTest extends TestCase
     }
 
     /** @test */
-    public function deleting_a_course_removes_all_students_who_were_on_it()
+    public function deleting_a_course_removes_all_students_who_were_on_it(): void
     {
         $admin = create(User::class, ['is_admin' => true]);
         $course1 = create(Course::class);

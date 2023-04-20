@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\SomethingNoteworthyHappened;
+use Illuminate\Events\Dispatcher;
 
 class UserEventSubscriber
 {
@@ -16,10 +17,8 @@ class UserEventSubscriber
 
     /**
      * Register the listeners for the subscriber.
-     *
-     * @param  \Illuminate\Events\Dispatcher  $events
      */
-    public function subscribe($events)
+    public function subscribe(Dispatcher $events)
     {
         $events->listen(
             'Illuminate\Auth\Events\Login',

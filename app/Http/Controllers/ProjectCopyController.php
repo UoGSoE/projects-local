@@ -6,11 +6,11 @@ use App\Models\Course;
 use App\Models\Programme;
 use App\Models\Project;
 use App\Models\User;
-use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class ProjectCopyController extends Controller
 {
-    public function create($id)
+    public function create($id): View
     {
         $project = Project::findOrFail($id);
 

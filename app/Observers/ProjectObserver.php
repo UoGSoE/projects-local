@@ -2,16 +2,15 @@
 
 namespace App\Observers;
 
-use App\Events\SomethingNoteworthyHappened;
 use App\Models\Project;
 
 class ProjectObserver
 {
-    public function created(Project $project)
+    public function created(Project $project): void
     {
     }
 
-    public function updated(Project $project)
+    public function updated(Project $project): void
     {
     }
 

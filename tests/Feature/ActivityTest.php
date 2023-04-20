@@ -18,7 +18,7 @@ class ActivityTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function regular_users_cant_see_the_activity_log()
+    public function regular_users_cant_see_the_activity_log(): void
     {
         $user = create(User::class);
 
@@ -29,7 +29,7 @@ class ActivityTest extends TestCase
     }
 
     /** @test */
-    public function admins_can_see_the_activity_log()
+    public function admins_can_see_the_activity_log(): void
     {
         $this->withoutExceptionHandling();
         $user = create(User::class);
@@ -47,7 +47,7 @@ class ActivityTest extends TestCase
     }
 
     /** @test */
-    public function an_event_is_recorded_when_a_user_is_manually_created()
+    public function an_event_is_recorded_when_a_user_is_manually_created(): void
     {
         if (env('CI')) {
             $this->assertTrue(true);
@@ -77,7 +77,7 @@ class ActivityTest extends TestCase
     }
 
     /** @test */
-    public function an_event_is_recorded_when_a_user_logs_in()
+    public function an_event_is_recorded_when_a_user_logs_in(): void
     {
         $user = create(User::class);
 
@@ -89,7 +89,7 @@ class ActivityTest extends TestCase
     }
 
     /** @test */
-    public function an_event_is_recorded_when_a_user_is_deleted()
+    public function an_event_is_recorded_when_a_user_is_deleted(): void
     {
         $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_admin' => true]);
@@ -113,7 +113,7 @@ class ActivityTest extends TestCase
     }
 
     /** @test */
-    public function an_event_is_recorded_when_a_user_creates_updates_or_deletes_a_project()
+    public function an_event_is_recorded_when_a_user_creates_updates_or_deletes_a_project(): void
     {
         $staff = create(User::class, ['is_staff' => true]);
         $programme1 = create(Programme::class);
@@ -169,7 +169,7 @@ class ActivityTest extends TestCase
     }
 
     /** @test */
-    public function an_event_is_recorded_when_a_student_applies_for_projects()
+    public function an_event_is_recorded_when_a_student_applies_for_projects(): void
     {
         $student = create(User::class, ['is_staff' => false]);
         config(['projects.required_choices' => 2]);
@@ -193,7 +193,7 @@ class ActivityTest extends TestCase
     }
 
     /** @test */
-    public function an_event_is_recorded_when_a_student_is_accepted_onto_a_project()
+    public function an_event_is_recorded_when_a_student_is_accepted_onto_a_project(): void
     {
         Mail::fake();
         $staff = create(User::class, ['is_staff' => true]);
@@ -215,7 +215,7 @@ class ActivityTest extends TestCase
     }
 
     /** @test */
-    public function an_event_is_recorded_when_a_student_is_manually_added_to_a_project()
+    public function an_event_is_recorded_when_a_student_is_manually_added_to_a_project(): void
     {
         Mail::fake();
         $admin = create(User::class, ['is_admin' => true]);
@@ -236,14 +236,14 @@ class ActivityTest extends TestCase
     }
 
     /** @test */
-    public function an_event_is_recorded_when_an_admin_imports_2nd_supervisors()
+    public function an_event_is_recorded_when_an_admin_imports_2nd_supervisors(): void
     {
         // see 'ImportSecondSupervisorsTest@admins_can_import_a_spreadsheet_to_update_project_second_supervisors'
         $this->assertTrue(true);
     }
 
     /** @test */
-    public function an_event_is_recorded_when_an_admin_bulk_edits_options()
+    public function an_event_is_recorded_when_an_admin_bulk_edits_options(): void
     {
         $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_admin' => true]);
@@ -272,7 +272,7 @@ class ActivityTest extends TestCase
     }
 
     /** @test */
-    public function an_event_is_recorded_when_an_admin_exports_the_project_list()
+    public function an_event_is_recorded_when_an_admin_exports_the_project_list(): void
     {
         $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_admin' => true]);
@@ -287,7 +287,7 @@ class ActivityTest extends TestCase
     }
 
     /** @test */
-    public function an_event_is_recorded_when_an_admin_creates_edits_deletes_a_course()
+    public function an_event_is_recorded_when_an_admin_creates_edits_deletes_a_course(): void
     {
         $admin = create(User::class, ['is_admin' => true]);
         login($admin);
@@ -315,7 +315,7 @@ class ActivityTest extends TestCase
     }
 
     /** @test */
-    public function an_event_is_recorded_when_an_admin_creates_edits_deletes_a_programme()
+    public function an_event_is_recorded_when_an_admin_creates_edits_deletes_a_programme(): void
     {
         $admin = create(User::class, ['is_admin' => true]);
         login($admin);
@@ -343,14 +343,14 @@ class ActivityTest extends TestCase
     }
 
     /** @test */
-    public function an_event_is_recorded_when_an_admin_imports_students_onto_a_course()
+    public function an_event_is_recorded_when_an_admin_imports_students_onto_a_course(): void
     {
         // see 'EnrollmentTest@an_admin_can_import_a_spreadsheet_of_students_who_are_on_a_course'
         $this->assertTrue(true);
     }
 
     /** @test */
-    public function an_event_is_recorded_when_an_admin_removes_all_students_from_a_course()
+    public function an_event_is_recorded_when_an_admin_removes_all_students_from_a_course(): void
     {
         $admin = create(User::class, ['is_admin' => true]);
         $course = create(Course::class);
@@ -366,14 +366,14 @@ class ActivityTest extends TestCase
     }
 
     /** @test */
-    public function an_event_is_recorded_when_an_admin_removes_all_students_of_a_given_type()
+    public function an_event_is_recorded_when_an_admin_removes_all_students_of_a_given_type(): void
     {
         // see 'MaintenanceTest@an_admin_can_clear_all_postgrad_or_undergrad_students'
         $this->assertTrue(true);
     }
 
     /** @test */
-    public function an_event_is_recorded_when_an_admin_bulk_accepts_students()
+    public function an_event_is_recorded_when_an_admin_bulk_accepts_students(): void
     {
         $this->withoutExceptionHandling();
         Mail::fake();
@@ -395,7 +395,7 @@ class ActivityTest extends TestCase
     }
 
     /** @test */
-    public function an_event_is_recorded_when_an_admin_impersonates_a_user()
+    public function an_event_is_recorded_when_an_admin_impersonates_a_user(): void
     {
         $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_admin' => true]);
@@ -419,7 +419,7 @@ class ActivityTest extends TestCase
     }
 
     /** @test */
-    public function an_event_is_recorded_when_an_admin_gdpr_exports_a_user()
+    public function an_event_is_recorded_when_an_admin_gdpr_exports_a_user(): void
     {
         $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_staff' => true, 'is_admin' => true]);
@@ -434,7 +434,7 @@ class ActivityTest extends TestCase
     }
 
     /** @test */
-    public function an_event_is_recorded_a_research_area_is_added_updated_or_deleted()
+    public function an_event_is_recorded_a_research_area_is_added_updated_or_deleted(): void
     {
         $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_staff' => true, 'is_admin' => true]);

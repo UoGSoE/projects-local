@@ -6,7 +6,6 @@ use App\Models\Programme;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ProgrammeTest extends TestCase
@@ -14,7 +13,7 @@ class ProgrammeTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function regular_users_cant_see_the_programmes_page()
+    public function regular_users_cant_see_the_programmes_page(): void
     {
         $user = create(User::class);
         $programme = create(Programme::class);
@@ -25,7 +24,7 @@ class ProgrammeTest extends TestCase
     }
 
     /** @test */
-    public function admins_can_see_the_programmes_page()
+    public function admins_can_see_the_programmes_page(): void
     {
         $admin = create(User::class, ['is_admin' => true]);
         $programme1 = create(Programme::class, ['plan_code' => 'HH123-456']);
@@ -47,7 +46,7 @@ class ProgrammeTest extends TestCase
     }
 
     /** @test */
-    public function admins_can_see_the_page_to_create_a_new_programme()
+    public function admins_can_see_the_page_to_create_a_new_programme(): void
     {
         $admin = create(User::class, ['is_admin' => true]);
 
@@ -58,7 +57,7 @@ class ProgrammeTest extends TestCase
     }
 
     /** @test */
-    public function admins_can_create_a_new_programme()
+    public function admins_can_create_a_new_programme(): void
     {
         $admin = create(User::class, ['is_admin' => true]);
 
@@ -76,7 +75,7 @@ class ProgrammeTest extends TestCase
     }
 
     /** @test */
-    public function admins_can_see_the_page_to_edit_a_new_programme()
+    public function admins_can_see_the_page_to_edit_a_new_programme(): void
     {
         $admin = create(User::class, ['is_admin' => true]);
         $programme = create(Programme::class);
@@ -88,7 +87,7 @@ class ProgrammeTest extends TestCase
     }
 
     /** @test */
-    public function admins_can_update_an_existing_programme()
+    public function admins_can_update_an_existing_programme(): void
     {
         $admin = create(User::class, ['is_admin' => true]);
         $programme = create(Programme::class);
@@ -108,7 +107,7 @@ class ProgrammeTest extends TestCase
     }
 
     /** @test */
-    public function updating_a_programme_but_keeping_the_same_title_doesnt_trigger_a_unique_validation_error()
+    public function updating_a_programme_but_keeping_the_same_title_doesnt_trigger_a_unique_validation_error(): void
     {
         $admin = create(User::class, ['is_admin' => true]);
         $programme = create(Programme::class);
@@ -126,7 +125,7 @@ class ProgrammeTest extends TestCase
     }
 
     /** @test */
-    public function admins_can_delete_an_existing_programme()
+    public function admins_can_delete_an_existing_programme(): void
     {
         $admin = create(User::class, ['is_admin' => true]);
         $programme1 = create(Programme::class);

@@ -33,10 +33,8 @@ class ImportOldData extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return mixed
      */
-    public function handle()
+    public function handle(): void
     {
         if (! file_exists($this->argument('filename'))) {
             $this->error('File does not exist: '.$this->argument('filename'));

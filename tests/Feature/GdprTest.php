@@ -8,7 +8,6 @@ use App\Models\Project;
 use App\Models\User;
 // use Facades\Ohffs\Ldap\LdapService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Mail;
 use Ohffs\Ldap\LdapService;
@@ -19,7 +18,7 @@ class GdprTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function admins_can_export_all_data_about_a_user_as_json()
+    public function admins_can_export_all_data_about_a_user_as_json(): void
     {
         $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_staff' => true, 'is_admin' => true]);
@@ -71,7 +70,7 @@ class GdprTest extends TestCase
     }
 
     /** @test */
-    public function an_artisan_command_can_anonymise_staff_accounts_if_they_have_left()
+    public function an_artisan_command_can_anonymise_staff_accounts_if_they_have_left(): void
     {
         Mail::fake();
         $this->mock(LdapService::class, function ($ldap) {

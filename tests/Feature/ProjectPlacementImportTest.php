@@ -8,7 +8,6 @@ use App\Models\Programme;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Activitylog\Models\Activity;
@@ -19,7 +18,7 @@ class ProjectPlacementImportTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function an_admin_can_see_the_placements_import_page()
+    public function an_admin_can_see_the_placements_import_page(): void
     {
         $admin = create(User::class, ['is_admin' => true]);
 
@@ -30,7 +29,7 @@ class ProjectPlacementImportTest extends TestCase
     }
 
     /** @test */
-    public function regular_users_cant_see_the_placements_import_page()
+    public function regular_users_cant_see_the_placements_import_page(): void
     {
         $user = create(User::class);
 
@@ -40,7 +39,7 @@ class ProjectPlacementImportTest extends TestCase
     }
 
     /** @test */
-    public function an_admin_can_import_a_list_of_placement_projects()
+    public function an_admin_can_import_a_list_of_placement_projects(): void
     {
         Mail::fake();
         $admin = create(User::class, ['is_admin' => true]);
@@ -73,7 +72,7 @@ class ProjectPlacementImportTest extends TestCase
     }
 
     /** @test */
-    public function if_the_sheet_is_imported_twice_students_who_have_already_been_imported_and_accepted_dont_get_a_second_email()
+    public function if_the_sheet_is_imported_twice_students_who_have_already_been_imported_and_accepted_dont_get_a_second_email(): void
     {
         $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_admin' => true]);
@@ -105,7 +104,7 @@ class ProjectPlacementImportTest extends TestCase
     }
 
     /** @test */
-    public function if_the_sheet_is_imported_twice_projects_arent_created_twice()
+    public function if_the_sheet_is_imported_twice_projects_arent_created_twice(): void
     {
         $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_admin' => true]);
@@ -131,7 +130,7 @@ class ProjectPlacementImportTest extends TestCase
     }
 
     /** @test */
-    public function importing_placement_projects_with_an_unrecognised_staff_member_flags_an_error()
+    public function importing_placement_projects_with_an_unrecognised_staff_member_flags_an_error(): void
     {
         $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_admin' => true]);
@@ -153,7 +152,7 @@ class ProjectPlacementImportTest extends TestCase
     }
 
     /** @test */
-    public function importing_placement_projects_with_an_unrecognised_student_member_flags_an_error()
+    public function importing_placement_projects_with_an_unrecognised_student_member_flags_an_error(): void
     {
         $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_admin' => true]);
@@ -175,7 +174,7 @@ class ProjectPlacementImportTest extends TestCase
     }
 
     /** @test */
-    public function importing_placement_projects_with_an_unrecognised_course_flags_an_error()
+    public function importing_placement_projects_with_an_unrecognised_course_flags_an_error(): void
     {
         $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_admin' => true]);
@@ -197,7 +196,7 @@ class ProjectPlacementImportTest extends TestCase
     }
 
     /** @test */
-    public function importing_placement_projects_with_an_unrecognised_programme_flags_an_error()
+    public function importing_placement_projects_with_an_unrecognised_programme_flags_an_error(): void
     {
         $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_admin' => true]);

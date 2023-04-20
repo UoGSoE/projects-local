@@ -4,7 +4,6 @@ namespace App\Jobs;
 
 use App\Notifications\ImportStudentsComplete;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -34,10 +33,8 @@ class ImportStudents implements ShouldQueue
 
     /**
      * Execute the job.
-     *
-     * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         $this->course->enrollStudents($this->data);
         $this->admin->notify(new ImportStudentsComplete($this->course));

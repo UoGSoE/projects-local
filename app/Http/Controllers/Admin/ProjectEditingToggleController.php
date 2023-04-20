@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class ProjectEditingToggleController extends Controller
 {
-    public function update(Request $request)
+    public function update(Request $request): RedirectResponse
     {
         $data = $request->validate([
             'category' => 'required|in:undergrad,postgrad',

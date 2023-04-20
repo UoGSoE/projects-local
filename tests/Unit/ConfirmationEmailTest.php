@@ -6,7 +6,6 @@ use App\Mail\ChoiceConfirmation;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ConfirmationEmailTest extends TestCase
@@ -14,7 +13,7 @@ class ConfirmationEmailTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function the_confirmation_email_shows_the_students_project_choices()
+    public function the_confirmation_email_shows_the_students_project_choices(): void
     {
         $student = create(User::class, ['is_staff' => false]);
         $project1 = create(Project::class);

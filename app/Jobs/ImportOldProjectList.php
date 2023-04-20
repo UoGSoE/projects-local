@@ -40,10 +40,8 @@ class ImportOldProjectList implements ShouldQueue
 
     /**
      * Execute the job.
-     *
-     * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         $this->oldProjects = Cache::remember('oldprojects', 3600, function () {
             return Http::get(config('projects.wlm_api_url').'/getallprojects')->json()['Data'];

@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Admin\Reports;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\View\View;
 
 class ChoicesReportController extends Controller
 {
-    public function show(string $category)
+    public function show(string $category): View
     {
         $students = User::ofType($category)
             ->with('projects')

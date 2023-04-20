@@ -12,7 +12,7 @@ class AdminToggleTest extends DuskTestCase
     use DatabaseMigrations;
 
     /** @test */
-    public function an_admin_can_give_and_remove_admin_rights_to_other_users()
+    public function an_admin_can_give_and_remove_admin_rights_to_other_users(): void
     {
         $this->browse(function (Browser $browser) {
             $admin = create(User::class, ['is_admin' => true]);
@@ -37,7 +37,7 @@ class AdminToggleTest extends DuskTestCase
     }
 
     /** @test */
-    public function an_admin_does_not_get_the_option_to_disable_their_own_admin_status()
+    public function an_admin_does_not_get_the_option_to_disable_their_own_admin_status(): void
     {
         $this->browse(function (Browser $browser) {
             $admin = create(User::class, ['is_admin' => true, 'is_staff' => true]);

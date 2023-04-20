@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin\Exports;
 use App\Events\SomethingNoteworthyHappened;
 use App\Exports\ProgrammesExport;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ProgrammeController extends Controller

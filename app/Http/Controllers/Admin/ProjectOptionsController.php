@@ -6,10 +6,11 @@ use App\Events\SomethingNoteworthyHappened;
 use App\Http\Controllers\Controller;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class ProjectOptionsController extends Controller
 {
-    public function index($category)
+    public function index($category): View
     {
         $projects = Project::where('category', '=', $category)
             ->orderBy('title')

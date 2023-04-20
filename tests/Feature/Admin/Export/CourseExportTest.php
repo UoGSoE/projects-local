@@ -7,15 +7,13 @@ namespace Tests\Feature\Admin\Export;
 use App\Exports\CoursesExport;
 use App\Models\Course;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Maatwebsite\Excel\Facades\Excel;
 use Tests\TestCase;
 
 class CourseExportTest extends TestCase
 {
     /** @test */
-    public function an_admin_can_download_a_csv_of_all_courses()
+    public function an_admin_can_download_a_csv_of_all_courses(): void
     {
         Excel::fake();
         $admin = create(User::class, ['is_admin' => true]);
@@ -48,7 +46,7 @@ class CourseExportTest extends TestCase
     }
 
     /** @test */
-    public function an_admin_can_download_an_xlsx_of_all_courses()
+    public function an_admin_can_download_an_xlsx_of_all_courses(): void
     {
         Excel::fake();
         $admin = create(User::class, ['is_admin' => true]);

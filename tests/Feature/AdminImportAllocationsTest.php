@@ -6,7 +6,6 @@ namespace Tests\Feature;
 
 use App\Models\Project;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Ohffs\SimpleSpout\ExcelSheet;
 use Tests\TestCase;
@@ -14,7 +13,7 @@ use Tests\TestCase;
 class AdminImportAllocationsTest extends TestCase
 {
     /** @test */
-    public function regular_users_cant_bulk_import_student_allocations()
+    public function regular_users_cant_bulk_import_student_allocations(): void
     {
         $user = create(User::class);
 
@@ -27,7 +26,7 @@ class AdminImportAllocationsTest extends TestCase
     }
 
     /** @test */
-    public function admins_can_see_the_bulk_import_allocations_page()
+    public function admins_can_see_the_bulk_import_allocations_page(): void
     {
         $admin = create(User::class, ['is_admin' => true]);
 
@@ -38,7 +37,7 @@ class AdminImportAllocationsTest extends TestCase
     }
 
     /** @test */
-    public function admins_can_bulk_import_student_allocations()
+    public function admins_can_bulk_import_student_allocations(): void
     {
         $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_admin' => true]);
@@ -71,7 +70,7 @@ class AdminImportAllocationsTest extends TestCase
     }
 
     /** @test */
-    public function any_projects_which_are_not_found_are_flashed_back_to_the_user()
+    public function any_projects_which_are_not_found_are_flashed_back_to_the_user(): void
     {
         $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_admin' => true]);
@@ -96,7 +95,7 @@ class AdminImportAllocationsTest extends TestCase
     }
 
     /** @test */
-    public function any_student_who_are_not_found_are_flashed_back_to_the_user()
+    public function any_student_who_are_not_found_are_flashed_back_to_the_user(): void
     {
         $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_admin' => true]);

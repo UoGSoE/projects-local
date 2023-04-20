@@ -2,14 +2,12 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Resources\ActivityLog;
-use App\Http\Resources\Project;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Spatie\Activitylog\Models\Activity;
 
 class StaffMember extends JsonResource
 {
-    public function toArray($request)
+    public function toArray($request): array
     {
         return [
             'username' => $this->username,

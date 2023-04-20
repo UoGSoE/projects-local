@@ -8,13 +8,14 @@ use App\Models\Project;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\MessageBag;
+use Illuminate\View\View;
 use Ohffs\SimpleSpout\ExcelSheet;
 
 class SecondSupervisorController extends Controller
 {
     protected $errors;
 
-    public function show()
+    public function show(): View
     {
         return view('admin.project.import_second_supervisors');
     }

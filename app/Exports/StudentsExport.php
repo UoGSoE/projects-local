@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\User;
+use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
 
 class StudentsExport implements FromCollection
@@ -12,10 +13,7 @@ class StudentsExport implements FromCollection
         $this->type = $type;
     }
 
-    /**
-     * @return \Illuminate\Support\Collection
-     */
-    public function collection()
+    public function collection(): Collection
     {
         return User::ofType($this->type)
             ->with('projects.programmes', 'course')

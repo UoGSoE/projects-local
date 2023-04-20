@@ -17,7 +17,7 @@ class StudentExportTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function an_admin_can_export_the_list_of_undergrads_as_a_csv()
+    public function an_admin_can_export_the_list_of_undergrads_as_a_csv(): void
     {
         Excel::fake();
         $admin = create(User::class, ['is_admin' => true]);
@@ -81,7 +81,7 @@ class StudentExportTest extends TestCase
     }
 
     /** @test */
-    public function exporting_students_who_dont_have_a_programme_works_ok()
+    public function exporting_students_who_dont_have_a_programme_works_ok(): void
     {
         Excel::fake();
         $admin = create(User::class, ['is_admin' => true]);
@@ -145,7 +145,7 @@ class StudentExportTest extends TestCase
     }
 
     /** @test */
-    public function an_admin_can_export_the_list_of_undergrads_as_an_xlsx()
+    public function an_admin_can_export_the_list_of_undergrads_as_an_xlsx(): void
     {
         Excel::fake();
         $admin = create(User::class, ['is_admin' => true]);
@@ -209,7 +209,7 @@ class StudentExportTest extends TestCase
     }
 
     /** @test */
-    public function an_admin_can_export_the_list_of_postgrads_as_a_csv()
+    public function an_admin_can_export_the_list_of_postgrads_as_a_csv(): void
     {
         Excel::fake();
         $admin = create(User::class, ['is_admin' => true]);
@@ -273,7 +273,7 @@ class StudentExportTest extends TestCase
     }
 
     /** @test */
-    public function an_admin_can_export_the_list_of_postgrads_as_an_xlsx()
+    public function an_admin_can_export_the_list_of_postgrads_as_an_xlsx(): void
     {
         Excel::fake();
         $admin = create(User::class, ['is_admin' => true]);

@@ -5,11 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Events\SomethingNoteworthyHappened;
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 
 class ImpersonationController extends Controller
 {
-    public function store($id)
+    public function store($id): RedirectResponse
     {
         session(['original_id' => auth()->id()]);
         $user = User::findOrFail($id);
@@ -21,7 +21,7 @@ class ImpersonationController extends Controller
         return redirect(route('home'));
     }
 
-    public function destroy()
+    public function destroy(): RedirectResponse
     {
         $admin = User::findOrFail(session('original_id'));
         event(new SomethingNoteworthyHappened($admin, 'Stopped impersonating '.auth()->user()->full_name));

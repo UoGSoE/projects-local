@@ -5,20 +5,17 @@ namespace App\Http\Controllers\Admin;
 use App\Events\SomethingNoteworthyHappened;
 use App\Http\Controllers\Controller;
 use App\Imports\PlacementDataExtractor;
-use App\Models\Course;
-use App\Models\Programme;
 use App\Models\Project;
-use App\Models\User;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\MessageBag;
+use Illuminate\View\View;
 use Ohffs\SimpleSpout\ExcelSheet;
 
 class PlacementController extends Controller
 {
     protected $errors;
 
-    public function show()
+    public function show(): View
     {
         return view('admin.project.import_placements');
     }

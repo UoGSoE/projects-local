@@ -8,11 +8,9 @@ use App\Models\Programme;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Queue;
 use Ohffs\SimpleSpout\ExcelSheet;
 use Tests\TestCase;
 
@@ -21,7 +19,7 @@ class ImportOldProjectListTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function we_can_import_old_undergrad_data_from_the_wlm_based_on_an_array_of_data()
+    public function we_can_import_old_undergrad_data_from_the_wlm_based_on_an_array_of_data(): void
     {
         if (env('CI')) {
             $this->markTestSkipped('Not running in CI');
@@ -81,7 +79,7 @@ class ImportOldProjectListTest extends TestCase
     }
 
     /** @test */
-    public function we_can_import_old_postgrad_data_from_the_wlm_based_on_an_array_of_data()
+    public function we_can_import_old_postgrad_data_from_the_wlm_based_on_an_array_of_data(): void
     {
         if (env('CI')) {
             $this->markTestSkipped('Not running in CI');
@@ -141,7 +139,7 @@ class ImportOldProjectListTest extends TestCase
     }
 
     /** @test */
-    public function when_admins_view_the_projects_list_the_correct_url_is_shown_for_importing_the_old_data()
+    public function when_admins_view_the_projects_list_the_correct_url_is_shown_for_importing_the_old_data(): void
     {
         $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_staff' => true, 'is_admin' => true]);
@@ -158,7 +156,7 @@ class ImportOldProjectListTest extends TestCase
     }
 
     /** @test */
-    public function admins_can_upload_a_spreadsheet_which_kicks_off_the_import()
+    public function admins_can_upload_a_spreadsheet_which_kicks_off_the_import(): void
     {
         $this->withoutExceptionHandling();
         Bus::fake();
@@ -180,7 +178,7 @@ class ImportOldProjectListTest extends TestCase
     }
 
     /** @test */
-    public function admins_can_see_the_page_to_import_the_projects()
+    public function admins_can_see_the_page_to_import_the_projects(): void
     {
         $admin = create(User::class, ['is_staff' => true, 'is_admin' => true]);
 
@@ -191,7 +189,7 @@ class ImportOldProjectListTest extends TestCase
     }
 
     /** @test */
-    public function regular_users_cant_see_the_page_to_import_the_projects()
+    public function regular_users_cant_see_the_page_to_import_the_projects(): void
     {
         $admin = create(User::class, ['is_staff' => true, 'is_admin' => false]);
 

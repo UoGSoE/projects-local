@@ -7,12 +7,12 @@ use App\Models\Programme;
 
 class ProgrammeObserver
 {
-    public function created(Programme $programme)
+    public function created(Programme $programme): void
     {
         event(new SomethingNoteworthyHappened(auth()->user(), "Created programme {$programme->title}"));
     }
 
-    public function updated(Programme $programme)
+    public function updated(Programme $programme): void
     {
         event(new SomethingNoteworthyHappened(auth()->user(), "Updated programme {$programme->title}"));
     }

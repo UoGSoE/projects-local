@@ -13,7 +13,7 @@ class RemoveStudentTest extends DuskTestCase
     use DatabaseMigrations;
 
     /** @test */
-    public function an_admin_can_remove_students_from_a_course()
+    public function an_admin_can_remove_students_from_a_course(): void
     {
         $this->browse(function (Browser $browser) {
             $admin = create(User::class, ['is_admin' => true]);

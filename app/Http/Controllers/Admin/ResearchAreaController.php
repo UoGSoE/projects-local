@@ -5,18 +5,20 @@ namespace App\Http\Controllers\Admin;
 use App\Events\SomethingNoteworthyHappened;
 use App\Http\Controllers\Controller;
 use App\Models\ResearchArea;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class ResearchAreaController extends Controller
 {
-    public function index()
+    public function index(): View
     {
         return view('admin.researcharea.index', [
             'areas' => ResearchArea::orderBy('title')->get(),
         ]);
     }
 
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         $request->validate([
             'title' => 'required',
@@ -31,7 +33,7 @@ class ResearchAreaController extends Controller
         ], 201);
     }
 
-    public function update(ResearchArea $area, Request $request)
+    public function update(ResearchArea $area, Request $request): JsonResponse
     {
         $request->validate([
             'title' => 'required',
@@ -47,7 +49,7 @@ class ResearchAreaController extends Controller
         ]);
     }
 
-    public function destroy(ResearchArea $area)
+    public function destroy(ResearchArea $area): JsonResponse
     {
         event(new SomethingNoteworthyHappened(auth()->user(), "Deleted research area {$area->title}"));
 

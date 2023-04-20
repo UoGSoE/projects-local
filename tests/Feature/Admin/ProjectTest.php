@@ -2,14 +2,11 @@
 
 namespace Tests\Feature\Admin;
 
-use App\Mail\AcceptedOntoProject;
 use App\Models\Course;
 use App\Models\Programme;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class ProjectTest extends TestCase
@@ -17,7 +14,7 @@ class ProjectTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function admin_can_filter_index_page_by_type()
+    public function admin_can_filter_index_page_by_type(): void
     {
         $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_admin' => true, 'is_staff' => true]);
@@ -34,7 +31,7 @@ class ProjectTest extends TestCase
     }
 
     /** @test */
-    public function admin_can_filter_index_page_by_programme()
+    public function admin_can_filter_index_page_by_programme(): void
     {
         $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_admin' => true, 'is_staff' => true]);
@@ -54,7 +51,7 @@ class ProjectTest extends TestCase
     }
 
     /** @test */
-    public function admin_can_filter_index_page_by_programme_and_type()
+    public function admin_can_filter_index_page_by_programme_and_type(): void
     {
         $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_admin' => true, 'is_staff' => true]);
@@ -80,7 +77,7 @@ class ProjectTest extends TestCase
     }
 
     /** @test */
-    public function an_admin_can_view_a_project()
+    public function an_admin_can_view_a_project(): void
     {
         $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_admin' => true, 'is_staff' => true]);
@@ -94,7 +91,7 @@ class ProjectTest extends TestCase
     }
 
     /** @test */
-    public function an_admin_can_delete_a_project()
+    public function an_admin_can_delete_a_project(): void
     {
         $admin = create(User::class, ['is_admin' => true]);
         $project = create(Project::class);
@@ -109,7 +106,7 @@ class ProjectTest extends TestCase
     }
 
     /** @test */
-    public function an_admin_can_create_a_project_for_a_given_member_of_staff()
+    public function an_admin_can_create_a_project_for_a_given_member_of_staff(): void
     {
         $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_admin' => true]);
@@ -145,7 +142,7 @@ class ProjectTest extends TestCase
     }
 
     /** @test */
-    public function an_admin_can_update_a_project()
+    public function an_admin_can_update_a_project(): void
     {
         $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_admin' => true]);
@@ -181,7 +178,7 @@ class ProjectTest extends TestCase
     }
 
     /** @test */
-    public function an_admin_can_edit_a_project_even_if_editing_is_disabled()
+    public function an_admin_can_edit_a_project_even_if_editing_is_disabled(): void
     {
         // see 'an_admin_can_stop_academics_from_editing_projects' test and
         // Feature\Staff\ProjectTest@staff_cant_update_their_own_projects_if_the_admins_have_disabled_editing
@@ -202,7 +199,7 @@ class ProjectTest extends TestCase
     }
 
     /** @test */
-    public function an_admin_can_see_the_bulk_edit_project_options_page()
+    public function an_admin_can_see_the_bulk_edit_project_options_page(): void
     {
         $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_admin' => true]);
@@ -219,7 +216,7 @@ class ProjectTest extends TestCase
     }
 
     /** @test */
-    public function an_admin_can_bulk_update_project_options()
+    public function an_admin_can_bulk_update_project_options(): void
     {
         $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_admin' => true]);
@@ -250,7 +247,7 @@ class ProjectTest extends TestCase
     }
 
     /** @test */
-    public function an_admin_can_stop_academics_from_editing_projects()
+    public function an_admin_can_stop_academics_from_editing_projects(): void
     {
         $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_admin' => true]);

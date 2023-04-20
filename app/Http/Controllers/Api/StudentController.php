@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Project;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Project;
 use Illuminate\Support\Facades\Validator;
 
 class StudentController extends Controller
@@ -37,7 +36,7 @@ class StudentController extends Controller
         })->flatten(1);
 
         return response()->json([
-            'data' => $studentList
+            'data' => $studentList,
         ]);
     }
 }

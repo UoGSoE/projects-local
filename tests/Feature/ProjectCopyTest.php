@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ProjectCopyTest extends TestCase
@@ -13,7 +12,7 @@ class ProjectCopyTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function staff_can_see_a_button_for_making_the_correct_kind_of_copy()
+    public function staff_can_see_a_button_for_making_the_correct_kind_of_copy(): void
     {
         $this->withoutExceptionHandling();
         $staff = create(User::class, ['is_staff' => true]);
@@ -30,7 +29,7 @@ class ProjectCopyTest extends TestCase
     }
 
     /** @test */
-    public function staff_can_make_a_postgrad_copy_of_an_undergrad_project()
+    public function staff_can_make_a_postgrad_copy_of_an_undergrad_project(): void
     {
         $this->withoutExceptionHandling();
         $staff = create(User::class, ['is_staff' => true]);
@@ -44,7 +43,7 @@ class ProjectCopyTest extends TestCase
     }
 
     /** @test */
-    public function staff_can_make_an_undergrad_copy_of_a_postgrad_project()
+    public function staff_can_make_an_undergrad_copy_of_a_postgrad_project(): void
     {
         $this->withoutExceptionHandling();
         $staff = create(User::class, ['is_staff' => true]);

@@ -17,7 +17,7 @@ class StaffExportTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function the_staff_exporter_produces_the_expected_data()
+    public function the_staff_exporter_produces_the_expected_data(): void
     {
         Excel::fake();
         $admin = create(User::class, ['is_admin' => true, 'surname' => 'Ccc']);

@@ -18,10 +18,8 @@ class ProjectStats
 
     /**
      * Used to json-ify all the extra columns admins need to see in the staff list :'-/.
-     *
-     * @return void
      */
-    public function forAdminIndex()
+    public function forAdminIndex(): void
     {
         $user = $this->staffMember->toArray();
         $user['ugrad_beng_active'] = $this->ugradActive('B.Eng');

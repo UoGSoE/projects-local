@@ -14,7 +14,7 @@ class ProgrammeTest extends DuskTestCase
     use DatabaseMigrations;
 
     /** @test */
-    public function admins_can_do_all_the_programmes_stuff()
+    public function admins_can_do_all_the_programmes_stuff(): void
     {
         $this->browse(function (Browser $browser) {
             $admin = create(User::class, ['is_admin' => true, 'is_staff' => true]);

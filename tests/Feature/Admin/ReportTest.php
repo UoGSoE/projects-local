@@ -5,7 +5,6 @@ namespace Tests\Feature\Admin;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ReportTest extends TestCase
@@ -13,7 +12,7 @@ class ReportTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function an_admin_can_see_a_list_of_all_undergrad_projects()
+    public function an_admin_can_see_a_list_of_all_undergrad_projects(): void
     {
         $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_admin' => true, 'is_staff' => true]);
@@ -33,7 +32,7 @@ class ReportTest extends TestCase
     }
 
     /** @test */
-    public function an_admin_can_see_a_list_of_all_postgrad_projects()
+    public function an_admin_can_see_a_list_of_all_postgrad_projects(): void
     {
         $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_admin' => true, 'is_staff' => true]);

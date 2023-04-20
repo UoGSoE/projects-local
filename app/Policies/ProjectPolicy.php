@@ -19,47 +19,32 @@ class ProjectPolicy
 
     /**
      * Determine whether the user can view the project.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Project  $project
-     * @return mixed
      */
-    public function view(User $user, Project $project)
+    public function view(User $user, Project $project): bool
     {
         return $user->id == $project->staff_id;
     }
 
     /**
      * Determine whether the user can create projects.
-     *
-     * @param  \App\Models\User  $user
-     * @return mixed
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
         //
     }
 
     /**
      * Determine whether the user can update the project.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Project  $project
-     * @return mixed
      */
-    public function update(User $user, Project $project)
+    public function update(User $user, Project $project): bool
     {
         return $user->id == $project->staff_id;
     }
 
     /**
      * Determine whether the user can delete the project.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Project  $project
-     * @return mixed
      */
-    public function delete(User $user, Project $project)
+    public function delete(User $user, Project $project): bool
     {
         return $user->id == $project->staff_id;
     }

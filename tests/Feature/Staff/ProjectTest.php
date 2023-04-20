@@ -2,14 +2,11 @@
 
 namespace Tests\Feature\Staff;
 
-use App\Mail\AcceptedOntoProject;
 use App\Models\Course;
 use App\Models\Programme;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
 class ProjectTest extends TestCase
@@ -17,7 +14,7 @@ class ProjectTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function staff_can_see_the_page_to_create_a_new_undergrad_project()
+    public function staff_can_see_the_page_to_create_a_new_undergrad_project(): void
     {
         $staff = create(User::class, ['is_staff' => true]);
         $programme1 = create(Programme::class);
@@ -32,7 +29,7 @@ class ProjectTest extends TestCase
     }
 
     /** @test */
-    public function only_courses_and_programmes_of_the_correct_type_show_up_on_the_project_form()
+    public function only_courses_and_programmes_of_the_correct_type_show_up_on_the_project_form(): void
     {
         $staff = create(User::class, ['is_staff' => true]);
         $programme1 = create(Programme::class, ['category' => 'undergrad']);
@@ -62,7 +59,7 @@ class ProjectTest extends TestCase
     }
 
     /** @test */
-    public function staff_can_create_a_new_undergrad_project()
+    public function staff_can_create_a_new_undergrad_project(): void
     {
         $staff = create(User::class, ['is_staff' => true]);
         $programme1 = create(Programme::class);
@@ -98,7 +95,7 @@ class ProjectTest extends TestCase
     }
 
     /** @test */
-    public function project_type_is_required_if_it_is_an_undergrad_project()
+    public function project_type_is_required_if_it_is_an_undergrad_project(): void
     {
         $staff = create(User::class, ['is_staff' => true]);
         $programme1 = create(Programme::class);
@@ -124,7 +121,7 @@ class ProjectTest extends TestCase
     }
 
     /** @test */
-    public function project_type_is_not_required_if_it_is_a_postgrad_project()
+    public function project_type_is_not_required_if_it_is_a_postgrad_project(): void
     {
         $staff = create(User::class, ['is_staff' => true]);
         $programme1 = create(Programme::class);
@@ -161,7 +158,7 @@ class ProjectTest extends TestCase
     }
 
     /** @test */
-    public function valid_data_is_required_to_create_a_project()
+    public function valid_data_is_required_to_create_a_project(): void
     {
         $staff = create(User::class, ['is_staff' => true]);
         $programme1 = create(Programme::class);
@@ -184,7 +181,7 @@ class ProjectTest extends TestCase
     }
 
     /** @test */
-    public function staff_can_see_the_page_to_edit_a_project()
+    public function staff_can_see_the_page_to_edit_a_project(): void
     {
         $this->withoutExceptionHandling();
 
@@ -198,7 +195,7 @@ class ProjectTest extends TestCase
     }
 
     /** @test */
-    public function staff_can_update_their_own_projects()
+    public function staff_can_update_their_own_projects(): void
     {
         $this->withoutExceptionHandling();
         $staff = create(User::class, ['is_staff' => true]);
@@ -236,7 +233,7 @@ class ProjectTest extends TestCase
     }
 
     /** @test */
-    public function staff_cant_update_their_own_projects_if_the_admins_have_disabled_editing()
+    public function staff_cant_update_their_own_projects_if_the_admins_have_disabled_editing(): void
     {
         $staff = create(User::class, ['is_staff' => true]);
         $project = create(Project::class, ['staff_id' => $staff->id, 'category' => 'undergrad']);
@@ -252,7 +249,7 @@ class ProjectTest extends TestCase
     }
 
     /** @test */
-    public function staff_can_make_their_project_unavailable()
+    public function staff_can_make_their_project_unavailable(): void
     {
         $this->withoutExceptionHandling();
         $staff = create(User::class, ['is_staff' => true]);
@@ -280,7 +277,7 @@ class ProjectTest extends TestCase
     }
 
     /** @test */
-    public function valid_data_is_required_to_update_a_project()
+    public function valid_data_is_required_to_update_a_project(): void
     {
         $staff = create(User::class, ['is_staff' => true]);
         $project = create(Project::class, ['staff_id' => $staff->id]);
@@ -303,7 +300,7 @@ class ProjectTest extends TestCase
     }
 
     /** @test */
-    public function staff_cant_update_other_peoples_projects()
+    public function staff_cant_update_other_peoples_projects(): void
     {
         $staff = create(User::class, ['is_staff' => true]);
         $project = create(Project::class);
@@ -325,7 +322,7 @@ class ProjectTest extends TestCase
     }
 
     /** @test */
-    public function staff_cant_allocate_projects_to_other_users()
+    public function staff_cant_allocate_projects_to_other_users(): void
     {
         $this->withoutExceptionHandling();
         $staff = create(User::class, ['is_staff' => true]);
@@ -362,7 +359,7 @@ class ProjectTest extends TestCase
     }
 
     /** @test */
-    public function staff_can_delete_their_own_projects()
+    public function staff_can_delete_their_own_projects(): void
     {
         $staff = create(User::class, ['is_staff' => true]);
         $project1 = create(Project::class, ['staff_id' => $staff->id]);
@@ -377,7 +374,7 @@ class ProjectTest extends TestCase
     }
 
     /** @test */
-    public function staff_cant_delete_other_peoples_projects()
+    public function staff_cant_delete_other_peoples_projects(): void
     {
         $staff = create(User::class, ['is_staff' => true]);
         $project2 = create(Project::class);
@@ -390,7 +387,7 @@ class ProjectTest extends TestCase
     }
 
     /** @test */
-    public function staff_can_view_their_own_project()
+    public function staff_can_view_their_own_project(): void
     {
         $this->withoutExceptionHandling();
         $staff = create(User::class, ['is_staff' => true]);
@@ -403,7 +400,7 @@ class ProjectTest extends TestCase
     }
 
     /** @test */
-    public function staff_cant_view_other_peoples_projects()
+    public function staff_cant_view_other_peoples_projects(): void
     {
         $staff = create(User::class, ['is_staff' => true]);
         $project = create(Project::class);
@@ -414,7 +411,7 @@ class ProjectTest extends TestCase
     }
 
     /** @test */
-    public function staff_can_see_which_students_have_applied_for_their_projects()
+    public function staff_can_see_which_students_have_applied_for_their_projects(): void
     {
         $this->withoutExceptionHandling();
         $staff = create(User::class, ['is_staff' => true]);

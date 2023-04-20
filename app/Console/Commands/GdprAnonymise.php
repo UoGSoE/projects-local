@@ -37,10 +37,8 @@ class GdprAnonymise extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return mixed
      */
-    public function handle()
+    public function handle(): void
     {
         $anonymisedUsers = collect([]);
         $staff = User::staff()->where('username', 'not like', 'ANON%')->get();

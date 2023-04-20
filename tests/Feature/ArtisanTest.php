@@ -6,7 +6,6 @@ use App\Models\Course;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class ArtisanTest extends TestCase
@@ -14,7 +13,7 @@ class ArtisanTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function we_can_give_admin_rights_to_an_existing_user()
+    public function we_can_give_admin_rights_to_an_existing_user(): void
     {
         $user1 = create(User::class, ['is_admin' => false]);
         $user2 = create(User::class, ['is_admin' => false]);
@@ -28,7 +27,7 @@ class ArtisanTest extends TestCase
     }
 
     /** @test */
-    public function we_can_remove_any_students_who_arent_on_a_course_or_a_project()
+    public function we_can_remove_any_students_who_arent_on_a_course_or_a_project(): void
     {
         // eg, students who logged in by mistake or for a nosey
 

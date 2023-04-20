@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ResearchArea;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class HomeController extends Controller
 {
@@ -19,10 +20,8 @@ class HomeController extends Controller
 
     /**
      * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): View
     {
         if (Auth::user()->isStudent()) {
             return view('student.home', [

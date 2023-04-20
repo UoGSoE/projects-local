@@ -5,19 +5,21 @@ namespace App\Http\Controllers\Admin;
 use App\Events\SomethingNoteworthyHappened;
 use App\Http\Controllers\Controller;
 use App\Imports\AllocationsImport;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\MessageBag;
+use Illuminate\View\View;
 
 class ImportAllocationController extends Controller
 {
     protected $errors;
 
-    public function show()
+    public function show(): View
     {
         return view('admin.project.import_allocations');
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $request->validate([
             'sheet' => 'required|file',
@@ -28,9 +30,9 @@ class ImportAllocationController extends Controller
         $errors = new MessageBag();
         foreach ($import->failures() as $failure) {
             if ($failure->attribute() === 'guid') {
-                $errors->add("usernotfound-" . $failure->values()['guid'], 'Student Not Found : ' . $failure->values()['guid'] . ' / row ' . $failure->row());
+                $errors->add('usernotfound-'.$failure->values()['guid'], 'Student Not Found : '.$failure->values()['guid'].' / row '.$failure->row());
             } elseif ($failure->attribute() === 'project_id') {
-                $errors->add("projectnotfound-" . $failure->values()['project_id'], 'Project Not Found : ' . $failure->values()['project_id'] . ' / row ' . $failure->row());
+                $errors->add('projectnotfound-'.$failure->values()['project_id'], 'Project Not Found : '.$failure->values()['project_id'].' / row '.$failure->row());
             }
         }
 

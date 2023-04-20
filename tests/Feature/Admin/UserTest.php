@@ -8,7 +8,7 @@ use Tests\TestCase;
 class UserTest extends TestCase
 {
     /** @test */
-    public function admin_can_start_editing_a_users_info()
+    public function admin_can_start_editing_a_users_info(): void
     {
         $admin = create(User::class, ['is_admin' => true, 'is_staff' => true]);
         $staff = create(User::class, ['is_staff' => true]);
@@ -20,7 +20,7 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    public function admin_can_update_a_users_forenames_and_surname()
+    public function admin_can_update_a_users_forenames_and_surname(): void
     {
         $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_admin' => true, 'is_staff' => true]);
@@ -50,7 +50,7 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    public function updating_a_students_guid_will_update_their_email()
+    public function updating_a_students_guid_will_update_their_email(): void
     {
         $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_admin' => true, 'is_staff' => true]);
@@ -80,7 +80,7 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    public function cannot_update_a_user_if_guid_already_exists()
+    public function cannot_update_a_user_if_guid_already_exists(): void
     {
         $admin = create(User::class, ['is_admin' => true, 'is_staff' => true]);
         $student1 = create(User::class, [
@@ -117,7 +117,7 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    public function cannot_update_a_user_if_email_already_exists()
+    public function cannot_update_a_user_if_email_already_exists(): void
     {
         $admin = create(User::class, ['is_admin' => true, 'is_staff' => true]);
         $student1 = create(User::class, [
