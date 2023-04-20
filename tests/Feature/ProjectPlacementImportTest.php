@@ -8,7 +8,6 @@ use App\Models\Programme;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Activitylog\Models\Activity;

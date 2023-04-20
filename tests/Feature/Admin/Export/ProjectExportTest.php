@@ -4,15 +4,11 @@
 
 namespace Tests\Feature\Admin\Export;
 
-use App\Exports\ProjectListExporter;
 use App\Exports\ProjectsExport;
 use App\Models\Programme;
 use App\Models\Project;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Maatwebsite\Excel\Facades\Excel;
-use Ohffs\SimpleSpout\ExcelSheet;
 use Tests\TestCase;
 
 class ProjectExportTest extends TestCase
@@ -38,7 +34,7 @@ class ProjectExportTest extends TestCase
         $response = $this->actingAs($admin)->get(route('export.projects', ['category' => 'undergrad', 'format' => 'csv']));
 
         $response->assertOk();
-        Excel::assertDownloaded('uog_undergrad_project_data.csv', function (ProjectsExport $export) use ($student1, $student2, $project1, $project2, $programme1, $programme2) {
+        Excel::assertDownloaded('uog_undergrad_project_data.csv', function (ProjectsExport $export) use ($student1, $project1, $project2, $programme1, $programme2) {
             //3 rows, 2 projects + headers
             $this->assertCount(3, $export->collection());
 
@@ -96,7 +92,7 @@ class ProjectExportTest extends TestCase
         $response = $this->actingAs($admin)->get(route('export.projects', ['category' => 'postgrad', 'format' => 'csv']));
 
         $response->assertOk();
-        Excel::assertDownloaded('uog_postgrad_project_data.csv', function (ProjectsExport $export) use ($student1, $student2, $project1, $project2) {
+        Excel::assertDownloaded('uog_postgrad_project_data.csv', function (ProjectsExport $export) use ($student1, $project1, $project2) {
             //3 rows, 2 projects + headers
             $this->assertCount(3, $export->collection());
 
@@ -152,7 +148,7 @@ class ProjectExportTest extends TestCase
         $response = $this->actingAs($admin)->get(route('export.projects', ['category' => 'undergrad', 'format' => 'xlsx']));
 
         $response->assertOk();
-        Excel::assertDownloaded('uog_undergrad_project_data.xlsx', function (ProjectsExport $export) use ($student1, $student2, $project1, $project2) {
+        Excel::assertDownloaded('uog_undergrad_project_data.xlsx', function (ProjectsExport $export) use ($student1, $project1, $project2) {
             //3 rows, 2 projects + headers
             $this->assertCount(3, $export->collection());
 
@@ -208,7 +204,7 @@ class ProjectExportTest extends TestCase
         $response = $this->actingAs($admin)->get(route('export.projects', ['category' => 'postgrad', 'format' => 'xlsx']));
 
         $response->assertOk();
-        Excel::assertDownloaded('uog_postgrad_project_data.xlsx', function (ProjectsExport $export) use ($student1, $student2, $project1, $project2) {
+        Excel::assertDownloaded('uog_postgrad_project_data.xlsx', function (ProjectsExport $export) use ($student1, $project1, $project2) {
             //3 rows, 2 projects + headers
             $this->assertCount(3, $export->collection());
 

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Events\SomethingNoteworthyHappened;
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class ImpersonationController extends Controller
 {

@@ -2,8 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Http\Resources\ActivityLog;
-use App\Http\Resources\Project;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Spatie\Activitylog\Models\Activity;
 

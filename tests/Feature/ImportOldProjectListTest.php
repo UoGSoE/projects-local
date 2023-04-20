@@ -8,11 +8,9 @@ use App\Models\Programme;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Queue;
 use Ohffs\SimpleSpout\ExcelSheet;
 use Tests\TestCase;
 

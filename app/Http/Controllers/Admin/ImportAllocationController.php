@@ -28,9 +28,9 @@ class ImportAllocationController extends Controller
         $errors = new MessageBag();
         foreach ($import->failures() as $failure) {
             if ($failure->attribute() === 'guid') {
-                $errors->add("usernotfound-" . $failure->values()['guid'], 'Student Not Found : ' . $failure->values()['guid'] . ' / row ' . $failure->row());
+                $errors->add('usernotfound-'.$failure->values()['guid'], 'Student Not Found : '.$failure->values()['guid'].' / row '.$failure->row());
             } elseif ($failure->attribute() === 'project_id') {
-                $errors->add("projectnotfound-" . $failure->values()['project_id'], 'Project Not Found : ' . $failure->values()['project_id'] . ' / row ' . $failure->row());
+                $errors->add('projectnotfound-'.$failure->values()['project_id'], 'Project Not Found : '.$failure->values()['project_id'].' / row '.$failure->row());
             }
         }
 

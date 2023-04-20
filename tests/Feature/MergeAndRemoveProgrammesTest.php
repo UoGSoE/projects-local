@@ -7,9 +7,7 @@ use App\Models\Programme;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Livewire\Livewire;
-use Symfony\Component\Console\Helper\ProgressBar;
 use Tests\TestCase;
 
 class MergeAndRemoveProgrammesTest extends TestCase

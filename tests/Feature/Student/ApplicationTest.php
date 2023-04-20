@@ -347,7 +347,7 @@ class ApplicationTest extends TestCase
         $this->assertCount(2, $student->projects);
 
         // and they are sent a confirmation email
-        Mail::assertQueued(ChoiceConfirmation::class, function ($mail) use ($student, $project1, $project2, $project3) {
+        Mail::assertQueued(ChoiceConfirmation::class, function ($mail) use ($student) {
             return $mail->hasTo($student->email) && $mail->student->is($student);
         });
     }

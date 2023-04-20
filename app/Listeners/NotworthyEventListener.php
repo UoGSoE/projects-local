@@ -3,8 +3,6 @@
 namespace App\Listeners;
 
 use App\Events\SomethingNoteworthyHappened;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 
 class NotworthyEventListener
 {
@@ -21,7 +19,6 @@ class NotworthyEventListener
     /**
      * Handle the event.
      *
-     * @param  SomethingNoteworthyHappened  $event
      * @return void
      */
     public function handle(SomethingNoteworthyHappened $event)

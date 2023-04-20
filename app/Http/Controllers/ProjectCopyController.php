@@ -6,7 +6,6 @@ use App\Models\Course;
 use App\Models\Programme;
 use App\Models\Project;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class ProjectCopyController extends Controller
 {

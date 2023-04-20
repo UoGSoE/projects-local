@@ -6,7 +6,6 @@ namespace Tests\Feature;
 
 use App\Models\Project;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Ohffs\SimpleSpout\ExcelSheet;
 use Tests\TestCase;

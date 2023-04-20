@@ -2,7 +2,6 @@
 
 namespace App\Observers;
 
-use App\Events\SomethingNoteworthyHappened;
 use App\Models\Project;
 
 class ProjectObserver

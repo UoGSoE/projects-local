@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\Project;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class BulkRemovalController extends Controller
 {

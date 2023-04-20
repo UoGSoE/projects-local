@@ -6,9 +6,7 @@ use App\Exports\ProjectListExporter;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Ldap;
 use Spatie\Activitylog\Models\Activity;
 use Tests\TestCase;
 
