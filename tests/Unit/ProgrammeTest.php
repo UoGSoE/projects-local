@@ -13,7 +13,7 @@ class ProgrammeTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function a_programme_knows_how_many_total_project_places_are_available_to_students()
+    public function a_programme_knows_how_many_total_project_places_are_available_to_students(): void
     {
         $programme = create(Programme::class);
         $project1 = create(Project::class, ['max_students' => 3]);
@@ -25,7 +25,7 @@ class ProgrammeTest extends TestCase
     }
 
     /** @test */
-    public function a_programme_knows_how_many_accepted_students_there_are_for_its_projects()
+    public function a_programme_knows_how_many_accepted_students_there_are_for_its_projects(): void
     {
         $programme = create(Programme::class);
         $project1 = create(Project::class, ['max_students' => 3]);

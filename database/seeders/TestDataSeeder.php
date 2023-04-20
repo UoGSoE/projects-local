@@ -15,7 +15,7 @@ class TestDataSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         $admin = User::factory()->create([
             'username' => 'admin',

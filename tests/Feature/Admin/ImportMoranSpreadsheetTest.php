@@ -20,7 +20,7 @@ class ImportMoranSpreadsheetTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function admins_can_see_the_import_page()
+    public function admins_can_see_the_import_page(): void
     {
         $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_admin' => true, 'is_staff' => true]);
@@ -32,7 +32,7 @@ class ImportMoranSpreadsheetTest extends TestCase
     }
 
     /** @test */
-    public function when_the_sheet_is_uploaded_a_job_is_queued_to_parse_the_information()
+    public function when_the_sheet_is_uploaded_a_job_is_queued_to_parse_the_information(): void
     {
         $this->withoutExceptionHandling();
         Queue::fake();
@@ -50,7 +50,7 @@ class ImportMoranSpreadsheetTest extends TestCase
     }
 
     /** @test */
-    public function when_the_sheet_import_finishes_an_email_is_sent_to_the_person_who_requested_it()
+    public function when_the_sheet_import_finishes_an_email_is_sent_to_the_person_who_requested_it(): void
     {
         $this->withoutExceptionHandling();
         Mail::fake();
@@ -70,7 +70,7 @@ class ImportMoranSpreadsheetTest extends TestCase
     }
 
     /** @test */
-    public function when_the_sheet_is_being_imported_all_existing_meng_projects_are_deleted()
+    public function when_the_sheet_is_being_imported_all_existing_meng_projects_are_deleted(): void
     {
         $this->withoutExceptionHandling();
         Mail::fake();
@@ -97,7 +97,7 @@ class ImportMoranSpreadsheetTest extends TestCase
     }
 
     /** @test */
-    public function the_import_job_processes_valid_rows()
+    public function the_import_job_processes_valid_rows(): void
     {
         $fakeStaff = User::factory()->create(['username' => 'ab123c']);
         $fakeCourse = Course::factory()->create(['code' => 'ENG1234']);
@@ -138,7 +138,7 @@ class ImportMoranSpreadsheetTest extends TestCase
     }
 
     /** @test */
-    public function invalid_rows_are_stored_in_redis()
+    public function invalid_rows_are_stored_in_redis(): void
     {
         $fakeStaff = User::factory()->create(['username' => 'ab123c']);
         $fakeCourse = Course::factory()->create(['code' => 'ENG1234']);
@@ -166,7 +166,7 @@ class ImportMoranSpreadsheetTest extends TestCase
     }
 
     /** @test */
-    public function invalid_rows_are_shown_in_the_email_that_is_sent_when_the_import_is_complete()
+    public function invalid_rows_are_shown_in_the_email_that_is_sent_when_the_import_is_complete(): void
     {
         $fakeStaff = User::factory()->create(['username' => 'ab123c']);
 

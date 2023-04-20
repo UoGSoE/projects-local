@@ -12,7 +12,7 @@ class HomepageTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function when_staff_go_to_their_homepage_they_see_a_list_of_their_current_projects()
+    public function when_staff_go_to_their_homepage_they_see_a_list_of_their_current_projects(): void
     {
         $staff = create(User::class, ['is_staff' => true]);
         $project1 = create(Project::class, ['staff_id' => $staff->id]);

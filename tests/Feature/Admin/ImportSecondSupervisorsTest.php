@@ -15,7 +15,7 @@ class ImportSecondSupervisorsTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function admins_can_import_a_spreadsheet_to_update_project_second_supervisors()
+    public function admins_can_import_a_spreadsheet_to_update_project_second_supervisors(): void
     {
         $this->withoutExceptionHandling();
         // given we have an admin and two members of staff
@@ -54,7 +54,7 @@ class ImportSecondSupervisorsTest extends TestCase
     }
 
     /** @test */
-    public function we_return_errors_for_rows_with_unknown_project_ids_or_guids()
+    public function we_return_errors_for_rows_with_unknown_project_ids_or_guids(): void
     {
         // given we have an admin and two members of staff
         $admin = create(User::class, ['is_admin' => true]);

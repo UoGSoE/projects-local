@@ -14,7 +14,7 @@ class AcceptStudentsTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function when_an_admin_views_a_project_they_can_always_see_the_form_to_accept_students()
+    public function when_an_admin_views_a_project_they_can_always_see_the_form_to_accept_students(): void
     {
         // we have an admin, a student and an undergrad project
         $admin = create(User::class, ['is_admin' => true]);
@@ -31,7 +31,7 @@ class AcceptStudentsTest extends TestCase
     }
 
     /** @test */
-    public function an_admin_can_accept_any_student_on_a_given_project()
+    public function an_admin_can_accept_any_student_on_a_given_project(): void
     {
         Mail::fake();
         // given we have a an undergrad project and a student has applied as their 2nd choice
@@ -60,7 +60,7 @@ class AcceptStudentsTest extends TestCase
     }
 
     /** @test */
-    public function an_admin_can_unaccept_any_student_on_a_given_project()
+    public function an_admin_can_unaccept_any_student_on_a_given_project(): void
     {
         Mail::fake();
         // given we have a an undergrad project with two accepted students
@@ -86,7 +86,7 @@ class AcceptStudentsTest extends TestCase
     }
 
     /** @test */
-    public function an_admin_can_manually_add_and_accept_any_student_on_a_given_project()
+    public function an_admin_can_manually_add_and_accept_any_student_on_a_given_project(): void
     {
         $this->withoutExceptionHandling();
         Mail::fake();
@@ -111,7 +111,7 @@ class AcceptStudentsTest extends TestCase
     }
 
     /** @test */
-    public function admins_can_see_the_bulk_acceptance_pages()
+    public function admins_can_see_the_bulk_acceptance_pages(): void
     {
         // given we have an admin
         $admin = create(User::class, ['is_admin' => true]);
@@ -161,7 +161,7 @@ class AcceptStudentsTest extends TestCase
     }
 
     /** @test */
-    public function an_admin_can_bulk_accept_students_onto_projects()
+    public function an_admin_can_bulk_accept_students_onto_projects(): void
     {
         Mail::fake();
         // given we have an admin

@@ -36,7 +36,7 @@ class ImportStudents implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         $this->course->enrollStudents($this->data);
         $this->admin->notify(new ImportStudentsComplete($this->course));

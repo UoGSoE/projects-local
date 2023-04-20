@@ -14,7 +14,7 @@ class UserAdminTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function regular_users_cant_see_the_user_admin_pages()
+    public function regular_users_cant_see_the_user_admin_pages(): void
     {
         $user = create(User::class);
 
@@ -25,7 +25,7 @@ class UserAdminTest extends TestCase
     }
 
     /** @test */
-    public function admins_can_see_a_list_of_all_staff()
+    public function admins_can_see_a_list_of_all_staff(): void
     {
         $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_admin' => true, 'surname' => 'Aardvark']);
@@ -100,7 +100,7 @@ class UserAdminTest extends TestCase
     }
 
     /** @test */
-    public function admins_can_see_a_list_of_all_undergrads()
+    public function admins_can_see_a_list_of_all_undergrads(): void
     {
         $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_admin' => true]);
@@ -121,7 +121,7 @@ class UserAdminTest extends TestCase
     }
 
     /** @test */
-    public function admins_can_see_a_list_of_all_postgrads()
+    public function admins_can_see_a_list_of_all_postgrads(): void
     {
         $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_admin' => true]);
@@ -142,7 +142,7 @@ class UserAdminTest extends TestCase
     }
 
     /** @test */
-    public function admins_can_give_and_take_away_admin_rights_to_other_users()
+    public function admins_can_give_and_take_away_admin_rights_to_other_users(): void
     {
         $admin = create(User::class, ['is_admin' => true]);
         $user = create(User::class);
@@ -162,7 +162,7 @@ class UserAdminTest extends TestCase
     }
 
     /** @test */
-    public function admins_cant_take_away_admin_rights_from_themselves()
+    public function admins_cant_take_away_admin_rights_from_themselves(): void
     {
         $admin = create(User::class, ['is_admin' => true]);
 
@@ -173,7 +173,7 @@ class UserAdminTest extends TestCase
     }
 
     /** @test */
-    public function admins_can_view_an_individual_staff_user()
+    public function admins_can_view_an_individual_staff_user(): void
     {
         $admin = create(User::class, ['is_admin' => true]);
         $user = create(User::class);
@@ -185,7 +185,7 @@ class UserAdminTest extends TestCase
     }
 
     /** @test */
-    public function admins_can_view_an_individual_student_user()
+    public function admins_can_view_an_individual_student_user(): void
     {
         $admin = create(User::class, ['is_admin' => true]);
         $user = create(User::class, ['is_staff' => false]);
@@ -197,7 +197,7 @@ class UserAdminTest extends TestCase
     }
 
     /** @test */
-    public function admins_can_edit_a_users_email_address()
+    public function admins_can_edit_a_users_email_address(): void
     {
         $admin = create(User::class, ['is_admin' => true]);
         $user = create(User::class);
@@ -211,7 +211,7 @@ class UserAdminTest extends TestCase
     }
 
     /** @test */
-    public function admins_can_add_a_new_user()
+    public function admins_can_add_a_new_user(): void
     {
         if (env('CI')) {
             $this->assertTrue(true);

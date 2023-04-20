@@ -16,7 +16,7 @@ class ApplicationTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function a_student_only_sees_projects_for_the_course_they_are_on_when_visiting_the_homepage()
+    public function a_student_only_sees_projects_for_the_course_they_are_on_when_visiting_the_homepage(): void
     {
         // given we have a student
         $student = create(User::class, ['is_staff' => false]);
@@ -42,7 +42,7 @@ class ApplicationTest extends TestCase
     }
 
     /** @test */
-    public function projects_which_are_marked_as_inactive_do_not_show_up_on_the_list()
+    public function projects_which_are_marked_as_inactive_do_not_show_up_on_the_list(): void
     {
         // given we have a student and a course
         $student = create(User::class, ['is_staff' => false]);
@@ -66,7 +66,7 @@ class ApplicationTest extends TestCase
     }
 
     /** @test */
-    public function projects_which_are_fully_allocated_do_not_show_up_on_the_list()
+    public function projects_which_are_fully_allocated_do_not_show_up_on_the_list(): void
     {
         // given we have students and a course
         $student1 = create(User::class, ['is_staff' => false]);
@@ -102,7 +102,7 @@ class ApplicationTest extends TestCase
     }
 
     /** @test */
-    public function research_areas_are_passed_to_the_choices_page()
+    public function research_areas_are_passed_to_the_choices_page(): void
     {
         // given we have students and a course
         $student1 = create(User::class, ['is_staff' => false]);
@@ -122,7 +122,7 @@ class ApplicationTest extends TestCase
     }
 
     /** @test */
-    public function a_student_cant_apply_for_a_more_than_the_required_number_of_projects()
+    public function a_student_cant_apply_for_a_more_than_the_required_number_of_projects(): void
     {
         // given we have a student on a course
         $student = create(User::class, ['is_staff' => false]);
@@ -152,7 +152,7 @@ class ApplicationTest extends TestCase
     }
 
     /** @test */
-    public function a_student_can_apply_for_the_required_number_of_projects()
+    public function a_student_can_apply_for_the_required_number_of_projects(): void
     {
         Mail::fake();
         $this->withoutExceptionHandling();
@@ -195,7 +195,7 @@ class ApplicationTest extends TestCase
     }
 
     /** @test */
-    public function students_cant_apply_for_more_than_three_projects_from_the_same_supervisor()
+    public function students_cant_apply_for_more_than_three_projects_from_the_same_supervisor(): void
     {
         Mail::fake();
         // given we have a student on a course
@@ -242,7 +242,7 @@ class ApplicationTest extends TestCase
     }
 
     /** @test */
-    public function postgrad_students_must_give_a_research_area_alongside_their_choices()
+    public function postgrad_students_must_give_a_research_area_alongside_their_choices(): void
     {
         Mail::fake();
         $this->withoutExceptionHandling();
@@ -285,7 +285,7 @@ class ApplicationTest extends TestCase
     }
 
     /** @test */
-    public function a_student_cant_apply_for_a_less_than_the_required_number_of_projects()
+    public function a_student_cant_apply_for_a_less_than_the_required_number_of_projects(): void
     {
         // given we have a student on a course
         $student = create(User::class, ['is_staff' => false]);
@@ -314,7 +314,7 @@ class ApplicationTest extends TestCase
     }
 
     /** @test */
-    public function a_student_gets_a_confirmation_email_with_the_projects_they_have_chosen_when_then_apply()
+    public function a_student_gets_a_confirmation_email_with_the_projects_they_have_chosen_when_then_apply(): void
     {
         $this->withoutExceptionHandling();
         Mail::fake();
@@ -353,7 +353,7 @@ class ApplicationTest extends TestCase
     }
 
     /** @test */
-    public function students_cant_submit_new_choices_if_they_have_already_been_accepted()
+    public function students_cant_submit_new_choices_if_they_have_already_been_accepted(): void
     {
         Mail::fake();
         $this->withoutExceptionHandling();
@@ -394,7 +394,7 @@ class ApplicationTest extends TestCase
     }
 
     /** @test */
-    public function students_cant_submit_choices_if_the_course_deadline_has_passed()
+    public function students_cant_submit_choices_if_the_course_deadline_has_passed(): void
     {
         Mail::fake();
         $this->withoutExceptionHandling();
@@ -418,7 +418,7 @@ class ApplicationTest extends TestCase
     }
 
     /** @test */
-    public function students_cant_submit_choices_if_they_dont_have_an_email_address()
+    public function students_cant_submit_choices_if_they_dont_have_an_email_address(): void
     {
         Mail::fake();
         $this->withoutExceptionHandling();

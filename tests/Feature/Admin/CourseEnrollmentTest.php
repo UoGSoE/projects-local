@@ -18,7 +18,7 @@ class CourseEnrollmentTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function an_admin_can_see_the_page_to_import_students_to_a_course()
+    public function an_admin_can_see_the_page_to_import_students_to_a_course(): void
     {
         $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_admin' => true]);
@@ -31,7 +31,7 @@ class CourseEnrollmentTest extends TestCase
     }
 
     /** @test */
-    public function an_admin_can_import_a_spreadsheet_of_students_who_are_on_a_course()
+    public function an_admin_can_import_a_spreadsheet_of_students_who_are_on_a_course(): void
     {
         Queue::fake();
         // given we have an admin and a course
@@ -79,7 +79,7 @@ class CourseEnrollmentTest extends TestCase
     }
 
     /** @test */
-    public function when_admin_imports_the_spreadsheet_any_existing_students_on_the_course_are_kept()
+    public function when_admin_imports_the_spreadsheet_any_existing_students_on_the_course_are_kept(): void
     {
         Queue::fake();
         // given we have an admin, a student and a course with that student on it
@@ -115,7 +115,7 @@ class CourseEnrollmentTest extends TestCase
     }
 
     /** @test */
-    public function students_can_be_identified_by_a_full_guid_or_guessed_at_from_a_matric_number()
+    public function students_can_be_identified_by_a_full_guid_or_guessed_at_from_a_matric_number(): void
     {
         Queue::fake();
         // given we have an admin, a student and a course with that student on it

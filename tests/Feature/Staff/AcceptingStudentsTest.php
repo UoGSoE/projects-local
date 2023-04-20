@@ -15,7 +15,7 @@ class AcceptingStudentsTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function staff_can_accept_first_choice_students_for_projects_where_the_course_is_flagged_as_such()
+    public function staff_can_accept_first_choice_students_for_projects_where_the_course_is_flagged_as_such(): void
     {
         Mail::fake();
         $staff = create(User::class, ['is_staff' => true]);
@@ -45,7 +45,7 @@ class AcceptingStudentsTest extends TestCase
     }
 
     /** @test */
-    public function staff_cant_accept_non_first_choice_students_for_projects()
+    public function staff_cant_accept_non_first_choice_students_for_projects(): void
     {
         $staff = create(User::class, ['is_staff' => true]);
         $student = create(User::class, ['is_staff' => false]);
@@ -65,7 +65,7 @@ class AcceptingStudentsTest extends TestCase
     }
 
     /** @test */
-    public function staff_cant_accept_students_for_projects_where_the_course_isnt_flagged_as_allowing_it()
+    public function staff_cant_accept_students_for_projects_where_the_course_isnt_flagged_as_allowing_it(): void
     {
         $staff = create(User::class, ['is_staff' => true]);
         $student = create(User::class, ['is_staff' => false]);
@@ -86,7 +86,7 @@ class AcceptingStudentsTest extends TestCase
     }
 
     /** @test */
-    public function staff_can_only_accept_upto_the_max_students_number_of_students()
+    public function staff_can_only_accept_upto_the_max_students_number_of_students(): void
     {
         $staff = create(User::class, ['is_staff' => true]);
         $student1 = create(User::class, ['is_staff' => false]);
@@ -109,7 +109,7 @@ class AcceptingStudentsTest extends TestCase
     }
 
     /** @test */
-    public function staff_cant_unaccept_any_student_on_a_given_project()
+    public function staff_cant_unaccept_any_student_on_a_given_project(): void
     {
         Mail::fake();
         // given we have a an undergrad project with two accepted students
@@ -136,7 +136,7 @@ class AcceptingStudentsTest extends TestCase
     }
 
     /** @test */
-    public function when_staff_accept_a_student_the_students_other_project_choices_are_removed()
+    public function when_staff_accept_a_student_the_students_other_project_choices_are_removed(): void
     {
         Mail::fake();
         $staff = create(User::class, ['is_staff' => true]);
@@ -160,7 +160,7 @@ class AcceptingStudentsTest extends TestCase
     }
 
     /** @test */
-    public function when_staff_accept_a_student_the_student_gets_an_email_sent_to_them()
+    public function when_staff_accept_a_student_the_student_gets_an_email_sent_to_them(): void
     {
         Mail::fake();
         $staff = create(User::class, ['is_staff' => true]);

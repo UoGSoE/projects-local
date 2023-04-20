@@ -16,7 +16,7 @@ class StudentApplicationTest extends DuskTestCase
     use DatabaseMigrations;
 
     /** @test */
-    public function a_postgrad_student_can_apply_for_projects()
+    public function a_postgrad_student_can_apply_for_projects(): void
     {
         // NOTE: postgrad students must pick a 'research area' before they chose their projects
         $this->browse(function (Browser $browser) {
@@ -87,7 +87,7 @@ class StudentApplicationTest extends DuskTestCase
     }
 
     /** @test */
-    public function an_undergrad_student_can_apply_for_projects()
+    public function an_undergrad_student_can_apply_for_projects(): void
     {
         // NOTE: undergrad students don't pick a 'research area' before they chose their projects - it defaults it 'N/A'
         $this->browse(function (Browser $browser) {
@@ -159,7 +159,7 @@ class StudentApplicationTest extends DuskTestCase
     }
 
     /** @test */
-    public function a_student_cant_apply_for_projects_if_they_are_already_accepted()
+    public function a_student_cant_apply_for_projects_if_they_are_already_accepted(): void
     {
         $this->browse(function (Browser $browser) {
             $student = create(User::class, ['is_staff' => false]);
@@ -184,7 +184,7 @@ class StudentApplicationTest extends DuskTestCase
     }
 
     /** @test */
-    public function a_student_cant_apply_for_projects_if_the_deadline_has_passed()
+    public function a_student_cant_apply_for_projects_if_the_deadline_has_passed(): void
     {
         $this->browse(function (Browser $browser) {
             $student = create(User::class, ['is_staff' => false]);
@@ -214,7 +214,7 @@ class StudentApplicationTest extends DuskTestCase
     }
 
     /** @test */
-    public function an_admin_can_impersonate_a_student_and_apply_for_projects_even_if_the_deadline_has_passed()
+    public function an_admin_can_impersonate_a_student_and_apply_for_projects_even_if_the_deadline_has_passed(): void
     {
         $this->browse(function (Browser $browser) {
             $admin = create(User::class, ['is_staff' => true, 'is_admin' => true]);

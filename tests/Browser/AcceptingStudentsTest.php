@@ -14,7 +14,7 @@ class AcceptingStudentsTest extends DuskTestCase
     use DatabaseMigrations;
 
     /** @test */
-    public function staff_can_accept_first_choice_students_on_projects_that_allow_it()
+    public function staff_can_accept_first_choice_students_on_projects_that_allow_it(): void
     {
         $this->browse(function (Browser $browser) {
             $staff = create(User::class, ['is_staff' => true]);
@@ -58,7 +58,7 @@ class AcceptingStudentsTest extends DuskTestCase
     }
 
     /** @test */
-    public function staff_cant_accept_anyone_on_projects_that_dont_allow_it()
+    public function staff_cant_accept_anyone_on_projects_that_dont_allow_it(): void
     {
         $this->browse(function (Browser $browser) {
             $staff = create(User::class, ['is_staff' => true]);
@@ -84,7 +84,7 @@ class AcceptingStudentsTest extends DuskTestCase
     }
 
     /** @test */
-    public function admins_can_accept_anyone_on_any_project()
+    public function admins_can_accept_anyone_on_any_project(): void
     {
         $this->browse(function (Browser $browser) {
             $admin = create(User::class, ['is_admin' => true, 'is_staff' => true]);
@@ -127,7 +127,7 @@ class AcceptingStudentsTest extends DuskTestCase
     }
 
     /** @test */
-    public function admins_can_manually_add_and_accept_anyone_on_any_project()
+    public function admins_can_manually_add_and_accept_anyone_on_any_project(): void
     {
         $this->browse(function (Browser $browser) {
             $admin = create(User::class, ['is_admin' => true, 'is_staff' => true]);

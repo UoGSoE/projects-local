@@ -14,7 +14,7 @@ class MaintenanceTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function an_admin_can_clear_all_students_from_a_given_course()
+    public function an_admin_can_clear_all_students_from_a_given_course(): void
     {
         $admin = create(User::class, ['is_admin' => true]);
         $course = create(Course::class);
@@ -29,7 +29,7 @@ class MaintenanceTest extends TestCase
     }
 
     /** @test */
-    public function an_admin_can_clear_all_postgrad_or_undergrad_students()
+    public function an_admin_can_clear_all_postgrad_or_undergrad_students(): void
     {
         $this->withoutExceptionHandling();
         $admin = create(User::class, ['is_admin' => true]);
@@ -88,7 +88,7 @@ class MaintenanceTest extends TestCase
     }
 
     /** @test */
-    public function an_admin_can_delete_specific_staff_or_student()
+    public function an_admin_can_delete_specific_staff_or_student(): void
     {
         $admin = create(User::class, ['is_admin' => true]);
         $student = create(User::class, ['is_staff' => false]);
@@ -109,7 +109,7 @@ class MaintenanceTest extends TestCase
     }
 
     /** @test */
-    public function an_admin_can_clear_all_students()
+    public function an_admin_can_clear_all_students(): void
     {
         $admin = create(User::class, ['is_admin' => true]);
         $student1 = create(User::class, ['is_staff' => false]);
@@ -127,7 +127,7 @@ class MaintenanceTest extends TestCase
     }
 
     /** @test */
-    public function regular_users_cant_delete_anything()
+    public function regular_users_cant_delete_anything(): void
     {
         $user = create(User::class);
         $admin = create(User::class, ['is_admin' => true]);

@@ -13,7 +13,7 @@ use Tests\TestCase;
 class CourseExportTest extends TestCase
 {
     /** @test */
-    public function an_admin_can_download_a_csv_of_all_courses()
+    public function an_admin_can_download_a_csv_of_all_courses(): void
     {
         Excel::fake();
         $admin = create(User::class, ['is_admin' => true]);
@@ -46,7 +46,7 @@ class CourseExportTest extends TestCase
     }
 
     /** @test */
-    public function an_admin_can_download_an_xlsx_of_all_courses()
+    public function an_admin_can_download_an_xlsx_of_all_courses(): void
     {
         Excel::fake();
         $admin = create(User::class, ['is_admin' => true]);

@@ -6,7 +6,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class Project extends JsonResource
 {
-    public function toArray($request)
+    public function toArray($request): array
     {
         return [
             'title' => $this->title,

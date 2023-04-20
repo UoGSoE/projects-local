@@ -36,7 +36,7 @@ class DeleteUnusedStudents extends Command
      *
      * @return mixed
      */
-    public function handle()
+    public function handle(): void
     {
         User::students()->each(function ($student) {
             if ($student->course_id) {

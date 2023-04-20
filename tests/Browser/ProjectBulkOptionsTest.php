@@ -13,7 +13,7 @@ class ProjectBulkOptionsTest extends DuskTestCase
     use DatabaseMigrations;
 
     /** @test */
-    public function admins_can_bulk_edit_project_options()
+    public function admins_can_bulk_edit_project_options(): void
     {
         $this->browse(function (Browser $browser) {
             $admin = create(User::class, ['is_admin' => true]);

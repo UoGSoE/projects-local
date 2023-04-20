@@ -40,7 +40,7 @@ class GdprAnonymise extends Command
      *
      * @return mixed
      */
-    public function handle()
+    public function handle(): void
     {
         $anonymisedUsers = collect([]);
         $staff = User::staff()->where('username', 'not like', 'ANON%')->get();

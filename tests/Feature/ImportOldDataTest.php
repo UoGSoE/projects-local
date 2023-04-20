@@ -16,7 +16,7 @@ class ImportOldDataTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function we_can_import_old_project_data_from_json_data()
+    public function we_can_import_old_project_data_from_json_data(): void
     {
         $jsonString = file_get_contents(__DIR__.'/data/old_undergrad_projects.json');
 
@@ -75,7 +75,7 @@ class ImportOldDataTest extends TestCase
     }
 
     /** @test */
-    public function we_can_run_an_artisan_command_to_import_the_data()
+    public function we_can_run_an_artisan_command_to_import_the_data(): void
     {
         $filename = __DIR__.'/data/old_undergrad_projects.json';
 

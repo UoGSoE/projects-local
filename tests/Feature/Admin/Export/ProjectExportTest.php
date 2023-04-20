@@ -14,7 +14,7 @@ use Tests\TestCase;
 class ProjectExportTest extends TestCase
 {
     /** @test */
-    public function an_admin_can_download_a_csv_of_all_undergrad_project_data()
+    public function an_admin_can_download_a_csv_of_all_undergrad_project_data(): void
     {
         Excel::fake();
         $admin = create(User::class, ['is_admin' => true]);
@@ -76,7 +76,7 @@ class ProjectExportTest extends TestCase
     }
 
     /** @test */
-    public function an_admin_can_download_a_csv_of_all_postgrad_project_data()
+    public function an_admin_can_download_a_csv_of_all_postgrad_project_data(): void
     {
         Excel::fake();
         $admin = create(User::class, ['is_admin' => true]);
@@ -132,7 +132,7 @@ class ProjectExportTest extends TestCase
     }
 
     /** @test */
-    public function an_admin_can_download_an_excel_of_all_undergrad_project_data()
+    public function an_admin_can_download_an_excel_of_all_undergrad_project_data(): void
     {
         Excel::fake();
         $admin = create(User::class, ['is_admin' => true]);
@@ -188,7 +188,7 @@ class ProjectExportTest extends TestCase
     }
 
     /** @test */
-    public function an_admin_can_download_an_excel_of_all_postgrad_project_data()
+    public function an_admin_can_download_an_excel_of_all_postgrad_project_data(): void
     {
         Excel::fake();
         $admin = create(User::class, ['is_admin' => true]);

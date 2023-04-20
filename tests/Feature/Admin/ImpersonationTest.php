@@ -11,7 +11,7 @@ class ImpersonationTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function an_admin_can_impersonate_another_user_then_become_themselves_again()
+    public function an_admin_can_impersonate_another_user_then_become_themselves_again(): void
     {
         $admin = create(User::class, ['is_admin' => true]);
         $user = create(User::class);

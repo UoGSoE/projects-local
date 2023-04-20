@@ -11,7 +11,7 @@ class LowerCaseUserRecordsTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function we_can_convert_all_usernames_and_emails_to_lowercase()
+    public function we_can_convert_all_usernames_and_emails_to_lowercase(): void
     {
         $user1 = create(User::class, ['username' => 'FRED', 'email' => 'FRED@example.com']);
         $user2 = create(User::class, ['username' => 'JimMY', 'email' => 'JiMMy@EXample.com']);

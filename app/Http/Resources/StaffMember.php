@@ -7,7 +7,7 @@ use Spatie\Activitylog\Models\Activity;
 
 class StaffMember extends JsonResource
 {
-    public function toArray($request)
+    public function toArray($request): array
     {
         return [
             'username' => $this->username,

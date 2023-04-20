@@ -21,7 +21,7 @@ class NotworthyEventListener
      *
      * @return void
      */
-    public function handle(SomethingNoteworthyHappened $event)
+    public function handle(SomethingNoteworthyHappened $event): void
     {
         if ($event->who) {
             activity()

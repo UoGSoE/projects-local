@@ -12,7 +12,7 @@ class ResearchAreasTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function regular_users_cant_see_the_research_areas_page()
+    public function regular_users_cant_see_the_research_areas_page(): void
     {
         $user = create(User::class);
 
@@ -23,7 +23,7 @@ class ResearchAreasTest extends TestCase
     }
 
     /** @test */
-    public function admins_can_see_the_research_areas_page()
+    public function admins_can_see_the_research_areas_page(): void
     {
         $admin = create(User::class, ['is_admin' => true]);
         $areas = create(ResearchArea::class, [], 3);
@@ -35,7 +35,7 @@ class ResearchAreasTest extends TestCase
     }
 
     /** @test */
-    public function admins_can_add_a_new_research_area()
+    public function admins_can_add_a_new_research_area(): void
     {
         $admin = create(User::class, ['is_admin' => true]);
 
@@ -49,7 +49,7 @@ class ResearchAreasTest extends TestCase
     }
 
     /** @test */
-    public function admins_can_delete_an_existing_research_area()
+    public function admins_can_delete_an_existing_research_area(): void
     {
         $admin = create(User::class, ['is_admin' => true]);
         $area1 = create(ResearchArea::class);
@@ -63,7 +63,7 @@ class ResearchAreasTest extends TestCase
     }
 
     /** @test */
-    public function admins_can_edit_an_existing_research_area()
+    public function admins_can_edit_an_existing_research_area(): void
     {
         $admin = create(User::class, ['is_admin' => true]);
         $area1 = create(ResearchArea::class);
@@ -78,7 +78,7 @@ class ResearchAreasTest extends TestCase
     }
 
     /** @test */
-    public function a_title_is_required_to_create_or_update_a_research_area()
+    public function a_title_is_required_to_create_or_update_a_research_area(): void
     {
         $admin = create(User::class, ['is_admin' => true]);
         $area1 = create(ResearchArea::class, ['title' => 'HELLO']);

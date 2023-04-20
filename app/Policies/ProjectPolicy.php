@@ -22,7 +22,7 @@ class ProjectPolicy
      *
      * @return mixed
      */
-    public function view(User $user, Project $project)
+    public function view(User $user, Project $project): bool
     {
         return $user->id == $project->staff_id;
     }
@@ -32,7 +32,7 @@ class ProjectPolicy
      *
      * @return mixed
      */
-    public function create(User $user)
+    public function create(User $user): bool
     {
         //
     }
@@ -42,7 +42,7 @@ class ProjectPolicy
      *
      * @return mixed
      */
-    public function update(User $user, Project $project)
+    public function update(User $user, Project $project): bool
     {
         return $user->id == $project->staff_id;
     }
@@ -52,7 +52,7 @@ class ProjectPolicy
      *
      * @return mixed
      */
-    public function delete(User $user, Project $project)
+    public function delete(User $user, Project $project): bool
     {
         return $user->id == $project->staff_id;
     }

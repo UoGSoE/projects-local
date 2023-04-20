@@ -15,7 +15,7 @@ class MergeAndRemoveProgrammesTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function regular_users_cant_see_the_page_to_merge_and_remove_programmes()
+    public function regular_users_cant_see_the_page_to_merge_and_remove_programmes(): void
     {
         $user = User::factory()->create();
 
@@ -25,7 +25,7 @@ class MergeAndRemoveProgrammesTest extends TestCase
     }
 
     /** @test */
-    public function admins_can_see_the_page_to_merge_and_remove_programmes()
+    public function admins_can_see_the_page_to_merge_and_remove_programmes(): void
     {
         $this->withoutExceptionHandling();
         $admin = User::factory()->admin()->create();
@@ -41,7 +41,7 @@ class MergeAndRemoveProgrammesTest extends TestCase
     }
 
     /** @test */
-    public function admins_can_filter_which_programmes_are_shown()
+    public function admins_can_filter_which_programmes_are_shown(): void
     {
         $admin = User::factory()->admin()->create();
         $programme1 = Programme::factory()->create(['category' => 'undergrad']);
@@ -62,7 +62,7 @@ class MergeAndRemoveProgrammesTest extends TestCase
     }
 
     /** @test */
-    public function admins_can_merge_projects_and_students_from_selected_programme_into_another()
+    public function admins_can_merge_projects_and_students_from_selected_programme_into_another(): void
     {
         $admin = User::factory()->admin()->create();
         $programme1 = Programme::factory()->create(['category' => 'undergrad']);
@@ -120,7 +120,7 @@ class MergeAndRemoveProgrammesTest extends TestCase
     }
 
     /** @test */
-    public function admins_can_remove_programmes_with_zero_projects_and_zero_students_attached()
+    public function admins_can_remove_programmes_with_zero_projects_and_zero_students_attached(): void
     {
         $admin = User::factory()->admin()->create();
         $programme1 = Programme::factory()->create(['category' => 'undergrad']);
@@ -153,7 +153,7 @@ class MergeAndRemoveProgrammesTest extends TestCase
     }
 
     /** @test */
-    public function admin_can_toggle_the_list_of_projects_for_a_programme()
+    public function admin_can_toggle_the_list_of_projects_for_a_programme(): void
     {
         $admin = User::factory()->admin()->create();
         $programme1 = Programme::factory()->create(['category' => 'undergrad']);
@@ -178,7 +178,7 @@ class MergeAndRemoveProgrammesTest extends TestCase
     }
 
     /** @test */
-    public function admin_can_toggle_the_list_of_students_for_a_programme()
+    public function admin_can_toggle_the_list_of_students_for_a_programme(): void
     {
         $admin = User::factory()->admin()->create();
         $programme1 = Programme::factory()->create(['category' => 'undergrad']);

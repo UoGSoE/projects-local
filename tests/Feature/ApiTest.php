@@ -9,7 +9,7 @@ use Tests\TestCase;
 class ApiTest extends TestCase
 {
     /** @test */
-    public function the_api_routes_require_a_valid_api_key_to_access_them()
+    public function the_api_routes_require_a_valid_api_key_to_access_them(): void
     {
         $response = $this->getJson('/api/students/postgrad');
 
@@ -43,7 +43,7 @@ class ApiTest extends TestCase
     }
 
     /** @test */
-    public function we_can_request_a_list_of_accepted_postgrad_students()
+    public function we_can_request_a_list_of_accepted_postgrad_students(): void
     {
         config(['projects.api_key' => 'valid-key']);
         $student1 = User::factory()->student()->create();
@@ -105,7 +105,7 @@ class ApiTest extends TestCase
     }
 
     /** @test */
-    public function we_can_request_a_list_of_accepted_postgrad_students_who_are_flagged_as_tier4()
+    public function we_can_request_a_list_of_accepted_postgrad_students_who_are_flagged_as_tier4(): void
     {
         config(['projects.api_key' => 'valid-key']);
         $student1 = User::factory()->student()->create(['is_tier4' => true]);

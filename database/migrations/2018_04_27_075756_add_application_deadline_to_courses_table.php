@@ -11,7 +11,7 @@ return new class extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('courses', function (Blueprint $table) {
             $table->datetime('application_deadline')->default('1978-01-02');
@@ -23,7 +23,7 @@ return new class extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::table('courses', function (Blueprint $table) {
             //

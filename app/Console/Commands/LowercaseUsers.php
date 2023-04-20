@@ -36,7 +36,7 @@ class LowercaseUsers extends Command
      *
      * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         User::all()->each(function ($user) {
             $user->update([

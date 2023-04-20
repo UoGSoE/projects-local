@@ -7,12 +7,12 @@ use App\Models\Course;
 
 class CourseObserver
 {
-    public function created(Course $course)
+    public function created(Course $course): void
     {
         event(new SomethingNoteworthyHappened(auth()->user(), "Created course {$course->code}"));
     }
 
-    public function updated(Course $course)
+    public function updated(Course $course): void
     {
         event(new SomethingNoteworthyHappened(auth()->user(), "Updated course {$course->code}"));
     }

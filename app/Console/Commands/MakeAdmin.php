@@ -36,7 +36,7 @@ class MakeAdmin extends Command
      *
      * @return mixed
      */
-    public function handle()
+    public function handle(): void
     {
         $user = User::where('username', '=', $this->argument('username'))->firstOrFail();
 
